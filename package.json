@@ -2,16 +2,18 @@
   "name": "loragent",
   "version": "1.0.0",
   "description": "Professional virtual office system for Lorapok Labs",
-  "main": "src/index.js",
+  "main": "./face/cli/index.js",
   "bin": {
     "install-officers": "./bin/install-officers.js",
-    "loragent-mcp": "./src/mcp/server.js"
+    "loragent-mcp": "./port/mcp/server.js",
+    "loragent": "./face/cli/index.js"
   },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node ./face/cli/index.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.30.0"
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "commander": "^15.0.0"
   },
   "type": "module"
 }
