@@ -1,0 +1,13 @@
+{
+    "name": "loragent/loragent",
+    "description": "Professional virtual office system for loragent Labs (32 Agent Mega-Agency)",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "loragent Labs"
+        }
+    ],
+    "bin": ["bin/install-officers.php"],
+    "require": {}
+}
