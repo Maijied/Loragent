@@ -1,1 +1,32 @@
-{}
+{
+  "system": "Loragent Ecosystem",
+  "version": "1.0.0",
+  "ci_cd_pipelines": {
+    "beta_release": {
+      "file": ".github/workflows/beta-release.yml",
+      "trigger": "tags: v*.*.*-beta*",
+      "ecosystems": ["npm", "github_releases"]
+    },
+    "npm_publish": {
+      "file": ".github/workflows/publish-npm.yml",
+      "trigger": "tags: v*.*.* (stable)",
+      "ecosystems": ["npm"]
+    },
+    "pypi_publish": {
+      "file": ".github/workflows/publish-pypi.yml",
+      "trigger": "tags: v*.*.* (stable)",
+      "ecosystems": ["pypi"]
+    },
+    "composer_publish": {
+      "file": ".github/workflows/publish-composer.yml",
+      "trigger": "tags: v*.*.* (stable)",
+      "ecosystems": ["packagist"]
+    },
+    "website_deploy": {
+      "file": ".github/workflows/deploy.yml",
+      "trigger": "branches: main OR tags: v*.*.* (stable)",
+      "ecosystems": ["github_pages"]
+    }
+  },
+  "active_errors": []
+}
