@@ -1,0 +1,17 @@
+{
+  "name": "Loragent Beta CI Trigger",
+  "trigger": {
+    "type": "cron",
+    "params": {
+      "cronExpression": "0 2 * * *"
+    }
+  },
+  "actions": [
+    {
+      "type": "runCommand",
+      "params": {
+        "command": "loragent autopilot 'Run tests, bump beta version, and push to trigger CI/CD pipeline'"
+      }
+    }
+  ]
+}
