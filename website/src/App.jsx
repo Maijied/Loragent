@@ -58,10 +58,10 @@ function App() {
           <p>Trigger <code>/loragent autopilot</code> in your CLI or AI Editor. The Loragent Boss dynamically summons specific skillsets to achieve your goals seamlessly without breaking context.</p>
         </motion.div>
 
-        <motion.div className="glass-card" variants={itemVariants} whileHover={{ y: -5 }}>
+        <motion.div className="glass-card" variants={itemVariants} whileHover={{ y: -5 }} style={{ border: '1px solid rgba(0, 255, 255, 0.4)', boxShadow: '0 0 20px rgba(0, 255, 255, 0.1)' }}>
           <ShieldCheck size={36} color="#00ffff" style={{ marginBottom: '1rem' }} />
-          <h2>Web3-Grade Security</h2>
-          <p>The <code>loragent-cache-collector</code> utilizes Argon2id, XChaCha20-Poly1305, and Brotli compression to securely sync workspaces, reducing your IDE cache size by gigabytes securely.</p>
+          <h2 style={{ color: '#00ffff' }}>Secure Credential Vault</h2>
+          <p>The definitive <strong>passphrase-encrypted</strong> vault for ALL your Loragent projects. Never expose an API key again. Our AI agents automatically store and inject secrets seamlessly—backed by GnuPG AES-256 E2E encryption.</p>
         </motion.div>
         
         <motion.div className="glass-card" variants={itemVariants} whileHover={{ y: -5 }}>
