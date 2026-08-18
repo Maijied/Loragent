@@ -9,7 +9,9 @@
     "loragent": "./face/cli/index.js"
   },
   "scripts": {
-    "start": "node ./face/cli/index.js"
+    "start": "node ./face/cli/index.js",
+    "sync-rules": "node scripts/sync-editor-rules.js",
+    "postinstall": "npm run sync-rules"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

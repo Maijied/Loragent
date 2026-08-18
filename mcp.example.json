@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "loragent": {
+      "command": "node",
+      "args": [
+        "loragent-mcp"
+      ],
+      "env": {
+        "LORAGENT_WORKSPACE": "./"
+      }
+    }
+  }
+}

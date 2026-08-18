@@ -28,5 +28,11 @@
       "ecosystems": ["github_pages"]
     }
   },
+  "modules": {
+    "editor_sync": {
+      "script": "scripts/sync-editor-rules.js",
+      "purpose": "Mirrors AGENTS.md to .cursorrules, .windsurfrules, .clinerules, CLAUDE.md"
+    }
+  },
   "active_errors": []
 }
