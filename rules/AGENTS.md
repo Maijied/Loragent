@@ -38,4 +38,5 @@ Loragent supports custom Slash Commands to effortlessly steer the workflow. The 
 - **/loragent-boss chela**: Instantly triggers the Chela (Debugging) formation.
 - **/loragent-teacher clarify**: Forces the teacher agent to ask clarifying requirements.
 - **/loragent-inspector rca**: Forces a Root Cause Analysis report on the current bug.
+- **/loragent autopilot [task description]**: The universal entrypoint command for both CLI and AI Editors. It continuously invokes the `steer` and `summon` MCP tools until the complex task is complete.
 
