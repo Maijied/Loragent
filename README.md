@@ -12,6 +12,21 @@
 
 ---
 
+## 🚀 Lorapok deployment stack (`loragent-*`)
+
+Portable skills, MCP, rules, and subagents for Lorapok Labs product shipping (CCM, marketplaces, Mission Control).
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/INSTALL.md](docs/INSTALL.md) | Symlink skills/rules globally |
+| [docs/HOW-TO-USE.md](docs/HOW-TO-USE.md) | Workflows, MCP, naming |
+
+**Skills:** `loragent-unified-deployment`, `loragent-openvsx-publish`, `loragent-vscode-publish`, `loragent-amo-publish`, `loragent-website-design`, `loragent-marketplace-crosslink`, `loragent-mission-control`
+
+**Sync:** `bash scripts/sync-loragent-stack.sh` or `~/.local/bin/sync-global-agent-stack`
+
+---
+
 ## 🌍 Universal Compatibility
 Loragent is completely **framework-agnostic**. It is designed to be injected into any project and is supported by **all AI coding agents in the world**. 
 Whether you use **Claude Code**, **Cursor**, **Codex**, **Antigravity IDE**, **GitHub Copilot Workspace**, or any other LLM-powered editor, Loragent natively overrides their default behavior to enforce a highly structured, multi-agent workflow.

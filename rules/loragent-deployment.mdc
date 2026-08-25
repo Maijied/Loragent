@@ -1,0 +1,13 @@
+---
+description: Lorapok production deployments must go through Mission Control admin panel only.
+globs:
+alwaysApply: true
+---
+
+# Loragent deployment rule
+
+- Trigger all production deploys via **Mission Control** (https://cursor-dev.lorapok.tech), not GitHub Actions UI.
+- Use **Infra** mode for admin + website without marketplace publish.
+- Marketing site URL: **https://cursor.lorapok.tech**
+- Admin panel URL: **https://cursor-dev.lorapok.tech**
+- Skills: `loragent-unified-deployment`, channel skills (`loragent-amo-publish`, `loragent-openvsx-publish`, `loragent-vscode-publish`).

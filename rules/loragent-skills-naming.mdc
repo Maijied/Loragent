@@ -1,0 +1,33 @@
+---
+description: Loragent naming and layout conventions for all Lorapok agent artifacts
+globs:
+  - "**/*"
+alwaysApply: false
+---
+
+# Loragent naming convention
+
+All Lorapok portable agent artifacts **must** start with `loragent-`:
+
+- Skills: `loragent-{topic}/SKILL.md`
+- Rules: `loragent-{topic}.mdc`
+- Subagents: `loragent-{role}.md`
+- Agents: `loragent-{orchestrator}.md`
+- MCP server id: `loragent`
+
+## Project root
+
+`/mnt/NewVolume/Personal_Projects/loragent`
+
+## Install
+
+Run `~/.local/bin/sync-global-agent-stack` or `scripts/sync-loragent-stack.sh`.
+
+## Docs
+
+- `docs/INSTALL.md` — symlink skills/rules globally
+- `docs/HOW-TO-USE.md` — workflows and MCP stack
+
+## Deployment
+
+Production deploys for Lorapok products go through Mission Control only (see `loragent-deployment.mdc`).

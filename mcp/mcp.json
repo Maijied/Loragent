@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "loragent": {
+      "command": "node",
+      "args": ["loragent-mcp"],
+      "env": {
+        "LORAGENT_WORKSPACE": "/mnt/NewVolume/Personal_Projects/loragent"
+      }
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${env:GITHUB_TOKEN}"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/maizied"]
+    },
+    "fetch": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/fetch"]
+    }
+  }
+}
