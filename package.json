@@ -23,7 +23,22 @@
     "website": "https://lorapok.tech",
     "adminUrl": "https://mission-control.lorapok.tech"
   },
-  "main": "./face/cli/index.js",
+  "main": "./sdk/index.js",
+  "types": "./sdk/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./sdk/index.d.ts",
+      "import": "./sdk/index.js",
+      "default": "./sdk/index.js"
+    },
+    "./sdk": {
+      "types": "./sdk/index.d.ts",
+      "import": "./sdk/index.js",
+      "default": "./sdk/index.js"
+    },
+    "./cli": "./face/cli/index.js",
+    "./mcp": "./port/mcp/server.js"
+  },
   "bin": {
     "install-officers": "./bin/install-officers.js",
     "loragent-mcp": "./port/mcp/server.js",
