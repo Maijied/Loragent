@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "description": "Unified MCP server registry for the Loragent ecosystem. Consolidates all discovered MCP configs across Cursor, Claude, VSCode, Kiro, and Gemini.",
+  "generated": "2026-08-28T07:22:27+06:00",
+  "servers": {
+    "loragent": {
+      "command": "node",
+      "args": ["loragent-mcp"],
+      "env": {
+        "LORAGENT_WORKSPACE": "."
+      },
+      "scope": "core",
+      "description": "Loragent native MCP server — agent orchestration, steering, summoning, state management",
+      "registeredIn": ["~/mcp.json", "~/.agents/mcp.json", "mcp/mcp.json", "mcp.example.json"]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"],
+      "scope": "browser",
+      "description": "Browser automation via MCP protocol",
+      "registeredIn": ["~/mcp.json", "~/.agents/mcp.json"]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${env:GITHUB_TOKEN}"
+      },
+      "scope": "vcs",
+      "description": "GitHub Copilot MCP for repository operations",
+      "registeredIn": ["~/mcp.json", "~/.agents/mcp.json", "~/.config/Code/User/mcp.json"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~"],
+      "scope": "io",
+      "description": "Local filesystem access via MCP",
+      "registeredIn": ["~/mcp.json", "~/.agents/mcp.json"]
+    },
+    "fetch": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/fetch"],
+      "scope": "network",
+      "description": "HTTP fetch via Docker-based MCP server",
+      "registeredIn": ["~/mcp.json", "~/.agents/mcp.json"]
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "scope": "design",
+      "description": "Figma design tool MCP integration",
+      "registeredIn": ["~/.kiro/settings/mcp.json"]
+    },
+    "tavily": {
+      "url": "https://mcp.tavily.com/mcp",
+      "scope": "search",
+      "description": "Tavily web search MCP",
+      "registeredIn": ["~/.kiro/settings/mcp.json"]
+    }
+  },
+  "ideSyncTargets": [
+    "~/mcp.json",
+    "~/.agents/mcp.json",
+    "~/.claude/mcp.json",
+    "~/.kiro/settings/mcp.json",
+    "~/.config/Code/User/mcp.json",
+    "~/.gemini/config/mcp_config.json"
+  ]
+}

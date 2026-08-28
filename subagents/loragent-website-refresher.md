@@ -4,7 +4,7 @@
 
 ## Inputs
 
-- Product repo path (default: `/home/maizied/cursor-usage-monitor`)
+- Product repo path (default: `~/cursor-usage-monitor`)
 - Design brief or user feedback
 - Whether to restore git screenshots vs keep generated art
 

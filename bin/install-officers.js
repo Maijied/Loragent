@@ -66,4 +66,4 @@ if (fs.existsSync(rulesFile)) {
 
 console.log('Installation Complete. Your Virtual Office is ready.');
 
-console.log(`\n=========================================\n        Loragent MCP Server Setup          \n=========================================\nTo enable dynamic steering, hooks, and state management,\nadd the Loragent MCP server to your AI IDE config.\nCommand: node /mnt/NewVolume/Personal_Projects/loragent/src/mcp/server.js\n=========================================\n`);
+console.log(`\n=========================================\n        Loragent MCP Server Setup          \n=========================================\nTo enable dynamic steering, hooks, and state management,\nadd the Loragent MCP server to your AI IDE config.\nCommand: node process.cwd()/src/mcp/server.js\n=========================================\n`);

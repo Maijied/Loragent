@@ -1,0 +1,15 @@
+{
+  "name": "loragent-mcp-cloudflare",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker MCP Server for Loragent 165-agent ecosystem",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "wrangler": "^4.123.0"
+  }
+}

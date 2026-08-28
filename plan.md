@@ -97,7 +97,7 @@ Replicate Streamiverse's 6-item advantage matrix:
 
 ### Section 8: Lorapok Labs Ecosystem Connectors (`components/EcosystemConnectors.tsx`)
 Two-column card block linking Loragent with brother tools:
-- **Card A:** **Cursor Curse Monitor Integration**
+- **Card A:** **Loragent Monitor Integration**
   - "Live quota tracking, billing cycle countdowns, and automatic free fallback to Composer 2.5."
   - Link to live marketplace extension.
 - **Card B:** **Lorapok API Atlas Integration**
@@ -114,7 +114,7 @@ Two-column card block linking Loragent with brother tools:
 ### Section 10: Footer (`components/Footer.tsx`)
 - **Columns:**
   - **Product:** Features, Token Sniper, Pricing, Release Notes.
-  - **Ecosystem:** Cursor Curse Monitor, API Atlas, Media Player.
+  - **Ecosystem:** Loragent Monitor, API Atlas, Media Player.
   - **Legal:** Privacy Policy, Terms of Service, Security Disclosures.
   - **Socials:** GitHub, LinkedIn, Telegram, X / Twitter.
 - **Bottom Bar:** "© 2026 Lorapok Labs. All rights reserved. The Mega-Agency awaits."

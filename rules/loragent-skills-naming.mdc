@@ -17,7 +17,7 @@ All Lorapok portable agent artifacts **must** start with `loragent-`:
 
 ## Project root
 
-`/mnt/NewVolume/Personal_Projects/loragent`
+`<PROJECT_ROOT>`
 
 ## Install
 

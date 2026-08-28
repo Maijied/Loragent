@@ -1,10 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+const os = require('os');
+const LORAPOK_PLAYER_PATH = process.env.LORAPOK_PLAYER_PATH || path.join(os.homedir(), 'Personal_Projects', 'lorapok_player', '.agents', 'skills');
+
 const DIRECTORIES_TO_SCAN = [
-    '/mnt/NewVolume/Personal_Projects/loragent/agents/',
-    '/mnt/NewVolume/Personal_Projects/lorapok_player/.agents/skills/',
-    '/mnt/NewVolume/Personal_Projects/loragent-officers/agents/'
+    path.join(process.cwd(), 'agents'),
+    LORAPOK_PLAYER_PATH,
+    path.join(process.cwd(), '..', 'loragent-officers', 'agents')
 ];
 
 const TEMPLATE_PATH = path.join(__dirname, '../AGENT_TEMPLATE.md');

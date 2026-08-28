@@ -1,5 +1,5 @@
 import { StateWatcher } from '../pulse/daemon/state-watcher.js';
-import { Engine } from '../lore/models/agent.js';
+import { Engine } from '../lore/models/engine.js';
 
 class Container {
   constructor() {

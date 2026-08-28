@@ -18,4 +18,4 @@ Orchestrate Lorapok extension releases through Mission Control only. Never trigg
 
 - CI run URL
 - Marketplace listing URLs
-- Infra URLs (cursor.lorapok.tech, cursor-dev.lorapok.tech)
+- Infra URLs (loragent.lorapok.tech, mission-control.lorapok.tech)

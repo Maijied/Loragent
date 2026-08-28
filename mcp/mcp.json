@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["loragent-mcp"],
       "env": {
-        "LORAGENT_WORKSPACE": "/mnt/NewVolume/Personal_Projects/loragent"
+        "LORAGENT_WORKSPACE": "."
       }
     },
     "browsermcp": {
@@ -20,7 +20,7 @@
     },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/maizied"]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~"]
     },
     "fetch": {
       "command": "docker",

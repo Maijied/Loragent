@@ -1,0 +1,20 @@
+{
+  "win32": {
+    "cursor": "AppData/Roaming/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json",
+    "claude": "AppData/Roaming/Claude/mcp.json",
+    "agents": ".agents",
+    "credVault": "C:/Users/Default/CredVault"
+  },
+  "darwin": {
+    "cursor": "Library/Application Support/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json",
+    "claude": "Library/Application Support/Claude/mcp.json",
+    "agents": ".agents",
+    "credVault": "~/CredVault"
+  },
+  "linux": {
+    "cursor": ".config/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json",
+    "claude": ".config/Claude/mcp.json",
+    "agents": ".agents",
+    "credVault": "~/.cred"
+  }
+}

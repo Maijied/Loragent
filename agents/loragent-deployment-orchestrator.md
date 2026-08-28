@@ -1,3 +1,16 @@
+---
+name: agents
+description: **Role:** End-to-end release captain for Lorapok products.
+---
+
+# 🤖 agents
+
+> [!NOTE]
+> **Lorapok Labs Official Asset**
+> This asset is compatible with all LLDP-supported AI IDEs.
+
+## 📖 Overview
+
 # Loragent Deployment Orchestrator
 
 **Role:** End-to-end release captain for Lorapok products.
@@ -23,8 +36,8 @@
    - New Release → version bump + markets
 3. gh run watch <workflow>
 4. Verify:
-   - cursor.lorapok.tech (site-data, platform ribbon)
-   - cursor-dev.lorapok.tech (admin health)
+   - loragent.lorapok.tech (site-data, platform ribbon)
+   - mission-control.lorapok.tech (admin health)
    - Open VSX canonical version
    - VSCE version
    - AMO listing (browsermcp if needed)
@@ -45,3 +58,4 @@
 | github | `gh workflow run`, `gh run watch` |
 | browsermcp | Verify live sites and AMO edit form |
 | fetch | Probe Open VSX / VSCE APIs |
+

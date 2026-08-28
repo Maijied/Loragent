@@ -6,8 +6,8 @@ alwaysApply: true
 
 # Loragent deployment rule
 
-- Trigger all production deploys via **Mission Control** (https://cursor-dev.lorapok.tech), not GitHub Actions UI.
+- Trigger all production deploys via **Mission Control** (https://mission-control.lorapok.tech), not GitHub Actions UI.
 - Use **Infra** mode for admin + website without marketplace publish.
-- Marketing site URL: **https://cursor.lorapok.tech**
-- Admin panel URL: **https://cursor-dev.lorapok.tech**
+- Marketing site URL: **https://loragent.lorapok.tech**
+- Admin panel URL: **https://mission-control.lorapok.tech**
 - Skills: `loragent-unified-deployment`, channel skills (`loragent-amo-publish`, `loragent-openvsx-publish`, `loragent-vscode-publish`).

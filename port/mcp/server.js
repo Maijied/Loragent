@@ -210,6 +210,149 @@ server.tool(
     }
 );
 
+// Tool: loragent_list_agents
+server.tool(
+    "loragent_list_agents",
+    "List all agents in the Loragent ecosystem from the unified agent-index.json. Supports filtering by category, source, formation, and type.",
+    {
+        category: z.string().optional().describe("Filter by category (e.g., engineering, business, quality, creative, devops)"),
+        source: z.string().optional().describe("Filter by source (e.g., native, lorapok-ai-agent, ide-skills, freqghost)"),
+        formation: z.string().optional().describe("Filter by formation (e.g., auto-team, office, freelance, chela, all)"),
+        type: z.string().optional().describe("Filter by type (e.g., core, specialist)")
+    },
+    async ({ category, source, formation, type }) => {
+        const indexPath = path.join(process.cwd(), 'agent-index.json');
+        if (!fs.existsSync(indexPath)) {
+            // Try workspace env
+            const wsPath = process.env.LORAGENT_WORKSPACE
+                ? path.join(process.env.LORAGENT_WORKSPACE, 'agent-index.json')
+                : null;
+            if (wsPath && fs.existsSync(wsPath)) {
+                var indexData = JSON.parse(fs.readFileSync(wsPath, 'utf8'));
+            } else {
+                return {
+                    content: [{
+                        type: "text",
+                        text: "Error: agent-index.json not found. Run `node scripts/sync-agents.js` to generate it."
+                    }]
+                };
+            }
+        } else {
+            var indexData = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+        }
+
+        let agents = indexData.agents;
+
+        if (category) agents = agents.filter(a => a.category === category);
+        if (source) agents = agents.filter(a => a.source === source);
+        if (formation) agents = agents.filter(a => a.formation === formation);
+        if (type) agents = agents.filter(a => a.type === type);
+
+        const summary = agents.map(a =>
+            `${a.name} [${a.category}/${a.formation}] — ${a.description}`
+        ).join('\n');
+
+        return {
+            content: [{
+                type: "text",
+                text: `Loragent Agent Index (${agents.length}/${indexData.statistics.totalAgents} agents):\n\n${summary}\n\nStatistics: ${JSON.stringify(indexData.statistics, null, 2)}`
+            }]
+        };
+    }
+);
+
+// Tool: loragent_search_agents
+server.tool(
+    "loragent_search_agents",
+    "Search for agents by keyword across name, description, and category.",
+    {
+        query: z.string().describe("Search keyword to match against agent names, descriptions, and categories")
+    },
+    async ({ query }) => {
+        const indexPath = path.join(process.cwd(), 'agent-index.json');
+        const wsPath = process.env.LORAGENT_WORKSPACE
+            ? path.join(process.env.LORAGENT_WORKSPACE, 'agent-index.json')
+            : null;
+
+        let indexData;
+        if (fs.existsSync(indexPath)) {
+            indexData = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+        } else if (wsPath && fs.existsSync(wsPath)) {
+            indexData = JSON.parse(fs.readFileSync(wsPath, 'utf8'));
+        } else {
+            return {
+                content: [{
+                    type: "text",
+                    text: "Error: agent-index.json not found."
+                }]
+            };
+        }
+
+        const q = query.toLowerCase();
+        const results = indexData.agents.filter(a =>
+            a.name.toLowerCase().includes(q) ||
+            (a.description || '').toLowerCase().includes(q) ||
+            a.category.toLowerCase().includes(q)
+        );
+
+        if (results.length === 0) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `No agents found matching "${query}".`
+                }]
+            };
+        }
+
+        const summary = results.map(a =>
+            `• ${a.name} [${a.type}/${a.category}/${a.source}] — ${a.description}`
+        ).join('\n');
+
+        return {
+            content: [{
+                type: "text",
+                text: `Found ${results.length} agents matching "${query}":\n\n${summary}`
+            }]
+        };
+    }
+);
+
+// Tool: loragent_create
+server.tool(
+    "loragent_create",
+    "Create a new agent, skill, mcp, or rule",
+    {
+        type: z.string().describe("Type of asset (agent|skill|mcp|rule)"),
+        name: z.string().describe("Name of the asset")
+    },
+    async ({ type, name }) => {
+        // Delegate to the CLI logic for creation
+        const { execSync } = require('child_process');
+        try {
+            const output = execSync(`node face/cli/index.js create ${type} ${name}`, { encoding: 'utf8' });
+            return { content: [{ type: "text", text: output }] };
+        } catch (e) {
+            return { content: [{ type: "text", text: `Failed to create: ${e.message}` }] };
+        }
+    }
+);
+
+// Tool: loragent_sync
+server.tool(
+    "loragent_sync",
+    "Sync the registry to local IDE configurations",
+    {},
+    async () => {
+        const { execSync } = require('child_process');
+        try {
+            const output = execSync(`node face/cli/index.js sync`, { encoding: 'utf8' });
+            return { content: [{ type: "text", text: output }] };
+        } catch (e) {
+            return { content: [{ type: "text", text: `Failed to sync: ${e.message}` }] };
+        }
+    }
+);
+
 // Start the server using stdio transport
 const transport = new StdioServerTransport();
 server.connect(transport).catch(console.error);

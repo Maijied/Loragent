@@ -16,7 +16,7 @@ All Lorapok agent artifacts **start with `loragent-`**:
 
 ### 1. Ship a release (CCM)
 
-1. Open Mission Control → https://cursor-dev.lorapok.tech/deployments
+1. Open Mission Control → https://mission-control.lorapok.tech/deployments
 2. **New Release** → pick bump (patch/minor/major)
 3. Check **Deploy admin** + **Deploy website** if infra changed
 4. Skill: `loragent-unified-deployment`
@@ -88,4 +88,4 @@ When ready to publish skills globally:
 
 ## Reference product repo
 
-Cursor Curse Monitor: `/home/maizied/cursor-usage-monitor`
+Loragent Monitor: `~/cursor-usage-monitor`

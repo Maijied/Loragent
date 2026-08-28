@@ -1,0 +1,1754 @@
+export const AGENT_INDEX = {
+  "version": "1.0.0",
+  "generated": "2026-08-28T21:10:58.655Z",
+  "ecosystem": "Loragent by Lorapok Labs",
+  "statistics": {
+    "totalAgents": 165,
+    "coreAgents": 5,
+    "specialists": 160,
+    "nativeAgents": 113,
+    "importedAgents": 52,
+    "categories": 22,
+    "formations": {
+      "auto-team": 6,
+      "office": 9,
+      "freelance": 140,
+      "chela": 5,
+      "all": 5
+    }
+  },
+  "sources": [
+    {
+      "id": "lorapok-ai-agent",
+      "label": "Lorapok AI Agent Subagents",
+      "paths": [
+        "/home/maizied/Personal_Projects/lorapok_ai_agent/.agents/subagents"
+      ]
+    },
+    {
+      "id": "lorapok-player",
+      "label": "Lorapok Player Agents",
+      "paths": [
+        "/home/maizied/Personal_Projects/lorapok_player/.agents"
+      ]
+    },
+    {
+      "id": "aswitch-i",
+      "label": "AswitchI Agents",
+      "paths": [
+        "/home/maizied/Personal_Projects/AswitchI/.agents"
+      ]
+    },
+    {
+      "id": "freqghost",
+      "label": "FreqGhost Skills",
+      "paths": [
+        "/home/maizied/.skills"
+      ]
+    },
+    {
+      "id": "ide-skills",
+      "label": "IDE Custom Skills",
+      "paths": [
+        "/home/maizied/.skills"
+      ]
+    }
+  ],
+  "automations": [
+    {
+      "name": "brain-sync",
+      "path": "loom/automations/brain-sync.md",
+      "trigger": "code-change"
+    },
+    {
+      "name": "model-catalog-health",
+      "path": "loom/automations/model-catalog-health.md",
+      "trigger": "scheduled"
+    },
+    {
+      "name": "test-sentinel",
+      "path": "loom/automations/test-sentinel.md",
+      "trigger": "pr-push"
+    }
+  ],
+  "steerRules": [
+    {
+      "name": "branch-merge-guide",
+      "path": "loom/steer/branch_merge_guide.md"
+    },
+    {
+      "name": "cli-ux-standards",
+      "path": "loom/steer/cli_ux_standards.md"
+    },
+    {
+      "name": "code-style",
+      "path": "loom/steer/code_style.md"
+    },
+    {
+      "name": "model-orchestration",
+      "path": "loom/steer/model_orchestration.md"
+    },
+    {
+      "name": "token-optimization",
+      "path": "loom/steer/token_optimization.md"
+    }
+  ],
+  "workflows": [
+    {
+      "name": "lorapok-ai-workflow",
+      "path": "loom/workflows/lorapok-ai-workflow.md"
+    }
+  ],
+  "agents": [
+    {
+      "name": "loragent-accessibility-audit",
+      "slug": "accessibility-audit",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/accessibility-audit/SKILL.md",
+      "category": "browser",
+      "formation": "freelance",
+      "description": "Whole site or product — a full web accessibility (a11y) audit against WCAG 2.2, following the WCAG-EM methodology. Defines scope, samples representative pages and flows, runs the automated tier (`ac"
+    },
+    {
+      "name": "loragent-browser-automation-expert",
+      "slug": "browser-automation-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/browser-automation-expert/SKILL.md",
+      "category": "browser",
+      "formation": "freelance",
+      "description": "Playwright/Puppeteer/Selenium E2E testing."
+    },
+    {
+      "name": "loragent-browser-specialist",
+      "slug": "browser-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/browser-specialist/SKILL.md",
+      "category": "browser",
+      "formation": "freelance",
+      "description": "Operates exclusively via Browser MCP to navigate and automate web tasks."
+    },
+    {
+      "name": "loragent-business-expert",
+      "slug": "business-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/business-expert/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "The Business Expert. Analyzes requirements for SEO, market fit, and product logic."
+    },
+    {
+      "name": "loragent-client",
+      "slug": "client",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/client/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "The Client agent. Responsible for providing initial requirements, business constraints, and defining success metrics for the virtual office."
+    },
+    {
+      "name": "loragent-fund-collector",
+      "slug": "fund-collector",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/fund-collector/SKILL.md",
+      "category": "business",
+      "formation": "freelance",
+      "description": "Strategizes roadmaps for VC pitching, crowdfunding, and capitalization."
+    },
+    {
+      "name": "loragent-hr",
+      "slug": "hr",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/hr/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "Human Resources. Tracks agent burnout and token limits."
+    },
+    {
+      "name": "loragent-marketing-gen",
+      "slug": "marketing-gen",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/marketing-gen/SKILL.md",
+      "category": "business",
+      "formation": "freelance",
+      "description": "Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosystem."
+    },
+    {
+      "name": "loragent-marketing-strategy-manager",
+      "slug": "marketing-strategy-manager",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/marketing-strategy-manager/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "Plans overall marketing strategy."
+    },
+    {
+      "name": "loragent-pr-specialist",
+      "slug": "pr-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/pr-specialist/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "Public Relations. Handles public sentiment, press releases, and crisis management."
+    },
+    {
+      "name": "loragent-sales-executive",
+      "slug": "sales-executive",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/sales-executive/SKILL.md",
+      "category": "business",
+      "formation": "office",
+      "description": "Focuses on conversion and direct sales copy."
+    },
+    {
+      "name": "loragent-software-business-analyst",
+      "slug": "software-business-analyst",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/software-business-analyst/SKILL.md",
+      "category": "business",
+      "formation": "freelance",
+      "description": "Cost to market analysis, competitive pricing, plans and strategies."
+    },
+    {
+      "name": "loragent-azure-specialist",
+      "slug": "azure-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/azure-specialist/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "Microsoft Azure cloud infrastructure expert."
+    },
+    {
+      "name": "loragent-cloud-specialist",
+      "slug": "cloud-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cloud-specialist/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "General cloud infrastructure architect."
+    },
+    {
+      "name": "loragent-google-products-specialist",
+      "slug": "google-products-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/google-products-specialist/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "Specialist for Google Console, Firebase, GCP."
+    },
+    {
+      "name": "loragent-loragent-cloudflare-mail-master",
+      "slug": "loragent-cloudflare-mail-master",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-cloudflare-mail-master/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routing rules, token split, or troubleshooting 401/10203 errors for Lorapok projects."
+    },
+    {
+      "name": "loragent-railway-expert",
+      "slug": "railway-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/railway-expert/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "Railway.app backend deployment specialist."
+    },
+    {
+      "name": "loragent-vercel-expert",
+      "slug": "vercel-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/vercel-expert/SKILL.md",
+      "category": "cloud",
+      "formation": "freelance",
+      "description": "Vercel deployment and Edge functions specialist."
+    },
+    {
+      "name": "loragent-ai-communicator",
+      "slug": "ai-communicator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/ai-communicator/SKILL.md",
+      "category": "communication",
+      "formation": "freelance",
+      "description": "AI to AI Communicator. Gets more precise ideas from specialty-based models."
+    },
+    {
+      "name": "loragent-office-assistant",
+      "slug": "office-assistant",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/office-assistant/SKILL.md",
+      "category": "communication",
+      "formation": "freelance",
+      "description": "Passes data from one agent to another on demand."
+    },
+    {
+      "name": "loragent-pion",
+      "slug": "pion",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/pion/SKILL.md",
+      "category": "communication",
+      "formation": "freelance",
+      "description": "The PION Agent. Consolidates final results, artifacts, and walkthroughs to present to the Client."
+    },
+    {
+      "name": "loragent-teacher",
+      "slug": "teacher",
+      "type": "core",
+      "source": "native",
+      "path": "agents/teacher/SKILL.md",
+      "category": "communication",
+      "formation": "all",
+      "description": "The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly."
+    },
+    {
+      "name": "loragent-3d-designer",
+      "slug": "3d-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/3d-designer/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "3D modeling for apps, software, and web."
+    },
+    {
+      "name": "loragent-animator",
+      "slug": "animator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/animator/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Creates animated designs."
+    },
+    {
+      "name": "loragent-logo-designer",
+      "slug": "logo-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/logo-designer/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Specialist in branding and logo design prompts."
+    },
+    {
+      "name": "loragent-portfolio-designer",
+      "slug": "portfolio-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/portfolio-designer/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Designs the layout and content structure for personal or project portfolio websites."
+    },
+    {
+      "name": "loragent-project-theme-expert",
+      "slug": "project-theme-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/project-theme-expert/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Curates the visual language, design system, and overarching aesthetic (like"
+    },
+    {
+      "name": "loragent-prototype-designer",
+      "slug": "prototype-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/prototype-designer/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Prototype designer like design in Canva."
+    },
+    {
+      "name": "loragent-streamvar-theme-architect",
+      "slug": "streamvar-theme-architect",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/streamvar-theme-architect/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Principal Frontend UI/UX Architect & Systems Designer for Loragent. Uses Next.js App Router, React 19, Tailwind CSS, and Framer Motion."
+    },
+    {
+      "name": "loragent-themeguy",
+      "slug": "themeguy",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/themeguy/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Global UI theme and styling connoisseur."
+    },
+    {
+      "name": "loragent-ui-ux-professional",
+      "slug": "ui-ux-professional",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/ui-ux-professional/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "World-class UI/UX design and wireframing."
+    },
+    {
+      "name": "loragent-web-design-guidelines",
+      "slug": "web-design-guidelines",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/web-design-guidelines/SKILL.md",
+      "category": "creative",
+      "formation": "freelance",
+      "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to"
+    },
+    {
+      "name": "loragent-cache-collector",
+      "slug": "cache-collector",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cache-collector/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Premium grade Cache Manager. Uses Web3 End-to-End Encryption (E2EE) and Brotli compression to securely sync and free up IDE cache space."
+    },
+    {
+      "name": "loragent-database-designer",
+      "slug": "database-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/database-designer/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Professional DB architect."
+    },
+    {
+      "name": "loragent-database-updater",
+      "slug": "database-updater",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/database-updater/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Dedicated to syncing agent learnings to Firebase."
+    },
+    {
+      "name": "loragent-gold-collector",
+      "slug": "gold-collector",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/gold-collector/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Global Telemetry Miner. Detects novel solutions and syncs them to the Firebase Hivemind."
+    },
+    {
+      "name": "loragent-legacy-system-analyser",
+      "slug": "legacy-system-analyser",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/legacy-system-analyser/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Understands and optimizes legacy syntaxes."
+    },
+    {
+      "name": "loragent-token-sniper",
+      "slug": "token-sniper",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/token-sniper/SKILL.md",
+      "category": "data",
+      "formation": "freelance",
+      "description": "Premium context optimization agent. Slashes AI token usage by >70% using AST pruning, skeletonization, and diff-only parsing."
+    },
+    {
+      "name": "loragent-cicd-automation-expert",
+      "slug": "cicd-automation-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cicd-automation-expert/SKILL.md",
+      "category": "devops",
+      "formation": "freelance",
+      "description": "Advanced CI/CD engineering approach."
+    },
+    {
+      "name": "loragent-deploy",
+      "slug": "deploy",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/deploy/SKILL.md",
+      "category": "devops",
+      "formation": "freelance",
+      "description": "Invoked by the `azure-app-onboard` orchestrator at Phase 4 when `scaffold-manifest.json` exists with `files[]` and `validationResult`. Not directly user-routable."
+    },
+    {
+      "name": "loragent-devops",
+      "slug": "devops",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/devops/SKILL.md",
+      "category": "devops",
+      "formation": "auto-team",
+      "description": "The DevOps Specialist. Runs CI/CD pipelines, deployment hooks, and ensures build stability."
+    },
+    {
+      "name": "loragent-docman",
+      "slug": "docman",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/docman/SKILL.md",
+      "category": "devops",
+      "formation": "freelance",
+      "description": "Docker, containerization, and orchestration expert."
+    },
+    {
+      "name": "loragent-k8-expert",
+      "slug": "k8-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/k8-expert/SKILL.md",
+      "category": "devops",
+      "formation": "freelance",
+      "description": "Kubernetes, Helm charts, and cluster management."
+    },
+    {
+      "name": "loragent-operations",
+      "slug": "operations",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/operations/SKILL.md",
+      "category": "devops",
+      "formation": "freelance",
+      "description": "The Operations Manager (Ops). Monitors deployment health and logs errors."
+    },
+    {
+      "name": "loragent-content-writer",
+      "slug": "content-writer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/content-writer/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Writes professional articles and blogs."
+    },
+    {
+      "name": "loragent-doc-brain-updater",
+      "slug": "doc-brain-updater",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/doc-brain-updater/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Autonomous documentation maintainer and living knowledge synchronizer for Lorapok AI Agent. Responsible for ensuring `BRAIN.md`, `.agents/BRAIN.md`, `README.md`, `CHANGELOG.md`, `USAGE.md`, and `TESTI"
+    },
+    {
+      "name": "loragent-professional-document-creator",
+      "slug": "professional-document-creator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/professional-document-creator/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Creates Markdown, PDF, text, proposals."
+    },
+    {
+      "name": "loragent-professional-readme-creator",
+      "slug": "professional-readme-creator",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/professional-readme-creator/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Skill for drafting, auditing, and maintaining high-impact, professional README documentation for Lorapok AI Agent and open-source repositories."
+    },
+    {
+      "name": "loragent-professional-research-docx-writer",
+      "slug": "professional-research-docx-writer",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/professional-research-docx-writer/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": ">-"
+    },
+    {
+      "name": "loragent-readme-generator-specialist",
+      "slug": "readme-generator-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/readme-generator-specialist/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Analyzes the entire project ecosystem to generate highly professional, extensive README files tailored to the specific project."
+    },
+    {
+      "name": "loragent-research-paper-writer",
+      "slug": "research-paper-writer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/research-paper-writer/SKILL.md",
+      "category": "documentation",
+      "formation": "freelance",
+      "description": "Specialized in writing academic, IEEE, or white-paper style documents."
+    },
+    {
+      "name": "loragent-algorithm-implementer",
+      "slug": "algorithm-implementer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/algorithm-implementer/SKILL.md",
+      "category": "engineering",
+      "formation": "freelance",
+      "description": "Problem solver like in LeetCode or competitive programming platforms."
+    },
+    {
+      "name": "loragent-backend-se",
+      "slug": "backend-se",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/backend-se/SKILL.md",
+      "category": "engineering",
+      "formation": "auto-team",
+      "description": "The Backend Senior Software Engineer. Implements APIs, core player logic, and data structures."
+    },
+    {
+      "name": "loragent-code-optimizer",
+      "slug": "code-optimizer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/code-optimizer/SKILL.md",
+      "category": "engineering",
+      "formation": "freelance",
+      "description": "Optimizes code execution speed and memory usage."
+    },
+    {
+      "name": "loragent-frontend-se",
+      "slug": "frontend-se",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/frontend-se/SKILL.md",
+      "category": "engineering",
+      "formation": "auto-team",
+      "description": "The Frontend Senior Software Engineer. Implements UI/UX using biological/sensory computing aesthetics."
+    },
+    {
+      "name": "loragent-specialized-developer",
+      "slug": "specialized-developer",
+      "type": "specialist",
+      "source": "lorapok-player",
+      "path": "agents/specialized-developer/SKILL.md",
+      "category": "engineering",
+      "formation": "freelance",
+      "description": "Specialized Developer performing high-tech global industry level coding. Use proactively to implement assigned subtasks, fix bugs, and refactor code safely."
+    },
+    {
+      "name": "loragent-team-lead",
+      "slug": "team-lead",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/team-lead/SKILL.md",
+      "category": "engineering",
+      "formation": "auto-team",
+      "description": "The Team Lead. Coordinates the tech team, assigns engineering tasks, and conducts primary code reviews."
+    },
+    {
+      "name": "loragent-tech-director",
+      "slug": "tech-director",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/tech-director/SKILL.md",
+      "category": "engineering",
+      "formation": "auto-team",
+      "description": "The Tech Director (Architect). Defines technical architecture, stack, and data models."
+    },
+    {
+      "name": "loragent-freqghost-admin-panel",
+      "slug": "freqghost-admin-panel",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-admin-panel/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Build and modify the FreqGhost admin dashboard — Cognitum-aesthetic web UI with JWT auth, role-based ACL, source switching, data collection controls, and ML model management. Use when the user asks"
+    },
+    {
+      "name": "loragent-freqghost-data-collection",
+      "slug": "freqghost-data-collection",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-data-collection/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Manage CSI/RSSI data collection sessions for ML training — recording, labeling, exporting datasets, and quality validation. Use when the user asks to collect data, record CSI, build datasets, label"
+    },
+    {
+      "name": "loragent-freqghost-deployment",
+      "slug": "freqghost-deployment",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-deployment/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Deploy FreqGhost via Docker, nginx, and production configuration — multi-service compose, SSL/TLS, MQTT broker, environment variables. Use when deploying, configuring Docker, setting up nginx, or ma"
+    },
+    {
+      "name": "loragent-freqghost-frontend-dev",
+      "slug": "freqghost-frontend-dev",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-frontend-dev/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Develop the FreqGhost Three.js 3D viewer and admin panel frontend — Cognitum aesthetic, CDN-only libraries, no build step. Use when modifying the 3D viewer, adding UI elements, changing styling, or"
+    },
+    {
+      "name": "loragent-freqghost-model-training",
+      "slug": "freqghost-model-training",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-model-training/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Standardized instructions for training the FreqGhost contrastive CSI encoder and vital signs models."
+    },
+    {
+      "name": "loragent-freqghost-source-management",
+      "slug": "freqghost-source-management",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-source-management/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Add, configure, and manage SceneSource implementations — the central abstraction for all data flow in FreqGhost. Use when adding new sources, switching active source, configuring router credentials,"
+    },
+    {
+      "name": "loragent-freqghost-verification",
+      "slug": "freqghost-verification",
+      "type": "specialist",
+      "source": "freqghost",
+      "path": "agents/freqghost-verification/SKILL.md",
+      "category": "freqghost",
+      "formation": "freelance",
+      "description": "Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure reproducibility."
+    },
+    {
+      "name": "loragent-addon-maker",
+      "slug": "addon-maker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/addon-maker/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Browser extension and application addon creator."
+    },
+    {
+      "name": "loragent-ads-manager",
+      "slug": "ads-manager",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/ads-manager/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Suggests where to provide ads and how with strategy."
+    },
+    {
+      "name": "loragent-api-chef",
+      "slug": "api-chef",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/api-chef/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Designs perfectly structured API responses."
+    },
+    {
+      "name": "loragent-apple-ecosystem-expert",
+      "slug": "apple-ecosystem-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/apple-ecosystem-expert/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "macOS, iOS, Swift, and Apple ecosystem authority."
+    },
+    {
+      "name": "loragent-architect-designer",
+      "slug": "architect-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/architect-designer/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Works alongside the Tech Director to map out complex system architectures visually or structurally."
+    },
+    {
+      "name": "loragent-auditor",
+      "slug": "auditor",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/auditor/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Security and code compliance auditing."
+    },
+    {
+      "name": "loragent-debugger",
+      "slug": "debugger",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/debugger/SKILL.md",
+      "category": "general",
+      "formation": "chela",
+      "description": "Dedicated step-through and stack-trace debugger."
+    },
+    {
+      "name": "loragent-garbage-collector",
+      "slug": "garbage-collector",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/garbage-collector/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Identifies and removes unused code, dead files, and unnecessary dependencies."
+    },
+    {
+      "name": "loragent-git-specialist",
+      "slug": "git-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/git-specialist/SKILL.md",
+      "category": "general",
+      "formation": "chela",
+      "description": "Advanced version control, rebasing, and merge conflict resolution."
+    },
+    {
+      "name": "loragent-loragent-amo-mcp",
+      "slug": "loragent-amo-mcp",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-amo-mcp/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "MCP-orchestrated Firefox AMO publishing for Lorapok extensions."
+    },
+    {
+      "name": "loragent-loragent-amo-publish",
+      "slug": "loragent-amo-publish",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-amo-publish/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Mission Control, credential vault."
+    },
+    {
+      "name": "loragent-loragent-marketplace-crosslink",
+      "slug": "loragent-marketplace-crosslink",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-marketplace-crosslink/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Add consistent"
+    },
+    {
+      "name": "loragent-loragent-mission-control",
+      "slug": "loragent-mission-control",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-mission-control/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and infra-only publishes."
+    },
+    {
+      "name": "loragent-loragent-openvsx-publish",
+      "slug": "loragent-openvsx-publish",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-openvsx-publish/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate listing fixes, CI sync."
+    },
+    {
+      "name": "loragent-loragent-unified-deployment",
+      "slug": "loragent-unified-deployment",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-unified-deployment/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin panel, and website via mission-control.lorapok.tech."
+    },
+    {
+      "name": "loragent-loragent-vscode-publish",
+      "slug": "loragent-vscode-publish",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-vscode-publish/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mission Control wiring."
+    },
+    {
+      "name": "loragent-loragent-website-design",
+      "slug": "loragent-website-design",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-website-design/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and Mission Control infra deploy."
+    },
+    {
+      "name": "loragent-lorapok-brain-documentation",
+      "slug": "lorapok-brain-documentation",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-brain-documentation/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for maintaining and updating BRAIN.md, .agents/BRAIN.md, and project documentation after every code or architectural change in Lorapok AI Agent."
+    },
+    {
+      "name": "loragent-lorapok-cli-testing",
+      "slug": "lorapok-cli-testing",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-cli-testing/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for running, testing, and debugging the Lorapok CLI, including terminal rendering, mock interactive commands, corner-case testing, and Jest test runner."
+    },
+    {
+      "name": "loragent-lorapok-deployment-specialist",
+      "slug": "lorapok-deployment-specialist",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-deployment-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Professional Deployment Specialist skill for Lorapok Media Player. Manages full CI/CD, build verification across Electron, React, Website, and Chrome Extension. Features automated error extraction, diagnosis, fix planning, and retry hook execution."
+    },
+    {
+      "name": "loragent-lorapok-express-server",
+      "slug": "lorapok-express-server",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-express-server/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for Express REST API in server.js, model guards, sessions, and packages/sdk consumers."
+    },
+    {
+      "name": "loragent-lorapok-frontend",
+      "slug": "lorapok-frontend",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-frontend/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": ">-"
+    },
+    {
+      "name": "loragent-lorapok-git-workflow",
+      "slug": "lorapok-git-workflow",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-git-workflow/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for managing git integration features, branch management, merge conflict resolution, pull request workflow, and git automation actions in Lorapok."
+    },
+    {
+      "name": "loragent-lorapok-mcp-integration",
+      "slug": "lorapok-mcp-integration",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-mcp-integration/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for building, configuring, and verifying Model Context Protocol (MCP) server & client integrations within Lorapok AI Agent."
+    },
+    {
+      "name": "loragent-lorapok-model-provider",
+      "slug": "lorapok-model-provider",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-model-provider/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for ModelManager, ModelValidator, ModelCacheService, multi-provider routing, menus, and REST model endpoints."
+    },
+    {
+      "name": "loragent-lorapok-token-efficiency",
+      "slug": "lorapok-token-efficiency",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-token-efficiency/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for optimizing token usage and context retrieval when AI agents work on the Lorapok AI Agent codebase."
+    },
+    {
+      "name": "loragent-lorapok-website-build",
+      "slug": "lorapok-website-build",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/lorapok-website-build/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Skill for maintaining and deploying apps/website frontend assets and static documentation."
+    },
+    {
+      "name": "loragent-mermaid-architecture-specialist",
+      "slug": "mermaid-architecture-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/mermaid-architecture-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Expert in visualizing complex systems using Mermaid.js syntax (flowcharts, state diagrams, sequence diagrams)."
+    },
+    {
+      "name": "loragent-notion-expert",
+      "slug": "notion-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/notion-expert/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Notion API and integration master."
+    },
+    {
+      "name": "loragent-os-specialist",
+      "slug": "os-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/os-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Expert in Operating Systems, file directories, and kernel level operations."
+    },
+    {
+      "name": "loragent-paymentguy",
+      "slug": "paymentguy",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/paymentguy/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Specialist for payment system integrations (Stripe, PayPal, etc)."
+    },
+    {
+      "name": "loragent-shift-engineer",
+      "slug": "shift-engineer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/shift-engineer/SKILL.md",
+      "category": "general",
+      "formation": "chela",
+      "description": "Handles short, isolated tasks."
+    },
+    {
+      "name": "loragent-skill-creator",
+      "slug": "skill-creator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/skill-creator/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Autonomously writes new agent skills and pushes to Firebase."
+    },
+    {
+      "name": "loragent-angular-specialist",
+      "slug": "angular-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/angular-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Angular framework specialist."
+    },
+    {
+      "name": "loragent-cpp-expert",
+      "slug": "cpp-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cpp-expert/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "C++ programming language expert."
+    },
+    {
+      "name": "loragent-django-specialist",
+      "slug": "django-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/django-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Django framework specialist."
+    },
+    {
+      "name": "loragent-fastapi",
+      "slug": "fastapi",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/fastapi/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "FastAPI best practices and conventions. Use when working with FastAPI APIs and Pydantic models for them. Keeps FastAPI code clean and up to date with the latest features and patterns, updated with new"
+    },
+    {
+      "name": "loragent-go-expert",
+      "slug": "go-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/go-expert/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Go programming language expert."
+    },
+    {
+      "name": "loragent-javascript-expert",
+      "slug": "javascript-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/javascript-expert/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "JavaScript (and TypeScript) programming language expert."
+    },
+    {
+      "name": "loragent-laravel-specialist",
+      "slug": "laravel-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/laravel-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Laravel PHP framework specialist."
+    },
+    {
+      "name": "loragent-node-specialist",
+      "slug": "node-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/node-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Node.js backend and runtime specialist."
+    },
+    {
+      "name": "loragent-python-expert",
+      "slug": "python-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/python-expert/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Python programming language expert (version and syntax aware)."
+    },
+    {
+      "name": "loragent-react-best-practices",
+      "slug": "react-best-practices",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/react-best-practices/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patter"
+    },
+    {
+      "name": "loragent-react-specialist",
+      "slug": "react-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/react-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "React.js framework specialist."
+    },
+    {
+      "name": "loragent-rust-expert",
+      "slug": "rust-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/rust-expert/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Rust programming language expert."
+    },
+    {
+      "name": "loragent-vue-specialist",
+      "slug": "vue-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/vue-specialist/SKILL.md",
+      "category": "language-expert",
+      "formation": "freelance",
+      "description": "Vue.js framework specialist."
+    },
+    {
+      "name": "loragent-cv-maker",
+      "slug": "cv-maker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cv-maker/SKILL.md",
+      "category": "media",
+      "formation": "freelance",
+      "description": "Generates professional CVs/Resumes based on developer portfolios and Git histories."
+    },
+    {
+      "name": "loragent-jokki-bhai",
+      "slug": "jokki-bhai",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/jokki-bhai/SKILL.md",
+      "category": "media",
+      "formation": "freelance",
+      "description": "The Entertainer. Roasts the team using roast-as-a-service."
+    },
+    {
+      "name": "loragent-vidman",
+      "slug": "vidman",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/vidman/SKILL.md",
+      "category": "media",
+      "formation": "freelance",
+      "description": "Generates prompts and scripts for marketing reels and video content."
+    },
+    {
+      "name": "loragent-inspector",
+      "slug": "inspector",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/inspector/SKILL.md",
+      "category": "monitoring",
+      "formation": "chela",
+      "description": "Uses git blame/git log to find the exact culprit of a bug and generates RCA (Root Cause Analysis) reports."
+    },
+    {
+      "name": "loragent-performance-analyser",
+      "slug": "performance-analyser",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/performance-analyser/SKILL.md",
+      "category": "monitoring",
+      "formation": "freelance",
+      "description": "Deep-dive bottleneck profiling."
+    },
+    {
+      "name": "loragent-project-overviewer",
+      "slug": "project-overviewer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/project-overviewer/SKILL.md",
+      "category": "monitoring",
+      "formation": "freelance",
+      "description": "Generates high-level project state summaries."
+    },
+    {
+      "name": "loragent-watchman",
+      "slug": "watchman",
+      "type": "core",
+      "source": "native",
+      "path": "agents/watchman/SKILL.md",
+      "category": "monitoring",
+      "formation": "all",
+      "description": "Watches the system. Maintains an orchestration graph and execution cache to allow uninterrupted recovery and context mapping for all agents."
+    },
+    {
+      "name": "loragent-isp-man",
+      "slug": "isp-man",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/isp-man/SKILL.md",
+      "category": "network",
+      "formation": "freelance",
+      "description": "Network, IP, Port, and DNS routing specialist."
+    },
+    {
+      "name": "loragent-localization-expert",
+      "slug": "localization-expert",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/localization-expert/SKILL.md",
+      "category": "network",
+      "formation": "freelance",
+      "description": "i18n, l10n, and multi-language support mapping."
+    },
+    {
+      "name": "loragent-responsive-system-designer",
+      "slug": "responsive-system-designer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/responsive-system-designer/SKILL.md",
+      "category": "network",
+      "formation": "freelance",
+      "description": "Mobile-first layouts and fluid scaling."
+    },
+    {
+      "name": "loragent-boss",
+      "slug": "boss",
+      "type": "core",
+      "source": "native",
+      "path": "agents/boss/SKILL.md",
+      "category": "orchestration",
+      "formation": "all",
+      "description": "The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs."
+    },
+    {
+      "name": "loragent-project-architect",
+      "slug": "project-architect",
+      "type": "specialist",
+      "source": "lorapok-player",
+      "path": "agents/project-architect/SKILL.md",
+      "category": "orchestration",
+      "formation": "freelance",
+      "description": "Project Architect and Team Lead. Orchestrates the project, assigns tasks to specialized developers, designs architecture, and triages reported bugs. Use proactively for architecture decisions or routi"
+    },
+    {
+      "name": "loragent-project-coordinator",
+      "slug": "project-coordinator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/project-coordinator/SKILL.md",
+      "category": "orchestration",
+      "formation": "office",
+      "description": "Orchestrates project timelines, resource allocation, and dependencies."
+    },
+    {
+      "name": "loragent-project-manager",
+      "slug": "project-manager",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/project-manager/SKILL.md",
+      "category": "orchestration",
+      "formation": "office",
+      "description": "The Project Manager. Breaks down requirements into tasks, creates the /plan, and orchestrates the virtual office workflow."
+    },
+    {
+      "name": "loragent-spidernet",
+      "slug": "spidernet",
+      "type": "core",
+      "source": "native",
+      "path": "agents/spidernet/SKILL.md",
+      "category": "orchestration",
+      "formation": "all",
+      "description": "The Spidernet multi-agent workflow coordinator."
+    },
+    {
+      "name": "loragent-workflow-automation-specialist",
+      "slug": "workflow-automation-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/workflow-automation-specialist/SKILL.md",
+      "category": "orchestration",
+      "formation": "freelance",
+      "description": "n8n, OpenClaw, and low-code orchestrations."
+    },
+    {
+      "name": "loragent-workflow-manager",
+      "slug": "workflow-manager",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/workflow-manager/SKILL.md",
+      "category": "orchestration",
+      "formation": "freelance",
+      "description": "Fine-tunes the physical office flow and handles the logistics of the Hub-and-Spoke model."
+    },
+    {
+      "name": "loragent-delivery-boy",
+      "slug": "delivery-boy",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/delivery-boy/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Carries deployment released products to specific places."
+    },
+    {
+      "name": "loragent-git-release-manager",
+      "slug": "git-release-manager",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/git-release-manager/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Specialized subagent responsible for auditing git branches (`main`, `LLM-Support/GoogleAiStudio-Support`, `git-features-integration`, `ui-polish-and-functionality-improvement`), preparing releases, up"
+    },
+    {
+      "name": "loragent-loragent-dynamic-versioning",
+      "slug": "loragent-dynamic-versioning",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/loragent-dynamic-versioning/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping releases, wiring CI, or Mission Control deploy flows."
+    },
+    {
+      "name": "loragent-publisher",
+      "slug": "publisher",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/publisher/SKILL.md",
+      "category": "publishing",
+      "formation": "office",
+      "description": "Generates publish sites info, texts, articles, images to reach target audience."
+    },
+    {
+      "name": "loragent-release-integrity",
+      "slug": "release-integrity",
+      "type": "specialist",
+      "source": "aswitch-i",
+      "path": "agents/release-integrity/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Audits package versions, GitHub releases, VSIX links, marketplace observations, SEO artifacts, and publishing workflows. Use proactively before releases, marketplace sync, SEO changes, or generated-da"
+    },
+    {
+      "name": "loragent-store-specialist",
+      "slug": "store-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/store-specialist/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Deployment to App Store, Play Store, and Package Managers."
+    },
+    {
+      "name": "loragent-version-bumper",
+      "slug": "version-bumper",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/version-bumper/SKILL.md",
+      "category": "publishing",
+      "formation": "freelance",
+      "description": "Handles version bumping mechanism professionally. Uses LVP for Pro users, and standard SemVer for free users."
+    },
+    {
+      "name": "loragent-bug-hunter",
+      "slug": "bug-hunter",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/bug-hunter/SKILL.md",
+      "category": "quality",
+      "formation": "chela",
+      "description": "The Chela. Most critical problem solver developer. Vibes with devs to fix things."
+    },
+    {
+      "name": "loragent-code-auditor",
+      "slug": "code-auditor",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/code-auditor/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "Specialized subagent responsible for auditing code quality, security vulnerabilities, API syntax compliance, and CommonJS module export consistency across the codebase."
+    },
+    {
+      "name": "loragent-model-auditor",
+      "slug": "model-auditor",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/model-auditor/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "After model/menu/API changes."
+    },
+    {
+      "name": "loragent-pipeline-checker",
+      "slug": "pipeline-checker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/pipeline-checker/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "Validates data and CI pipeline integrity."
+    },
+    {
+      "name": "loragent-sqa",
+      "slug": "sqa",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/sqa/SKILL.md",
+      "category": "quality",
+      "formation": "auto-team",
+      "description": "The Senior QA. Runs automated tests, reviews edge cases, and checks accessibility/security."
+    },
+    {
+      "name": "loragent-sqa-lead",
+      "slug": "sqa-lead",
+      "type": "specialist",
+      "source": "lorapok-player",
+      "path": "agents/sqa-lead/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "High-tech global industry level 20+ years experienced SQA with development background. Use proactively for deep testing, edge-case analysis, finding bugs, and comprehensive test suite generation."
+    },
+    {
+      "name": "loragent-test-sentinel",
+      "slug": "test-sentinel",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/test-sentinel/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "Specialized subagent responsible for test execution, corner-case test expansion, and verifying zero regression across all test suites."
+    },
+    {
+      "name": "loragent-token-auditor",
+      "slug": "token-auditor",
+      "type": "specialist",
+      "source": "lorapok-ai-agent",
+      "path": "agents/token-auditor/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "Specialized subagent responsible for auditing token consumption, context payload efficiency, and enforcing token conservation rules across agent workflows."
+    },
+    {
+      "name": "loragent-validator",
+      "slug": "validator",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/validator/SKILL.md",
+      "category": "quality",
+      "formation": "freelance",
+      "description": "Deep data and list validation logic."
+    },
+    {
+      "name": "loragent-mathematician",
+      "slug": "mathematician",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/mathematician/SKILL.md",
+      "category": "research",
+      "formation": "freelance",
+      "description": "Advanced mathematics and statistical logic solver."
+    },
+    {
+      "name": "loragent-professor",
+      "slug": "professor",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/professor/SKILL.md",
+      "category": "research",
+      "formation": "freelance",
+      "description": "Conducts deep academic-level reviews and architectural analysis of the entire project."
+    },
+    {
+      "name": "loragent-se-model-specialist",
+      "slug": "se-model-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/se-model-specialist/SKILL.md",
+      "category": "research",
+      "formation": "freelance",
+      "description": "Expert in Software Engineering architectural models (Waterfall, Agile, etc)."
+    },
+    {
+      "name": "loragent-srs-analyzer",
+      "slug": "srs-analyzer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/srs-analyzer/SKILL.md",
+      "category": "research",
+      "formation": "freelance",
+      "description": "Software Requirements Specification analyzer."
+    },
+    {
+      "name": "loragent-thewikiboy",
+      "slug": "thewikiboy",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/thewikiboy/SKILL.md",
+      "category": "research",
+      "formation": "freelance",
+      "description": "Deep-dive researcher for scraping and finding all data/sources."
+    },
+    {
+      "name": "loragent-accounts-specialist",
+      "slug": "accounts-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/accounts-specialist/SKILL.md",
+      "category": "security",
+      "formation": "freelance",
+      "description": "Credentials Manager. Safely handles tokens and sensitive info using the secure-cred-vault standard."
+    },
+    {
+      "name": "loragent-admin-reliability",
+      "slug": "admin-reliability",
+      "type": "specialist",
+      "source": "aswitch-i",
+      "path": "agents/admin-reliability/SKILL.md",
+      "category": "security",
+      "formation": "freelance",
+      "description": "Debugs and reviews the admin React SPA, Vitest setup, API middleware, Firebase auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issu"
+    },
+    {
+      "name": "loragent-authentication-engineer",
+      "slug": "authentication-engineer",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/authentication-engineer/SKILL.md",
+      "category": "security",
+      "formation": "freelance",
+      "description": "Enterprise Auth, OAuth, and JWT workflows."
+    },
+    {
+      "name": "loragent-governance-guard",
+      "slug": "governance-guard",
+      "type": "specialist",
+      "source": "aswitch-i",
+      "path": "agents/governance-guard/SKILL.md",
+      "category": "security",
+      "formation": "freelance",
+      "description": "Audits AGENTS.md, Cursor rules, project skills, hooks, MCP configuration, Husky, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, agents, hooks, skills, ru"
+    },
+    {
+      "name": "loragent-workspace-guard",
+      "slug": "workspace-guard",
+      "type": "core",
+      "source": "native",
+      "path": "agents/workspace-guard/SKILL.md",
+      "category": "security",
+      "formation": "all",
+      "description": "Security enforcer that prevents unauthorized deletions or destructive commands."
+    },
+    {
+      "name": "loragent-seo",
+      "slug": "seo",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/seo/SKILL.md",
+      "category": "seo",
+      "formation": "freelance",
+      "description": ">-"
+    },
+    {
+      "name": "loragent-seo-specialist",
+      "slug": "seo-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/seo-specialist/SKILL.md",
+      "category": "seo",
+      "formation": "freelance",
+      "description": "Search Engine Optimization specialist."
+    },
+    {
+      "name": "loragent-cli-automation-maker",
+      "slug": "cli-automation-maker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cli-automation-maker/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Builds internal CLI tools and bash automations."
+    },
+    {
+      "name": "loragent-cli-utilities-specialist",
+      "slug": "cli-utilities-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cli-utilities-specialist/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Builds and optimizes command-line tools."
+    },
+    {
+      "name": "loragent-command-executor",
+      "slug": "command-executor",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/command-executor/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Specialized agent that runs terminal commands across any ecosystem (Node, Python, Docker) safely interpreting output."
+    },
+    {
+      "name": "loragent-env-maker",
+      "slug": "env-maker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/env-maker/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Config specialist for env, CMake, and CNAME."
+    },
+    {
+      "name": "loragent-package-expert",
+      "slug": "package-expert",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/package-expert/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Professional Package JSON Writer and strict metadata enforcer."
+    },
+    {
+      "name": "loragent-package-maker",
+      "slug": "package-maker",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/package-maker/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Scaffolds NPM, Pip, and Composer packages."
+    },
+    {
+      "name": "loragent-repo-repair",
+      "slug": "repo-repair",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/repo-repair/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Performs a structured repository repair across tests, runtime paths, generated release data, CI, SEO, and governance. Use when fixing broad regressions, release drift, or requests involving agents, ho"
+    },
+    {
+      "name": "loragent-scaffold",
+      "slug": "scaffold",
+      "type": "specialist",
+      "source": "ide-skills",
+      "path": "agents/scaffold/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Generate deployment-ready infrastructure code from an architecture plan, verify it with adversarial self-review, and bridge to validation — all without deploying."
+    },
+    {
+      "name": "loragent-tools-specialist",
+      "slug": "tools-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/tools-specialist/SKILL.md",
+      "category": "tools",
+      "formation": "freelance",
+      "description": "Tooling & Package Expert. Suggests optimal packages and provides robust installation mechanics."
+    }
+  ]
+};

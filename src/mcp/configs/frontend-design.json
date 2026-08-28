@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "frontend-design": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/frontend-design-mcp"]
+    }
+  }
+}

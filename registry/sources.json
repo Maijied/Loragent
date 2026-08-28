@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "id": "global_cursor",
+      "type": "global",
+      "path": "{ide_global_agents}",
+      "enabled": true
+    },
+    {
+      "id": "local_project",
+      "type": "local",
+      "path": ".agents",
+      "enabled": true
+    }
+  ]
+}

@@ -1,3 +1,16 @@
+---
+name: rules
+description: The following rules represent the immutable core directives for the Loragent ecosystem. All 108 constituent agents are bound by these enterprise protocols to ensure maximum efficiency, security, and scalability.
+---
+
+# 🤖 rules
+
+> [!NOTE]
+> **Lorapok Labs Official Asset**
+> This asset is compatible with all LLDP-supported AI IDEs.
+
+## 📖 Overview
+
 # Loragent - Enterprise Orchestration & Autonomous Self-Improvement Protocol
 
 The following rules represent the immutable core directives for the Loragent ecosystem. All 108 constituent agents are bound by these enterprise protocols to ensure maximum efficiency, security, and scalability.
@@ -43,3 +56,4 @@ Loragent exposes advanced routing directives. The `loragent-watchman` maintains 
 ## 7. Global Debugging & Orchestration Graph
 - **Orchestration Mapping**: The `loragent-watchman` persistently updates a real-time structural map and active error state matrix at `.loragent-debug/orchestration-graph.json`.
 - **First-Step Debugging Directive**: Before attempting anomaly resolution, agents MUST parse `.loragent-debug/orchestration-graph.json` to extract exact file paths and error telemetry. Heuristic guessing of file locations is strictly forbidden.
+

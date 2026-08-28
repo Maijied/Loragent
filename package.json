@@ -19,9 +19,9 @@
   "company": {
     "name": "Lorapok Labs",
     "email": "lorapokdev@gmail.com",
-    "supportEmail": "cursor-contact@lorapok.tech",
+    "supportEmail": "hello@lorapok.tech",
     "website": "https://lorapok.tech",
-    "adminUrl": "https://cursor-dev.lorapok.tech"
+    "adminUrl": "https://mission-control.lorapok.tech"
   },
   "main": "./face/cli/index.js",
   "bin": {
@@ -31,8 +31,13 @@
   },
   "scripts": {
     "start": "node ./face/cli/index.js",
-    "sync-rules": "node scripts/sync-editor-rules.js",
-    "postinstall": "npm run sync-rules"
+    "sync-rules": "node scripts/universal-sync.js",
+    "sync": "node scripts/universal-sync.js",
+    "postinstall": "npm run sync",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "test": "node --test"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

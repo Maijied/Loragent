@@ -79,15 +79,15 @@ def main():
                 f.write(rule_content)
             print('Created AGENTS.md with Loragent rules')
 
+    print("\n=========================================")
+    print("        Loragent MCP Server Setup          ")
+    print("=========================================")
+    print("To enable dynamic steering, hooks, and state management,")
+    print("add the Loragent MCP server to your AI IDE config.")
+    print(f"Command: node {os.path.join(package_root, 'src', 'mcp', 'server.js')}")
+    print("=========================================\n")
+
     print('Installation Complete. Your Virtual Office is ready.')
 
 if __name__ == '__main__':
     main()
-
-print("\n=========================================")
-print("        Loragent MCP Server Setup          ")
-print("=========================================")
-print("To enable dynamic steering, hooks, and state management,")
-print("add the Loragent MCP server to your AI IDE config.")
-print("Command: node /mnt/NewVolume/Personal_Projects/loragent/src/mcp/server.js")
-print("=========================================\n")

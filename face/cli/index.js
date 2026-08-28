@@ -27,4 +27,38 @@ program
     import('../../port/mcp/server.js');
   });
 
+import { getPin } from '../../src/lore/auth/pin-manager.js';
+
+program
+  .command('get-pin', { hidden: true })
+  .description('Internal command to resolve vault PIN')
+  .action(async () => {
+    const pin = await getPin(false);
+    if (pin) {
+      process.stdout.write(pin);
+    }
+  });
+
+import createCmd from './commands/create.js';
+import syncCmd from './commands/sync.js';
+import listCmd from './commands/list.js';
+import sourceCmd from './commands/source.js';
+import installCmd from './commands/install.js';
+import analyzeCmd from './commands/analyze.js';
+import discoverCmd from './commands/discover.js';
+import publishCmd from './commands/publish.js';
+
+import mcpCmd from './commands/mcp.js';
+
+// Register all new commands
+createCmd(program);
+syncCmd(program);
+listCmd(program);
+sourceCmd(program);
+installCmd(program);
+analyzeCmd(program);
+discoverCmd(program);
+publishCmd(program);
+mcpCmd(program);
+
 program.parse(process.argv);

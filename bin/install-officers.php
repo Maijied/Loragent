@@ -64,4 +64,4 @@ if (file_exists($rulesFile)) {
 
 echo "Installation Complete. Your Virtual Office is ready.\n";
 
-echo "\n=========================================\n        Loragent MCP Server Setup          \n=========================================\nTo enable dynamic steering, hooks, and state management,\nadd the Loragent MCP server to your AI IDE config.\nCommand: node /mnt/NewVolume/Personal_Projects/loragent/src/mcp/server.js\n=========================================\n";
+echo "\n=========================================\n        Loragent MCP Server Setup          \n=========================================\nTo enable dynamic steering, hooks, and state management,\nadd the Loragent MCP server to your AI IDE config.\nCommand: node {$packageRoot}/src/mcp/server.js\n=========================================\n";
