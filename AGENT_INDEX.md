@@ -2,7 +2,7 @@
 
 > The Master Catalog of all AI agents in the Lorapok Mega-Agency ecosystem.
 
-> **165 agents** across **22 categories** | 113 native + 52 imported
+> **167 agents** across **22 categories** | 115 native + 52 imported
 
 ---
 
@@ -10,10 +10,10 @@
 
 | Metric | Count |
 |--------|-------|
-| **Total Agents** | 165 |
+| **Total Agents** | 167 |
 | Core Operations | 5 |
-| Specialists | 160 |
-| Native | 113 |
+| Specialists | 162 |
+| Native | 115 |
 | Imported | 52 |
 
 ### Formation Breakdown
@@ -22,7 +22,7 @@
 |-----------|--------|
 | 🟢 Auto Team | 6 |
 | 🏢 Office | 9 |
-| 🔧 Freelance | 140 |
+| 🔧 Freelance | 142 |
 | 🔴 Chela | 5 |
 | ⭐ All | 5 |
 
@@ -145,7 +145,7 @@
 | 🔹 `loragent-freqghost-source-management` | specialist | freqghost | freelance | Add, configure, and manage SceneSource implementations — the central abstraction |
 | 🔹 `loragent-freqghost-verification` | specialist | freqghost | freelance | Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure |
 
-### 📦 General (33)
+### 📦 General (35)
 
 | Agent | Type | Source | Formation | Description |
 |-------|------|--------|-----------|-------------|
@@ -155,6 +155,8 @@
 | 🔹 `loragent-apple-ecosystem-expert` | specialist | native | freelance | macOS, iOS, Swift, and Apple ecosystem authority. |
 | 🔹 `loragent-architect-designer` | specialist | native | freelance | Works alongside the Tech Director to map out complex system architectures visual |
 | 🔹 `loragent-auditor` | specialist | native | freelance | Security and code compliance auditing. |
+| 🔹 `loragent-chorki` | specialist | native | freelance | The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and execu |
+| 🔹 `loragent-cicd-specialist` | specialist | native | freelance | Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and opti |
 | 🔹 `loragent-debugger` | specialist | native | chela | Dedicated step-through and stack-trace debugger. |
 | 🔹 `loragent-garbage-collector` | specialist | native | freelance | Identifies and removes unused code, dead files, and unnecessary dependencies. |
 | 🔹 `loragent-git-specialist` | specialist | native | chela | Advanced version control, rebasing, and merge conflict resolution. |
@@ -307,4 +309,4 @@
 
 ---
 
-*Generated: 2026-08-28T21:10:58.655Z | Version: 1.0.0*
+*Generated: 2026-08-28T22:36:41.934Z | Version: 1.0.0*

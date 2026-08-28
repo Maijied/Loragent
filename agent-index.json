@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
-  "generated": "2026-08-28T21:10:58.655Z",
+  "generated": "2026-08-28T22:36:41.934Z",
   "ecosystem": "Loragent by Lorapok Labs",
   "statistics": {
-    "totalAgents": 165,
+    "totalAgents": 167,
     "coreAgents": 5,
-    "specialists": 160,
-    "nativeAgents": 113,
+    "specialists": 162,
+    "nativeAgents": 115,
     "importedAgents": 52,
     "categories": 22,
     "formations": {
       "auto-team": 6,
       "office": 9,
-      "freelance": 140,
+      "freelance": 142,
       "chela": 5,
       "all": 5
     }
@@ -809,6 +809,26 @@
       "category": "general",
       "formation": "freelance",
       "description": "Security and code compliance auditing."
+    },
+    {
+      "name": "loragent-chorki",
+      "slug": "chorki",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/chorki/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and executes multi-step objectives until 100% verifiably completed using continuous check-done verification hooks."
+    },
+    {
+      "name": "loragent-cicd-specialist",
+      "slug": "cicd-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/cicd-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and optimizes multi-target deployment pipelines (GitHub Actions, Cloudflare, Docker, NPM, PyPI, Composer, AMO, Open VSX)."
     },
     {
       "name": "loragent-debugger",

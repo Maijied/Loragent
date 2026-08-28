@@ -1,0 +1,29 @@
+# Node / Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Builds & Outputs
+dist/
+out/
+.next/
+build/
+
+# Loragent Runtime & Caches
+.loragent/
+.loragent-debug/
+
+# Local Wiki details (as per project directive)
+WIKI.md
+WIKI_DETAILS.md
+wiki/
+.wiki/
+
+# Environment & Secrets
+.env
+.env*.local
+*.pem
+*.key
+credentials.json

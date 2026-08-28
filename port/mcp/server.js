@@ -58,25 +58,49 @@ server.tool(
 // Tool: loragent_trigger_hook
 server.tool(
     "loragent_trigger_hook",
-    "Trigger local workspace lifecycle hooks like pre-commit or deploy-retry.",
+    "Trigger local workspace lifecycle hooks like pre-commit, deploy-retry, or check-done.",
     {
-        hookName: z.string().describe("The name of the hook to trigger (e.g., pre-commit, deploy-retry)")
+        hookName: z.string().describe("The name of the hook to trigger (e.g., pre-commit, deploy-retry, check-done)")
     },
     async ({ hookName }) => {
-        // Example implementation checking for a hook script
-        const hookPath = path.join(process.cwd(), '.agents', 'hooks', `${hookName}.sh`);
-        if (fs.existsSync(hookPath)) {
-            return {
-                content: [{
-                    type: "text",
-                    text: `Triggered hook ${hookName} successfully.`
-                }]
-            };
+        const { execSync } = await import('child_process');
+        const shPath = path.join(process.cwd(), '.agents', 'hooks', `${hookName}.sh`);
+        const jsPath = path.join(process.cwd(), '.agents', 'hooks', `${hookName}.js`);
+        
+        let targetScript = null;
+        let command = '';
+
+        if (fs.existsSync(jsPath)) {
+            targetScript = jsPath;
+            command = `node "${jsPath}"`;
+        } else if (fs.existsSync(shPath)) {
+            targetScript = shPath;
+            command = `bash "${shPath}"`;
+        }
+
+        if (targetScript) {
+            try {
+                const output = execSync(command, { encoding: 'utf8' });
+                return {
+                    content: [{
+                        type: "text",
+                        text: `✅ Hook '${hookName}' executed successfully:\n\n${output}`
+                    }]
+                };
+            } catch (err) {
+                return {
+                    isError: true,
+                    content: [{
+                        type: "text",
+                        text: `❌ Hook '${hookName}' execution failed:\n\n${err.stdout || ''}\n${err.stderr || err.message}`
+                    }]
+                };
+            }
         }
         return {
             content: [{
                 type: "text",
-                text: `Hook ${hookName} not found at ${hookPath}. However, the request was registered.`
+                text: `Hook '${hookName}' registered (no local script found at .agents/hooks/${hookName}.[sh|js]).`
             }]
         };
     }
