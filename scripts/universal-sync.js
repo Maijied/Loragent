@@ -69,7 +69,7 @@ for (const mcpFile of mcpPaths) {
 
     config.mcpServers["loragent"] = LORAGENT_MCP;
     config.mcpServers["loragent-cloud"] = {
-      url: "https://loragent-mcp.lorapk-labs.workers.dev/mcp",
+      url: "https://mcp.lorapk-labs.workers.dev/mcp",
       type: "http"
     };
 
