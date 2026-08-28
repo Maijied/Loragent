@@ -6,7 +6,7 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "account_id": "f049faaf2f67549f5c58837479596a4a",
+  "account_id": "26b9a1161cddac39ae8970865a56747c",
   "vars": {
     "ENVIRONMENT": "production",
     "SERVICE_NAME": "Loragent Cloud MCP Server",
