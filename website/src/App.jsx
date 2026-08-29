@@ -302,6 +302,17 @@ const CI_CD_PIPELINE_STAGES = [
   }
 ];
 
+const WORKSPACE_STACKS = [
+  { id: 'all', label: 'All Stacks', icon: Layers },
+  { id: 'react', label: 'React / Next.js', icon: Globe },
+  { id: 'node', label: 'Node / TypeScript', icon: Terminal },
+  { id: 'python', label: 'Python / AI', icon: Cpu },
+  { id: 'go', label: 'Go / Backend', icon: Database },
+  { id: 'cloudflare', label: 'Cloudflare / Edge', icon: Zap },
+  { id: 'devops', label: 'DevOps / CI/CD', icon: GitBranch },
+  { id: 'security', label: 'Security / Zero-Trust', icon: ShieldCheck }
+];
+
 const VAULT_CATEGORIES_DATA = [
   { name: 'pypi', keys: ['token'], role: 'Python Package Index Release Credentials', envVar: 'TWINE_PASSWORD' },
   { name: 'npm', keys: ['main_token', 'deploy_token'], role: 'NPM Public Registry Package Publishing', envVar: 'NPM_TOKEN' },
@@ -485,6 +496,7 @@ export default function App() {
   const [modalItem, setModalItem] = useState(null);
   const [installScope, setInstallScope] = useState('project');
   const [modalCopied, setModalCopied] = useState(false);
+  const [selectedStackFilter, setSelectedStackFilter] = useState('all');
 
   // Workflow Simulator State
   const [selectedScenarioId, setSelectedScenarioId] = useState('auto-team');
@@ -620,9 +632,22 @@ cost_tier: low
       const matchesFormation = selectedFormationFilter === 'all' || item.formation === selectedFormationFilter;
       const matchesLayer = selectedLayerFilter === 'all' || item.layer === selectedLayerFilter;
 
-      return matchesSearch && matchesType && matchesCategory && matchesFormation && matchesLayer;
+      const matchesStack = selectedStackFilter === 'all' || (() => {
+        const query = selectedStackFilter.toLowerCase();
+        const text = `${item.name || ''} ${item.description || ''} ${item.slug || ''} ${(item.tags || []).join(' ')} ${(item.category || '')}`.toLowerCase();
+        if (query === 'react') return text.includes('react') || text.includes('next') || text.includes('frontend') || text.includes('tailwind') || text.includes('ui');
+        if (query === 'node') return text.includes('node') || text.includes('typescript') || text.includes('javascript') || text.includes('npm');
+        if (query === 'python') return text.includes('python') || text.includes('ai') || text.includes('ml') || text.includes('pypi') || text.includes('agent');
+        if (query === 'go') return text.includes('go') || text.includes('golang') || text.includes('backend') || text.includes('api');
+        if (query === 'cloudflare') return text.includes('cloudflare') || text.includes('wrangler') || text.includes('worker') || text.includes('edge') || text.includes('mcp');
+        if (query === 'devops') return text.includes('deploy') || text.includes('docker') || text.includes('ci') || text.includes('cd') || text.includes('git');
+        if (query === 'security') return text.includes('vault') || text.includes('guard') || text.includes('auth') || text.includes('cred') || text.includes('security');
+        return true;
+      })();
+
+      return matchesSearch && matchesType && matchesCategory && matchesFormation && matchesLayer && matchesStack;
     });
-  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter]);
+  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter, selectedStackFilter]);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const displayedItems = useMemo(() => {
@@ -1043,6 +1068,52 @@ cost_tier: low
 
           {/* Search & Filter Bar */}
           <div className="glass-card" style={{ padding: '1.25rem', marginBottom: '2rem', width: '100%' }}>
+            {/* Workspace Relevance Quick Stacks (Kilo Marketplace Standard) */}
+            <div style={{ marginBottom: '1rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Layers size={13} color="#00FF41" />
+                  <span>WORKSPACE RELEVANCE & STACK PRESETS:</span>
+                </span>
+                <span style={{ fontSize: '0.7rem', color: '#00FF41', fontFamily: 'monospace' }}>
+                  {filteredItems.length} matching asset{filteredItems.length === 1 ? '' : 's'}
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {WORKSPACE_STACKS.map((st) => {
+                  const Icon = st.icon;
+                  const isActive = selectedStackFilter === st.id;
+                  return (
+                    <button
+                      key={st.id}
+                      onClick={() => {
+                        setSelectedStackFilter(st.id);
+                        setCurrentPage(1);
+                      }}
+                      style={{
+                        padding: '5px 10px',
+                        borderRadius: '6px',
+                        fontSize: '0.72rem',
+                        fontFamily: 'monospace',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        transition: 'all 0.2s',
+                        background: isActive ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255,255,255,0.03)',
+                        border: `1px solid ${isActive ? '#00FF41' : 'rgba(255,255,255,0.08)'}`,
+                        color: isActive ? '#00FF41' : '#cbd5e1',
+                        fontWeight: isActive ? 'bold' : 'normal'
+                      }}
+                    >
+                      <Icon size={12} />
+                      <span>{st.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
               <div style={{ position: 'relative', flex: '1 1 300px' }}>
                 <Search size={16} color="#64748b" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
@@ -1628,55 +1699,218 @@ cost_tier: low
         </div>
       )}
 
-      {/* ─── AGENT CONTRACT DETAIL MODAL ─── */}
+      {/* ─── AGENT CONTRACT DETAIL MODAL (Kilo Marketplace Standard) ─── */}
       {modalItem && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 110, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-          <div className="glass-card" style={{ maxWidth: '640px', width: '100%', maxHeight: '85vh', overflowY: 'auto', padding: '2rem', borderColor: 'var(--border-neon)' }}>
+          <div className="glass-card" style={{ maxWidth: '680px', width: '100%', maxHeight: '88vh', overflowY: 'auto', padding: '2rem', borderColor: 'var(--border-neon)', boxShadow: '0 0 40px rgba(0,255,65,0.15)' }}>
+            
+            {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
               <div>
-                <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0, 255, 65, 0.1)', padding: '2px 8px', borderRadius: '4px', marginRight: '6px' }}>
-                  {modalItem.type}
-                </span>
-                <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00F3FF' }}>
-                  Formation: {modalItem.formation || 'auto'}
-                </span>
-                <h3 style={{ fontSize: '1.4rem', fontWeight: '800', color: '#fff', marginTop: '8px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0, 255, 65, 0.1)', border: '1px solid rgba(0, 255, 65, 0.3)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                    {modalItem.type || 'agent'}
+                  </span>
+                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.1)', border: '1px solid rgba(0, 243, 255, 0.3)', padding: '2px 8px', borderRadius: '4px' }}>
+                    Formation: {modalItem.formation || 'auto'}
+                  </span>
+                  {modalItem.layer && (
+                    <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#a855f7', background: 'rgba(168, 85, 247, 0.1)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '2px 8px', borderRadius: '4px' }}>
+                      Layer: {modalItem.layer}
+                    </span>
+                  )}
+                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#94a3b8', background: 'rgba(255, 255, 255, 0.05)', padding: '2px 8px', borderRadius: '4px' }}>
+                    Category: {modalItem.category || 'Engineering'}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fff', margin: '4px 0' }}>
                   {modalItem.name}
                 </h3>
+                <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>
+                  Canonical Identifier: <span style={{ color: '#cbd5e1' }}>{modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}</span>
+                </div>
               </div>
-              <button onClick={() => setModalItem(null)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
-                <X size={20} />
+              <button onClick={() => setModalItem(null)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}>
+                <X size={22} />
               </button>
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-              {modalItem.description}
-            </p>
+            {/* Description & Objective */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '4px', textTransform: 'uppercase' }}>Description</div>
+              <p style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '12px' }}>
+                {modalItem.description}
+              </p>
+            </div>
 
-            <div style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 'bold' }}>CLI Summon Command:</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <code style={{ fontSize: '0.85rem', color: '#00FF41', fontFamily: 'monospace' }}>
-                  {getInstallCommand(modalItem, installScope)}
-                </code>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(getInstallCommand(modalItem, installScope));
-                    setModalCopied(true);
-                    setTimeout(() => setModalCopied(false), 2000);
-                  }}
-                  className="btn-primary"
-                  style={{ padding: '4px 10px', fontSize: '0.72rem' }}
-                >
-                  {modalCopied ? <Check size={12} /> : <Copy size={12} />}
-                  <span>{modalCopied ? 'Copied' : 'Copy'}</span>
-                </button>
+            {modalItem.objective && (
+              <div style={{ marginBottom: '1.25rem' }}>
+                <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41', marginBottom: '4px', textTransform: 'uppercase' }}>Primary Objective & Scope</div>
+                <p style={{ fontSize: '0.82rem', color: '#86efac', lineHeight: '1.5', background: 'rgba(0, 255, 65, 0.04)', border: '1px solid rgba(0, 255, 65, 0.2)', borderRadius: '8px', padding: '10px 12px' }}>
+                  {modalItem.objective}
+                </p>
+              </div>
+            )}
+
+            {/* Allowed Tools & Connectors Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px', marginBottom: '1.25rem' }}>
+              <div>
+                <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '6px', textTransform: 'uppercase' }}>
+                  Allowed Tools ({modalItem.allowedTools?.length || 2})
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '8px', minHeight: '42px' }}>
+                  {(modalItem.allowedTools || ['loragent_exec_cli', 'loragent_steer']).map((tool, idx) => (
+                    <span key={idx} style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#cbd5e1', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '6px', textTransform: 'uppercase' }}>
+                  Connectors & Mesh
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '8px', minHeight: '42px' }}>
+                  {(modalItem.connectors || ['loragent-core', 'titi-vault', 'watchman']).map((conn, idx) => (
+                    <span key={idx} style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.08)', border: '1px solid rgba(0, 243, 255, 0.2)', padding: '2px 6px', borderRadius: '4px' }}>
+                      {conn}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button onClick={() => setModalItem(null)} className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.82rem' }}>
+            {/* Scope Selector: [ Project ] vs [ Global ] (Kilo Feature) */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontSize: '0.8rem', fontFamily: 'monospace', color: '#fff', fontWeight: 'bold', marginBottom: '8px' }}>
+                Where should this asset be installed?
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setInstallScope('project')}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    fontSize: '0.8rem',
+                    fontFamily: 'monospace',
+                    fontWeight: installScope === 'project' ? 'bold' : 'normal',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    background: installScope === 'project' ? '#00FF41' : 'rgba(255,255,255,0.03)',
+                    color: installScope === 'project' ? '#000' : '#cbd5e1',
+                    border: `1px solid ${installScope === 'project' ? '#00FF41' : 'rgba(255,255,255,0.1)'}`,
+                    boxShadow: installScope === 'project' ? '0 0 15px rgba(0,255,65,0.3)' : 'none'
+                  }}
+                >
+                  📁 Project Scope (.agents/)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInstallScope('global')}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    fontSize: '0.8rem',
+                    fontFamily: 'monospace',
+                    fontWeight: installScope === 'global' ? 'bold' : 'normal',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    background: installScope === 'global' ? '#a855f7' : 'rgba(255,255,255,0.03)',
+                    color: installScope === 'global' ? '#fff' : '#cbd5e1',
+                    border: `1px solid ${installScope === 'global' ? '#a855f7' : 'rgba(255,255,255,0.1)'}`,
+                    boxShadow: installScope === 'global' ? '0 0 15px rgba(168,85,247,0.3)' : 'none'
+                  }}
+                >
+                  🌐 Global Scope (~/.gemini/ / ~/.loragent/)
+                </button>
+              </div>
+              <p style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '6px', fontFamily: 'monospace' }}>
+                {installScope === 'project'
+                  ? '• Project scope: Installed in this project (.agents/skills/); can be committed to git and shared with your team.'
+                  : '• Global scope: Available across all your local workspaces, Antigravity, Claude Code, Cursor, and Windsurf sessions.'}
+              </p>
+            </div>
+
+            {/* Installation Destination Preview */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '4px' }}>Installation Destination Path:</div>
+              <div style={{ padding: '8px 12px', borderRadius: '8px', background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'monospace', fontSize: '0.76rem', color: '#00F3FF' }}>
+                {installScope === 'project' 
+                  ? `./.agents/skills/${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}/SKILL.md`
+                  : `~/.gemini/config/skills/${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}/SKILL.md`}
+              </div>
+            </div>
+
+            {/* Security Warning Notice */}
+            <div style={{ marginBottom: '1.25rem', padding: '10px 14px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)', fontSize: '0.74rem', color: '#fef3c7', fontFamily: 'monospace', lineHeight: '1.5' }}>
+              🔒 Zero-Trust Vault Protection: Injected API credentials are AES-256 encrypted in memory via TiTi Vault. Destructive operations are strictly intercepted and blocked by loragent-workspace-guard.
+            </div>
+
+            {/* Slash Directive Box */}
+            <div style={{ marginBottom: '1rem', background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace', marginRight: '8px' }}>Slash Directive:</span>
+                <code style={{ fontSize: '0.82rem', color: '#00F3FF', fontFamily: 'monospace', fontWeight: 'bold' }}>
+                  /loragent:{modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}
+                </code>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`/loragent:${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}`);
+                  setModalCopied(true);
+                  setTimeout(() => setModalCopied(false), 2000);
+                }}
+                className="btn-secondary"
+                style={{ padding: '3px 8px', fontSize: '0.7rem' }}
+                title="Copy slash directive"
+              >
+                {modalCopied ? <Check size={11} color="#00FF41" /> : <Copy size={11} />}
+              </button>
+            </div>
+
+            {/* CLI Instant Install Box */}
+            <div style={{ marginBottom: '1.5rem', background: '#04070a', border: '1px solid rgba(0,255,65,0.25)', borderRadius: '8px', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
+              <div style={{ overflow: 'hidden' }}>
+                <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace', display: 'block', marginBottom: '2px' }}>CLI Instant Install Runner:</span>
+                <code style={{ fontSize: '0.85rem', color: '#00FF41', fontFamily: 'monospace', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
+                  {getInstallCommand(modalItem, installScope)}
+                </code>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(getInstallCommand(modalItem, installScope));
+                  setModalCopied(true);
+                  setTimeout(() => setModalCopied(false), 2000);
+                }}
+                className="btn-primary"
+                style={{ padding: '6px 12px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
+              >
+                {modalCopied ? <Check size={13} /> : <Copy size={13} />}
+                <span>{modalCopied ? 'Copied' : 'Copy'}</span>
+              </button>
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <button onClick={() => setModalItem(null)} className="btn-secondary" style={{ padding: '8px 18px', fontSize: '0.82rem' }}>
                 Close
+              </button>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(getInstallCommand(modalItem, installScope));
+                  setModalCopied(true);
+                  setTimeout(() => {
+                    setModalCopied(false);
+                    setModalItem(null);
+                  }, 800);
+                }}
+                className="btn-primary"
+                style={{ padding: '8px 20px', fontSize: '0.82rem' }}
+              >
+                <Check size={14} />
+                <span>{modalCopied ? 'Copied Command!' : 'Copy Install Command'}</span>
               </button>
             </div>
           </div>
