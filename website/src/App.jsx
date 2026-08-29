@@ -746,26 +746,57 @@ export default function App() {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto">
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mb-10">
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center hover:border-emerald-500/30 transition-colors">
               <div className="text-2xl font-bold font-mono text-emerald-400 mb-0.5">224</div>
               <div className="text-xs font-medium text-slate-300 font-mono">Autonomous Agents</div>
               <div className="text-[10px] text-slate-500 mt-0.5">LLDP v2.0 Standard</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center hover:border-cyan-500/30 transition-colors">
               <div className="text-2xl font-bold font-mono text-cyan-400 mb-0.5">6</div>
               <div className="text-xs font-medium text-slate-300 font-mono">Squad Formations</div>
               <div className="text-[10px] text-slate-500 mt-0.5">Auto, Chela, Office, etc.</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center hover:border-purple-500/30 transition-colors">
               <div className="text-2xl font-bold font-mono text-purple-400 mb-0.5">20</div>
               <div className="text-xs font-medium text-slate-300 font-mono">Edge MCP Servers</div>
               <div className="text-[10px] text-slate-500 mt-0.5">Cloudflare Worker Mesh</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center hover:border-amber-500/30 transition-colors">
               <div className="text-2xl font-bold font-mono text-amber-400 mb-0.5">100%</div>
               <div className="text-xs font-medium text-slate-300 font-mono">TiTi Vault Enclave</div>
               <div className="text-[10px] text-slate-500 mt-0.5">Zero Plaintext Secrets</div>
+            </div>
+          </div>
+
+          {/* Hero Visual Banner & Sensory Computing Showcase */}
+          <div className="max-w-4xl mx-auto rounded-3xl border border-white/15 overflow-hidden shadow-[0_0_80px_rgba(0,255,65,0.12)] relative group bg-[#020509]">
+            <div className="relative aspect-[21/9] sm:aspect-[2.4/1] w-full overflow-hidden bg-slate-950">
+              <img 
+                src="/assets/loragent-hero-banner.jpg" 
+                alt="Loragent Sensory Computing Visual Architecture" 
+                className="w-full h-full object-cover object-center opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/40 to-transparent" />
+              
+              {/* Overlay Status Badges */}
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 text-xs font-mono text-white">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>HUB-AND-SPOKE DYNAMIC MESH</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-mono font-bold">
+                    ACTIVE: loragent-boss
+                  </span>
+                  <span className="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[11px] font-mono font-bold">
+                    LEARNING: loragent-student
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1234,20 +1265,32 @@ export default function App() {
               <div
                 key={item.id || item.slug}
                 onClick={() => setModalItem(item)}
-                className="glass-card p-5 rounded-2xl border border-white/10 hover:border-emerald-500/40 transition-all cursor-pointer flex flex-col justify-between group"
+                className="glass-card p-5 rounded-2xl border border-white/10 hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(0,255,65,0.15)] transition-all cursor-pointer flex flex-col justify-between group relative overflow-hidden"
               >
                 <div>
                   <div className="flex justify-between items-start mb-2.5">
-                    <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                      {item.type || 'AGENT'}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-500">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[9px] font-mono uppercase font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                        {item.type || 'AGENT'}
+                      </span>
+                      {item.slug && item.slug.includes('student') && (
+                        <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30 animate-pulse">
+                          LEARNING
+                        </span>
+                      )}
+                      {item.slug && item.slug.includes('boss') && (
+                        <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                          LEAD
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 font-medium">
                       {item.formation || 'auto'}
                     </span>
                   </div>
 
-                  <h4 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors mb-1.5 font-mono">
-                    {item.name}
+                  <h4 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors mb-1.5 font-mono flex items-center justify-between">
+                    <span className="truncate">{item.name}</span>
                   </h4>
 
                   <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
@@ -1271,10 +1314,24 @@ export default function App() {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono text-slate-500">
-                    <span>LLDP v2.0</span>
+                  <div className="flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyCode(`/loragent:${item.slug}`, `card-${item.slug}`);
+                      }}
+                      className={`px-2 py-1 rounded-md transition-all flex items-center gap-1 border ${
+                        copied === `card-${item.slug}`
+                          ? 'bg-emerald-500 text-black border-emerald-500 font-bold'
+                          : 'bg-white/5 hover:bg-white/10 text-slate-300 border-white/10'
+                      }`}
+                    >
+                      {copied === `card-${item.slug}` ? <Check size={11} /> : <Copy size={11} />}
+                      <span>{copied === `card-${item.slug}` ? 'Copied' : `/${item.slug}`}</span>
+                    </button>
+
                     <span className="text-emerald-400 group-hover:underline flex items-center gap-1">
-                      <span>Inspect</span>
+                      <span>Install</span>
                       <ChevronRight size={12} />
                     </span>
                   </div>
