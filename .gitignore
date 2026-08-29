@@ -10,6 +10,7 @@ dist/
 out/
 .next/
 build/
+loragent-web/registry/
 
 # Loragent Runtime & Caches
 .loragent/
@@ -28,3 +29,10 @@ WIKI_DETAILS.md
 *.pem
 *.key
 credentials.json
+
+# TiTi Security Containers & Obfuscation
+.local_plain_backup
+*.local.js
+*.plain.js
+*.titi.enc
+.recovery.key

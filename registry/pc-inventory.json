@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-08-29T13:01:57.339Z",
+  "timestamp": "2026-08-29T13:28:02.784Z",
   "platform": "linux",
   "arch": "x64",
   "home": "/home/maizied",
   "summary": {
-    "totalRawSkillsScanned": 4352,
+    "totalRawSkillsScanned": 4355,
     "totalUniqueSkills": 1244,
-    "totalDuplicatesFiltered": 3108,
+    "totalDuplicatesFiltered": 3111,
     "totalMcpServers": 57,
     "totalRules": 238,
     "totalModes": 10
@@ -5782,8 +5782,9 @@
       "displayName": "Amo Publish",
       "category": "engineering",
       "qualityScore": 61,
-      "duplicateCount": 5,
+      "duplicateCount": 6,
       "mirrorLocations": [
+        "/home/maizied/.cursor/skills/loragent-amo-publish/SKILL.md",
         "/home/maizied/.claude/skills/loragent-amo-publish/SKILL.md",
         "/home/maizied/.agents/skills/loragent-amo-publish/SKILL.md",
         "/home/maizied/.skills/loragent-amo-publish/SKILL.md",
@@ -10004,6 +10005,32 @@
       ]
     },
     {
+      "name": "loragent-cloudflare-mail-master",
+      "path": "/home/maizied/.cursor/skills/loragent-cloudflare-mail-master/SKILL.md",
+      "description": "Branded outbound mail for Lorapok Cloudflare Email Sending — transport priority, credential split, relay worker, and Mission Control mailbox. Use when fixing mail delivery, enable-mail scripts, or template changes.",
+      "formation": "auto",
+      "layer": "cross",
+      "version": "2.0.0",
+      "tags": [],
+      "allowed_tools": [],
+      "connectors": [],
+      "fm": {
+        "name": "loragent-cloudflare-mail-master",
+        "description": "Branded outbound mail for Lorapok Cloudflare Email Sending — transport priority, credential split, relay worker, and Mission Control mailbox. Use when fixing mail delivery, enable-mail scripts, or template changes."
+      },
+      "body": "# Loragent Cloudflare Mail Master (CCM)\n\nOutbound mail for Cursor Curse Monitor uses Lorapok-branded HTML templates and a strict transport + credential policy.\n\n## From addresses\n\n| Address | Use |\n|---------|-----|\n| `cursor.monitor@lorapok.tech` | Product mail (subscribe, invite, compose) |\n| `cursor.curse.help@lorapok.tech` | Help / support replies |\n\nDomain: `lorapok.tech` (Cloudflare Email Sending).\n\n## Transport priority\n\n1. **`ccm-mail-relay` Worker** — Pages service binding → `send_email` (preferred; no REST token at runtime)\n2. Cloudflare `EMAIL` binding (Workers only)\n3. Cloudflare Email REST API (`CLOUDFLARE_EMAIL_API_TOKEN`)\n4. Resend fallback (`RESEND_API_KEY`)\n\n## Credential split (required)\n\n| Env var | Scope |\n|---------|-------|\n| `CLOUDFLARE_API_TOKEN` | wrangler deploy, Pages, Workers |\n| `CLOUDFLARE_EMAIL_API_TOKEN` | Email Sending REST probes + Pages secret |\n\nLoad via cred vault (see `secure-cred-vault` skill). **Never** fall back from missing email token to deploy token for sends.\n\nImplementation: `website/admin/scripts/lib/mail-credentials.mjs`\n\n## Template categories\n\n| Category | Logo | Trigger |\n|----------|------|---------|\n| `subscribe` | logo-product | Website subscribe |\n| `invite` | logo-product | Team invite |\n| `notice` | logo-notice | Dev notice broadcast |\n| `compose` | logo-product | Mission Control compose |\n| `test` | logo-help | Mailbox test button |\n\nSource: `website/admin/functions/api/_shared/mail-branding.js`, `mail.js`, `scripts/mail-templates.mjs`\n\n## Production pipeline\n\n1. Onboard `lorapok.tech` in Cloudflare Email Sending\n2. One-time: sync cred vault → GitHub `admin-production` secrets\n3. CI `admin-deploy` on `main`:\n   - `enable-mail.mjs` (relay worker + Pages email secret)\n   - `verify-mail-transport.mjs` (fail closed)\n   - `wrangler pages deploy` (activates `MAIL_RELAY` binding)\n\n**Push to main:** mail setup may be skipped to avoid Cloudflare 429 before Pages deploy (see `deploy-retry` helpers).\n\n## Repair (manual)\n\n```bash\nexport CLOUDFLARE_API_TOKEN=\"$(cred get cursor cloudflare_api_token)\"\nexport CLOUDFLARE_EMAIL_API_TOKEN=\"$(cred get cursor cloudflare_email_api_token)\"\nexport CLOUDFLARE_ACCOUNT_ID=\"$(cred get cursor cloudflare_account_id)\"\nnode website/admin/scripts/repair-mail.mjs\n```\n\n## Troubleshooting\n\n| Symptom | Fix |\n|---------|-----|\n| HTTP 401 on send | Email token needs Email Sending → Edit; redeploy after `wrangler pages secret put` |\n| Code 10203 | Enable Email Sending; onboard domain |\n| `cloudflare-rest` health 401 | Missing `MAIL_RELAY` — run `repair-mail.mjs` |\n| CI 429 before deploy | Skip mail on push; use longer pre-cooldown (`deploy-retry.mjs`) |\n\n## Key scripts\n\n```bash\nnode website/admin/scripts/verify-mail-setup.mjs\nnode website/admin/scripts/enable-mail.mjs\nnode website/admin/scripts/repair-mail.mjs\nnode website/admin/scripts/probe-mail-token.mjs\n```\n\nWiki: `docs/wiki/Mailbox-and-Email.md`\n\nGlobal copy: `~/.cursor/skills/loragent-cloudflare-mail-master/SKILL.md`",
+      "raw": "---\nname: loragent-cloudflare-mail-master\ndescription: Branded outbound mail for Lorapok Cloudflare Email Sending — transport priority, credential split, relay worker, and Mission Control mailbox. Use when fixing mail delivery, enable-mail scripts, or template changes.\n---\n\n# Loragent Cloudflare Mail Master (CCM)\n\nOutbound mail for Cursor Curse Monitor uses Lorapok-branded HTML templates and a strict transport + credential policy.\n\n## From addresses\n\n| Address | Use |\n|---------|-----|\n| `cursor.monitor@lorapok.tech` | Product mail (subscribe, invite, compose) |\n| `cursor.curse.help@lorapok.tech` | Help / support replies |\n\nDomain: `lorapok.tech` (Cloudflare Email Sending).\n\n## Transport priority\n\n1. **`ccm-mail-relay` Worker** — Pages service binding → `send_email` (preferred; no REST token at runtime)\n2. Cloudflare `EMAIL` binding (Workers only)\n3. Cloudflare Email REST API (`CLOUDFLARE_EMAIL_API_TOKEN`)\n4. Resend fallback (`RESEND_API_KEY`)\n\n## Credential split (required)\n\n| Env var | Scope |\n|---------|-------|\n| `CLOUDFLARE_API_TOKEN` | wrangler deploy, Pages, Workers |\n| `CLOUDFLARE_EMAIL_API_TOKEN` | Email Sending REST probes + Pages secret |\n\nLoad via cred vault (see `secure-cred-vault` skill). **Never** fall back from missing email token to deploy token for sends.\n\nImplementation: `website/admin/scripts/lib/mail-credentials.mjs`\n\n## Template categories\n\n| Category | Logo | Trigger |\n|----------|------|---------|\n| `subscribe` | logo-product | Website subscribe |\n| `invite` | logo-product | Team invite |\n| `notice` | logo-notice | Dev notice broadcast |\n| `compose` | logo-product | Mission Control compose |\n| `test` | logo-help | Mailbox test button |\n\nSource: `website/admin/functions/api/_shared/mail-branding.js`, `mail.js`, `scripts/mail-templates.mjs`\n\n## Production pipeline\n\n1. Onboard `lorapok.tech` in Cloudflare Email Sending\n2. One-time: sync cred vault → GitHub `admin-production` secrets\n3. CI `admin-deploy` on `main`:\n   - `enable-mail.mjs` (relay worker + Pages email secret)\n   - `verify-mail-transport.mjs` (fail closed)\n   - `wrangler pages deploy` (activates `MAIL_RELAY` binding)\n\n**Push to main:** mail setup may be skipped to avoid Cloudflare 429 before Pages deploy (see `deploy-retry` helpers).\n\n## Repair (manual)\n\n```bash\nexport CLOUDFLARE_API_TOKEN=\"$(cred get cursor cloudflare_api_token)\"\nexport CLOUDFLARE_EMAIL_API_TOKEN=\"$(cred get cursor cloudflare_email_api_token)\"\nexport CLOUDFLARE_ACCOUNT_ID=\"$(cred get cursor cloudflare_account_id)\"\nnode website/admin/scripts/repair-mail.mjs\n```\n\n## Troubleshooting\n\n| Symptom | Fix |\n|---------|-----|\n| HTTP 401 on send | Email token needs Email Sending → Edit; redeploy after `wrangler pages secret put` |\n| Code 10203 | Enable Email Sending; onboard domain |\n| `cloudflare-rest` health 401 | Missing `MAIL_RELAY` — run `repair-mail.mjs` |\n| CI 429 before deploy | Skip mail on push; use longer pre-cooldown (`deploy-retry.mjs`) |\n\n## Key scripts\n\n```bash\nnode website/admin/scripts/verify-mail-setup.mjs\nnode website/admin/scripts/enable-mail.mjs\nnode website/admin/scripts/repair-mail.mjs\nnode website/admin/scripts/probe-mail-token.mjs\n```\n\nWiki: `docs/wiki/Mailbox-and-Email.md`\n\nGlobal copy: `~/.cursor/skills/loragent-cloudflare-mail-master/SKILL.md`\n",
+      "slug": "cloudflare-mail-master",
+      "displayName": "Cloudflare Mail Master",
+      "category": "devops",
+      "qualityScore": 40,
+      "duplicateCount": 2,
+      "mirrorLocations": [
+        "/home/maizied/.claude/skills/loragent-cloudflare-mail-master/SKILL.md",
+        "/home/maizied/.agents/skills/loragent-cloudflare-mail-master/SKILL.md"
+      ]
+    },
+    {
       "name": "cms",
       "path": "/home/maizied/.cursor/skills/cms/SKILL.md",
       "description": "Headless CMS integration guidance — Sanity (native Vercel Marketplace), Contentful, DatoCMS, Storyblok, and Builder.io. Covers studio setup, content modeling, preview mode, revalidation webhooks, and Visual Editing. Use when building content-driven sites with a headless CMS on Vercel.",
@@ -11114,31 +11141,6 @@
         "/home/maizied/.agents/skills/durable-objects/SKILL.md",
         "/home/maizied/.kiro/skills/durable-objects/SKILL.md",
         "/home/maizied/.codeium/windsurf/skills/durable-objects/SKILL.md"
-      ]
-    },
-    {
-      "name": "loragent-dynamic-versioning",
-      "path": "/home/maizied/.claude/skills/loragent-dynamic-versioning/SKILL.md",
-      "description": "Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping releases, wiring CI, or Mission Control deploy flows.",
-      "formation": "auto",
-      "layer": "cross",
-      "version": "2.0.0",
-      "tags": [],
-      "allowed_tools": [],
-      "connectors": [],
-      "fm": {
-        "name": "loragent-dynamic-versioning",
-        "description": "Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping releases, wiring CI, or Mission Control deploy flows."
-      },
-      "body": "# Loragent Dynamic Versioning\n\n## Golden rule\n\n**Only bump root `package.json` on production release.** Workspace packages (`browser-extension`, `packages/shared`) stay at `0.0.0` in git; run `npm run version:sync` at build time.\n\n## Version matrix\n\n| Channel | Format | Example |\n|---------|--------|---------|\n| Production (git tag) | `MAJOR.MINOR.PATCH` | `1.0.1` |\n| Beta (workflow / pre-release) | `{base}-beta.{shortSha}` | `1.0.1-beta.a1b2c3d` |\n| Dev / main CI push | `{base}-dev.{commitCount}` | `1.0.1-dev.842` |\n| Pull request CI | `{base}-pr.{prNumber}` | `1.0.1-pr.42` |\n\nProduction **base** lives in root `package.json` only. Do not commit `-beta.*` or `-dev.*` to `main` as the permanent version.\n\n## Scripts\n\n```bash\nnpm run version:compute\nnpm run version:sync      # propagate to all workspace targets (CI/local build)\nnpm run version:check     # fail if workspace versions != 0.0.0 in git\n```\n\n| Script | Path |\n|--------|------|\n| Compute | `scripts/compute-version.mjs` |\n| Sync workspaces | `scripts/sync-workspace-versions.mjs` |\n\n## CI integration\n\n```yaml\n- run: npm run version:check\n- run: npm run version:sync   # on push to main (non-tag)\n```\n\n## Mission Control release\n\n1. Master admin → Deployments → **Release**\n2. Custom version `1.0.1` → Production → Both markets\n3. Dispatches `ci-cd.yml` with `action_type: full-release`\n4. Sets `deploy_admin` / `deploy_website` for chained infra deploy\n\n## Anti-patterns\n\n- Manually bumping every `package.json` in the monorepo on each release\n- Leaving workspace packages at stale semver in git instead of `0.0.0`\n- Dispatching removed workflows (`publish-tag.yml`, `deployment.yml`)\n\n## Project example\n\nCursor Curse Monitor: `.cursor/skills/loragent-dynamic-versioning/SKILL.md` in repo.",
-      "raw": "---\nname: loragent-dynamic-versioning\ndescription: Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping releases, wiring CI, or Mission Control deploy flows.\n---\n\n# Loragent Dynamic Versioning\n\n## Golden rule\n\n**Only bump root `package.json` on production release.** Workspace packages (`browser-extension`, `packages/shared`) stay at `0.0.0` in git; run `npm run version:sync` at build time.\n\n## Version matrix\n\n| Channel | Format | Example |\n|---------|--------|---------|\n| Production (git tag) | `MAJOR.MINOR.PATCH` | `1.0.1` |\n| Beta (workflow / pre-release) | `{base}-beta.{shortSha}` | `1.0.1-beta.a1b2c3d` |\n| Dev / main CI push | `{base}-dev.{commitCount}` | `1.0.1-dev.842` |\n| Pull request CI | `{base}-pr.{prNumber}` | `1.0.1-pr.42` |\n\nProduction **base** lives in root `package.json` only. Do not commit `-beta.*` or `-dev.*` to `main` as the permanent version.\n\n## Scripts\n\n```bash\nnpm run version:compute\nnpm run version:sync      # propagate to all workspace targets (CI/local build)\nnpm run version:check     # fail if workspace versions != 0.0.0 in git\n```\n\n| Script | Path |\n|--------|------|\n| Compute | `scripts/compute-version.mjs` |\n| Sync workspaces | `scripts/sync-workspace-versions.mjs` |\n\n## CI integration\n\n```yaml\n- run: npm run version:check\n- run: npm run version:sync   # on push to main (non-tag)\n```\n\n## Mission Control release\n\n1. Master admin → Deployments → **Release**\n2. Custom version `1.0.1` → Production → Both markets\n3. Dispatches `ci-cd.yml` with `action_type: full-release`\n4. Sets `deploy_admin` / `deploy_website` for chained infra deploy\n\n## Anti-patterns\n\n- Manually bumping every `package.json` in the monorepo on each release\n- Leaving workspace packages at stale semver in git instead of `0.0.0`\n- Dispatching removed workflows (`publish-tag.yml`, `deployment.yml`)\n\n## Project example\n\nCursor Curse Monitor: `.cursor/skills/loragent-dynamic-versioning/SKILL.md` in repo.\n",
-      "slug": "dynamic-versioning",
-      "displayName": "Dynamic Versioning",
-      "category": "devops",
-      "qualityScore": 40,
-      "duplicateCount": 1,
-      "mirrorLocations": [
-        "/home/maizied/.agents/skills/loragent-dynamic-versioning/SKILL.md"
       ]
     },
     {
@@ -19527,31 +19529,6 @@
       ]
     },
     {
-      "name": "loragent-cloudflare-mail-master",
-      "path": "/home/maizied/.claude/skills/loragent-cloudflare-mail-master/SKILL.md",
-      "description": "Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routing rules, token split, or troubleshooting 401/10203 errors for Lorapok projects.",
-      "formation": "auto",
-      "layer": "cross",
-      "version": "2.0.0",
-      "tags": [],
-      "allowed_tools": [],
-      "connectors": [],
-      "fm": {
-        "name": "loragent-cloudflare-mail-master",
-        "description": "Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routing rules, token split, or troubleshooting 401/10203 errors for Lorapok projects."
-      },
-      "body": "# Loragent Cloudflare Mail Master\n\n## Decision tree\n\n| Host | Pattern |\n|------|---------|\n| **Cloudflare Pages** | REST API + `CLOUDFLARE_EMAIL_API_TOKEN` secret — **no** `[[send_email]]` binding |\n| **Cloudflare Workers** | `send_email` binding or REST |\n\nPages Functions cannot use `send_email` in `wrangler.toml`; deploy will fail or secrets will not apply correctly.\n\n## Credential split\n\n| Token | Purpose |\n|-------|---------|\n| `CLOUDFLARE_API_TOKEN` (deploy) | Pages deploy, wrangler |\n| `CLOUDFLARE_EMAIL_API_TOKEN` | Email Sending REST only |\n| GitHub secret | Sync email token to Pages via `enable-mail.mjs` |\n\nNever sync the deploy token as the email secret.\n\n## Key scripts (Cursor Curse Monitor)\n\n- `website/admin/scripts/enable-mail.mjs` — split deploy vs email tokens\n- `website/admin/scripts/verify-mail-setup.mjs` — probe send to ops inbox\n- `website/admin/scripts/setup-email-addresses.mjs` — `wrangler email routing rules`\n\n## REST send pattern\n\n`POST https://api.cloudflare.com/client/v4/accounts/{accountId}/email/sending/send`\n\nHeaders: `Authorization: Bearer {CLOUDFLARE_EMAIL_API_TOKEN}`\n\nImplementation: `website/admin/functions/api/_shared/mail.js`\n\n## Routing CLI\n\n```bash\nnpx wrangler email routing enable lorapok.tech\nnpx wrangler email routing rules list lorapok.tech\n```\n\nRoute product addresses (`cursor.monitor@`, `cursor.curse.help@`) to ops inbox.\n\n## Troubleshooting\n\n| Error | Fix |\n|-------|-----|\n| HTTP 401 | Token needs `Account.Email Sending: Edit`; verify Pages secret after deploy |\n| Code 10203 | Enable Email Sending (Workers Paid); onboard domain in dashboard |\n| `send_email` on Pages | Remove binding; use REST only |\n| Mail works locally, fails in prod | Redeploy Pages after `wrangler pages secret put` |\n\n## Branding\n\nPer-category logos: `website/assets/mail/` + `mail-branding.js` map. Use absolute GitHub Pages URLs in HTML emails.\n\nSee also: `~/.claude/skills/cloudflare-email-service/SKILL.md`",
-      "raw": "---\nname: loragent-cloudflare-mail-master\ndescription: Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routing rules, token split, or troubleshooting 401/10203 errors for Lorapok projects.\n---\n\n# Loragent Cloudflare Mail Master\n\n## Decision tree\n\n| Host | Pattern |\n|------|---------|\n| **Cloudflare Pages** | REST API + `CLOUDFLARE_EMAIL_API_TOKEN` secret — **no** `[[send_email]]` binding |\n| **Cloudflare Workers** | `send_email` binding or REST |\n\nPages Functions cannot use `send_email` in `wrangler.toml`; deploy will fail or secrets will not apply correctly.\n\n## Credential split\n\n| Token | Purpose |\n|-------|---------|\n| `CLOUDFLARE_API_TOKEN` (deploy) | Pages deploy, wrangler |\n| `CLOUDFLARE_EMAIL_API_TOKEN` | Email Sending REST only |\n| GitHub secret | Sync email token to Pages via `enable-mail.mjs` |\n\nNever sync the deploy token as the email secret.\n\n## Key scripts (Cursor Curse Monitor)\n\n- `website/admin/scripts/enable-mail.mjs` — split deploy vs email tokens\n- `website/admin/scripts/verify-mail-setup.mjs` — probe send to ops inbox\n- `website/admin/scripts/setup-email-addresses.mjs` — `wrangler email routing rules`\n\n## REST send pattern\n\n`POST https://api.cloudflare.com/client/v4/accounts/{accountId}/email/sending/send`\n\nHeaders: `Authorization: Bearer {CLOUDFLARE_EMAIL_API_TOKEN}`\n\nImplementation: `website/admin/functions/api/_shared/mail.js`\n\n## Routing CLI\n\n```bash\nnpx wrangler email routing enable lorapok.tech\nnpx wrangler email routing rules list lorapok.tech\n```\n\nRoute product addresses (`cursor.monitor@`, `cursor.curse.help@`) to ops inbox.\n\n## Troubleshooting\n\n| Error | Fix |\n|-------|-----|\n| HTTP 401 | Token needs `Account.Email Sending: Edit`; verify Pages secret after deploy |\n| Code 10203 | Enable Email Sending (Workers Paid); onboard domain in dashboard |\n| `send_email` on Pages | Remove binding; use REST only |\n| Mail works locally, fails in prod | Redeploy Pages after `wrangler pages secret put` |\n\n## Branding\n\nPer-category logos: `website/assets/mail/` + `mail-branding.js` map. Use absolute GitHub Pages URLs in HTML emails.\n\nSee also: `~/.claude/skills/cloudflare-email-service/SKILL.md`\n",
-      "slug": "cloudflare-mail-master",
-      "displayName": "Cloudflare Mail Master",
-      "category": "devops",
-      "qualityScore": 30,
-      "duplicateCount": 1,
-      "mirrorLocations": [
-        "/home/maizied/.agents/skills/loragent-cloudflare-mail-master/SKILL.md"
-      ]
-    },
-    {
       "name": "cloudflare-one-migrations",
       "path": "/home/maizied/.gemini/config/skills/cloudflare-one-migrations/SKILL.md",
       "description": "Plans migrations from Zscaler ZIA/ZPA, Palo Alto, legacy VPN, SWG, or SASE stacks to Cloudflare One. Use for migration assessments, policy mapping, rollout plans, and parity/gap analysis.",
@@ -19993,6 +19970,32 @@
       "mirrorLocations": [
         "/home/maizied/.claude/skills/draft-long-form-memo/SKILL.md",
         "/home/maizied/.agents/skills/draft-long-form-memo/SKILL.md"
+      ]
+    },
+    {
+      "name": "loragent-dynamic-versioning",
+      "path": "/home/maizied/.cursor/skills/loragent-dynamic-versioning/SKILL.md",
+      "description": "Dynamic versioning for Cursor Curse Monitor — single release base in root package.json, workspace packages synced at build via scripts/compute-version.mjs and scripts/sync-workspace-versions.mjs.",
+      "formation": "auto",
+      "layer": "cross",
+      "version": "2.0.0",
+      "tags": [],
+      "allowed_tools": [],
+      "connectors": [],
+      "fm": {
+        "name": "loragent-dynamic-versioning",
+        "description": "Dynamic versioning for Cursor Curse Monitor — single release base in root package.json, workspace packages synced at build via scripts/compute-version.mjs and scripts/sync-workspace-versions.mjs."
+      },
+      "body": "# Loragent Dynamic Versioning (CCM)\n\nUse this skill when bumping releases, wiring CI, or debugging version drift across the monorepo.\n\n## Golden rule\n\n**Only bump root `package.json` on production release.** Never manually edit `browser-extension/package.json`, `manifest.json`, or `packages/shared/package.json` versions in git.\n\nCommitted workspace versions stay **`0.0.0`**. CI and local builds run `npm run version:sync` to propagate the computed version into all artifacts.\n\n## Version matrix\n\n| Channel | Format | Example |\n|---------|--------|---------|\n| Production (git tag / root bump) | `MAJOR.MINOR.PATCH` | `1.0.1` |\n| Beta | `{base}-beta.{shortSha}` | `1.0.1-beta.a1b2c3d` |\n| Dev / main CI push | `{base}-dev.{commitCount}` | `1.0.1-dev.842` |\n| Pull request CI | `{base}-pr.{prNumber}` | `1.0.1-pr.42` |\n\nProduction **base** lives in root `package.json` only (e.g. `1.0.1`).\n\n## Scripts\n\n```bash\nnpm run version:compute   # print computed version for current context\nnpm run version:sync      # write computed version to all workspace targets (build)\nnpm run version:check     # fail if workspace package.json files are not 0.0.0 in git\n```\n\n| Script | Role |\n|--------|------|\n| `scripts/compute-version.mjs` | Single semver calculator (env: `GITHUB_EVENT_NAME`, `RELEASE_BASE`, etc.) |\n| `scripts/sync-workspace-versions.mjs` | Propagates computed version to root + browser-extension + shared |\n\n## CI integration\n\n`.github/workflows/ci-cd.yml`:\n\n1. `npm run version:check` — guard against manual workspace bumps\n2. On push to `main`: `npm run version:sync` — inject `-dev.*` / `-beta.*` for build artifacts only (not committed)\n\nRelease prep (`release-prep` job) bumps **root** `package.json` only via `npm version`, then tags.\n\n## Mission Control release\n\n1. Master admin → Deployments → **Release** → custom `1.0.1` (or patch/minor/major)\n2. Dispatches `ci-cd.yml` `full-release` with `deploy_admin` / `deploy_website`\n3. Tag push triggers marketplace deploy; workspace sync runs in deploy job before `npm run package`\n\n## Anti-patterns\n\n- Bumping `browser-extension/package.json` or `packages/shared/package.json` on every release\n- Committing `-dev.*` or `-beta.*` to root `package.json` on `main`\n- Dispatching removed workflows (`publish-tag.yml`, `deployment.yml`)\n\n## Related files\n\n- `scripts/compute-version.mjs`\n- `scripts/sync-workspace-versions.mjs`\n- `scripts/validate-release.mjs` (enforces workspace `0.0.0` placeholders)\n- `browser-extension/vite.config.ts` (reads root version when local is `0.0.0`)\n\nGlobal copy: `~/.cursor/skills/loragent-dynamic-versioning/SKILL.md`",
+      "raw": "---\nname: loragent-dynamic-versioning\ndescription: Dynamic versioning for Cursor Curse Monitor — single release base in root package.json, workspace packages synced at build via scripts/compute-version.mjs and scripts/sync-workspace-versions.mjs.\n---\n\n# Loragent Dynamic Versioning (CCM)\n\nUse this skill when bumping releases, wiring CI, or debugging version drift across the monorepo.\n\n## Golden rule\n\n**Only bump root `package.json` on production release.** Never manually edit `browser-extension/package.json`, `manifest.json`, or `packages/shared/package.json` versions in git.\n\nCommitted workspace versions stay **`0.0.0`**. CI and local builds run `npm run version:sync` to propagate the computed version into all artifacts.\n\n## Version matrix\n\n| Channel | Format | Example |\n|---------|--------|---------|\n| Production (git tag / root bump) | `MAJOR.MINOR.PATCH` | `1.0.1` |\n| Beta | `{base}-beta.{shortSha}` | `1.0.1-beta.a1b2c3d` |\n| Dev / main CI push | `{base}-dev.{commitCount}` | `1.0.1-dev.842` |\n| Pull request CI | `{base}-pr.{prNumber}` | `1.0.1-pr.42` |\n\nProduction **base** lives in root `package.json` only (e.g. `1.0.1`).\n\n## Scripts\n\n```bash\nnpm run version:compute   # print computed version for current context\nnpm run version:sync      # write computed version to all workspace targets (build)\nnpm run version:check     # fail if workspace package.json files are not 0.0.0 in git\n```\n\n| Script | Role |\n|--------|------|\n| `scripts/compute-version.mjs` | Single semver calculator (env: `GITHUB_EVENT_NAME`, `RELEASE_BASE`, etc.) |\n| `scripts/sync-workspace-versions.mjs` | Propagates computed version to root + browser-extension + shared |\n\n## CI integration\n\n`.github/workflows/ci-cd.yml`:\n\n1. `npm run version:check` — guard against manual workspace bumps\n2. On push to `main`: `npm run version:sync` — inject `-dev.*` / `-beta.*` for build artifacts only (not committed)\n\nRelease prep (`release-prep` job) bumps **root** `package.json` only via `npm version`, then tags.\n\n## Mission Control release\n\n1. Master admin → Deployments → **Release** → custom `1.0.1` (or patch/minor/major)\n2. Dispatches `ci-cd.yml` `full-release` with `deploy_admin` / `deploy_website`\n3. Tag push triggers marketplace deploy; workspace sync runs in deploy job before `npm run package`\n\n## Anti-patterns\n\n- Bumping `browser-extension/package.json` or `packages/shared/package.json` on every release\n- Committing `-dev.*` or `-beta.*` to root `package.json` on `main`\n- Dispatching removed workflows (`publish-tag.yml`, `deployment.yml`)\n\n## Related files\n\n- `scripts/compute-version.mjs`\n- `scripts/sync-workspace-versions.mjs`\n- `scripts/validate-release.mjs` (enforces workspace `0.0.0` placeholders)\n- `browser-extension/vite.config.ts` (reads root version when local is `0.0.0`)\n\nGlobal copy: `~/.cursor/skills/loragent-dynamic-versioning/SKILL.md`\n",
+      "slug": "dynamic-versioning",
+      "displayName": "Dynamic Versioning",
+      "category": "creative",
+      "qualityScore": 30,
+      "duplicateCount": 2,
+      "mirrorLocations": [
+        "/home/maizied/.claude/skills/loragent-dynamic-versioning/SKILL.md",
+        "/home/maizied/.agents/skills/loragent-dynamic-versioning/SKILL.md"
       ]
     },
     {
