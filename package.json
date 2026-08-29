@@ -1,14 +1,31 @@
 {
   "name": "loragent",
-  "version": "1.0.0",
-  "description": "Professional virtual office system for Lorapok Labs",
+  "version": "2.0.0",
+  "description": "108-agent virtual software firm for Lorapok Labs — includes orchestration, image generation, GIF creation, deployment, development, business, and design agents. Hub-and-Spoke topology with MCP lazy-loading and crash recovery.",
   "publisher": "LorapokLabs",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "author": {
-    "name": "Mohammad Maizied Hasan Majumder",
-    "email": "mdshuvo40@gmail.com",
-    "url": "https://github.com/Maijied"
+    "name": "Maizied",
+    "url": "https://lorapok.github.io"
   },
+  "homepage": "https://loragent.lorapok.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maijied/Loragent"
+  },
+  "keywords": [
+    "lorapok",
+    "loragent",
+    "agents",
+    "skills",
+    "mcp",
+    "orchestration",
+    "multi-agent",
+    "image-generation",
+    "deployment",
+    "development",
+    "automation"
+  ],
   "contributors": [
     {
       "name": "Lorapok Labs",
