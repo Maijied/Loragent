@@ -113,14 +113,15 @@ jobs:
         if: github.ref == 'refs/heads/main'
         working-directory: ./port/mcp-cloudflare
         run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+          if [ -n "$CLOUDFLARE_API_KEY" ] || [ -n "$CLOUDFLARE_API_TOKEN" ]; then
             echo "Deploying Cloudflare Worker MCP server to edge..."
             npx wrangler deploy
           else
-            echo "Notice: CLOUDFLARE_API_TOKEN not configured in GitHub Secrets; verified bundle locally."
+            echo "Notice: Cloudflare credentials not configured in GitHub Secrets; verified bundle locally."
           fi
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL || secrets.CLOUDFLARE_API_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Ensure CNAME for GitHub Pages
