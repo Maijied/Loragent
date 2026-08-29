@@ -2,7 +2,7 @@
 
 > The Master Catalog of all AI agents in the Lorapok Mega-Agency ecosystem.
 
-> **167 agents** across **22 categories** | 115 native + 52 imported
+> **170 agents** across **22 categories** | 118 native + 52 imported
 
 ---
 
@@ -10,10 +10,10 @@
 
 | Metric | Count |
 |--------|-------|
-| **Total Agents** | 167 |
+| **Total Agents** | 170 |
 | Core Operations | 5 |
-| Specialists | 162 |
-| Native | 115 |
+| Specialists | 165 |
+| Native | 118 |
 | Imported | 52 |
 
 ### Formation Breakdown
@@ -22,7 +22,7 @@
 |-----------|--------|
 | 🟢 Auto Team | 6 |
 | 🏢 Office | 9 |
-| 🔧 Freelance | 142 |
+| 🔧 Freelance | 145 |
 | 🔴 Chela | 5 |
 | ⭐ All | 5 |
 
@@ -145,7 +145,7 @@
 | 🔹 `loragent-freqghost-source-management` | specialist | freqghost | freelance | Add, configure, and manage SceneSource implementations — the central abstraction |
 | 🔹 `loragent-freqghost-verification` | specialist | freqghost | freelance | Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure |
 
-### 📦 General (35)
+### 📦 General (38)
 
 | Agent | Type | Source | Formation | Description |
 |-------|------|--------|-----------|-------------|
@@ -158,7 +158,9 @@
 | 🔹 `loragent-chorki` | specialist | native | freelance | The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and execu |
 | 🔹 `loragent-cicd-specialist` | specialist | native | freelance | Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and opti |
 | 🔹 `loragent-debugger` | specialist | native | chela | Dedicated step-through and stack-trace debugger. |
+| 🔹 `loragent-docker-specialist` | specialist | native | freelance | Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker  |
 | 🔹 `loragent-garbage-collector` | specialist | native | freelance | Identifies and removes unused code, dead files, and unnecessary dependencies. |
+| 🔹 `loragent-gh-cli-specialist` | specialist | native | freelance | GitHub CLI Specialist. Automates PR management, issue triage, release generation |
 | 🔹 `loragent-git-specialist` | specialist | native | chela | Advanced version control, rebasing, and merge conflict resolution. |
 | 🔹 `loragent-loragent-amo-mcp` | specialist | ide-skills | freelance | MCP-orchestrated Firefox AMO publishing for Lorapok extensions. |
 | 🔹 `loragent-loragent-amo-publish` | specialist | ide-skills | freelance | Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo- |
@@ -184,6 +186,7 @@
 | 🔹 `loragent-paymentguy` | specialist | native | freelance | Specialist for payment system integrations (Stripe, PayPal, etc). |
 | 🔹 `loragent-shift-engineer` | specialist | native | chela | Handles short, isolated tasks. |
 | 🔹 `loragent-skill-creator` | specialist | native | freelance | Autonomously writes new agent skills and pushes to Firebase. |
+| 🔹 `loragent-wrangler-specialist` | specialist | native | freelance | Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV,  |
 
 ### 💻 Language-expert (13)
 
@@ -309,4 +312,4 @@
 
 ---
 
-*Generated: 2026-08-28T22:36:41.934Z | Version: 1.0.0*
+*Generated: 2026-08-29T00:07:36.349Z | Version: 1.0.0*

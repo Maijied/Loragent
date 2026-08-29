@@ -1,8 +1,11 @@
 import { CLOUDFLARE_MCP_DEFAULT_URL } from './constants.js';
+import { executeCLI } from './tools/cli-runner.js';
+import { LoragentCheckpointEngine } from './durable/checkpoint.js';
+import { LoragentTracer } from './telemetry/tracer.js';
 
 /**
  * LoragentClient — Universal Client for interacting with the Loragent MCP Server
- * Compatible with local stdio server and Cloudflare Edge MCP endpoint.
+ * Compatible with local stdio server, CLI runner, and Cloudflare Edge MCP endpoint.
  */
 export class LoragentClient {
   constructor(options = {}) {
@@ -10,12 +13,15 @@ export class LoragentClient {
     this.token = options.token || null;
     this.workspace = options.workspace || (typeof process !== 'undefined' ? process.cwd() : '.');
     this.timeout = options.timeout || 30000;
+    this.checkpointer = new LoragentCheckpointEngine({ storageDir: options.checkpointDir });
+    this.tracer = new LoragentTracer({ serviceName: options.serviceName || 'loragent-client' });
   }
 
   /**
    * Internal JSON-RPC 2.0 transport call
    */
   async _rpc(method, params = {}) {
+    const spanId = this.tracer.startSpan(`rpc:${method}`, params);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.timeout);
 
@@ -49,14 +55,33 @@ export class LoragentClient {
         throw new Error(`Loragent RPC Error [${json.error.code}]: ${json.error.message}`);
       }
 
+      this.tracer.endSpan(spanId, json.result);
       return json.result;
+    } catch (err) {
+      this.tracer.endSpan(spanId, null, err);
+      throw err;
     } finally {
       clearTimeout(timer);
     }
   }
 
   /**
-   * List all 167 agents with optional filtering
+   * Execute CLI tools safely with auto-credential injection (wrangler, gh, git, npm, docker)
+   */
+  async exec(command, options = {}) {
+    const spanId = this.tracer.startSpan('cli:exec', { command });
+    try {
+      const res = await executeCLI(command, { cwd: this.workspace, ...options });
+      this.tracer.endSpan(spanId, res);
+      return res;
+    } catch (err) {
+      this.tracer.endSpan(spanId, null, err);
+      throw err;
+    }
+  }
+
+  /**
+   * List all agents with optional filtering
    */
   async listAgents(filters = {}) {
     return this._rpc('tools/call', {
@@ -138,6 +163,21 @@ export class LoragentClient {
       name: 'loragent_watchman_save',
       arguments: { currentTask, lastCompletedStep, nextStep }
     });
+  }
+
+  /**
+   * Checkpoint persistence
+   */
+  async saveCheckpoint(taskId, stepIndex, state, metadata) {
+    return this.checkpointer.saveCheckpoint(taskId, stepIndex, state, metadata);
+  }
+
+  async resumeCheckpoint(taskId) {
+    return this.checkpointer.getLatestCheckpoint(taskId);
+  }
+
+  getTelemetry() {
+    return this.tracer.getTraceSummary();
   }
 
   /**

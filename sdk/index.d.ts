@@ -4,6 +4,22 @@ export interface LoragentClientOptions {
   token?: string;
   workspace?: string;
   timeout?: number;
+  checkpointDir?: string;
+  serviceName?: string;
+}
+
+export interface CLIExecOptions {
+  cwd?: string;
+  env?: Record<string, string>;
+  allowDestructive?: boolean;
+  timeout?: number;
+}
+
+export interface CLIExecResult {
+  ok: boolean;
+  code: number;
+  stdout: string;
+  stderr: string;
 }
 
 export interface AgentFilterOptions {
@@ -36,20 +52,44 @@ export interface HookResult {
   isError?: boolean;
 }
 
-export interface WatchmanCacheResult {
-  content: Array<{ type: string; text: string }>;
+export interface CheckpointData {
+  checkpointId: string;
+  taskId: string;
+  stepIndex: number;
+  timestamp: string;
+  state: Record<string, any>;
+  metadata: Record<string, any>;
 }
 
-export interface HealthResult {
-  status: string;
-  service: string;
-  version: string;
-  totalAgents: number;
-  timestamp: string;
+export interface TraceSummary {
+  serviceName: string;
+  totalSpans: number;
+  errorCount: number;
+  successRate: number;
+  totalDurationMs: number;
+  recentSpans: any[];
+}
+
+export declare function executeCLI(command: string, options?: CLIExecOptions): Promise<CLIExecResult>;
+
+export declare class LoragentCheckpointEngine {
+  constructor(options?: { storageDir?: string });
+  saveCheckpoint(taskId: string, stepIndex: number, state?: Record<string, any>, metadata?: Record<string, any>): Promise<CheckpointData>;
+  loadCheckpoint(checkpointId: string): Promise<CheckpointData>;
+  listCheckpoints(taskId?: string): Promise<CheckpointData[]>;
+  getLatestCheckpoint(taskId: string): Promise<CheckpointData | null>;
+}
+
+export declare class LoragentTracer {
+  constructor(options?: { serviceName?: string });
+  startSpan(name: string, attributes?: Record<string, any>): string;
+  endSpan(spanId: string, output?: any, error?: any): any;
+  getTraceSummary(): TraceSummary;
 }
 
 export declare class LoragentClient {
   constructor(options?: LoragentClientOptions);
+  exec(command: string, options?: CLIExecOptions): Promise<CLIExecResult>;
   listAgents(filters?: AgentFilterOptions): Promise<AgentListResult>;
   searchAgents(query: string): Promise<AgentListResult>;
   summonAgent(agentName: string): Promise<AgentListResult>;
@@ -57,8 +97,11 @@ export declare class LoragentClient {
   steer(targetAgent: string, payload: string | object): Promise<SteerResult>;
   triggerHook(hookName: string): Promise<HookResult>;
   getState(): Promise<AgentListResult>;
-  saveWatchman(currentTask: string, lastCompletedStep: string, nextStep: string): Promise<WatchmanCacheResult>;
-  health(): Promise<HealthResult>;
+  saveWatchman(currentTask: string, lastCompletedStep: string, nextStep: string): Promise<any>;
+  saveCheckpoint(taskId: string, stepIndex: number, state?: Record<string, any>, metadata?: Record<string, any>): Promise<CheckpointData>;
+  resumeCheckpoint(taskId: string): Promise<CheckpointData | null>;
+  getTelemetry(): TraceSummary;
+  health(): Promise<any>;
 }
 
 export declare class LoragentBoss {

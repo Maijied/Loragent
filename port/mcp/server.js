@@ -6,12 +6,46 @@ import { z } from "zod";
 import fs from "fs";
 import path from "path";
 import os from "os";
+import { executeCLI } from "../../sdk/tools/cli-runner.js";
+import { LoragentCheckpointEngine } from "../../sdk/durable/checkpoint.js";
 
 // Initialize the Loragent MCP Server
 const server = new McpServer({
     name: "Loragent-MCP-Server",
     version: "1.0.0"
 });
+
+const checkpointer = new LoragentCheckpointEngine();
+
+// Tool: loragent_exec_cli (Safe CLI execution with auto vault credentials for wrangler, gh, docker, git)
+server.tool(
+    "loragent_exec_cli",
+    "Safely execute CLI tools (wrangler, gh, git, npm, docker) with zero-trust auto-credential vault injection.",
+    {
+        command: z.string().describe("The shell command to execute (e.g., 'wrangler deploy', 'gh pr list', 'git status')"),
+        allowDestructive: z.boolean().optional().describe("Set true to authorize dangerous or destructive operations")
+    },
+    async ({ command, allowDestructive }) => {
+        try {
+            const res = await executeCLI(command, { allowDestructive });
+            return {
+                isError: !res.ok,
+                content: [{
+                    type: "text",
+                    text: `Command: ${command}\nExit Code: ${res.code}\n\nSTDOUT:\n${res.stdout}\n\nSTDERR:\n${res.stderr}`
+                }]
+            };
+        } catch (err) {
+            return {
+                isError: true,
+                content: [{
+                    type: "text",
+                    text: `Execution Error: ${err.message}`
+                }]
+            };
+        }
+    }
+);
 
 // Tool: loragent_steer
 server.tool(
@@ -22,8 +56,6 @@ server.tool(
         payload: z.string().describe("The context or instructions to pass to the target agent"),
     },
     async ({ targetAgent, payload }) => {
-        // In a real implementation, this would orchestrate the handoff in a state machine or message bus.
-        // For local operation, we log the steer command to a state file.
         const stateFile = path.join(process.cwd(), '.loragent', 'state.json');
         
         let state = { currentAgent: 'loragent-boss', history: [] };
@@ -128,6 +160,37 @@ server.tool(
                 text: "No active state found. The Boss is waiting for a command."
             }]
         };
+    }
+);
+
+// Tool: loragent_checkpoint_save
+server.tool(
+    "loragent_checkpoint_save",
+    "Durable execution checkpoint saver for multi-step agent tasks.",
+    {
+        taskId: z.string().describe("The unique task identifier"),
+        stepIndex: z.number().describe("The current step index"),
+        state: z.string().describe("JSON stringified state object")
+    },
+    async ({ taskId, stepIndex, state }) => {
+        try {
+            const parsed = JSON.parse(state);
+            const saved = await checkpointer.saveCheckpoint(taskId, stepIndex, parsed);
+            return {
+                content: [{
+                    type: "text",
+                    text: `Checkpoint saved successfully: ${saved.checkpointId}`
+                }]
+            };
+        } catch (err) {
+            return {
+                isError: true,
+                content: [{
+                    type: "text",
+                    text: `Failed to save checkpoint: ${err.message}`
+                }]
+            };
+        }
     }
 );
 
@@ -247,7 +310,6 @@ server.tool(
     async ({ category, source, formation, type }) => {
         const indexPath = path.join(process.cwd(), 'agent-index.json');
         if (!fs.existsSync(indexPath)) {
-            // Try workspace env
             const wsPath = process.env.LORAGENT_WORKSPACE
                 ? path.join(process.env.LORAGENT_WORKSPACE, 'agent-index.json')
                 : null;
@@ -338,42 +400,6 @@ server.tool(
                 text: `Found ${results.length} agents matching "${query}":\n\n${summary}`
             }]
         };
-    }
-);
-
-// Tool: loragent_create
-server.tool(
-    "loragent_create",
-    "Create a new agent, skill, mcp, or rule",
-    {
-        type: z.string().describe("Type of asset (agent|skill|mcp|rule)"),
-        name: z.string().describe("Name of the asset")
-    },
-    async ({ type, name }) => {
-        // Delegate to the CLI logic for creation
-        const { execSync } = require('child_process');
-        try {
-            const output = execSync(`node face/cli/index.js create ${type} ${name}`, { encoding: 'utf8' });
-            return { content: [{ type: "text", text: output }] };
-        } catch (e) {
-            return { content: [{ type: "text", text: `Failed to create: ${e.message}` }] };
-        }
-    }
-);
-
-// Tool: loragent_sync
-server.tool(
-    "loragent_sync",
-    "Sync the registry to local IDE configurations",
-    {},
-    async () => {
-        const { execSync } = require('child_process');
-        try {
-            const output = execSync(`node face/cli/index.js sync`, { encoding: 'utf8' });
-            return { content: [{ type: "text", text: output }] };
-        } catch (e) {
-            return { content: [{ type: "text", text: `Failed to sync: ${e.message}` }] };
-        }
     }
 );
 

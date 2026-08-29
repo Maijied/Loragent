@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
-  "generated": "2026-08-28T22:36:41.934Z",
+  "generated": "2026-08-29T00:07:36.349Z",
   "ecosystem": "Loragent by Lorapok Labs",
   "statistics": {
-    "totalAgents": 167,
+    "totalAgents": 170,
     "coreAgents": 5,
-    "specialists": 162,
-    "nativeAgents": 115,
+    "specialists": 165,
+    "nativeAgents": 118,
     "importedAgents": 52,
     "categories": 22,
     "formations": {
       "auto-team": 6,
       "office": 9,
-      "freelance": 142,
+      "freelance": 145,
       "chela": 5,
       "all": 5
     }
@@ -841,6 +841,16 @@
       "description": "Dedicated step-through and stack-trace debugger."
     },
     {
+      "name": "loragent-docker-specialist",
+      "slug": "docker-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/docker-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries."
+    },
+    {
       "name": "loragent-garbage-collector",
       "slug": "garbage-collector",
       "type": "specialist",
@@ -849,6 +859,16 @@
       "category": "general",
       "formation": "freelance",
       "description": "Identifies and removes unused code, dead files, and unnecessary dependencies."
+    },
+    {
+      "name": "loragent-gh-cli-specialist",
+      "slug": "gh-cli-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/gh-cli-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "GitHub CLI Specialist. Automates PR management, issue triage, release generation, Actions workflow dispatch, and repo settings."
     },
     {
       "name": "loragent-git-specialist",
@@ -1099,6 +1119,16 @@
       "category": "general",
       "formation": "freelance",
       "description": "Autonomously writes new agent skills and pushes to Firebase."
+    },
+    {
+      "name": "loragent-wrangler-specialist",
+      "slug": "wrangler-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/wrangler-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV, D1, R2, Vectorize, Queues, and Secrets with Zero-Trust Credential Vault integration."
     },
     {
       "name": "loragent-angular-specialist",
