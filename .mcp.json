@@ -1,39 +1,9 @@
 {
   "mcpServers": {
-    "loragent": {
-      "command": "node",
-      "args": [
-        "/mnt/NewVolume/Personal_Projects/loragent/port/mcp/server.js"
-      ],
-      "env": {
-        "LORAGENT_WORKSPACE": "/mnt/NewVolume/Personal_Projects/loragent"
-      }
-    },
-    "loragent-cloud": {
-      "url": "https://mcp.lorapk-labs.workers.dev/mcp",
-      "type": "http",
-      "description": "Cloudflare Workers Edge deployed Loragent MCP server with 174 agents"
-    },
-    "cloudflare": {
-      "url": "https://mcp.cloudflare.com/mcp"
-    },
-    "cloudflare-docs": {
-      "url": "https://docs.mcp.cloudflare.com/mcp"
-    },
-    "cloudflare-bindings": {
-      "url": "https://bindings.mcp.cloudflare.com/mcp"
-    },
-    "cloudflare-builds": {
-      "url": "https://builds.mcp.cloudflare.com/mcp"
-    },
-    "cloudflare-observability": {
-      "url": "https://observability.mcp.cloudflare.com/mcp"
-    },
+
     "loragent-core": {
       "command": "node",
-      "args": [
-        "port/mcp/server.js"
-      ],
+      "args": ["port/mcp/server.js"],
       "description": "Loragent native MCP — summon/dismiss/steer/hook/watchman tools",
       "env": {
         "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
@@ -41,33 +11,32 @@
         "LORAGENT_ENV": "${LORAGENT_ENV:-development}"
       }
     },
+
+    "loragent-cloud": {
+      "url": "https://mcp.lorapk-labs.workers.dev/mcp",
+      "type": "http",
+      "description": "Cloudflare Workers Edge deployed Loragent MCP server with 174 agents"
+    },
+
     "github": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-github"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-github"],
       "description": "GitHub — repos, issues, PRs, commits, releases, Actions",
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
     },
+
     "filesystem": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/mnt/NewVolume/Personal_Projects/loragent"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/mnt/NewVolume/Personal_Projects/loragent"],
       "description": "Filesystem read/write — scoped to project root",
       "env": {}
     },
+
     "image-generate-fal": {
       "command": "npx",
-      "args": [
-        "-y",
-        "fal-mcp"
-      ],
+      "args": ["-y", "fal-mcp"],
       "description": "Image generation via Fal.ai — Flux Pro, SDXL, DALL-E 3 proxy. Use for: logo design, UI mockups, concept art, poster generation, hero images.",
       "env": {
         "FAL_KEY": "${FAL_API_KEY}"
@@ -90,24 +59,20 @@
         }
       }
     },
+
     "image-generate-replicate": {
       "command": "npx",
-      "args": [
-        "-y",
-        "replicate-mcp"
-      ],
+      "args": ["-y", "replicate-mcp"],
       "description": "Replicate — image/video/audio models. Fallback when Fal.ai is unavailable. Supports SDXL, Flux, Stable Video, MusicGen.",
       "env": {
         "REPLICATE_API_TOKEN": "${REPLICATE_API_TOKEN}"
       },
       "install": "npm install -g replicate-mcp"
     },
+
     "gif-create": {
       "command": "npx",
-      "args": [
-        "-y",
-        "ffmpeg-mcp"
-      ],
+      "args": ["-y", "ffmpeg-mcp"],
       "description": "FFmpeg-based MCP — video/GIF/animation processing. Use for: animated GIFs from video, sprite sheets, banner animations, Slack GIFs, loading animations. Also handles frame extraction, compression, format conversion.",
       "env": {},
       "requires_system": "ffmpeg",
@@ -123,22 +88,18 @@
         "gif_from_frames": "ffmpeg -framerate 10 -pattern_type glob -i 'frames/*.png' -loop 0 output.gif"
       }
     },
+
     "browser-automation": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp@latest"
-      ],
+      "args": ["-y", "@playwright/mcp@latest"],
       "description": "Playwright browser automation — web scraping, E2E testing, screenshot capture, form filling, browser-based workflows. Use for: acceptance testing, visual regression, automated publishing workflows.",
       "env": {},
       "install": "npm install -g @playwright/mcp && npx playwright install"
     },
+
     "deploy-vercel": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@vercel/mcp-adapter"
-      ],
+      "args": ["-y", "@vercel/mcp-adapter"],
       "description": "Vercel deployment MCP — deploy projects, manage domains, check build logs, promote to production, manage env vars. Requires workspace-guard confirmation for production.",
       "env": {
         "VERCEL_TOKEN": "${VERCEL_TOKEN}",
@@ -147,12 +108,10 @@
       "install": "npm install -g @vercel/mcp-adapter",
       "requires_confirmation": true
     },
+
     "deploy-railway": {
       "command": "npx",
-      "args": [
-        "-y",
-        "railway-mcp"
-      ],
+      "args": ["-y", "railway-mcp"],
       "description": "Railway deployment — services, databases, env vars, deployments, logs. For: Node.js, Python, Docker, static sites.",
       "env": {
         "RAILWAY_TOKEN": "${RAILWAY_TOKEN}"
@@ -160,12 +119,10 @@
       "install": "npm install -g railway-mcp",
       "requires_confirmation": true
     },
+
     "deploy-docker": {
       "command": "npx",
-      "args": [
-        "-y",
-        "docker-mcp"
-      ],
+      "args": ["-y", "docker-mcp"],
       "description": "Docker — build images, run containers, push to registry, manage compose stacks. Use for: containerized deployments, local dev environments, CI image builds.",
       "env": {
         "DOCKER_HOST": "${DOCKER_HOST:-unix:///var/run/docker.sock}",
@@ -175,23 +132,19 @@
       },
       "requires_confirmation": true
     },
+
     "database-postgres": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-postgres"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
       "description": "PostgreSQL — query, inspect schema, run migrations. READ-ONLY by default; write ops require workspace-guard.",
       "env": {
         "POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"
       }
     },
+
     "database-mysql": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mysql-mcp-server"
-      ],
+      "args": ["-y", "mysql-mcp-server"],
       "description": "MySQL/MariaDB — for Shohoz legacy stack and Lorapok services.",
       "env": {
         "MYSQL_HOST": "${DB_HOST}",
@@ -200,12 +153,10 @@
         "MYSQL_DATABASE": "${DB_DATABASE}"
       }
     },
+
     "firebase-admin": {
       "command": "npx",
-      "args": [
-        "-y",
-        "firebase-mcp"
-      ],
+      "args": ["-y", "firebase-mcp"],
       "description": "Firebase — Firestore reads/writes, Auth, Storage, Realtime DB. Used by loragent-database-updater for hivemind sync and loragent-gold-collector for skill storage.",
       "env": {
         "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
@@ -213,77 +164,59 @@
         "FIREBASE_PRIVATE_KEY": "${FIREBASE_PRIVATE_KEY}"
       }
     },
+
     "slack-notify": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-slack"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
       "description": "Slack — send deployment notifications, error alerts, task completion reports to team channels. loragent-pr-specialist uses this for campaign updates.",
       "env": {
         "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
         "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
       }
     },
+
     "email-send": {
       "command": "npx",
-      "args": [
-        "-y",
-        "resend-mcp"
-      ],
+      "args": ["-y", "resend-mcp"],
       "description": "Resend email — transactional emails, campaign sends. loragent-ads-manager and loragent-publisher use this for outreach.",
       "env": {
         "RESEND_API_KEY": "${RESEND_API_KEY}"
       }
     },
+
     "openapi-caller": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-openapi-client"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-openapi-client"],
       "description": "Generic OpenAPI caller — invoke any REST API defined by an OpenAPI spec. loragent-api-chef uses this to call/test endpoints.",
       "env": {}
     },
+
     "git-ops": {
       "command": "npx",
-      "args": [
-        "-y",
-        "git-mcp"
-      ],
+      "args": ["-y", "git-mcp"],
       "description": "Git operations — commit, branch, merge, rebase, diff, stash. loragent-git-specialist uses this. All push/merge-to-main requires workspace-guard.",
       "env": {
         "GIT_AUTHOR_NAME": "${GIT_AUTHOR_NAME}",
         "GIT_AUTHOR_EMAIL": "${GIT_AUTHOR_EMAIL}"
       },
-      "requires_confirmation_for": [
-        "push",
-        "merge",
-        "rebase",
-        "force"
-      ]
+      "requires_confirmation_for": ["push", "merge", "rebase", "force"]
     },
+
     "web-search": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-brave-search"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
       "description": "Brave Search — web research, competitor analysis, documentation lookup. loragent-research-paper-writer and loragent-marketing-strategy-manager use this.",
       "env": {
         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
       }
     },
+
     "skills-loader": {
       "command": "npx",
-      "args": [
-        "-y",
-        "skills-mcp",
-        "-s",
-        "./skills"
-      ],
+      "args": ["-y", "skills-mcp", "-s", "./skills"],
       "description": "Expose all skills/ directory SKILL.md files as MCP tools — enables cross-agent skill invocation without full file loading.",
       "env": {}
     }
+
   }
 }

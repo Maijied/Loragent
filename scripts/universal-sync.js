@@ -21,14 +21,14 @@ const appData = getAppDataPath();
 
 const LORAGENT_MCP = {
   command: "node",
-  args: [path.join(rootDir, "port", "mcp", "server.js")], // Using absolute path to ensure global execution works
+  args: [path.join(rootDir, "port", "mcp", "server.js")],
   env: {
     LORAGENT_WORKSPACE: rootDir
   }
 };
 
 // ----------------------------------------------------------------------
-// 1. MCP Configuration Sync (Merge, don't overwrite)
+// 1. MCP Configuration Sync (Merge from .mcp.json)
 // ----------------------------------------------------------------------
 const mcpPaths = [
   // Cursor
@@ -47,6 +47,17 @@ const mcpPaths = [
   // Windsurf
   path.join(home, '.codeium', 'windsurf', 'mcp_config.json')
 ];
+
+// Read master .mcp.json if available
+let masterMcpConfig = { mcpServers: {} };
+const masterMcpFile = path.join(rootDir, '.mcp.json');
+if (fs.existsSync(masterMcpFile)) {
+  try {
+    masterMcpConfig = JSON.parse(fs.readFileSync(masterMcpFile, 'utf8'));
+  } catch (e) {
+    console.warn('⚠️ Warning: Failed to parse root .mcp.json');
+  }
+}
 
 console.log('🔄 Merging Loragent & Official Cloudflare MCP servers into global configs...');
 for (const mcpFile of mcpPaths) {
@@ -72,22 +83,23 @@ for (const mcpFile of mcpPaths) {
 
     const isWindsurf = mcpFile.includes('windsurf');
 
-    // Loragent Local MCP
-    config.mcpServers["loragent"] = LORAGENT_MCP;
-
-    // Loragent Cloud MCP
-    if (isWindsurf) {
-      config.mcpServers["loragent-cloud"] = {
-        serverUrl: "https://mcp.lorapk-labs.workers.dev/mcp"
-      };
-    } else {
-      config.mcpServers["loragent-cloud"] = {
-        url: "https://mcp.lorapk-labs.workers.dev/mcp",
-        type: "http"
-      };
+    // 1. Merge master MCP servers from .mcp.json
+    for (const [key, serverDef] of Object.entries(masterMcpConfig.mcpServers || {})) {
+      if (isWindsurf) {
+        if (serverDef.url) {
+          config.mcpServers[key] = { serverUrl: serverDef.url };
+        } else {
+          config.mcpServers[key] = { ...serverDef };
+        }
+      } else {
+        config.mcpServers[key] = { ...serverDef };
+      }
     }
 
-    // Official Cloudflare Remote MCP Servers
+    // 2. Ensure local loragent uses absolute server path
+    config.mcpServers["loragent"] = LORAGENT_MCP;
+
+    // 3. Ensure Cloudflare remote MCPs
     const cloudflareUrls = {
       "cloudflare": "https://mcp.cloudflare.com/mcp",
       "cloudflare-docs": "https://docs.mcp.cloudflare.com/mcp",
