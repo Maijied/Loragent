@@ -8,16 +8,11 @@ import {
 
 import allAgentsData from '@/data/all-agents.json';
 
-export async function generateStaticParams() {
-  const mcps = allAgentsData.items.filter((item: any) => item.type === 'MCP SERVER');
-  return mcps.map((mcp: any) => ({
-    slug: mcp.slug,
-  }));
-}
+export const dynamic = 'auto';
 
 export default async function McpDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const mcp = allAgentsData.items.find((item: any) => item.slug === slug);
+  const mcp = allAgentsData.items.find((item: any) => item.slug === slug || item.slug === `mcp-${slug}`);
 
   if (!mcp) {
     notFound();

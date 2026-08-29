@@ -10,16 +10,47 @@ import {
 
 import allAgentsData from '@/data/all-agents.json';
 
-export async function generateStaticParams() {
-  const agents = allAgentsData.items.filter((item: any) => item.type === 'AGENT' || item.type === 'SKILL');
-  return agents.map((agent: any) => ({
-    slug: agent.slug,
-  }));
-}
+import fs from 'node:fs';
+import path from 'node:path';
+
+export const dynamic = 'auto';
 
 export default async function AgentDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const agent = allAgentsData.items.find((item: any) => item.slug === slug);
+  
+  // 1. Try finding in precompiled catalog dataset
+  let agent: any = allAgentsData.items.find((item: any) => item.slug === slug || item.slug === `loragent-${slug}`);
+
+  // 2. Dynamic live fallback: read directly from workspace if newly created
+  if (!agent) {
+    try {
+      const root = path.resolve(process.cwd(), '..');
+      const agentPath = path.join(root, 'agents', slug.replace(/^loragent-/, ''), 'SKILL.md');
+      const skillPath = path.join(root, 'skills', slug.replace(/^loragent-/, ''), 'SKILL.md');
+      const targetFile = fs.existsSync(agentPath) ? agentPath : (fs.existsSync(skillPath) ? skillPath : null);
+
+      if (targetFile) {
+        const raw = fs.readFileSync(targetFile, 'utf8');
+        agent = {
+          id: slug,
+          slug,
+          name: slug.replace(/^loragent-/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+          type: targetFile.includes('agents') ? 'AGENT' : 'SKILL',
+          category: 'ENGINEERING',
+          formation: 'auto',
+          layer: 'CROSS',
+          version: '2.0.0',
+          description: `Live discovered dynamic agent specification.`,
+          objective: raw.slice(0, 600),
+          allowedTools: ['filesystem_read', 'filesystem_write', 'loragent_steer'],
+          tags: ['dynamic', 'loragent'],
+          connectors: ['loragent-core', 'filesystem'],
+          isResident: false,
+          costTier: 'Optimal',
+        };
+      }
+    } catch {}
+  }
 
   if (!agent) {
     notFound();
