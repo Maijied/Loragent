@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://loragent.lorapok.tech/schemas/artifact-spec.schema.json",
+  "title": "Loragent Artifact Spec",
+  "description": "Schema for JSON spec files used by scripts/generate-artifact.js and scripts/ingest-url.js",
+  "type": "object",
+  "required": ["slug", "displayName", "artifactType", "description"],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^loragent-[a-z0-9-]+$",
+      "description": "kebab-case slug, must start with loragent-",
+      "examples": ["loragent-stripe-payments", "loragent-fal-image"]
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human readable display name",
+      "examples": ["Stripe Payments", "Fal.ai Image Generate"]
+    },
+    "artifactType": {
+      "type": "string",
+      "enum": ["skill", "agent", "mcp", "steering", "rule", "formation", "bundle"],
+      "description": "What kind of artifact to generate"
+    },
+    "formation": {
+      "type": "string",
+      "enum": ["auto", "office", "chela", "freelance", "observer", "orchestrator"],
+      "default": "freelance"
+    },
+    "layer": {
+      "type": "string",
+      "enum": ["face", "pulse", "lore", "port", "loom", "cross"],
+      "default": "cross"
+    },
+    "costTier": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "default": "low"
+    },
+    "description": {
+      "type": "string",
+      "description": "Trigger-condition description: what it does, when to invoke, when NOT to invoke",
+      "minLength": 20
+    },
+    "primaryObjective": { "type": "string" },
+    "roleIdentity":     { "type": "string" },
+    "scopeBoundary":    { "type": "string" },
+    "agentSpecificPhilosophy": { "type": "string", "default": "" },
+
+    "capabilitiesList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of capabilities this skill/agent provides"
+    },
+    "toolCheckCommands": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Shell commands to check tool availability before running"
+    },
+    "toolInstallCommands": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Shell commands to install required tools"
+    },
+    "toolVerifyCommands": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Shell commands to verify tools are ready"
+    },
+    "executionSteps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered list of execution steps"
+    },
+    "outputFormat": { "type": "string" },
+    "handoffTargets": {
+      "type": "string",
+      "default": "loragent-boss (on completion)"
+    },
+
+    "mcpServerKey": {
+      "type": "string",
+      "description": "Key used in mcpServers object (kebab-case, no loragent- prefix)"
+    },
+    "mcpCommand": { "type": "string", "default": "npx" },
+    "mcpArgs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["-y", "<package-name>"]
+    },
+    "mcpEnvVars": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Environment variables for the MCP server config"
+    },
+    "envVarsNeeded": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of env var names that must be set"
+    },
+    "installCommands": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+
+    "standaloneInvoke": {
+      "type": "string",
+      "description": "Claude Code slash command for standalone invocation",
+      "examples": ["/loragent:stripe-payments"]
+    },
+    "standaloneCliExample": {
+      "type": "string",
+      "description": "CLI example for standalone invocation"
+    },
+
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["lorapok", "loragent"]
+    },
+    "requiresConfirmation": { "type": "boolean", "default": false },
+    "requiresStack":         { "type": "boolean", "default": false },
+    "sourceUrl":             { "type": "string",  "format": "uri", "default": "" },
+
+    "squadAgents": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "For formation type: list of agent slugs in this squad"
+    }
+  },
+
+  "examples": [
+    {
+      "slug": "loragent-stripe-payments",
+      "displayName": "Stripe Payments",
+      "artifactType": "skill",
+      "formation": "freelance",
+      "layer": "port",
+      "costTier": "medium",
+      "description": "Stripe payment integration. Invoke when processing charges, managing subscriptions, or handling webhooks. Do NOT invoke for non-payment financial ops.",
+      "mcpServerKey": "stripe",
+      "mcpCommand": "npx",
+      "mcpArgs": ["-y", "stripe-mcp-server"],
+      "mcpEnvVars": { "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY}" },
+      "envVarsNeeded": ["STRIPE_SECRET_KEY"],
+      "tags": ["lorapok", "loragent", "stripe", "payments", "port"],
+      "requiresConfirmation": true
+    }
+  ]
+}

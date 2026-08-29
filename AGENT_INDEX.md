@@ -1,242 +1,242 @@
 # Loragent Agent Index
 
-> Auto-generated. Do not hand-edit. Run `node scripts/enrich-skills.js --agent-index`.
+> Auto-generated. Re-run `node scripts/generate-marketplace.js` to update.
 
-**Total agents:** 224
+**Total agents:** 224 | **MCP servers:** 20 | **Formations:** 6
 
 ## AUTO Formation (210)
 
-- **`loragent-3d-designer`** `[cross]` — 3D modeling for apps, software, and web.
-- **`loragent-accessibility-audit`** `[cross]` — Whole site or product — a full web accessibility (a11y) audit against WCAG 2.2, following the WCAG-EM methodology. Defines scope, samples representative pages and flows, runs the automated tier (`ac
-- **`loragent-accounts-specialist`** `[cross]` — Credentials Manager. Safely handles tokens and sensitive info using the secure-cred-vault standard.
-- **`loragent-addon-maker`** `[cross]` — Browser extension and application addon creator.
-- **`loragent-admin-reliability`** `[cross]` — Debugs and reviews the admin React SPA, Vitest setup, API middleware, Firebase auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issu
-- **`loragent-ads-manager`** `[cross]` — Suggests where to provide ads and how with strategy.
-- **`loragent-ai-communicator`** `[cross]` — AI to AI Communicator. Gets more precise ideas from specialty-based models.
-- **`loragent-algorithm-implementer`** `[cross]` — Problem solver like in LeetCode or competitive programming platforms.
-- **`loragent-angular-specialist`** `[cross]` — Angular framework specialist.
-- **`loragent-animator`** `[cross]` — Creates animated designs.
-- **`loragent-api-chef`** `[cross]` — Designs perfectly structured API responses.
-- **`loragent-apple-ecosystem-expert`** `[cross]` — macOS, iOS, Swift, and Apple ecosystem authority.
-- **`loragent-architect-designer`** `[cross]` — Works alongside the Tech Director to map out complex system architectures visually or structurally.
-- **`loragent-auditor`** `[cross]` — Security and code compliance auditing.
-- **`loragent-authentication-engineer`** `[cross]` — Enterprise Auth, OAuth, and JWT workflows.
-- **`loragent-aws-specialist`** `[cross]` — Amazon Web Services (AWS) Specialist. Automates AWS CLI, Lambda, S3, ECS/EKS, DynamoDB, and CloudFormation with Zero-Trust Credential Vault integration.
-- **`loragent-azure-cloud-specialist`** `[cross]` — Microsoft Azure Cloud Specialist. Automates Azure CLI (az), Container Apps, Azure Functions, Cosmos DB, Blob Storage, Entra ID, and Key Vault with Zero-Trust Credential Vault integration.
-- **`loragent-azure-specialist`** `[cross]` — Microsoft Azure cloud infrastructure expert.
-- **`loragent-backend-se`** `[cross]` — The Backend Senior Software Engineer. Implements APIs, core player logic, and data structures.
-- **`loragent-browser-automation-expert`** `[cross]` — Playwright/Puppeteer/Selenium E2E testing.
-- **`loragent-browser-specialist`** `[cross]` — Operates exclusively via Browser MCP to navigate and automate web tasks.
-- **`loragent-bug-hunter`** `[cross]` — The Chela. Most critical problem solver developer. Vibes with devs to fix things.
-- **`loragent-business-expert`** `[cross]` — The Business Expert. Analyzes requirements for SEO, market fit, and product logic.
-- **`loragent-cache-collector`** `[cross]` — Premium grade Cache Manager. Uses Web3 End-to-End Encryption (E2EE) and Brotli compression to securely sync and free up IDE cache space.
-- **`loragent-chorki`** `[cross]` — The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and executes multi-step objectives until 100% verifiably completed using continuous check-done verification hooks.
-- **`loragent-cicd-automation-expert`** `[cross]` — Advanced CI/CD engineering approach.
-- **`loragent-cicd-specialist`** `[cross]` — Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and optimizes multi-target deployment pipelines (GitHub Actions, Cloudflare, Docker, NPM, PyPI, Composer, AMO, Open VSX).
-- **`loragent-cli-automation-maker`** `[cross]` — Builds internal CLI tools and bash automations.
-- **`loragent-cli-utilities-specialist`** `[cross]` — Builds and optimizes command-line tools.
-- **`loragent-client`** `[cross]` — The Client agent. Responsible for providing initial requirements, business constraints, and defining success metrics for the virtual office.
-- **`loragent-cloud-specialist`** `[cross]` — General cloud infrastructure architect.
-- **`loragent-code-auditor`** `[cross]` — Specialized subagent responsible for auditing code quality, security vulnerabilities, API syntax compliance, and CommonJS module export consistency across the codebase.
-- **`loragent-code-optimizer`** `[cross]` — Optimizes code execution speed and memory usage.
-- **`loragent-command-executor`** `[cross]` — Specialized agent that runs terminal commands across any ecosystem (Node, Python, Docker) safely interpreting output.
-- **`loragent-content-writer`** `[cross]` — Writes professional articles and blogs.
-- **`loragent-cpp-expert`** `[cross]` — C++ programming language expert.
-- **`loragent-cv-maker`** `[cross]` — Generates professional CVs/Resumes based on developer portfolios and Git histories.
-- **`loragent-database-designer`** `[cross]` — Professional DB architect.
-- **`loragent-database-updater`** `[cross]` — Dedicated to syncing agent learnings to Firebase.
-- **`loragent-debugger`** `[cross]` — Dedicated step-through and stack-trace debugger.
-- **`loragent-delivery-boy`** `[cross]` — Carries deployment released products to specific places.
-- **`loragent-deploy`** `[loom]` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
-- **`loragent-devops`** `[cross]` — The DevOps Specialist. Runs CI/CD pipelines, deployment hooks, and ensures build stability.
-- **`loragent-django-specialist`** `[cross]` — Django framework specialist.
-- **`loragent-doc-brain-updater`** `[cross]` — Autonomous documentation maintainer and living knowledge synchronizer for Lorapok AI Agent. Responsible for ensuring `BRAIN.md`, `.agents/BRAIN.md`, `README.md`, `CHANGELOG.md`, `USAGE.md`, and `TESTI
-- **`loragent-docker-specialist`** `[cross]` — Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries.
-- **`loragent-docman`** `[cross]` — Docker, containerization, and orchestration expert.
-- **`loragent-env-maker`** `[cross]` — Config specialist for env, CMake, and CNAME.
-- **`loragent-fastapi`** `[cross]` — FastAPI best practices and conventions. Use when working with FastAPI APIs and Pydantic models for them. Keeps FastAPI code clean and up to date with the latest features and patterns, updated with new
-- **`loragent-firebase-specialist`** `[cross]` — Firebase Ecosystem Specialist. Automates Firestore data modeling, Cloud Functions, Firebase Authentication, Hosting, Storage, and Security Rules auditing with Zero-Trust Credential Vault integration.
-- **`loragent-freqghost-admin-panel`** `[cross]` — Build and modify the FreqGhost admin dashboard — Cognitum-aesthetic web UI with JWT auth, role-based ACL, source switching, data collection controls, and ML model management. Use when the user asks 
-- **`loragent-freqghost-data-collection`** `[cross]` — Manage CSI/RSSI data collection sessions for ML training — recording, labeling, exporting datasets, and quality validation. Use when the user asks to collect data, record CSI, build datasets, label 
-- **`loragent-freqghost-deployment`** `[cross]` — Deploy FreqGhost via Docker, nginx, and production configuration — multi-service compose, SSL/TLS, MQTT broker, environment variables. Use when deploying, configuring Docker, setting up nginx, or ma
-- **`loragent-freqghost-frontend-dev`** `[cross]` — Develop the FreqGhost Three.js 3D viewer and admin panel frontend — Cognitum aesthetic, CDN-only libraries, no build step. Use when modifying the 3D viewer, adding UI elements, changing styling, or 
-- **`loragent-freqghost-model-training`** `[cross]` — Standardized instructions for training the FreqGhost contrastive CSI encoder and vital signs models.
-- **`loragent-freqghost-source-management`** `[cross]` — Add, configure, and manage SceneSource implementations — the central abstraction for all data flow in FreqGhost. Use when adding new sources, switching active source, configuring router credentials,
-- **`loragent-freqghost-verification`** `[cross]` — Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure reproducibility.
-- **`loragent-frontend-se`** `[cross]` — The Frontend Senior Software Engineer. Implements UI/UX using biological/sensory computing aesthetics.
-- **`loragent-fund-collector`** `[cross]` — Strategizes roadmaps for VC pitching, crowdfunding, and capitalization.
-- **`loragent-garbage-collector`** `[cross]` — Identifies and removes unused code, dead files, and unnecessary dependencies.
-- **`loragent-gcp-specialist`** `[cross]` — Google Cloud Platform Specialist. Automates gcloud CLI, Cloud Run, BigQuery (bq), Cloud Storage (gsutil), IAM, and Vertex AI with Zero-Trust Credential Vault integration.
-- **`loragent-gh-cli-specialist`** `[cross]` — GitHub CLI Specialist. Automates PR management, issue triage, release generation, Actions workflow dispatch, and repo settings.
-- **`loragent-git-release-manager`** `[cross]` — Specialized subagent responsible for auditing git branches (`main`, `LLM-Support/GoogleAiStudio-Support`, `git-features-integration`, `ui-polish-and-functionality-improvement`), preparing releases, up
-- **`loragent-git-specialist`** `[cross]` — Advanced version control, rebasing, and merge conflict resolution.
-- **`loragent-go-expert`** `[cross]` — Go programming language expert.
-- **`loragent-gold-collector`** `[cross]` — Global Telemetry Miner. Detects novel solutions and syncs them to the Firebase Hivemind.
-- **`loragent-google-products-specialist`** `[cross]` — Specialist for Google Console, Firebase, GCP.
-- **`loragent-governance-guard`** `[cross]` — Audits AGENTS.md, Cursor rules, project skills, hooks, MCP configuration, Husky, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, agents, hooks, skills, ru
-- **`loragent-hr`** `[cross]` — Human Resources. Tracks agent burnout and token limits.
-- **`loragent-inspector`** `[cross]` — Uses git blame/git log to find the exact culprit of a bug and generates RCA (Root Cause Analysis) reports.
-- **`loragent-isp-man`** `[cross]` — Network, IP, Port, and DNS routing specialist.
-- **`loragent-javascript-expert`** `[cross]` — JavaScript (and TypeScript) programming language expert.
-- **`loragent-jokki-bhai`** `[cross]` — The Entertainer. Roasts the team using roast-as-a-service.
-- **`loragent-k8-expert`** `[cross]` — Kubernetes, Helm charts, and cluster management.
-- **`loragent-laravel-specialist`** `[cross]` — Laravel PHP framework specialist.
-- **`loragent-legacy-system-analyser`** `[cross]` — Understands and optimizes legacy syntaxes.
-- **`loragent-localization-expert`** `[cross]` — i18n, l10n, and multi-language support mapping.
-- **`loragent-logo-designer`** `[cross]` — Specialist in branding and logo design prompts.
-- **`loragent-loragent-amo-mcp`** `[cross]` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
-- **`loragent-loragent-amo-publish`** `[cross]` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Mission Control, credential vault.
-- **`loragent-loragent-cloudflare-mail-master`** `[cross]` — Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routing rules, token split, or troubleshooting 401/10203 errors for Lorapok projects.
-- **`loragent-loragent-dynamic-versioning`** `[cross]` — Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping releases, wiring CI, or Mission Control deploy flows.
-- **`loragent-loragent-marketplace-crosslink`** `[cross]` — Add consistent
-- **`loragent-loragent-mission-control`** `[cross]` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and infra-only publishes.
-- **`loragent-loragent-openvsx-publish`** `[cross]` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate listing fixes, CI sync.
-- **`loragent-loragent-unified-deployment`** `[cross]` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin panel, and website via mission-control.lorapok.tech.
-- **`loragent-loragent-vscode-publish`** `[cross]` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mission Control wiring.
-- **`loragent-loragent-website-design`** `[cross]` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and Mission Control infra deploy.
-- **`loragent-lorapok-brain-documentation`** `[cross]` — Skill for maintaining and updating BRAIN.md, .agents/BRAIN.md, and project documentation after every code or architectural change in Lorapok AI Agent.
-- **`loragent-lorapok-cli-testing`** `[cross]` — Skill for running, testing, and debugging the Lorapok CLI, including terminal rendering, mock interactive commands, corner-case testing, and Jest test runner.
-- **`loragent-lorapok-deployment-specialist`** `[cross]` — Professional Deployment Specialist skill for Lorapok Media Player. Manages full CI/CD, build verification across Electron, React, Website, and Chrome Extension. Features automated error extraction, diagnosis, fix planning, and retry hook execution.
-- **`loragent-lorapok-express-server`** `[cross]` — Skill for Express REST API in server.js, model guards, sessions, and packages/sdk consumers.
-- **`loragent-lorapok-frontend`** `[cross]` — >-
-- **`loragent-lorapok-git-workflow`** `[cross]` — Skill for managing git integration features, branch management, merge conflict resolution, pull request workflow, and git automation actions in Lorapok.
-- **`loragent-lorapok-mcp-integration`** `[cross]` — Skill for building, configuring, and verifying Model Context Protocol (MCP) server & client integrations within Lorapok AI Agent.
-- **`loragent-lorapok-model-provider`** `[cross]` — Skill for ModelManager, ModelValidator, ModelCacheService, multi-provider routing, menus, and REST model endpoints.
-- **`loragent-lorapok-token-efficiency`** `[cross]` — Skill for optimizing token usage and context retrieval when AI agents work on the Lorapok AI Agent codebase.
-- **`loragent-lorapok-website-build`** `[cross]` — Skill for maintaining and deploying apps/website frontend assets and static documentation.
-- **`loragent-marketing-gen`** `[cross]` — Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosystem.
-- **`loragent-marketing-strategy-manager`** `[cross]` — Plans overall marketing strategy.
-- **`loragent-mathematician`** `[cross]` — Advanced mathematics and statistical logic solver.
-- **`loragent-mermaid-architecture-specialist`** `[cross]` — Expert in visualizing complex systems using Mermaid.js syntax (flowcharts, state diagrams, sequence diagrams).
-- **`loragent-model-auditor`** `[cross]` — After model/menu/API changes.
-- **`loragent-node-specialist`** `[cross]` — Node.js backend and runtime specialist.
-- **`loragent-notion-expert`** `[cross]` — Notion API and integration master.
-- **`loragent-office-assistant`** `[cross]` — Passes data from one agent to another on demand.
-- **`loragent-operations`** `[cross]` — The Operations Manager (Ops). Monitors deployment health and logs errors.
-- **`loragent-os-specialist`** `[cross]` — Expert in Operating Systems, file directories, and kernel level operations.
-- **`loragent-package-expert`** `[cross]` — Professional Package JSON Writer and strict metadata enforcer.
-- **`loragent-package-maker`** `[cross]` — Scaffolds NPM, Pip, and Composer packages.
-- **`loragent-paymentguy`** `[cross]` — Specialist for payment system integrations (Stripe, PayPal, etc).
-- **`loragent-performance-analyser`** `[cross]` — Deep-dive bottleneck profiling.
-- **`loragent-pion`** `[cross]` — The PION Agent. Consolidates final results, artifacts, and walkthroughs to present to the Client.
-- **`loragent-pipeline-checker`** `[cross]` — Validates data and CI pipeline integrity.
-- **`loragent-portfolio-designer`** `[cross]` — Designs the layout and content structure for personal or project portfolio websites.
-- **`loragent-pr-specialist`** `[cross]` — Public Relations. Handles public sentiment, press releases, and crisis management.
-- **`loragent-professional-document-creator`** `[cross]` — Creates Markdown, PDF, text, proposals.
-- **`loragent-professional-readme-creator`** `[cross]` — Skill for drafting, auditing, and maintaining high-impact, professional README documentation for Lorapok AI Agent and open-source repositories.
-- **`loragent-professional-research-docx-writer`** `[cross]` — >-
-- **`loragent-professor`** `[cross]` — Conducts deep academic-level reviews and architectural analysis of the entire project.
-- **`loragent-project-architect`** `[cross]` — Project Architect and Team Lead. Orchestrates the project, assigns tasks to specialized developers, designs architecture, and triages reported bugs. Use proactively for architecture decisions or routi
-- **`loragent-project-coordinator`** `[cross]` — Orchestrates project timelines, resource allocation, and dependencies.
-- **`loragent-project-manager`** `[cross]` — The Project Manager. Breaks down requirements into tasks, creates the /plan, and orchestrates the virtual office workflow.
-- **`loragent-project-overviewer`** `[cross]` — Generates high-level project state summaries.
-- **`loragent-project-theme-expert`** `[cross]` — Curates the visual language, design system, and overarching aesthetic (like 
-- **`loragent-prototype-designer`** `[cross]` — Prototype designer like design in Canva.
-- **`loragent-publisher`** `[cross]` — Generates publish sites info, texts, articles, images to reach target audience.
-- **`loragent-python-expert`** `[cross]` — Python programming language expert (version and syntax aware).
-- **`loragent-railway-expert`** `[cross]` — Railway.app backend deployment specialist.
-- **`loragent-react-best-practices`** `[cross]` — React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patter
-- **`loragent-react-specialist`** `[cross]` — React.js framework specialist.
-- **`loragent-readme-generator-specialist`** `[cross]` — Analyzes the entire project ecosystem to generate highly professional, extensive README files tailored to the specific project.
-- **`loragent-release-integrity`** `[cross]` — Audits package versions, GitHub releases, VSIX links, marketplace observations, SEO artifacts, and publishing workflows. Use proactively before releases, marketplace sync, SEO changes, or generated-da
-- **`loragent-repo-repair`** `[cross]` — Performs a structured repository repair across tests, runtime paths, generated release data, CI, SEO, and governance. Use when fixing broad regressions, release drift, or requests involving agents, ho
-- **`loragent-research-paper-writer`** `[cross]` — Specialized in writing academic, IEEE, or white-paper style documents.
-- **`loragent-responsive-system-designer`** `[cross]` — Mobile-first layouts and fluid scaling.
-- **`loragent-rust-expert`** `[cross]` — Rust programming language expert.
-- **`loragent-sales-executive`** `[cross]` — Focuses on conversion and direct sales copy.
-- **`loragent-scaffold`** `[cross]` — Generate deployment-ready infrastructure code from an architecture plan, verify it with adversarial self-review, and bridge to validation — all without deploying.
-- **`loragent-se-model-specialist`** `[cross]` — Expert in Software Engineering architectural models (Waterfall, Agile, etc).
-- **`loragent-seo`** `[cross]` — >-
-- **`loragent-seo-specialist`** `[cross]` — Search Engine Optimization specialist.
-- **`loragent-shift-engineer`** `[cross]` — Handles short, isolated tasks.
-- **`loragent-skill-creator`** `[cross]` — Autonomously writes new agent skills and pushes to Firebase.
-- **`loragent-software-business-analyst`** `[cross]` — Cost to market analysis, competitive pricing, plans and strategies.
-- **`loragent-specialized-developer`** `[cross]` — Specialized Developer performing high-tech global industry level coding. Use proactively to implement assigned subtasks, fix bugs, and refactor code safely.
-- **`loragent-spidernet`** `[cross]` — The Spidernet multi-agent workflow coordinator.
-- **`loragent-sqa`** `[cross]` — The Senior QA. Runs automated tests, reviews edge cases, and checks accessibility/security.
-- **`loragent-sqa-lead`** `[cross]` — High-tech global industry level 20+ years experienced SQA with development background. Use proactively for deep testing, edge-case analysis, finding bugs, and comprehensive test suite generation.
-- **`loragent-srs-analyzer`** `[cross]` — Software Requirements Specification analyzer.
-- **`loragent-store-specialist`** `[cross]` — Deployment to App Store, Play Store, and Package Managers.
-- **`loragent-streamvar-theme-architect`** `[cross]` — Principal Frontend UI/UX Architect & Systems Designer for Loragent. Uses Next.js App Router, React 19, Tailwind CSS, and Framer Motion.
-- **`loragent-teacher`** `[cross]` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
-- **`loragent-team-lead`** `[cross]` — The Team Lead. Coordinates the tech team, assigns engineering tasks, and conducts primary code reviews.
-- **`loragent-tech-director`** `[cross]` — The Tech Director (Architect). Defines technical architecture, stack, and data models.
-- **`loragent-test-sentinel`** `[cross]` — Specialized subagent responsible for test execution, corner-case test expansion, and verifying zero regression across all test suites.
-- **`loragent-themeguy`** `[cross]` — Global UI theme and styling connoisseur.
-- **`loragent-thewikiboy`** `[cross]` — Deep-dive researcher for scraping and finding all data/sources.
-- **`loragent-token-auditor`** `[cross]` — Specialized subagent responsible for auditing token consumption, context payload efficiency, and enforcing token conservation rules across agent workflows.
-- **`loragent-token-sniper`** `[cross]` — Premium context optimization agent. Slashes AI token usage by >70% using AST pruning, skeletonization, and diff-only parsing.
-- **`loragent-tools-specialist`** `[cross]` — Tooling & Package Expert. Suggests optimal packages and provides robust installation mechanics.
-- **`loragent-ui-ux-professional`** `[cross]` — World-class UI/UX design and wireframing.
-- **`loragent-validator`** `[cross]` — Deep data and list validation logic.
-- **`loragent-vercel-expert`** `[cross]` — Vercel deployment and Edge functions specialist.
-- **`loragent-version-bumper`** `[cross]` — Handles version bumping mechanism professionally. Uses LVP for Pro users, and standard SemVer for free users.
-- **`loragent-vidman`** `[cross]` — Generates prompts and scripts for marketing reels and video content.
-- **`loragent-vue-specialist`** `[cross]` — Vue.js framework specialist.
-- **`loragent-web-design-guidelines`** `[cross]` — Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
-- **`loragent-workflow-automation-specialist`** `[cross]` — n8n, OpenClaw, and low-code orchestrations.
-- **`loragent-workflow-manager`** `[cross]` — Fine-tunes the physical office flow and handles the logistics of the Hub-and-Spoke model.
-- **`loragent-workspace-guard`** `[cross]` — Security enforcer that prevents unauthorized deletions or destructive commands.
-- **`loragent-wrangler-specialist`** `[cross]` — Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV, D1, R2, Vectorize, Queues, and Secrets with Zero-Trust Credential Vault integration.
-- **`loragent-amo-mcp`** `[cross]` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
-- **`loragent-amo-publish`** `[cross]` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Mission Control, credential vault.
-- **`loragent-deploy`** `[loom]` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
-- **`loragent-marketplace-crosslink`** `[cross]` — Add consistent "Also available on" platform links across IDE extensions, browser add-ons, AMO, VSCE, Open VSX, README, and marketing site.
-- **`loragent-mission-control`** `[cross]` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and infra-only publishes.
-- **`loragent-openvsx-publish`** `[cross]` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate listing fixes, CI sync.
-- **`loragent-unified-deployment`** `[cross]` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin panel, and website via mission-control.lorapok.tech.
-- **`loragent-vscode-publish`** `[cross]` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mission Control wiring.
-- **`loragent-website-design`** `[cross]` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and Mission Control infra deploy.
-- **`loragent-amo-mcp`** `[cross]` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
-- **`loragent-amo-publish`** `[cross]` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Mission Control, credential vault.
-- **`loragent-backend-se`** `[cross]` — The Backend Senior Software Engineer. Implements APIs, core player logic, and data structures.
-- **`loragent-bug-hunter`** `[cross]` — The Chela. Most critical problem solver developer. Vibes with devs to fix things.
-- **`loragent-deploy`** `[loom]` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
-- **`loragent-frontend-se`** `[cross]` — The Frontend Senior Software Engineer. Implements UI/UX using biological/sensory computing aesthetics.
-- **`loragent-marketplace-crosslink`** `[cross]` — Add consistent "Also available on" platform links across IDE extensions, browser add-ons, AMO, VSCE, Open VSX, README, and marketing site.
-- **`loragent-mission-control`** `[cross]` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and infra-only publishes.
-- **`loragent-openvsx-publish`** `[cross]` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate listing fixes, CI sync.
-- **`loragent-spidernet`** `[cross]` — The Spidernet multi-agent workflow coordinator.
-- **`loragent-sqa`** `[cross]` — The Senior QA. Runs automated tests, reviews edge cases, and checks accessibility/security.
-- **`loragent-system-knowledge`** `[cross]` — Complete architectural reference for the Loragent 165-agent ecosystem — LLDP layers, naming conventions, agent hierarchy, sync pipeline, cross-OS paths, and CLI commands.
-- **`loragent-teacher`** `[cross]` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
-- **`loragent-tech-director`** `[cross]` — The Tech Director (Architect). Defines technical architecture, stack, and data models.
-- **`loragent-unified-deployment`** `[cross]` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin panel, and website via mission-control.lorapok.tech.
-- **`loragent-vscode-publish`** `[cross]` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mission Control wiring.
-- **`loragent-website-design`** `[cross]` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and Mission Control infra deploy.
-- **`loragent-workspace-guard`** `[cross]` — Security enforcer that prevents unauthorized deletions or destructive commands.
-- **`loragent-wrangler-specialist`** `[cross]` — Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV, D1, R2, Vectorize, Queues, and Secrets with Zero-Trust Credential Vault integration.
-- **`ui-ux-specialist`** `[cross]` — Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.
-- **`loragent-boss`** `[cross]` — The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.
-- **`lorapok-marketing-gen`** `[cross]` — Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosystem.
-- **`loragent-package-expert`** `[cross]` — Professional Package JSON Writer and strict metadata enforcer.
-- **`loragent-spidernet`** `[cross]` — The Spidernet multi-agent workflow coordinator.
-- **`loragent-streamvar-theme-architect`** `[cross]` — Principal Frontend UI/UX Architect & Systems Designer for Loragent. Uses Next.js App Router, React 19, Tailwind CSS, and Framer Motion.
-- **`loragent-teacher`** `[cross]` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
-- **`loragent-watchman`** `[cross]` — Watches the system. Maintains a cache file to allow uninterrupted recovery of stuck processes via /loragent-watchman continue.
-- **`loragent-workspace-guard`** `[cross]` — Security enforcer that prevents unauthorized deletions or destructive commands.
-- **`loragent-business-expert`** `[cross]` — Manages Lorapok Labs monetization, subscription logic, marketing campaigns, and upsells.
-
-## ORCHESTRATOR Formation (2)
-
-- **`loragent-boss`** `[cross]` — Central orchestrator of the 108-agent Loragent ecosystem. Invoke first for any multi-step or complex task. Boss analyzes scope, selects the correct formation (Auto/Office/Chela/Freelance), summons specialist agents via MCP, and manages the full execution pipeline. Do NOT invoke when a single specialist is clearly sufficient — invoke that specialist directly instead.
-- **`loragent-boss`** `[cross]` — Central orchestrator of the 108-agent Loragent ecosystem. Invoke first for any multi-step or complex task. Boss analyzes scope, selects the correct formation (Auto/Office/Chela/Freelance), summons specialist agents via MCP, and manages the full execution pipeline. Do NOT invoke when a single specialist is clearly sufficient — invoke that specialist directly instead.
+- **`loragent-3d-designer`** `[CROSS]` `✅ standalone` — 3D modeling for apps, software, and web.
+- **`loragent-accessibility-audit`** `[CROSS]` `✅ standalone` — Whole site or product — a full web accessibility (a11y) audit against WCAG 2.2, following the WCAG-E
+- **`loragent-accounts-specialist`** `[CROSS]` `✅ standalone` — Credentials Manager. Safely handles tokens and sensitive info using the secure-cred-vault standard.
+- **`loragent-addon-maker`** `[CROSS]` `✅ standalone` — Browser extension and application addon creator.
+- **`loragent-admin-reliability`** `[CROSS]` `✅ standalone` — Debugs and reviews the admin React SPA, Vitest setup, API middleware, Firebase auth, and Cloudflare 
+- **`loragent-ads-manager`** `[CROSS]` `✅ standalone` — Suggests where to provide ads and how with strategy.
+- **`loragent-ai-communicator`** `[CROSS]` `✅ standalone` — AI to AI Communicator. Gets more precise ideas from specialty-based models.
+- **`loragent-algorithm-implementer`** `[CROSS]` `✅ standalone` — Problem solver like in LeetCode or competitive programming platforms.
+- **`loragent-amo-mcp`** `[CROSS]` `✅ standalone` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
+- **`loragent-amo-mcp`** `[CROSS]` `✅ standalone` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
+- **`loragent-amo-publish`** `[CROSS]` `✅ standalone` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Missio
+- **`loragent-amo-publish`** `[CROSS]` `✅ standalone` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Missio
+- **`loragent-angular-specialist`** `[CROSS]` `✅ standalone` — Angular framework specialist.
+- **`loragent-animator`** `[CROSS]` `✅ standalone` — Creates animated designs.
+- **`loragent-api-chef`** `[CROSS]` `✅ standalone` — Designs perfectly structured API responses.
+- **`loragent-apple-ecosystem-expert`** `[CROSS]` `✅ standalone` — macOS, iOS, Swift, and Apple ecosystem authority.
+- **`loragent-architect-designer`** `[CROSS]` `✅ standalone` — Works alongside the Tech Director to map out complex system architectures visually or structurally.
+- **`loragent-auditor`** `[CROSS]` `✅ standalone` — Security and code compliance auditing.
+- **`loragent-authentication-engineer`** `[CROSS]` `✅ standalone` — Enterprise Auth, OAuth, and JWT workflows.
+- **`loragent-aws-specialist`** `[CROSS]` `✅ standalone` — Amazon Web Services (AWS) Specialist. Automates AWS CLI, Lambda, S3, ECS/EKS, DynamoDB, and CloudFor
+- **`loragent-azure-cloud-specialist`** `[CROSS]` `✅ standalone` — Microsoft Azure Cloud Specialist. Automates Azure CLI (az), Container Apps, Azure Functions, Cosmos 
+- **`loragent-azure-specialist`** `[CROSS]` `✅ standalone` — Microsoft Azure cloud infrastructure expert.
+- **`loragent-backend-se`** `[CROSS]` `✅ standalone` — The Backend Senior Software Engineer. Implements APIs, core player logic, and data structures.
+- **`loragent-backend-se`** `[CROSS]` `✅ standalone` — The Backend Senior Software Engineer. Implements APIs, core player logic, and data structures.
+- **`loragent-boss`** `[CROSS]` `✅ standalone` — The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.
+- **`loragent-browser-automation-expert`** `[CROSS]` `✅ standalone` — Playwright/Puppeteer/Selenium E2E testing.
+- **`loragent-browser-specialist`** `[CROSS]` `✅ standalone` — Operates exclusively via Browser MCP to navigate and automate web tasks.
+- **`loragent-bug-hunter`** `[CROSS]` `✅ standalone` — The Chela. Most critical problem solver developer. Vibes with devs to fix things.
+- **`loragent-bug-hunter`** `[CROSS]` `✅ standalone` — The Chela. Most critical problem solver developer. Vibes with devs to fix things.
+- **`loragent-business-expert`** `[CROSS]` `✅ standalone` — The Business Expert. Analyzes requirements for SEO, market fit, and product logic.
+- **`loragent-business-expert`** `[CROSS]` `✅ standalone` — Manages Lorapok Labs monetization, subscription logic, marketing campaigns, and upsells.
+- **`loragent-cache-collector`** `[CROSS]` `✅ standalone` — Premium grade Cache Manager. Uses Web3 End-to-End Encryption (E2EE) and Brotli compression to secure
+- **`loragent-chorki`** `[CROSS]` `✅ standalone` — The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and executes multi-step objec
+- **`loragent-cicd-automation-expert`** `[CROSS]` `✅ standalone` — Advanced CI/CD engineering approach.
+- **`loragent-cicd-specialist`** `[CROSS]` `✅ standalone` — Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and optimizes multi-target d
+- **`loragent-cli-automation-maker`** `[CROSS]` `✅ standalone` — Builds internal CLI tools and bash automations.
+- **`loragent-cli-utilities-specialist`** `[CROSS]` `✅ standalone` — Builds and optimizes command-line tools.
+- **`loragent-client`** `[CROSS]` `✅ standalone` — The Client agent. Responsible for providing initial requirements, business constraints, and defining
+- **`loragent-cloud-specialist`** `[CROSS]` `✅ standalone` — General cloud infrastructure architect.
+- **`loragent-code-auditor`** `[CROSS]` `✅ standalone` — Specialized subagent responsible for auditing code quality, security vulnerabilities, API syntax com
+- **`loragent-code-optimizer`** `[CROSS]` `✅ standalone` — Optimizes code execution speed and memory usage.
+- **`loragent-command-executor`** `[CROSS]` `✅ standalone` — Specialized agent that runs terminal commands across any ecosystem (Node, Python, Docker) safely int
+- **`loragent-content-writer`** `[CROSS]` `✅ standalone` — Writes professional articles and blogs.
+- **`loragent-cpp-expert`** `[CROSS]` `✅ standalone` — C++ programming language expert.
+- **`loragent-cv-maker`** `[CROSS]` `✅ standalone` — Generates professional CVs/Resumes based on developer portfolios and Git histories.
+- **`loragent-database-designer`** `[CROSS]` `✅ standalone` — Professional DB architect.
+- **`loragent-database-updater`** `[CROSS]` `✅ standalone` — Dedicated to syncing agent learnings to Firebase.
+- **`loragent-debugger`** `[CROSS]` `✅ standalone` — Dedicated step-through and stack-trace debugger.
+- **`loragent-delivery-boy`** `[CROSS]` `✅ standalone` — Carries deployment released products to specific places.
+- **`loragent-deploy`** `[LOOM]` `✅ standalone` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker
+- **`loragent-deploy`** `[LOOM]` `✅ standalone` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker
+- **`loragent-deploy`** `[LOOM]` `✅ standalone` — Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker
+- **`loragent-devops`** `[CROSS]` `✅ standalone` — The DevOps Specialist. Runs CI/CD pipelines, deployment hooks, and ensures build stability.
+- **`loragent-django-specialist`** `[CROSS]` `✅ standalone` — Django framework specialist.
+- **`loragent-doc-brain-updater`** `[CROSS]` `✅ standalone` — Autonomous documentation maintainer and living knowledge synchronizer for Lorapok AI Agent. Responsi
+- **`loragent-docker-specialist`** `[CROSS]` `✅ standalone` — Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, cont
+- **`loragent-docman`** `[CROSS]` `✅ standalone` — Docker, containerization, and orchestration expert.
+- **`loragent-env-maker`** `[CROSS]` `✅ standalone` — Config specialist for env, CMake, and CNAME.
+- **`loragent-fastapi`** `[CROSS]` `✅ standalone` — FastAPI best practices and conventions. Use when working with FastAPI APIs and Pydantic models for t
+- **`loragent-firebase-specialist`** `[CROSS]` `✅ standalone` — Firebase Ecosystem Specialist. Automates Firestore data modeling, Cloud Functions, Firebase Authenti
+- **`loragent-freqghost-admin-panel`** `[CROSS]` `✅ standalone` — Build and modify the FreqGhost admin dashboard — Cognitum-aesthetic web UI with JWT auth, role-based
+- **`loragent-freqghost-data-collection`** `[CROSS]` `✅ standalone` — Manage CSI/RSSI data collection sessions for ML training — recording, labeling, exporting datasets, 
+- **`loragent-freqghost-deployment`** `[CROSS]` `✅ standalone` — Deploy FreqGhost via Docker, nginx, and production configuration — multi-service compose, SSL/TLS, M
+- **`loragent-freqghost-frontend-dev`** `[CROSS]` `✅ standalone` — Develop the FreqGhost Three.js 3D viewer and admin panel frontend — Cognitum aesthetic, CDN-only lib
+- **`loragent-freqghost-model-training`** `[CROSS]` `✅ standalone` — Standardized instructions for training the FreqGhost contrastive CSI encoder and vital signs models.
+- **`loragent-freqghost-source-management`** `[CROSS]` `✅ standalone` — Add, configure, and manage SceneSource implementations — the central abstraction for all data flow i
+- **`loragent-freqghost-verification`** `[CROSS]` `✅ standalone` — Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure reproducibility.
+- **`loragent-frontend-se`** `[CROSS]` `✅ standalone` — The Frontend Senior Software Engineer. Implements UI/UX using biological/sensory computing aesthetic
+- **`loragent-frontend-se`** `[CROSS]` `✅ standalone` — The Frontend Senior Software Engineer. Implements UI/UX using biological/sensory computing aesthetic
+- **`loragent-fund-collector`** `[CROSS]` `✅ standalone` — Strategizes roadmaps for VC pitching, crowdfunding, and capitalization.
+- **`loragent-garbage-collector`** `[CROSS]` `✅ standalone` — Identifies and removes unused code, dead files, and unnecessary dependencies.
+- **`loragent-gcp-specialist`** `[CROSS]` `✅ standalone` — Google Cloud Platform Specialist. Automates gcloud CLI, Cloud Run, BigQuery (bq), Cloud Storage (gsu
+- **`loragent-gh-cli-specialist`** `[CROSS]` `✅ standalone` — GitHub CLI Specialist. Automates PR management, issue triage, release generation, Actions workflow d
+- **`loragent-git-release-manager`** `[CROSS]` `✅ standalone` — Specialized subagent responsible for auditing git branches (`main`, `LLM-Support/GoogleAiStudio-Supp
+- **`loragent-git-specialist`** `[CROSS]` `✅ standalone` — Advanced version control, rebasing, and merge conflict resolution.
+- **`loragent-go-expert`** `[CROSS]` `✅ standalone` — Go programming language expert.
+- **`loragent-gold-collector`** `[CROSS]` `✅ standalone` — Global Telemetry Miner. Detects novel solutions and syncs them to the Firebase Hivemind.
+- **`loragent-google-products-specialist`** `[CROSS]` `✅ standalone` — Specialist for Google Console, Firebase, GCP.
+- **`loragent-governance-guard`** `[CROSS]` `✅ standalone` — Audits AGENTS.md, Cursor rules, project skills, hooks, MCP configuration, Husky, and GitHub workflow
+- **`loragent-hr`** `[CROSS]` `✅ standalone` — Human Resources. Tracks agent burnout and token limits.
+- **`loragent-inspector`** `[CROSS]` `✅ standalone` — Uses git blame/git log to find the exact culprit of a bug and generates RCA (Root Cause Analysis) re
+- **`loragent-isp-man`** `[CROSS]` `✅ standalone` — Network, IP, Port, and DNS routing specialist.
+- **`loragent-javascript-expert`** `[CROSS]` `✅ standalone` — JavaScript (and TypeScript) programming language expert.
+- **`loragent-jokki-bhai`** `[CROSS]` `✅ standalone` — The Entertainer. Roasts the team using roast-as-a-service.
+- **`loragent-k8-expert`** `[CROSS]` `✅ standalone` — Kubernetes, Helm charts, and cluster management.
+- **`loragent-laravel-specialist`** `[CROSS]` `✅ standalone` — Laravel PHP framework specialist.
+- **`loragent-legacy-system-analyser`** `[CROSS]` `✅ standalone` — Understands and optimizes legacy syntaxes.
+- **`loragent-localization-expert`** `[CROSS]` `✅ standalone` — i18n, l10n, and multi-language support mapping.
+- **`loragent-logo-designer`** `[CROSS]` `✅ standalone` — Specialist in branding and logo design prompts.
+- **`loragent-loragent-amo-mcp`** `[CROSS]` `✅ standalone` — MCP-orchestrated Firefox AMO publishing for Lorapok extensions.
+- **`loragent-loragent-amo-publish`** `[CROSS]` `✅ standalone` — Firefox AMO publish pipeline for Lorapok browser extensions — web-ext sign, amo-metadata, CI, Missio
+- **`loragent-loragent-cloudflare-mail-master`** `[CROSS]` `✅ standalone` — Cloudflare Email Sending on Cloudflare Pages via REST API. Use when configuring outbound mail, routi
+- **`loragent-loragent-dynamic-versioning`** `[CROSS]` `✅ standalone` — Lorapok dynamic versioning matrix for production, beta, dev, and PR builds. Use when bumping release
+- **`loragent-loragent-marketplace-crosslink`** `[CROSS]` `✅ standalone` — Add consistent
+- **`loragent-loragent-mission-control`** `[CROSS]` `✅ standalone` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and i
+- **`loragent-loragent-openvsx-publish`** `[CROSS]` `✅ standalone` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate lis
+- **`loragent-loragent-unified-deployment`** `[CROSS]` `✅ standalone` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin p
+- **`loragent-loragent-vscode-publish`** `[CROSS]` `✅ standalone` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mi
+- **`loragent-loragent-website-design`** `[CROSS]` `✅ standalone` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and M
+- **`loragent-lorapok-brain-documentation`** `[CROSS]` `✅ standalone` — Skill for maintaining and updating BRAIN.md, .agents/BRAIN.md, and project documentation after every
+- **`loragent-lorapok-cli-testing`** `[CROSS]` `✅ standalone` — Skill for running, testing, and debugging the Lorapok CLI, including terminal rendering, mock intera
+- **`loragent-lorapok-deployment-specialist`** `[CROSS]` `✅ standalone` — Professional Deployment Specialist skill for Lorapok Media Player. Manages full CI/CD, build verific
+- **`loragent-lorapok-express-server`** `[CROSS]` `✅ standalone` — Skill for Express REST API in server.js, model guards, sessions, and packages/sdk consumers.
+- **`loragent-lorapok-frontend`** `[CROSS]` `✅ standalone` — >-
+- **`loragent-lorapok-git-workflow`** `[CROSS]` `✅ standalone` — Skill for managing git integration features, branch management, merge conflict resolution, pull requ
+- **`loragent-lorapok-mcp-integration`** `[CROSS]` `✅ standalone` — Skill for building, configuring, and verifying Model Context Protocol (MCP) server & client integrat
+- **`loragent-lorapok-model-provider`** `[CROSS]` `✅ standalone` — Skill for ModelManager, ModelValidator, ModelCacheService, multi-provider routing, menus, and REST m
+- **`loragent-lorapok-token-efficiency`** `[CROSS]` `✅ standalone` — Skill for optimizing token usage and context retrieval when AI agents work on the Lorapok AI Agent c
+- **`loragent-lorapok-website-build`** `[CROSS]` `✅ standalone` — Skill for maintaining and deploying apps/website frontend assets and static documentation.
+- **`loragent-marketing-gen`** `[CROSS]` `✅ standalone` — Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosys
+- **`loragent-marketing-strategy-manager`** `[CROSS]` `✅ standalone` — Plans overall marketing strategy.
+- **`loragent-marketplace-crosslink`** `[CROSS]` `✅ standalone` — Add consistent "Also available on" platform links across IDE extensions, browser add-ons, AMO, VSCE,
+- **`loragent-marketplace-crosslink`** `[CROSS]` `✅ standalone` — Add consistent "Also available on" platform links across IDE extensions, browser add-ons, AMO, VSCE,
+- **`loragent-mathematician`** `[CROSS]` `✅ standalone` — Advanced mathematics and statistical logic solver.
+- **`loragent-mermaid-architecture-specialist`** `[CROSS]` `✅ standalone` — Expert in visualizing complex systems using Mermaid.js syntax (flowcharts, state diagrams, sequence 
+- **`loragent-mission-control`** `[CROSS]` `✅ standalone` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and i
+- **`loragent-mission-control`** `[CROSS]` `✅ standalone` — Operate Lorapok Mission Control admin panel — deployments, notices, mailbox, marketplace sync, and i
+- **`loragent-model-auditor`** `[CROSS]` `✅ standalone` — After model/menu/API changes.
+- **`loragent-node-specialist`** `[CROSS]` `✅ standalone` — Node.js backend and runtime specialist.
+- **`loragent-notion-expert`** `[CROSS]` `✅ standalone` — Notion API and integration master.
+- **`loragent-office-assistant`** `[CROSS]` `✅ standalone` — Passes data from one agent to another on demand.
+- **`loragent-openvsx-publish`** `[CROSS]` `✅ standalone` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate lis
+- **`loragent-openvsx-publish`** `[CROSS]` `✅ standalone` — Open VSX publishing for Lorapok VS Code extensions — canonical lorapok-labs namespace, duplicate lis
+- **`loragent-operations`** `[CROSS]` `✅ standalone` — The Operations Manager (Ops). Monitors deployment health and logs errors.
+- **`loragent-os-specialist`** `[CROSS]` `✅ standalone` — Expert in Operating Systems, file directories, and kernel level operations.
+- **`loragent-package-expert`** `[CROSS]` `✅ standalone` — Professional Package JSON Writer and strict metadata enforcer.
+- **`loragent-package-expert`** `[CROSS]` `✅ standalone` — Professional Package JSON Writer and strict metadata enforcer.
+- **`loragent-package-maker`** `[CROSS]` `✅ standalone` — Scaffolds NPM, Pip, and Composer packages.
+- **`loragent-paymentguy`** `[CROSS]` `✅ standalone` — Specialist for payment system integrations (Stripe, PayPal, etc).
+- **`loragent-performance-analyser`** `[CROSS]` `✅ standalone` — Deep-dive bottleneck profiling.
+- **`loragent-pion`** `[CROSS]` `✅ standalone` — The PION Agent. Consolidates final results, artifacts, and walkthroughs to present to the Client.
+- **`loragent-pipeline-checker`** `[CROSS]` `✅ standalone` — Validates data and CI pipeline integrity.
+- **`loragent-portfolio-designer`** `[CROSS]` `✅ standalone` — Designs the layout and content structure for personal or project portfolio websites.
+- **`loragent-pr-specialist`** `[CROSS]` `✅ standalone` — Public Relations. Handles public sentiment, press releases, and crisis management.
+- **`loragent-professional-document-creator`** `[CROSS]` `✅ standalone` — Creates Markdown, PDF, text, proposals.
+- **`loragent-professional-readme-creator`** `[CROSS]` `✅ standalone` — Skill for drafting, auditing, and maintaining high-impact, professional README documentation for Lor
+- **`loragent-professional-research-docx-writer`** `[CROSS]` `✅ standalone` — >-
+- **`loragent-professor`** `[CROSS]` `✅ standalone` — Conducts deep academic-level reviews and architectural analysis of the entire project.
+- **`loragent-project-architect`** `[CROSS]` `✅ standalone` — Project Architect and Team Lead. Orchestrates the project, assigns tasks to specialized developers, 
+- **`loragent-project-coordinator`** `[CROSS]` `✅ standalone` — Orchestrates project timelines, resource allocation, and dependencies.
+- **`loragent-project-manager`** `[CROSS]` `✅ standalone` — The Project Manager. Breaks down requirements into tasks, creates the /plan, and orchestrates the vi
+- **`loragent-project-overviewer`** `[CROSS]` `✅ standalone` — Generates high-level project state summaries.
+- **`loragent-project-theme-expert`** `[CROSS]` `✅ standalone` — Curates the visual language, design system, and overarching aesthetic (like 
+- **`loragent-prototype-designer`** `[CROSS]` `✅ standalone` — Prototype designer like design in Canva.
+- **`loragent-publisher`** `[CROSS]` `✅ standalone` — Generates publish sites info, texts, articles, images to reach target audience.
+- **`loragent-python-expert`** `[CROSS]` `✅ standalone` — Python programming language expert (version and syntax aware).
+- **`loragent-railway-expert`** `[CROSS]` `✅ standalone` — Railway.app backend deployment specialist.
+- **`loragent-react-best-practices`** `[CROSS]` `✅ standalone` — React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be 
+- **`loragent-react-specialist`** `[CROSS]` `✅ standalone` — React.js framework specialist.
+- **`loragent-readme-generator-specialist`** `[CROSS]` `✅ standalone` — Analyzes the entire project ecosystem to generate highly professional, extensive README files tailor
+- **`loragent-release-integrity`** `[CROSS]` `✅ standalone` — Audits package versions, GitHub releases, VSIX links, marketplace observations, SEO artifacts, and p
+- **`loragent-repo-repair`** `[CROSS]` `✅ standalone` — Performs a structured repository repair across tests, runtime paths, generated release data, CI, SEO
+- **`loragent-research-paper-writer`** `[CROSS]` `✅ standalone` — Specialized in writing academic, IEEE, or white-paper style documents.
+- **`loragent-responsive-system-designer`** `[CROSS]` `✅ standalone` — Mobile-first layouts and fluid scaling.
+- **`loragent-rust-expert`** `[CROSS]` `✅ standalone` — Rust programming language expert.
+- **`loragent-sales-executive`** `[CROSS]` `✅ standalone` — Focuses on conversion and direct sales copy.
+- **`loragent-scaffold`** `[CROSS]` `✅ standalone` — Generate deployment-ready infrastructure code from an architecture plan, verify it with adversarial 
+- **`loragent-se-model-specialist`** `[CROSS]` `✅ standalone` — Expert in Software Engineering architectural models (Waterfall, Agile, etc).
+- **`loragent-seo`** `[CROSS]` `✅ standalone` — >-
+- **`loragent-seo-specialist`** `[CROSS]` `✅ standalone` — Search Engine Optimization specialist.
+- **`loragent-shift-engineer`** `[CROSS]` `✅ standalone` — Handles short, isolated tasks.
+- **`loragent-skill-creator`** `[CROSS]` `✅ standalone` — Autonomously writes new agent skills and pushes to Firebase.
+- **`loragent-software-business-analyst`** `[CROSS]` `✅ standalone` — Cost to market analysis, competitive pricing, plans and strategies.
+- **`loragent-specialized-developer`** `[CROSS]` `✅ standalone` — Specialized Developer performing high-tech global industry level coding. Use proactively to implemen
+- **`loragent-spidernet`** `[CROSS]` `✅ standalone` — The Spidernet multi-agent workflow coordinator.
+- **`loragent-spidernet`** `[CROSS]` `✅ standalone` — The Spidernet multi-agent workflow coordinator.
+- **`loragent-spidernet`** `[CROSS]` `✅ standalone` — The Spidernet multi-agent workflow coordinator.
+- **`loragent-sqa`** `[CROSS]` `✅ standalone` — The Senior QA. Runs automated tests, reviews edge cases, and checks accessibility/security.
+- **`loragent-sqa`** `[CROSS]` `✅ standalone` — The Senior QA. Runs automated tests, reviews edge cases, and checks accessibility/security.
+- **`loragent-sqa-lead`** `[CROSS]` `✅ standalone` — High-tech global industry level 20+ years experienced SQA with development background. Use proactive
+- **`loragent-srs-analyzer`** `[CROSS]` `✅ standalone` — Software Requirements Specification analyzer.
+- **`loragent-store-specialist`** `[CROSS]` `✅ standalone` — Deployment to App Store, Play Store, and Package Managers.
+- **`loragent-streamvar-theme-architect`** `[CROSS]` `✅ standalone` — Principal Frontend UI/UX Architect & Systems Designer for Loragent. Uses Next.js App Router, React 1
+- **`loragent-streamvar-theme-architect`** `[CROSS]` `✅ standalone` — Principal Frontend UI/UX Architect & Systems Designer for Loragent. Uses Next.js App Router, React 1
+- **`loragent-system-knowledge`** `[CROSS]` `✅ standalone` — Complete architectural reference for the Loragent 165-agent ecosystem — LLDP layers, naming conventi
+- **`loragent-teacher`** `[CROSS]` `✅ standalone` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
+- **`loragent-teacher`** `[CROSS]` `✅ standalone` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
+- **`loragent-teacher`** `[CROSS]` `✅ standalone` — The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.
+- **`loragent-team-lead`** `[CROSS]` `✅ standalone` — The Team Lead. Coordinates the tech team, assigns engineering tasks, and conducts primary code revie
+- **`loragent-tech-director`** `[CROSS]` `✅ standalone` — The Tech Director (Architect). Defines technical architecture, stack, and data models.
+- **`loragent-tech-director`** `[CROSS]` `✅ standalone` — The Tech Director (Architect). Defines technical architecture, stack, and data models.
+- **`loragent-test-sentinel`** `[CROSS]` `✅ standalone` — Specialized subagent responsible for test execution, corner-case test expansion, and verifying zero 
+- **`loragent-themeguy`** `[CROSS]` `✅ standalone` — Global UI theme and styling connoisseur.
+- **`loragent-thewikiboy`** `[CROSS]` `✅ standalone` — Deep-dive researcher for scraping and finding all data/sources.
+- **`loragent-token-auditor`** `[CROSS]` `✅ standalone` — Specialized subagent responsible for auditing token consumption, context payload efficiency, and enf
+- **`loragent-token-sniper`** `[CROSS]` `✅ standalone` — Premium context optimization agent. Slashes AI token usage by >70% using AST pruning, skeletonizatio
+- **`loragent-tools-specialist`** `[CROSS]` `✅ standalone` — Tooling & Package Expert. Suggests optimal packages and provides robust installation mechanics.
+- **`loragent-ui-ux-professional`** `[CROSS]` `✅ standalone` — World-class UI/UX design and wireframing.
+- **`loragent-unified-deployment`** `[CROSS]` `✅ standalone` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin p
+- **`loragent-unified-deployment`** `[CROSS]` `✅ standalone` — Mission Control–only unified deployment for Lorapok projects — release, marketplace publish, admin p
+- **`loragent-validator`** `[CROSS]` `✅ standalone` — Deep data and list validation logic.
+- **`loragent-vercel-expert`** `[CROSS]` `✅ standalone` — Vercel deployment and Edge functions specialist.
+- **`loragent-version-bumper`** `[CROSS]` `✅ standalone` — Handles version bumping mechanism professionally. Uses LVP for Pro users, and standard SemVer for fr
+- **`loragent-vidman`** `[CROSS]` `✅ standalone` — Generates prompts and scripts for marketing reels and video content.
+- **`loragent-vscode-publish`** `[CROSS]` `✅ standalone` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mi
+- **`loragent-vscode-publish`** `[CROSS]` `✅ standalone` — VS Code Marketplace publishing for Lorapok extensions — VSCE token, publisher LorapokLabs, CI and Mi
+- **`loragent-vue-specialist`** `[CROSS]` `✅ standalone` — Vue.js framework specialist.
+- **`loragent-watchman`** `[CROSS]` `✅ standalone` — Watches the system. Maintains a cache file to allow uninterrupted recovery of stuck processes via /l
+- **`loragent-web-design-guidelines`** `[CROSS]` `✅ standalone` — Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check acc
+- **`loragent-website-design`** `[CROSS]` `✅ standalone` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and M
+- **`loragent-website-design`** `[CROSS]` `✅ standalone` — Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and M
+- **`loragent-workflow-automation-specialist`** `[CROSS]` `✅ standalone` — n8n, OpenClaw, and low-code orchestrations.
+- **`loragent-workflow-manager`** `[CROSS]` `✅ standalone` — Fine-tunes the physical office flow and handles the logistics of the Hub-and-Spoke model.
+- **`loragent-workspace-guard`** `[CROSS]` `✅ standalone` — Security enforcer that prevents unauthorized deletions or destructive commands.
+- **`loragent-workspace-guard`** `[CROSS]` `✅ standalone` — Security enforcer that prevents unauthorized deletions or destructive commands.
+- **`loragent-workspace-guard`** `[CROSS]` `✅ standalone` — Security enforcer that prevents unauthorized deletions or destructive commands.
+- **`loragent-wrangler-specialist`** `[CROSS]` `✅ standalone` — Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV, D1, R2, Vectorize, Q
+- **`loragent-wrangler-specialist`** `[CROSS]` `✅ standalone` — Cloudflare Wrangler CLI Specialist. Automates deployment of Workers, Pages, KV, D1, R2, Vectorize, Q
+- **`lorapok-marketing-gen`** `[CROSS]` `✅ standalone` — Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosys
+- **`ui-ux-specialist`** `[CROSS]` `✅ standalone` — Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced 
 
 ## FREELANCE Formation (9)
 
-- **`loragent-gif-create`** `[face]` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video to GIF, creating loading animations, Slack GIFs, banner animations, sprite sheets, or any looping media asset. Do NOT invoke for static images or long-form video editing.
-- **`loragent-image-generate`** `[face]` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any agent or the user needs: concept art, hero images, UI backgrounds, logo concepts, marketing visuals, poster generation, or any AI image output. Do NOT invoke for SVG icons, code-generated graphics, or chart/data visualization.
-- **`loragent-tools-install`** `[loom]` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when any agent reports a missing tool or dependency. Handles npm, pip/uv, composer, system packages, and binary tools. Includes rollback on failure. Do NOT invoke for application-level code dependencies (that is the backend-se's job).
-- **`loragent-gif-create`** `[face]` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video to GIF, creating loading animations, Slack GIFs, banner animations, sprite sheets, or any looping media asset. Do NOT invoke for static images or long-form video editing.
-- **`loragent-image-generate`** `[face]` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any agent or the user needs: concept art, hero images, UI backgrounds, logo concepts, marketing visuals, poster generation, or any AI image output. Do NOT invoke for SVG icons, code-generated graphics, or chart/data visualization.
-- **`loragent-tools-install`** `[loom]` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when any agent reports a missing tool or dependency. Handles npm, pip/uv, composer, system packages, and binary tools. Includes rollback on failure. Do NOT invoke for application-level code dependencies (that is the backend-se's job).
-- **`loragent-gif-create`** `[face]` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video to GIF, creating loading animations, Slack GIFs, banner animations, sprite sheets, or any looping media asset. Do NOT invoke for static images or long-form video editing.
-- **`loragent-image-generate`** `[face]` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any agent or the user needs: concept art, hero images, UI backgrounds, logo concepts, marketing visuals, poster generation, or any AI image output. Do NOT invoke for SVG icons, code-generated graphics, or chart/data visualization.
-- **`loragent-tools-install`** `[loom]` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when any agent reports a missing tool or dependency. Handles npm, pip/uv, composer, system packages, and binary tools. Includes rollback on failure. Do NOT invoke for application-level code dependencies (that is the backend-se's job).
+- **`loragent-gif-create`** `[FACE]` `✅ standalone` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video 
+- **`loragent-gif-create`** `[FACE]` `✅ standalone` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video 
+- **`loragent-gif-create`** `[FACE]` `✅ standalone` — Creates, optimizes, and delivers animated GIFs and short video clips. Invoke when: converting video 
+- **`loragent-image-generate`** `[FACE]` `✅ standalone` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any 
+- **`loragent-image-generate`** `[FACE]` `✅ standalone` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any 
+- **`loragent-image-generate`** `[FACE]` `✅ standalone` — Generates production-quality images using Fal.ai (primary) or Replicate (fallback). Invoke when any 
+- **`loragent-tools-install`** `[LOOM]` `✅ standalone` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when a
+- **`loragent-tools-install`** `[LOOM]` `✅ standalone` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when a
+- **`loragent-tools-install`** `[LOOM]` `✅ standalone` — Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when a
 
 ## OBSERVER Formation (3)
 
-- **`loragent-watchman`** `[cross]` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.
-- **`loragent-watchman`** `[cross]` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.
-- **`loragent-watchman`** `[cross]` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.
+- **`loragent-watchman`** `[CROSS]` `✅ standalone` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a
+- **`loragent-watchman`** `[CROSS]` `✅ standalone` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a
+- **`loragent-watchman`** `[CROSS]` `✅ standalone` — Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a
+
+## ORCHESTRATOR Formation (2)
+
+- **`loragent-boss`** `[CROSS]` `✅ standalone` — Central orchestrator of the 108-agent Loragent ecosystem. Invoke first for any multi-step or complex
+- **`loragent-boss`** `[CROSS]` `✅ standalone` — Central orchestrator of the 108-agent Loragent ecosystem. Invoke first for any multi-step or complex
 

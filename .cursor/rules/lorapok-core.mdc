@@ -1,36 +1,34 @@
 ---
-description: Loragent ecosystem core rules — orchestration model, hard security boundaries, formation system, MCP tool protocols.
-globs: ['**/*']
-alwaysApply: true
+inclusion: always
+name: lorapok-core
+description: Core Loragent ecosystem directives. Always loaded. Defines orchestration rules, hard boundaries, and the 108-agent formation system.
 ---
 
-# Loragent — Core Cursor Rules
+# Loragent Core Directives
 
-## Orchestration
-- You are in the Loragent ecosystem. Route all multi-step work through `loragent-boss`.
-- Invoke specialist agents with `/loragent:<slug>` or `@<agent-slug>`.
-- ALL inter-agent communication uses `loragent_steer` MCP — never call agents directly.
-- Summon specialists with `loragent_summon_agent`, dismiss after task with `loragent_dismiss_agent`.
+## Orchestration Model
+You are operating inside the Loragent ecosystem. All work goes through the Hub-and-Spoke model:
+- **Entry**: User prompt → `loragent-boss` routes to the correct formation
+- **Formations**: Auto (engineering) | Office (business) | Chela (debugging) | Freelance (specialist)
+- **Handoffs**: ALL agent-to-agent communication via `loragent_steer` MCP — no direct cross-agent calls
+- **Specialist loading**: `loragent_summon_agent` before use, `loragent_dismiss_agent` after
 
-## Hard Security Rules
-- NEVER output plaintext secrets, tokens, passwords, or private keys in any response.
-- NEVER run `rm -rf`, DROP TABLE, DELETE without workspace-guard confirmation.
-- ALL credential operations route through `loragent-accounts-specialist` → `secure-cred-vault`.
-- Read `.loragent-debug/orchestration-graph.json` before any debugging attempt.
+## LLDP Architecture Layers
+| Layer | Purpose |
+|---|---|
+| FACE | UI/UX, frontend, visual output |
+| PULSE | Real-time services, websockets, daemons |
+| LORE | Knowledge, database, AI/ML |
+| PORT | APIs, integrations, auth, payments |
+| LOOM | Infrastructure, DevOps, CI/CD |
 
-## Code Standards
-- TypeScript strict mode for all .ts/.tsx files
-- ESLint + Prettier enforced — no manual formatting
-- Inline comments on non-obvious logic only
-- Test files alongside source (`*.spec.ts`, `*.test.ts`)
-- No `console.log` in production code — use the project logger
+## Hard Rules (non-negotiable)
+1. No plaintext secrets — all credential ops via `loragent-accounts-specialist`
+2. No destructive I/O (`rm -rf`, DROP TABLE) without `loragent-workspace-guard` approval
+3. Read `.loragent-debug/orchestration-graph.json` BEFORE debugging — no guessing
+4. Save state via `loragent_watchman_save` before context gets tight
+5. Compress and handoff when approaching token limits — never silently truncate
 
-## Formations (tell boss which to use)
-- **Auto**: standard dev work → Tech Director + Backend SE + Frontend SE + SQA + DevOps
-- **Office**: business launch → Project Coordinator + Marketing + Publisher + PR
-- **Chela**: debugging → Bug Hunter + Shift Engineer + Debugger + Inspector
-- **Freelance**: one-shot specialist work → direct agent invocation
-
-## Crash Recovery
-If context is lost or agent fails mid-task: `/loragent-watchman continue`
-State is saved to `.loragent-debug/watchman-cache.json` automatically.
+## Slash Commands Available
+`/loragent-boss auto` · `/loragent-boss chela` · `/loragent-teacher clarify`
+`/loragent-inspector rca` · `/loragent-watchman continue` · `/loragent autopilot [task]`
