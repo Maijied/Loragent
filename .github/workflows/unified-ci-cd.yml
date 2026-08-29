@@ -70,6 +70,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
+          cache: false
 
       - name: Install Dependencies
         run: npm ci || npm install
@@ -245,6 +246,7 @@ jobs:
       - name: Package VS Code / Open VSX Extension (.vsix)
         run: |
           npm ci || npm install
+          mkdir -p dist
           npx @vscode/vsce package --no-dependencies -o dist/loragent-2.0.0.vsix || true
           ls -la dist/ || true
 
