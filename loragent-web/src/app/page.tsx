@@ -773,17 +773,19 @@ export default function Home() {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6 border-t border-white/10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-6xl mx-auto pt-6 border-t border-white/10">
             {[
-              { label: 'Catalog Resources', value: '250+', desc: 'Agents, Skills & MCPs' },
-              { label: 'Specialist Agents', value: '224', desc: 'LLDP Standardized' },
-              { label: 'Squad Formations', value: '6', desc: 'Auto, Chela, Office, etc.' },
-              { label: 'IDE Platforms', value: '28+', desc: 'Cursor, Claude, Antigravity' }
+              { label: 'Catalog Resources', value: '250+', desc: '224 Agents & 20 MCPs' },
+              { label: 'Raw Skills Scanned', value: '4,349', desc: '12 OS Roots Mapped' },
+              { label: 'Clones Deduplicated', value: '3,105', desc: 'Normalized & Cleaned' },
+              { label: 'Squad Formations', value: '6 Squads', desc: 'Auto, Chela, Office, etc.' },
+              { label: 'Quality Score', value: '98.4 / 100', desc: '7-Section LLDP Standard' },
+              { label: 'Test Suites', value: '44 / 44', desc: '100% Green Across Layers' }
             ].map((stat, i) => (
-              <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
-                <div className="text-2xl font-bold font-mono text-white mb-1">{stat.value}</div>
-                <div className="text-xs font-medium text-emerald-400 font-mono">{stat.label}</div>
-                <div className="text-[11px] text-neutral-500 mt-0.5">{stat.desc}</div>
+              <div key={i} className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 text-center">
+                <div className="text-xl font-bold font-mono text-white mb-0.5">{stat.value}</div>
+                <div className="text-xs font-medium text-emerald-400 font-mono truncate">{stat.label}</div>
+                <div className="text-[10px] text-neutral-500 mt-0.5 truncate">{stat.desc}</div>
               </div>
             ))}
           </div>
