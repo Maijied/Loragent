@@ -1,43 +1,17 @@
 {
   "name": "loragent",
-  "displayName": "Loragent",
-  "version": "2.0.0",
   "description": "108-agent virtual software firm for Lorapok Labs — includes orchestration, image generation, GIF creation, deployment, development, business, and design agents. Hub-and-Spoke topology with MCP lazy-loading and crash recovery.",
+  "version": "2.0.0",
   "author": {
     "name": "Maizied",
     "url": "https://lorapok.github.io"
   },
-  "publisher": "LorapokLabs",
   "homepage": "https://loragent.lorapok.tech",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Maijied/Loragent"
-  },
+  "repository": "https://github.com/Maijied/Loragent",
   "license": "MIT",
   "keywords": [
-    "lorapok",
-    "loragent",
-    "agents",
-    "skills",
-    "mcp",
-    "orchestration",
-    "multi-agent",
-    "image-generation",
-    "deployment",
-    "development",
-    "automation"
-  ],
-  "categories": [
-    "AI",
-    "Agents",
-    "Productivity",
-    "DevOps",
-    "Design"
-  ],
-  "skills": "./skills",
-  "agents": "./agents",
-  "mcpServers": "./.mcp.json",
-  "hooks": "./hooks/hooks.json",
-  "rules": "./rules/AGENTS.md",
-  "entrypoint": "./sdk/index.js"
+    "lorapok", "loragent", "agents", "skills", "mcp",
+    "orchestration", "multi-agent", "image-generation",
+    "deployment", "development", "automation"
+  ]
 }
