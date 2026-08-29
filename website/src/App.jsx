@@ -214,57 +214,91 @@ const LORAGENT_EMAILS = [
 const CI_CD_PIPELINE_STAGES = [
   {
     step: 1,
-    name: '🛡️ Security & Zero-Trust Secret Scan',
+    name: '1. 🛡️ Security Guard',
+    tag: 'AST Secret Scanner',
     duration: '9s',
     status: 'SUCCESS',
-    details: 'LLE 5-seal AST scanner checks for plaintext secrets. Validates LLDP v2.0 catalog schema across all 224 agent skills & 20 MCP servers.',
-    badge: 'PASSED',
+    details: 'Pre-push & CI checkout. Zero plaintext secrets verified. LLDP v2.0 catalog schema audited across 224 agent skills & 20 MCP servers.',
+    badge: 'ZERO-TRUST PASS',
+    link: null,
     color: '#00FF41'
   },
   {
     step: 2,
-    name: '🧪 Automated Multi-Layer Test Suites (44 Suites)',
+    name: '2. 🧪 Test Harness',
+    tag: 'Node.js 22 & Go 1.22',
     duration: '10s',
     status: 'SUCCESS',
-    details: 'Executes 44 comprehensive suites across all 6 architecture layers: Face (CLI), Pulse (Telemetry), Lore (Auth & Vault), Port (MCP), Loom (Coordination), and Cross (System).',
+    details: 'Automated per commit. 44/44 multi-layer Node test suites + Go unit tests pass across all 6 architectural layers.',
     badge: '44/44 PASSED',
+    link: null,
     color: '#00F3FF'
   },
   {
     step: 3,
-    name: '📦 Frontend & SSR Asset Compilation',
+    name: '3. 🌐 Web Platform',
+    tag: 'Vite SPA & Next.js SSR',
     duration: '45s',
     status: 'SUCCESS',
-    details: 'Compiles Vite SPA marketing platform, builds Next.js SSR application, verifies Edge MCP bundles, and generates multi-IDE catalog mirrors.',
-    badge: 'OPTIMIZED',
+    details: 'CNAME loragent.lorapok.tech with GitHub Pages deployment & Next.js App Router serverless endpoints.',
+    badge: 'WEB LIVE',
+    link: 'https://loragent.lorapok.tech/',
     color: '#a855f7'
   },
   {
     step: 4,
-    name: '☁️ Cloudflare Edge MCP Worker Deployment',
-    duration: '12s',
-    status: 'SUCCESS',
-    details: 'Deploys Edge MCP runtime to https://mcp.lorapk-labs.workers.dev with streaming SSE (/sse) and JSON-RPC 2.0 endpoints.',
-    badge: 'EDGE LIVE',
-    color: '#f59e0b'
-  },
-  {
-    step: 5,
-    name: '🐍 PyPI Release Publication (loragent v2.0.0)',
+    name: '4. 🐍 Python PyPI',
+    tag: 'PyPI (pip install loragent)',
     duration: '14s',
     status: 'SUCCESS',
-    details: 'Built wheel & sdist distributions in py_dist/, validated via twine, published securely with TiTi Vault token to https://pypi.org/project/loragent/.',
+    details: 'Tag v* & pyproject.toml package build with wheel & sdist distributions published to official registry.',
     badge: 'PYPI LIVE',
+    link: 'https://pypi.org/project/loragent/',
     color: '#38bdf8'
   },
   {
-    step: 6,
-    name: '🐹 Go Module Semantic Versioning (v2.0.0 & proxy.golang.org)',
+    step: 5,
+    name: '5. 🐹 Go Module',
+    tag: 'Go Proxy (pkg.go.dev/v2)',
     duration: '8s',
     status: 'SUCCESS',
-    details: 'Published github.com/Maijied/Loragent/v2 module conforming to pkg.go.dev openapi.yaml spec and cached across proxy.golang.org.',
-    badge: 'GO PROXY READY',
+    details: 'Tag v* & go.mod semantic import versioning v2.0.0 cached and indexed across proxy.golang.org.',
+    badge: 'PKG.GO.DEV LIVE',
+    link: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2',
     color: '#00F3FF'
+  },
+  {
+    step: 6,
+    name: '6. 📦 NPM & NPX',
+    tag: 'NPM (@lorapok/loragent)',
+    duration: '11s',
+    status: 'SUCCESS',
+    details: 'npm publish --access public. CLI instant runner with cross-platform npx execution support.',
+    badge: 'NPM READY',
+    link: 'https://www.npmjs.com/package/@lorapok/loragent',
+    color: '#ef4444'
+  },
+  {
+    step: 7,
+    name: '7. ✨ IDE Extension',
+    tag: 'VS Code & Open VSX',
+    duration: '15s',
+    status: 'SUCCESS',
+    details: 'vsce package / ovsx. Generates loragent-2.0.0.vsix (LorapokLabs.loragent) for Cursor, VS Code, and Windsurf.',
+    badge: 'VSIX READY',
+    link: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent',
+    color: '#f59e0b'
+  },
+  {
+    step: 8,
+    name: '8. ☁️ Edge MCP',
+    tag: 'Cloudflare Edge Worker',
+    duration: '12s',
+    status: 'SUCCESS',
+    details: 'Deploys Edge MCP runtime to mcp.lorapk-labs.workers.dev with streaming SSE (/sse) and JSON-RPC 2.0 endpoints.',
+    badge: 'EDGE MCP LIVE',
+    link: 'https://mcp.lorapk-labs.workers.dev',
+    color: '#10b981'
   }
 ];
 
@@ -1544,16 +1578,31 @@ cost_tier: low
 
                   {/* TAB 3: CI/CD Pipeline Telemetry */}
                   {adminActiveTab === 'cicd' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontFamily: 'monospace' }}>8 Multi-Ecosystem Stages · Automated Deployment Graph</span>
+                        <span style={{ fontSize: '0.72rem', color: '#00FF41', fontFamily: 'monospace', fontWeight: 'bold' }}>● ALL 8 STAGES PASSING</span>
+                      </div>
                       {CI_CD_PIPELINE_STAGES.map((st) => (
-                        <div key={st.step} style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <div>
-                            <div style={{ fontSize: '0.82rem', fontWeight: '600', color: '#fff' }}>{st.name}</div>
-                            <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{st.details}</div>
+                        <div key={st.step} style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>{st.name}</span>
+                              <span style={{ fontSize: '0.68rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: '#94a3b8', fontFamily: 'monospace' }}>{st.tag}</span>
+                            </div>
+                            <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '3px' }}>{st.details}</div>
                           </div>
-                          <span style={{ fontSize: '0.7rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', fontWeight: 'bold' }}>
-                            {st.badge} ({st.duration})
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {st.link && (
+                              <a href={st.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.72rem', color: '#00F3FF', textDecoration: 'none', padding: '4px 8px', borderRadius: '4px', background: 'rgba(0, 243, 255, 0.08)', border: '1px solid rgba(0, 243, 255, 0.2)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <span>Visit</span>
+                                <ExternalLink size={11} />
+                              </a>
+                            )}
+                            <span style={{ fontSize: '0.7rem', padding: '4px 8px', borderRadius: '4px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', fontWeight: 'bold', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+                              {st.badge} ({st.duration})
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>

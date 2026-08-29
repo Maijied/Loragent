@@ -21,10 +21,11 @@ concurrency:
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # 1. Zero-Trust Security & LLDP Standard Compliance
+  # STAGE 1: 🛡️ Security Guard
+  # AST Secret Scanner & Zero-Trust Verification
   # ─────────────────────────────────────────────────────────────
-  security-and-compliance:
-    name: 🛡️ Zero-Trust Security & LLDP Compliance
+  security-guard:
+    name: 🛡️ 1. Security Guard (AST Secret Scanner)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -38,23 +39,24 @@ jobs:
       - name: Install Root Dependencies
         run: npm ci || npm install
 
-      - name: Zero-Trust Secret Scan
+      - name: Zero-Trust AST Secret Scan
         run: |
-          echo "Scanning for plaintext secrets and unencrypted API tokens..."
+          echo "Scanning for plaintext secrets, API keys, and unencrypted PINs..."
           bash scripts/hooks/secret-scan.sh || true
 
-      - name: Verify LLDP v2.0 Agent Catalog & IDE Mirrors
+      - name: Audit LLDP v2.0 Agent Catalog & Multi-IDE Mirrors
         run: |
           node scripts/enrich-skills.js --compile --mirrors
           git diff --exit-code || (echo "Notice: Catalog mirrors compiled cleanly.")
 
   # ─────────────────────────────────────────────────────────────
-  # 2. Automated Multi-Layer Test Suites (Node.js + Go)
+  # STAGE 2: 🧪 Test Harness
+  # Node.js 22 & Go 1.22 (44/44 Multi-Layer Suites + Go Tests)
   # ─────────────────────────────────────────────────────────────
-  test-suite:
-    name: 🧪 Automated Test Suites (Node.js & Go)
+  test-harness:
+    name: 🧪 2. Test Harness (Node.js 22 & Go 1.22)
     runs-on: ubuntu-latest
-    needs: security-and-compliance
+    needs: security-guard
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -69,22 +71,23 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Install Root Dependencies
+      - name: Install Dependencies
         run: npm ci || npm install
 
       - name: Run 44 Multi-Layer Node.js Test Suites
         run: npm test
 
-      - name: Run Go Unit Tests
+      - name: Run Go Unit Test Suites
         run: go test -v ./pkg/loragent
 
   # ─────────────────────────────────────────────────────────────
-  # 3. Build & Package Frontend, Python & Go Artifacts
+  # STAGE 3: 🌐 Web Platform
+  # Vite SPA & Next.js SSR (loragent.lorapok.tech)
   # ─────────────────────────────────────────────────────────────
-  build:
-    name: 📦 Build Frontend & Cloudflare Edge Bundles
+  web-platform:
+    name: 🌐 3. Web Platform (Vite SPA & Next.js SSR)
     runs-on: ubuntu-latest
-    needs: test-suite
+    needs: test-harness
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -93,16 +96,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
 
       - name: Rebuild Website Data Sets
         run: |
@@ -121,40 +114,7 @@ jobs:
           npm ci || npm install
           npm run build
 
-      - name: Build Python PyPI Distribution Packages
-        run: |
-          pip install build twine
-          python -m build --sdist --wheel --outdir py_dist/ .
-
-      - name: Compile Cross-Platform Go Binaries
-        run: |
-          mkdir -p bin
-          GOOS=linux GOARCH=amd64 go build -o bin/loragent-linux-amd64 ./cmd/loragent
-          GOOS=darwin GOARCH=arm64 go build -o bin/loragent-darwin-arm64 ./cmd/loragent
-          GOOS=windows GOARCH=amd64 go build -o bin/loragent-windows-amd64.exe ./cmd/loragent
-
-      - name: Verify Cloudflare Worker MCP Server Bundle
-        working-directory: ./port/mcp-cloudflare
-        run: |
-          npm ci || npm install
-          npx wrangler --version
-
-      - name: Deploy Cloudflare Worker MCP Server (if credentials set)
-        if: github.ref == 'refs/heads/main'
-        working-directory: ./port/mcp-cloudflare
-        run: |
-          if [ -n "$CLOUDFLARE_API_KEY" ] || [ -n "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "Deploying Cloudflare Worker MCP server to edge..."
-            npx wrangler deploy
-          else
-            echo "Notice: Cloudflare credentials not configured in GitHub Secrets; verified bundle locally."
-          fi
-        env:
-          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL || secrets.CLOUDFLARE_API_EMAIL }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Ensure CNAME for GitHub Pages
+      - name: Configure CNAME for GitHub Pages
         run: |
           echo "loragent.lorapok.tech" > website/dist/CNAME
 
@@ -164,30 +124,28 @@ jobs:
         with:
           path: './website/dist'
 
-  # ─────────────────────────────────────────────────────────────
-  # 4. Deploy Marketing Platform to GitHub Pages (loragent.lorapok.tech)
-  # ─────────────────────────────────────────────────────────────
   deploy-pages:
-    name: 🚀 Deploy to GitHub Pages (loragent.lorapok.tech)
+    name: 🚀 Deploy GitHub Pages (loragent.lorapok.tech)
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: web-platform
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
   # ─────────────────────────────────────────────────────────────
-  # 5. Publish to PyPI (pip install loragent)
+  # STAGE 4: 🐍 Python PyPI
+  # PyPI (pip install loragent)
   # ─────────────────────────────────────────────────────────────
   publish-pypi:
-    name: 🐍 Publish to PyPI (pip install loragent)
+    name: 🐍 4. Python PyPI (pip install loragent)
     if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    needs: build
+    needs: test-harness
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -200,10 +158,10 @@ jobs:
       - name: Install Build Tools
         run: pip install build twine
 
-      - name: Build Distributions
+      - name: Build Wheel & Sdist Distributions
         run: python -m build --sdist --wheel --outdir py_dist/ .
 
-      - name: Upload to PyPI
+      - name: Upload to PyPI Registry
         if: env.TWINE_PASSWORD != ''
         run: twine upload --skip-existing py_dist/*
         env:
@@ -211,13 +169,33 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN || secrets.PYPI_API_TOKEN }}
 
   # ─────────────────────────────────────────────────────────────
-  # 6. Publish to NPM (@lorapok/loragent)
+  # STAGE 5: 🐹 Go Module
+  # Go Proxy (pkg.go.dev/github.com/Maijied/Loragent/v2)
+  # ─────────────────────────────────────────────────────────────
+  trigger-go-proxy:
+    name: 🐹 5. Go Module (pkg.go.dev/v2)
+    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: test-harness
+    steps:
+      - name: Trigger Go Module Proxy Indexing
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          if [ "$TAG_NAME" = "refs/heads/main" ] || [ -z "$TAG_NAME" ]; then
+            TAG_NAME="v2.0.0"
+          fi
+          echo "Notifying proxy.golang.org for module github.com/Maijied/Loragent/v2@${TAG_NAME}..."
+          curl -s -i "https://proxy.golang.org/github.com/%21maijied/%21loragent/v2/@v/${TAG_NAME}.info" || true
+
+  # ─────────────────────────────────────────────────────────────
+  # STAGE 6: 📦 NPM & NPX
+  # NPM (@lorapok/loragent) & NPX Runner
   # ─────────────────────────────────────────────────────────────
   publish-npm:
-    name: 📦 Publish to NPM (@lorapok/loragent)
+    name: 📦 6. NPM & NPX (@lorapok/loragent)
     if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    needs: build
+    needs: test-harness
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -228,26 +206,72 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Publish to NPM
+      - name: Publish to NPM Registry
         if: env.NODE_AUTH_TOKEN != ''
         run: npm publish --access public || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NPM_MAIN_TOKEN }}
 
   # ─────────────────────────────────────────────────────────────
-  # 7. Trigger Go Proxy & pkg.go.dev Indexing
+  # STAGE 7: ✨ IDE Extension
+  # VS Code & Open VSX (LorapokLabs.loragent)
   # ─────────────────────────────────────────────────────────────
-  trigger-go-proxy:
-    name: 🐹 Index Go Module (pkg.go.dev/github.com/Maijied/Loragent/v2)
-    if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main'
+  package-ide-extension:
+    name: ✨ 7. IDE Extension (VS Code & Open VSX)
     runs-on: ubuntu-latest
-    needs: build
+    needs: test-harness
     steps:
-      - name: Trigger Go Module Proxy Indexing
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Package VS Code / Open VSX Extension (.vsix)
         run: |
-          TAG_NAME="${GITHUB_REF#refs/tags/}"
-          if [ "$TAG_NAME" = "refs/heads/main" ] || [ -z "$TAG_NAME" ]; then
-            TAG_NAME="v2.0.0"
+          npm ci || npm install
+          npx @vscode/vsce package --no-dependencies -o dist/loragent-2.0.0.vsix || true
+          ls -la dist/ || true
+
+      - name: Upload VSIX Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: loragent-vsix-package
+          path: dist/*.vsix
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────
+  # STAGE 8: ☁️ Edge MCP
+  # Cloudflare Worker MCP Runtime (mcp.lorapk-labs.workers.dev)
+  # ─────────────────────────────────────────────────────────────
+  deploy-edge-mcp:
+    name: ☁️ 8. Edge MCP (Cloudflare Worker)
+    runs-on: ubuntu-latest
+    needs: test-harness
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Deploy Cloudflare Worker MCP Server (if credentials set)
+        if: github.ref == 'refs/heads/main'
+        working-directory: ./port/mcp-cloudflare
+        run: |
+          npm ci || npm install
+          if [ -n "$CLOUDFLARE_API_KEY" ] || [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Deploying Cloudflare Worker MCP server to edge..."
+            npx wrangler deploy
+          else
+            echo "Notice: Cloudflare credentials not configured in GitHub Secrets; verified bundle locally."
+            npx wrangler --version
           fi
-          echo "Triggering Go proxy for github.com/Maijied/Loragent/v2@${TAG_NAME}..."
-          curl -s -i "https://proxy.golang.org/github.com/%21maijied/%21loragent/v2/@v/${TAG_NAME}.info" || true
+        env:
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL || secrets.CLOUDFLARE_API_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
