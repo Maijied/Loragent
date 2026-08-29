@@ -6,11 +6,11 @@
 ---
 
 ## 1. 📊 Ecosystem Metrics
-- **Total Registered Agents:** 170 Agents
+- **Total Registered Agents:** 174 Agents
 - **Functional Categories:** 22 Categories
 - **Dynamic Formation Modes:** 4 Formations (`auto-team`, `office`, `freelance`, `chela`)
 - **Unit Test Suite:** 15 Tests Passing (`tests/loragent-email.test.js`, `tests/sdk.test.js`)
-- **Cloudflare Edge Worker:** Active (`https://mcp.lorapk-labs.workers.dev`) — 170 agents & MCP tools
+- **Cloudflare Edge Worker:** Active (`https://mcp.lorapk-labs.workers.dev`) — 174 agents & MCP tools
 - **SDK Package:** `loragent` (`sdk/index.js`, `sdk/client.js`, `sdk/boss.js`, `sdk/chorki.js`, `sdk/tools/cli-runner.js`, `sdk/durable/checkpoint.js`, `sdk/telemetry/tracer.js`)
 
 ---
@@ -26,10 +26,19 @@
 
 ---
 
-## 3. 🛠️ Platform Tool Runners & Safe CLI Execution
+## 3. 🛠️ Multi-Cloud & Platform Tool Runners
 - **Automated Tool Runner:** `sdk/tools/cli-runner.js` (`executeCLI`)
-- **Auto-Vault Credential Injection:** Automatically extracts `CLOUDFLARE_API_KEY`, `CLOUDFLARE_EMAIL`, `CLOUDFLARE_ACCOUNT_ID`, `GH_TOKEN`, and `NPM_TOKEN` from `cred` vault without exposing plaintext secrets.
-- **Destructive Command Interceptor:** Enforces `loragent-workspace-guard` policies to prevent unauthorized file or database destructions.
+- **Supported Platforms & CLIs**:
+  - ⛅ **Cloudflare**: `wrangler` (Workers, Pages, D1, KV, R2, Vectorize)
+  - 🐙 **GitHub**: `gh`, `git` (PRs, Actions, Releases, Secrets)
+  - 🔥 **Firebase**: `firebase` (Firestore, Cloud Functions, Hosting, Security Rules)
+  - ☁️ **Microsoft Azure**: `az` (Container Apps, Functions, Cosmos DB, Key Vault)
+  - 🌐 **Google Cloud (GCP)**: `gcloud`, `bq`, `gsutil` (Cloud Run, BigQuery, Cloud Storage)
+  - 🔶 **Amazon Web Services (AWS)**: `aws` (Lambda, S3, ECS, DynamoDB)
+  - ▲ **Vercel**: `vercel` (Edge Functions, Preview Deployments)
+  - 🐳 **Containers**: `docker`, `docker-compose`
+- **Zero-Trust Credential Auto-Injection**: Extracts tokens directly from `cred` vault without exposing plaintext secrets.
+- **Destructive Command Interceptor**: Enforces `loragent-workspace-guard` policies to prevent unauthorized file or database destructions.
 
 ---
 

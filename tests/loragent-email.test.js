@@ -2,15 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert';
 import { spawnSync } from 'child_process';
 import path from 'path';
+import { getPinSync } from '../src/lore/auth/pin-manager.js';
 
 const EMAIL_SCRIPT = path.join(process.cwd(), 'bin', 'loragent-email.js');
 
 test('Loragent Email CLI', (t) => {
+    const pin = getPinSync();
+
     t.test('should output usage when called with help or without args', () => {
         const result = spawnSync('node', [EMAIL_SCRIPT, 'help'], { 
             env: {
                 PATH: process.env.PATH,
-                CRED_PASSPHRASE: '565087'
+                CRED_PASSPHRASE: pin
             }
         });
         assert.strictEqual(result.status, 0);
@@ -21,7 +24,7 @@ test('Loragent Email CLI', (t) => {
         const result = spawnSync('node', [EMAIL_SCRIPT, 'list'], { 
             env: {
                 PATH: process.env.PATH,
-                CRED_PASSPHRASE: '565087'
+                CRED_PASSPHRASE: pin
             }
         });
         assert.ok([0, 1].includes(result.status));

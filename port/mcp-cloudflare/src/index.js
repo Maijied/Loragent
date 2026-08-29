@@ -4,7 +4,7 @@ const MCP_SERVER_INFO = {
   name: "loragent-mcp-cloud",
   version: "1.0.0",
   protocolVersion: "2024-11-05",
-  instructions: "Loragent Enterprise Orchestration & Autonomous Multi-Agent Protocol by Lorapok Labs. Provides access to 170 specialized AI agents across 22 categories and 4 formations."
+  instructions: "Loragent Enterprise Orchestration & Autonomous Multi-Agent Protocol by Lorapok Labs. Provides access to 174 specialized AI agents across 22 categories and 4 formations."
 };
 
 const MCP_TOOLS = [

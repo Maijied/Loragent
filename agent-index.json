@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
-  "generated": "2026-08-29T00:07:36.349Z",
+  "generated": "2026-08-29T00:14:17.460Z",
   "ecosystem": "Loragent by Lorapok Labs",
   "statistics": {
-    "totalAgents": 170,
+    "totalAgents": 174,
     "coreAgents": 5,
-    "specialists": 165,
-    "nativeAgents": 118,
+    "specialists": 169,
+    "nativeAgents": 122,
     "importedAgents": 52,
     "categories": 22,
     "formations": {
       "auto-team": 6,
       "office": 9,
-      "freelance": 145,
+      "freelance": 149,
       "chela": 5,
       "all": 5
     }
@@ -811,6 +811,26 @@
       "description": "Security and code compliance auditing."
     },
     {
+      "name": "loragent-aws-specialist",
+      "slug": "aws-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/aws-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Amazon Web Services (AWS) Specialist. Automates AWS CLI, Lambda, S3, ECS/EKS, DynamoDB, and CloudFormation with Zero-Trust Credential Vault integration."
+    },
+    {
+      "name": "loragent-azure-cloud-specialist",
+      "slug": "azure-cloud-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/azure-cloud-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Microsoft Azure Cloud Specialist. Automates Azure CLI (az), Container Apps, Azure Functions, Cosmos DB, Blob Storage, Entra ID, and Key Vault with Zero-Trust Credential Vault integration."
+    },
+    {
       "name": "loragent-chorki",
       "slug": "chorki",
       "type": "specialist",
@@ -851,6 +871,16 @@
       "description": "Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries."
     },
     {
+      "name": "loragent-firebase-specialist",
+      "slug": "firebase-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/firebase-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Firebase Ecosystem Specialist. Automates Firestore data modeling, Cloud Functions, Firebase Authentication, Hosting, Storage, and Security Rules auditing with Zero-Trust Credential Vault integration."
+    },
+    {
       "name": "loragent-garbage-collector",
       "slug": "garbage-collector",
       "type": "specialist",
@@ -859,6 +889,16 @@
       "category": "general",
       "formation": "freelance",
       "description": "Identifies and removes unused code, dead files, and unnecessary dependencies."
+    },
+    {
+      "name": "loragent-gcp-specialist",
+      "slug": "gcp-specialist",
+      "type": "specialist",
+      "source": "native",
+      "path": "agents/gcp-specialist/SKILL.md",
+      "category": "general",
+      "formation": "freelance",
+      "description": "Google Cloud Platform Specialist. Automates gcloud CLI, Cloud Run, BigQuery (bq), Cloud Storage (gsutil), IAM, and Vertex AI with Zero-Trust Credential Vault integration."
     },
     {
       "name": "loragent-gh-cli-specialist",

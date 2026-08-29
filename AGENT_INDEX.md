@@ -2,7 +2,7 @@
 
 > The Master Catalog of all AI agents in the Lorapok Mega-Agency ecosystem.
 
-> **170 agents** across **22 categories** | 118 native + 52 imported
+> **174 agents** across **22 categories** | 122 native + 52 imported
 
 ---
 
@@ -10,10 +10,10 @@
 
 | Metric | Count |
 |--------|-------|
-| **Total Agents** | 170 |
+| **Total Agents** | 174 |
 | Core Operations | 5 |
-| Specialists | 165 |
-| Native | 118 |
+| Specialists | 169 |
+| Native | 122 |
 | Imported | 52 |
 
 ### Formation Breakdown
@@ -22,7 +22,7 @@
 |-----------|--------|
 | 🟢 Auto Team | 6 |
 | 🏢 Office | 9 |
-| 🔧 Freelance | 145 |
+| 🔧 Freelance | 149 |
 | 🔴 Chela | 5 |
 | ⭐ All | 5 |
 
@@ -145,7 +145,7 @@
 | 🔹 `loragent-freqghost-source-management` | specialist | freqghost | freelance | Add, configure, and manage SceneSource implementations — the central abstraction |
 | 🔹 `loragent-freqghost-verification` | specialist | freqghost | freelance | Orchestrates deterministic pipeline proofs for FreqGhost ML components to ensure |
 
-### 📦 General (38)
+### 📦 General (42)
 
 | Agent | Type | Source | Formation | Description |
 |-------|------|--------|-----------|-------------|
@@ -155,11 +155,15 @@
 | 🔹 `loragent-apple-ecosystem-expert` | specialist | native | freelance | macOS, iOS, Swift, and Apple ecosystem authority. |
 | 🔹 `loragent-architect-designer` | specialist | native | freelance | Works alongside the Tech Director to map out complex system architectures visual |
 | 🔹 `loragent-auditor` | specialist | native | freelance | Security and code compliance auditing. |
+| 🔹 `loragent-aws-specialist` | specialist | native | freelance | Amazon Web Services (AWS) Specialist. Automates AWS CLI, Lambda, S3, ECS/EKS, Dy |
+| 🔹 `loragent-azure-cloud-specialist` | specialist | native | freelance | Microsoft Azure Cloud Specialist. Automates Azure CLI (az), Container Apps, Azur |
 | 🔹 `loragent-chorki` | specialist | native | freelance | The Unstoppable Autonomous Autopilot Loop Agent. Iterates relentlessly and execu |
 | 🔹 `loragent-cicd-specialist` | specialist | native | freelance | Lead CI/CD Pipeline Architect & Release Specialist. Designs, automates, and opti |
 | 🔹 `loragent-debugger` | specialist | native | chela | Dedicated step-through and stack-trace debugger. |
 | 🔹 `loragent-docker-specialist` | specialist | native | freelance | Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker  |
+| 🔹 `loragent-firebase-specialist` | specialist | native | freelance | Firebase Ecosystem Specialist. Automates Firestore data modeling, Cloud Function |
 | 🔹 `loragent-garbage-collector` | specialist | native | freelance | Identifies and removes unused code, dead files, and unnecessary dependencies. |
+| 🔹 `loragent-gcp-specialist` | specialist | native | freelance | Google Cloud Platform Specialist. Automates gcloud CLI, Cloud Run, BigQuery (bq) |
 | 🔹 `loragent-gh-cli-specialist` | specialist | native | freelance | GitHub CLI Specialist. Automates PR management, issue triage, release generation |
 | 🔹 `loragent-git-specialist` | specialist | native | chela | Advanced version control, rebasing, and merge conflict resolution. |
 | 🔹 `loragent-loragent-amo-mcp` | specialist | ide-skills | freelance | MCP-orchestrated Firefox AMO publishing for Lorapok extensions. |
@@ -312,4 +316,4 @@
 
 ---
 
-*Generated: 2026-08-29T00:07:36.349Z | Version: 1.0.0*
+*Generated: 2026-08-29T00:14:17.460Z | Version: 1.0.0*

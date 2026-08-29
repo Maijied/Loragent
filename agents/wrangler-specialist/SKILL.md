@@ -24,6 +24,6 @@ The **Cloudflare Wrangler Specialist** automates all Cloudflare Developer Platfo
 - **JSON-RPC MCP Hosting**: Configuration and health checking for Workers MCP.
 
 ## 🔒 Security Directives
-- **Zero-Trust Rule**: Always read tokens via `CRED_PASSPHRASE=565087 cred get cursor <key>`.
+- **Zero-Trust Rule**: Always read tokens via Loragent Cred Vault protocol (`loragent` auto-injects encrypted credentials).
 - **Target Account**: Lorapok Labs (`26b9a1161cddac39ae8970865a56747c`).
 - **Destructive Guard**: Never execute `wrangler delete` without explicit human authorization.
