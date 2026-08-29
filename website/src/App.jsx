@@ -9,7 +9,7 @@ import {
   CheckCircle, ArrowRight, X, Filter, Share2, CornerDownRight,
   FastForward, RotateCcw, Monitor, Send, CheckCheck, Boxes,
   Flame, Users, MessageSquare, KeyRound, Unlock, Heart, AlertTriangle,
-  Mail, Inbox, Palette, Package
+  Mail, Inbox, Palette, Package, ShieldCheck, Award
 } from 'lucide-react';
 import allAgentsData from './data/all-agents.json';
 
@@ -23,12 +23,29 @@ async function sha256Hex(text) {
 }
 
 // 250 Catalog resources
-const MARKET_CATEGORIES = allAgentsData.categories || [];
 const ALL_CATALOG_ITEMS = allAgentsData.items || [];
 const totalAgents = allAgentsData.totalAgents || 224;
 const totalMcp = allAgentsData.totalMcp || 20;
 const totalFormations = allAgentsData.totalFormations || 6;
-const totalSkills = allAgentsData.totalSkills || 177;
+
+// 3 Dynamic Themes
+const THEMES = [
+  { id: 'matrix', name: 'Neural Matrix', color: '#00FF41', icon: Terminal, desc: 'High-contrast dark-space with neon-green sensory glow' },
+  { id: 'aurora', name: 'Aurora Cyber', color: '#00F3FF', icon: Globe, desc: 'Violet & cyan glassmorphic surfaces with radiant backdrops' },
+  { id: 'obsidian', name: 'Obsidian Gold', color: '#f59e0b', icon: ShieldCheck, desc: 'Deep warm amber tones with stealth dark aesthetics' }
+];
+
+// Universal Package Ecosystems
+const PACKAGE_ECOSYSTEMS = [
+  { id: 'npx', name: 'NPX (Instant Runner)', command: 'npx -y @lorapok/loragent@latest', url: 'https://www.npmjs.com/package/@lorapok/loragent', badge: 'Zero-Install CLI', color: '#00FF41', icon: Terminal },
+  { id: 'npm', name: 'NPM (Node.js SDK)', command: 'npm install @lorapok/loragent', url: 'https://www.npmjs.com/package/@lorapok/loragent', badge: 'NPM Registry', color: '#ef4444', icon: Boxes },
+  { id: 'pip', name: 'PyPI (Python)', command: 'pip install loragent', url: 'https://pypi.org/project/loragent/', badge: 'Python 3.11+', color: '#38bdf8', icon: Code2 },
+  { id: 'go', name: 'Go Proxy (/v2)', command: 'go get github.com/Maijied/Loragent/v2', url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2', badge: 'PKG.GO.DEV', color: '#00F3FF', icon: Cpu },
+  { id: 'vscode', name: 'VS Code Marketplace', command: 'code --install-extension LorapokLabs.loragent', url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent', badge: 'IDE Extension', color: '#3b82f6', icon: Sparkles },
+  { id: 'openvsx', name: 'Open VSX Registry', command: 'ovsx install LorapokLabs.loragent', url: 'https://open-vsx.org/extension/LorapokLabs/loragent', badge: 'Eclipse / VSCodium', color: '#a855f7', icon: Globe },
+  { id: 'firefox', name: 'Firefox AMO Add-on', command: 'web-ext run / AMO Add-on', url: 'https://addons.mozilla.org/firefox/addon/loragent-assistant', badge: 'Browser Extension', color: '#f97316', icon: Radio },
+  { id: 'packagist', name: 'PHP Composer', command: 'composer require lorapok/loragent', url: 'https://packagist.org/packages/lorapok/loragent', badge: 'Laravel 11', color: '#f59e0b', icon: Database }
+];
 
 // Workspace Relevance Quick Stack Presets (Kilo Marketplace Standard)
 const WORKSPACE_STACKS = [
@@ -42,26 +59,7 @@ const WORKSPACE_STACKS = [
   { id: 'security', label: 'Security & Zero-Trust', icon: Shield, keywords: ['security', 'guard', 'vault', 'sqa', 'secret', 'auth', 'hash'] }
 ];
 
-// Package Ecosystems
-const PACKAGE_ECOSYSTEMS = [
-  { id: 'npx', name: 'NPX Runner', command: 'npx -y @lorapok/loragent@latest', url: 'https://www.npmjs.com/package/@lorapok/loragent', color: '#00FF41', badge: 'INSTANT CLI' },
-  { id: 'npm', name: 'NPM Library', command: 'npm install @lorapok/loragent', url: 'https://www.npmjs.com/package/@lorapok/loragent', color: '#00F3FF', badge: 'SDK / TYPES' },
-  { id: 'pypi', name: 'Python PyPI', command: 'pip install loragent', url: 'https://pypi.org/project/loragent/', color: '#3b82f6', badge: 'PYTHON 3.11+' },
-  { id: 'go', name: 'Go Proxy', command: 'go get github.com/Maijied/Loragent/v2', url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2', color: '#a855f7', badge: 'PKG.GO.DEV' },
-  { id: 'vscode', name: 'VS Code Ext', command: 'code --install-extension LorapokLabs.loragent', url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent', color: '#00F3FF', badge: 'MARKETPLACE' },
-  { id: 'openvsx', name: 'Open VSX', command: 'ovsx get LorapokLabs.loragent', url: 'https://open-vsx.org/extension/LorapokLabs/loragent', color: '#f59e0b', badge: 'ECLIPSE' },
-  { id: 'amo', name: 'Firefox AMO', command: 'web-ext sign --api-key=... --api-secret=...', url: 'https://addons.mozilla.org/en-US/firefox/addon/loragent/', color: '#ff7043', badge: 'ADDON' },
-  { id: 'packagist', name: 'PHP Composer', command: 'composer require lorapok/loragent', url: 'https://packagist.org/packages/lorapok/loragent', color: '#ec4899', badge: 'LARAVEL 11' }
-];
-
-// Themes
-const THEMES = [
-  { id: 'matrix', name: 'Matrix Cyberpunk', color: '#00FF41', icon: Terminal, desc: 'High-contrast dark-space with neon-green sensory glow' },
-  { id: 'aurora', name: 'Aurora Glass', color: '#00F3FF', icon: Sparkles, desc: 'Violet & cyan glassmorphic surfaces with radiant backdrops' },
-  { id: 'obsidian', name: 'Obsidian Amber', color: '#f59e0b', icon: Shield, desc: 'Deep warm amber tones with stealth dark aesthetics' }
-];
-
-// Formations
+// 6 Formations
 const FORMATIONS = [
   {
     id: 'orchestrator',
@@ -336,6 +334,51 @@ const WORKFLOW_SCENARIOS = [
   }
 ];
 
+// Cloudflare Email Inboxes
+const LORAGENT_EMAILS = [
+  { address: 'boss@lorapok.tech', role: 'Autonomous Orchestrator Dispatch', icon: Compass, color: '#00FF41', status: 'ONLINE', desc: 'Direct directive ingestion and multi-agent routing' },
+  { address: 'student@lorapok.tech', role: 'Evolutionary Learning Sentinel', icon: Sparkles, color: '#ec4899', status: 'LISTENING', desc: 'Continuous conversational learning and novel pattern ingestion' },
+  { address: 'security@lorapok.tech', role: 'TiTi Zero-Trust Keyring Vault', icon: Shield, color: '#f59e0b', status: 'ENCRYPTED', desc: 'Machine AES-256 secret vault & clearance validator' },
+  { address: 'support@lorapok.tech', role: 'Developer Ecosystem Relations', icon: Users, color: '#00F3FF', status: 'ACTIVE', desc: 'Skill requests, IDE setup issues & developer community' }
+];
+
+// Community Discussion Threads
+const COMMUNITY_TOPICS = [
+  {
+    id: 1,
+    author: 'alex_dev',
+    avatar: '👨‍💻',
+    title: 'How we used loragent-student to codify our internal gRPC patterns',
+    tag: 'Dynamic Evolution',
+    replies: 14,
+    upvotes: 89,
+    timestamp: '2h ago',
+    desc: 'During our pairing session, Student extracted our connection pool wrapper and synthesized a pristine LLDP v2.0 skill.'
+  },
+  {
+    id: 2,
+    author: 'sarah_arch',
+    avatar: '👩‍💻',
+    title: 'Zero plaintext secrets in CI/CD using TiTi Vault Enclave',
+    tag: 'Security & Vault',
+    replies: 28,
+    upvotes: 142,
+    timestamp: '5h ago',
+    desc: 'The Git pre-push hook automatically minifies and encrypts all source code before it touches remote origin.'
+  },
+  {
+    id: 3,
+    author: 'chen_ai',
+    avatar: '🤖',
+    title: 'Chela debugging squad saved us 4 hours of RCA on production 502s',
+    tag: 'Chela Protocol',
+    replies: 9,
+    upvotes: 67,
+    timestamp: '1d ago',
+    desc: 'Parsing .loragent-debug/orchestration-graph.json pinpoints the exact line and error telemetry with zero guessing.'
+  }
+];
+
 // IDE MCP Config Snippets
 const IDE_CONFIGS = {
   cursor: {
@@ -373,7 +416,6 @@ const IDE_CONFIGS = {
 export default function App() {
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('all');
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedFormationFilter, setSelectedFormationFilter] = useState('all');
   const [selectedStackFilter, setSelectedStackFilter] = useState('all');
   
@@ -414,11 +456,16 @@ export default function App() {
   // MCP Config Tab State
   const [activeMcpTab, setActiveMcpTab] = useState('cursor');
 
-  // Mission Control Drawer State (Bottom Drawer)
-  const [isMissionControlOpen, setIsMissionControlOpen] = useState(false);
+  // Bottom Operator Drawer State
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerActiveTab, setDrawerActiveTab] = useState('admin'); // 'admin' | 'community' | 'inbox' | 'validator'
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminPin, setAdminPin] = useState('');
   const [adminPinError, setAdminPinError] = useState(false);
+
+  // Skill Validator State
+  const [validatorInput, setValidatorInput] = useState(`---\nname: my-custom-agent\nformation: auto\nlayer: cross\nversion: 2.0.0\n---`);
+  const [validatorResult, setValidatorResult] = useState(null);
 
   // Active scenario & stage
   const currentScenario = useMemo(() => {
@@ -519,6 +566,27 @@ export default function App() {
     }
   };
 
+  const handleValidateSkill = () => {
+    const hasName = validatorInput.includes('name:');
+    const hasFormation = validatorInput.includes('formation:');
+    const hasLayer = validatorInput.includes('layer:');
+    const hasVersion = validatorInput.includes('version:');
+
+    if (hasName && hasFormation && hasLayer && hasVersion) {
+      setValidatorResult({
+        valid: true,
+        score: '100/100',
+        message: '✅ LLDP v2.0 Validation Passed: Zero schema anomalies. Ready for registration!'
+      });
+    } else {
+      setValidatorResult({
+        valid: false,
+        score: '45/100',
+        message: '❌ Validation Warning: Missing required LLDP v2.0 fields (name, formation, layer, or version).'
+      });
+    }
+  };
+
   // Filter items based on search, stack preset, type, formation
   const filteredItems = useMemo(() => {
     return ALL_CATALOG_ITEMS.filter((item) => {
@@ -536,9 +604,6 @@ export default function App() {
       const matchFormation = selectedFormationFilter === 'all' ||
         (item.formation && item.formation.toLowerCase() === selectedFormationFilter.toLowerCase());
 
-      const matchCategory = selectedCategory === 'all' ||
-        (item.category && item.category.toLowerCase() === selectedCategory.toLowerCase());
-
       let matchStack = true;
       if (selectedStackFilter !== 'all') {
         const stackConfig = WORKSPACE_STACKS.find(s => s.id === selectedStackFilter);
@@ -548,9 +613,9 @@ export default function App() {
         }
       }
 
-      return matchSearch && matchType && matchFormation && matchCategory && matchStack;
+      return matchSearch && matchType && matchFormation && matchStack;
     });
-  }, [search, selectedType, selectedFormationFilter, selectedCategory, selectedStackFilter]);
+  }, [search, selectedType, selectedFormationFilter, selectedStackFilter]);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
   const displayedItems = useMemo(() => {
@@ -559,10 +624,10 @@ export default function App() {
   }, [filteredItems, currentPage, itemsPerPage]);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-300">
+    <div className="min-h-screen bg-[#030712] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-300 pb-20">
       
       {/* ─── HEADER / NAVIGATION ─── */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#030712]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#030712]/85 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(0,255,65,0.4)]">
@@ -670,7 +735,7 @@ export default function App() {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed mb-8">
-            A 224-agent virtual software firm powered by a Hub-and-Spoke topology. Orchestrated by <code className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 font-mono text-sm">loragent-boss</code>, secured by the Zero-Trust <strong>TiTi Vault Enclave</strong>, and continuously evolved by <code className="text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/20 font-mono text-sm">loragent-student</code>.
+            A 224-agent virtual software firm operating on a Hub-and-Spoke topology. Orchestrated by <code className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 font-mono text-sm">loragent-boss</code>, secured by the Zero-Trust <strong>TiTi Vault Enclave</strong>, and continuously evolved by <code className="text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/20 font-mono text-sm">loragent-student</code>.
           </p>
 
           {/* Universal Package Ecosystem Ribbon */}
@@ -691,17 +756,19 @@ export default function App() {
             <div className="flex gap-2 overflow-x-auto pb-2 mb-3">
               {PACKAGE_ECOSYSTEMS.map((pkg) => {
                 const isSelected = activePackageTab === pkg.id;
+                const Icon = pkg.icon;
                 return (
                   <button
                     key={pkg.id}
                     onClick={() => setActivePackageTab(pkg.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap border ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap border flex items-center gap-1.5 ${
                       isSelected 
                         ? 'bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]' 
                         : 'bg-white/5 text-slate-400 border-white/5 hover:text-white'
                     }`}
                     style={{ borderColor: isSelected ? pkg.color : 'transparent' }}
                   >
+                    <Icon size={13} style={{ color: pkg.color }} />
                     <span style={{ color: isSelected ? pkg.color : '#94a3b8' }}>{pkg.name}</span>
                   </button>
                 );
@@ -769,7 +836,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Hero Visual Banner & Sensory Computing Showcase */}
+          {/* Hero Visual Banner & Sensory Architecture Preview */}
           <div className="max-w-4xl mx-auto rounded-3xl border border-white/15 overflow-hidden shadow-[0_0_80px_rgba(0,255,65,0.12)] relative group bg-[#020509]">
             <div className="relative aspect-[21/9] sm:aspect-[2.4/1] w-full overflow-hidden bg-slate-950">
               <img 
@@ -1520,7 +1587,34 @@ export default function App() {
         </section>
       </main>
 
-      {/* ─── 7. KILO-STYLE INTERACTIVE INSTALL MODAL ─── */}
+      {/* ─── FOOTER ─── */}
+      <footer className="border-t border-white/10 bg-[#020509] py-12 px-4 sm:px-6 lg:px-8 mt-24">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-slate-400">
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <Workflow size={16} />
+            </div>
+            <div>
+              <div className="text-white font-bold">LORAGENT UNIVERSAL ECOSYSTEM</div>
+              <div className="text-slate-500">v2.0.0 · Crafted by Lorapok Labs</div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-6 text-slate-400">
+            <a href="#workflow" className="hover:text-emerald-400 transition-colors">Workflow Visualizer</a>
+            <a href="#catalog" className="hover:text-emerald-400 transition-colors">224 Agent Catalog</a>
+            <a href="#formations" className="hover:text-emerald-400 transition-colors">6 Formations</a>
+            <a href="#vault" className="hover:text-emerald-400 transition-colors">TiTi Vault</a>
+            <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub Repository</a>
+          </div>
+
+          <div className="text-slate-500">
+            © {new Date().getFullYear()} Lorapok Labs. Zero plaintext secrets.
+          </div>
+        </div>
+      </footer>
+
+      {/* ─── KILO-STYLE INTERACTIVE INSTALL MODAL ─── */}
       {modalItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
           <div className="bg-[#0a0f16] border border-white/15 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
@@ -1627,8 +1721,8 @@ export default function App() {
         </div>
       )}
 
-      {/* ─── 8. BOTTOM OPERATOR STATUS BAR & MISSION CONTROL DRAWER ─── */}
-      <div className="sticky bottom-0 z-40 border-t border-white/10 bg-[#030712]/95 backdrop-blur-md px-4 py-2.5">
+      {/* ─── FIXED BOTTOM OPERATOR STATUS BAR ─── */}
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-white/10 bg-[#030712]/95 backdrop-blur-md px-4 py-2.5 shadow-2xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-mono">
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
@@ -1636,99 +1730,267 @@ export default function App() {
             <span className="text-emerald-400 font-bold">250 RESOURCES ONLINE</span>
           </div>
 
-          <button
-            onClick={() => setIsMissionControlOpen(!isMissionControlOpen)}
-            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-[11px] transition-all"
-          >
-            <Shield size={13} className="text-cyan-400" />
-            <span>Operator Mission Control</span>
-            <ChevronRight size={13} className={`transition-transform ${isMissionControlOpen ? '-rotate-90' : ''}`} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                setDrawerActiveTab('community');
+                setIsDrawerOpen(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-cyan-300 border border-white/10 text-[11px] transition-all"
+            >
+              <MessageSquare size={12} />
+              <span className="hidden sm:inline">Community</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setDrawerActiveTab('inbox');
+                setIsDrawerOpen(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-purple-300 border border-white/10 text-[11px] transition-all"
+            >
+              <Inbox size={12} />
+              <span className="hidden sm:inline">Inboxes</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setDrawerActiveTab('admin');
+                setIsDrawerOpen(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold transition-all shadow-[0_0_15px_rgba(0,255,65,0.15)]"
+            >
+              <Shield size={12} />
+              <span>Operator Mission Control</span>
+              <ChevronRight size={12} className={`transition-transform ${isDrawerOpen ? '-rotate-90' : ''}`} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mission Control Bottom Drawer */}
-      {isMissionControlOpen && (
-        <div className="fixed inset-x-0 bottom-10 z-40 bg-[#080d14] border-t border-white/15 p-6 shadow-2xl max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom duration-200">
+      {/* ─── SLIDE-UP MISSION CONTROL & COMMUNITY DRAWER ─── */}
+      {isDrawerOpen && (
+        <div className="fixed inset-x-0 bottom-11 z-40 bg-[#080d14]/98 border-t border-white/15 p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-200">
           <div className="max-w-7xl mx-auto space-y-6">
-            <div className="flex justify-between items-center border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <Shield size={18} className="text-cyan-400" />
-                <h3 className="text-base font-bold text-white font-mono">Mission Control Enclave</h3>
+            
+            {/* Drawer Header & Tabs */}
+            <div className="flex justify-between items-center border-b border-white/10 pb-4 flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
+                  {[
+                    { id: 'admin', label: 'Operator Admin Enclave', icon: Shield, color: '#00FF41' },
+                    { id: 'community', label: 'Community Hub', icon: MessageSquare, color: '#00F3FF' },
+                    { id: 'inbox', label: 'Cloudflare Inboxes', icon: Inbox, color: '#a855f7' },
+                    { id: 'validator', label: 'Skill Validator Tool', icon: CheckCircle2, color: '#f59e0b' }
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isCur = drawerActiveTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setDrawerActiveTab(tab.id)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium flex items-center gap-1.5 transition-all ${
+                          isCur
+                            ? 'bg-white/15 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                        style={{ color: isCur ? tab.color : '#94a3b8' }}
+                      >
+                        <Icon size={13} />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+
               <button
-                onClick={() => setIsMissionControlOpen(false)}
-                className="p-1 rounded-lg bg-white/5 text-slate-400 hover:text-white"
+                onClick={() => setIsDrawerOpen(false)}
+                className="p-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white"
               >
                 <X size={16} />
               </button>
             </div>
 
-            {!isAdminAuthenticated ? (
-              <form onSubmit={handleAdminAuth} className="max-w-md mx-auto py-8 text-center space-y-4 font-mono">
-                <Lock size={32} className="mx-auto text-amber-400 mb-2" />
-                <h4 className="text-base font-bold text-white">Operator Clearance Required</h4>
-                <p className="text-xs text-slate-400">Enter your Machine PIN to unlock secret variables and deployment triggers.</p>
-                <div className="flex gap-2 justify-center">
-                  <input
-                    type="password"
-                    value={adminPin}
-                    onChange={(e) => setAdminPin(e.target.value)}
-                    placeholder="Enter Clearance PIN..."
-                    className="bg-black border border-white/20 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-cyan-400 font-mono w-48"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs"
-                  >
-                    Unlock
-                  </button>
-                </div>
-                {adminPinError && (
-                  <div className="text-xs text-red-400">Invalid clearance PIN hash.</div>
+            {/* TAB 1: OPERATOR ADMIN ENCLAVE */}
+            {drawerActiveTab === 'admin' && (
+              <div>
+                {!isAdminAuthenticated ? (
+                  <form onSubmit={handleAdminAuth} className="max-w-md mx-auto py-8 text-center space-y-4 font-mono">
+                    <Lock size={32} className="mx-auto text-amber-400 mb-2" />
+                    <h4 className="text-base font-bold text-white">Operator Clearance Required</h4>
+                    <p className="text-xs text-slate-400">Enter your Machine PIN to unlock secret variables, AES keyring, and deployment triggers.</p>
+                    <div className="flex gap-2 justify-center">
+                      <input
+                        type="password"
+                        value={adminPin}
+                        onChange={(e) => setAdminPin(e.target.value)}
+                        placeholder="Enter Clearance PIN..."
+                        className="bg-black border border-white/20 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-cyan-400 font-mono w-48"
+                      />
+                      <button
+                        type="submit"
+                        className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs"
+                      >
+                        Unlock
+                      </button>
+                    </div>
+                    {adminPinError && (
+                      <div className="text-xs text-red-400">Invalid clearance PIN hash.</div>
+                    )}
+                  </form>
+                ) : (
+                  <div className="space-y-6 font-mono text-xs">
+                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 size={16} />
+                        <span>Clearance Verified: Operator Mode Active</span>
+                      </div>
+                      <button
+                        onClick={() => setIsAdminAuthenticated(false)}
+                        className="px-3 py-1 rounded bg-white/10 text-xs text-slate-300 hover:text-white"
+                      >
+                        Lock Enclave
+                      </button>
+                    </div>
+
+                    {/* 8-Stage CI/CD Deployment Graph */}
+                    <div>
+                      <div className="text-xs text-slate-400 uppercase font-bold mb-3">8-Stage Master CI/CD Pipeline:</div>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {[
+                          { step: 1, title: 'Security Guard', desc: 'AST Secret Scanner', status: 'PASS' },
+                          { step: 2, title: 'Test Harness', desc: '44 Node + Go Suites', status: 'PASS' },
+                          { step: 3, title: 'Web Platform', desc: 'Vite + Next.js SSR', status: 'PASS' },
+                          { step: 4, title: 'Python PyPI', desc: 'pip install loragent', status: 'PASS' },
+                          { step: 5, title: 'Go Module', desc: 'pkg.go.dev/v2', status: 'PASS' },
+                          { step: 6, title: 'NPM / NPX', desc: '@lorapok/loragent', status: 'PASS' },
+                          { step: 7, title: 'IDE Extensions', desc: 'VS Code & Open VSX', status: 'PASS' },
+                          { step: 8, title: 'Edge MCP', desc: 'Cloudflare Worker', status: 'PASS' }
+                        ].map((st) => (
+                          <div key={st.step} className="p-3 rounded-xl bg-black/50 border border-white/10">
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-emerald-400 font-bold">Stage {st.step}</span>
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                                {st.status}
+                              </span>
+                            </div>
+                            <div className="font-bold text-white">{st.title}</div>
+                            <div className="text-[10px] text-slate-400 mt-0.5">{st.desc}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 )}
-              </form>
-            ) : (
-              <div className="space-y-6 font-mono text-xs">
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-center justify-between">
-                  <span>✅ Clearance Verified: Operator Mode Active</span>
-                  <button
-                    onClick={() => setIsAdminAuthenticated(false)}
-                    className="px-3 py-1 rounded bg-white/10 text-xs text-slate-300 hover:text-white"
-                  >
-                    Lock Enclave
-                  </button>
+              </div>
+            )}
+
+            {/* TAB 2: COMMUNITY HUB */}
+            {drawerActiveTab === 'community' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm font-bold text-white font-mono flex items-center gap-2">
+                    <MessageSquare size={16} className="text-cyan-400" />
+                    <span>Developer Discussions & Dynamic Evolution Showcase</span>
+                  </div>
+                  <span className="text-xs text-slate-400 font-mono">3 Active Threads</span>
                 </div>
 
-                {/* 8-Stage CI/CD Deployment Graph */}
-                <div>
-                  <div className="text-xs text-slate-400 uppercase font-bold mb-3">8-Stage Master CI/CD Pipeline:</div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {[
-                      { step: 1, title: 'Security Guard', desc: 'AST Secret Scanner', status: 'PASS' },
-                      { step: 2, title: 'Test Harness', desc: '44 Node + Go Suites', status: 'PASS' },
-                      { step: 3, title: 'Web Platform', desc: 'Vite + Next.js SSR', status: 'PASS' },
-                      { step: 4, title: 'Python PyPI', desc: 'pip install loragent', status: 'PASS' },
-                      { step: 5, title: 'Go Module', desc: 'pkg.go.dev/v2', status: 'PASS' },
-                      { step: 6, title: 'NPM / NPX', desc: '@lorapok/loragent', status: 'PASS' },
-                      { step: 7, title: 'IDE Extensions', desc: 'VS Code & Open VSX', status: 'PASS' },
-                      { step: 8, title: 'Edge MCP', desc: 'Cloudflare Worker', status: 'PASS' }
-                    ].map((st) => (
-                      <div key={st.step} className="p-3 rounded-xl bg-black/50 border border-white/10">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-emerald-400 font-bold">Stage {st.step}</span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-                            {st.status}
-                          </span>
-                        </div>
-                        <div className="font-bold text-white">{st.title}</div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">{st.desc}</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {COMMUNITY_TOPICS.map((topic) => (
+                    <div key={topic.id} className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-3 font-mono">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                          {topic.tag}
+                        </span>
+                        <span className="text-[10px] text-slate-500">{topic.timestamp}</span>
                       </div>
-                    ))}
-                  </div>
+                      <h4 className="text-sm font-bold text-white leading-snug">{topic.title}</h4>
+                      <p className="text-xs text-slate-400 leading-relaxed">{topic.desc}</p>
+                      <div className="flex justify-between items-center pt-2 border-t border-white/10 text-xs text-slate-400">
+                        <span className="flex items-center gap-1 text-pink-400">
+                          <Heart size={12} />
+                          <span>{topic.upvotes}</span>
+                        </span>
+                        <span className="flex items-center gap-1 text-slate-400">
+                          <MessageSquare size={12} />
+                          <span>{topic.replies} replies</span>
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
+
+            {/* TAB 3: CLOUDFLARE INBOXES */}
+            {drawerActiveTab === 'inbox' && (
+              <div className="space-y-4 font-mono text-xs">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm font-bold text-white flex items-center gap-2">
+                    <Inbox size={16} className="text-purple-400" />
+                    <span>Cloudflare Routed Email Inboxes (@lorapok.tech)</span>
+                  </div>
+                  <span className="text-emerald-400">MX Routing: ACTIVE</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {LORAGENT_EMAILS.map((em) => {
+                    const Icon = em.icon;
+                    return (
+                      <div key={em.address} className="p-4 rounded-xl bg-black/40 border border-white/10 space-y-2">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-2">
+                            <Icon size={14} style={{ color: em.color }} />
+                            <code className="text-white font-bold">{em.address}</code>
+                          </div>
+                          <span className="text-[9px] px-2 py-0.5 rounded bg-white/10 font-bold" style={{ color: em.color }}>
+                            {em.status}
+                          </span>
+                        </div>
+                        <div className="text-slate-300 font-bold">{em.role}</div>
+                        <div className="text-[11px] text-slate-400">{em.desc}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* TAB 4: SKILL VALIDATOR TOOL */}
+            {drawerActiveTab === 'validator' && (
+              <div className="space-y-4 font-mono text-xs">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm font-bold text-white flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-amber-400" />
+                    <span>LLDP v2.0 Skill & Agent Specification Validator</span>
+                  </div>
+                  <button
+                    onClick={handleValidateSkill}
+                    className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-bold text-xs flex items-center gap-1.5"
+                  >
+                    <Check size={13} />
+                    <span>Validate Spec</span>
+                  </button>
+                </div>
+
+                <textarea
+                  value={validatorInput}
+                  onChange={(e) => setValidatorInput(e.target.value)}
+                  rows={5}
+                  className="w-full bg-[#020509] border border-white/15 rounded-xl p-3 text-cyan-300 focus:outline-none font-mono text-xs"
+                />
+
+                {validatorResult && (
+                  <div className={`p-3 rounded-xl border ${validatorResult.valid ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-red-500/10 border-red-500/30 text-red-300'}`}>
+                    <div className="font-bold mb-1">Score: {validatorResult.score}</div>
+                    <div>{validatorResult.message}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         </div>
       )}
