@@ -3,8 +3,7 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - 'v*.*.*'
-      - 'v*.*.*-beta*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   publish-npm:
@@ -29,9 +28,12 @@ jobs:
         run: npm ci
 
       - name: Run Tests
-        run: npm test || echo "Tests not configured"
+        run: npm test
+
+      - name: Build Project Artifacts
+        run: npm run build
 
       - name: Publish to NPM
-        run: npm publish
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

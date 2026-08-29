@@ -13,6 +13,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
 
     steps:
       - name: Checkout Code
@@ -30,10 +31,10 @@ jobs:
         run: npm ci
 
       - name: Run Tests
-        run: npm test || echo "Tests not strictly enforced for beta"
+        run: npm test
 
       - name: Build Project
-        run: npm run build || echo "Build skipped or not configured"
+        run: npm run build
 
       - name: Generate Changelog
         id: changelog
@@ -51,6 +52,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to NPM (Beta Tag)
-        run: npm publish --tag beta
+        run: npm publish --tag beta --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

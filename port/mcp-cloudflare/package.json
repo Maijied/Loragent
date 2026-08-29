@@ -1,7 +1,7 @@
 {
   "name": "loragent-mcp-cloudflare",
-  "version": "1.0.0",
-  "description": "Cloudflare Worker MCP Server for Loragent 165-agent ecosystem",
+  "version": "2.0.0",
+  "description": "Cloudflare Worker MCP Server for Loragent 224-agent universal ecosystem",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
