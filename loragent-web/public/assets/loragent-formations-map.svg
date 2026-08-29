@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Loragent 6 Squad Formations Map">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050b14"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1829"/>
+      <stop offset="100%" stop-color="#060c17"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Header -->
+  <g transform="translate(60, 60)">
+    <text x="0" y="24" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" fill="#00FF41" letter-spacing="3">LORAGENT ARCHITECTURE MATRIX</text>
+    <text x="0" y="68" font-family="'Inter', sans-serif" font-size="38" font-weight="900" fill="#ffffff" letter-spacing="-1">6 Specialized Multi-Agent Squad Formations</text>
+  </g>
+
+  <!-- 6 Formation Cards Grid -->
+  <!-- 1. Auto Team -->
+  <g transform="translate(60, 160)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#06b6d4"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#06b6d4">AUTO TEAM MATRIX</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">Engineering Pipeline</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Tech Director ➔ Backend SE ➔ Frontend SE ➔ SQA ➔ CI/CD</text>
+    <rect x="20" y="140" width="160" height="26" rx="6" fill="rgba(6, 182, 212, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#06b6d4">/loragent:boss auto</text>
+  </g>
+
+  <!-- 2. Enterprise Office -->
+  <g transform="translate(430, 160)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#a855f7"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#a855f7">ENTERPRISE OFFICE</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">Business Operations</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Coordinator ➔ Marketing Manager ➔ Publisher ➔ PR Specialist</text>
+    <rect x="20" y="140" width="160" height="26" rx="6" fill="rgba(168, 85, 247, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#a855f7">/loragent:boss office</text>
+  </g>
+
+  <!-- 3. Chela Debugging -->
+  <g transform="translate(800, 160)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#f59e0b"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#f59e0b">CHELA PROTOCOL</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">Zero-Guess Bug Hunting</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Bug Hunter ➔ Shift Engineer ➔ Git Specialist ➔ Inspector RCA</text>
+    <rect x="20" y="140" width="160" height="26" rx="6" fill="rgba(245, 158, 11, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#f59e0b">/loragent:boss chela</text>
+  </g>
+
+  <!-- 4. Freelance Domain -->
+  <g transform="translate(60, 380)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#3b82f6"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#3b82f6">FREELANCE ISOLATION</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">On-Demand Specialists</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Fal.ai Image Gen ➔ FFmpeg GIFs ➔ Cloudflare Edge ➔ Package Tools</text>
+    <rect x="20" y="140" width="180" height="26" rx="6" fill="rgba(59, 130, 246, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#3b82f6">/loragent:image-generate</text>
+  </g>
+
+  <!-- 5. Observer Sentinel -->
+  <g transform="translate(430, 380)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#ec4899"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#ec4899">OBSERVER SENTINEL</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">Crash Recovery &amp; State</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Watchman ➔ Workspace Guard ➔ Gold Collector ➔ Hivemind Sync</text>
+    <rect x="20" y="140" width="200" height="26" rx="6" fill="rgba(236, 72, 153, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ec4899">/loragent-watchman continue</text>
+  </g>
+
+  <!-- 6. Spidernet DAG -->
+  <g transform="translate(800, 380)">
+    <rect width="340" height="190" rx="16" fill="url(#cardGrad)" stroke="#00FF41" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="20" y="20" width="8" height="8" rx="2" fill="#00FF41"/>
+    <text x="36" y="28" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#00FF41">SPIDERNET DAG</text>
+    <text x="20" y="60" font-family="'Inter', sans-serif" font-size="18" font-weight="700" fill="#ffffff">Directed Graph Runner</text>
+    <text x="20" y="85" font-family="'Inter', sans-serif" font-size="12" fill="#94a3b8">Dynamic Task Decomposer ➔ Parallel Sub-Agents ➔ AST Synthesis</text>
+    <rect x="20" y="140" width="160" height="26" rx="6" fill="rgba(0, 255, 65, 0.15)"/>
+    <text x="28" y="157" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00FF41">/loragent:spidernet</text>
+  </g>
+</svg>
