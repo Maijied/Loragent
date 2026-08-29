@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #030704;
+  --foreground: #ededed;
+  --matrix: #00FF41;
+  --matrix-glow: rgba(0, 255, 65, 0.4);
+  --cyan-glow: rgba(6, 182, 212, 0.4);
+  --purple-glow: rgba(168, 85, 247, 0.4);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-matrix: var(--matrix);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Geist", "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Cyber Glassmorphism */
+.glass-panel {
+  background: rgba(8, 14, 9, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+.glass-panel-cyan {
+  background: rgba(4, 14, 20, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.glass-panel-purple {
+  background: rgba(14, 6, 24, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+/* Glowing Border Effect */
+.glow-border {
+  position: relative;
+}
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #00FF41, #06b6d4, #a855f7, #00FF41);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.25;
+  filter: blur(6px);
+  transition: opacity 0.3s ease;
+}
+.glow-border:hover::after {
+  opacity: 0.6;
+}
+
+/* Futuristic Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #030704;
+}
+::-webkit-scrollbar-thumb {
+  background: #00FF41;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Scanline Animation */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-scan {
+  animation: scanline 8s linear infinite;
 }
