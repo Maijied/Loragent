@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 180" fill="none" width="780" height="180" role="img" aria-label="Loragent by Lorapok Labs">
+  <defs>
+    <linearGradient id="brandLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="50%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+
+    <linearGradient id="metalLight" x1="20" y1="30" x2="120" y2="130" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+
+    <linearGradient id="panelLight" x1="24" y1="48" x2="116" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Icon Emblem -->
+  <g transform="translate(18, 18)">
+    <rect x="0" y="0" width="144" height="144" rx="36" fill="#f8fafc" stroke="url(#brandLight)" stroke-width="3"/>
+    
+    <ellipse cx="98" cy="84" rx="20" ry="15" fill="url(#metalLight)"/>
+    <ellipse cx="84" cy="80" rx="18" ry="14" fill="url(#metalLight)"/>
+    <ellipse cx="70" cy="75" rx="17" ry="13" fill="url(#metalLight)"/>
+    <ellipse cx="56" cy="68" rx="16" ry="12" fill="url(#metalLight)"/>
+    <ellipse cx="44" cy="58" rx="18" ry="14" fill="url(#metalLight)"/>
+
+    <ellipse cx="84" cy="84" rx="14" ry="9" fill="url(#panelLight)" opacity="0.8"/>
+    <ellipse cx="70" cy="76" rx="12" ry="8" fill="url(#panelLight)" opacity="0.7"/>
+
+    <rect x="26" y="44" width="38" height="22" rx="9" fill="#0f172a" stroke="#0284c7" stroke-width="2"/>
+    <circle cx="37" cy="55" r="6" fill="#10b981"/>
+    <circle cx="53" cy="55" r="6" fill="#10b981"/>
+    <circle cx="37" cy="55" r="2" fill="#ffffff"/>
+    <circle cx="53" cy="55" r="2" fill="#ffffff"/>
+
+    <path d="M 36 44 Q 30 32 24 26" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="24" cy="26" r="3" fill="#0284c7"/>
+    <path d="M 52 44 Q 58 32 64 26" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="64" cy="26" r="3" fill="#059669"/>
+  </g>
+
+  <!-- Typography Right -->
+  <text x="186" y="98" font-family="'Inter', system-ui, sans-serif" font-size="64" font-weight="900" fill="#0F172A" letter-spacing="-1.5">
+    LOR<tspan fill="#059669">AGENT</tspan>
+  </text>
+  
+  <text x="190" y="132" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" fill="#0284C7" letter-spacing="0.18em">
+    UNIVERSAL MULTI-AGENT ECOSYSTEM
+  </text>
+
+  <text x="590" y="132" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="500" fill="#64748B" letter-spacing="0.1em">
+    • BY LORAPOK LABS
+  </text>
+</svg>

@@ -341,13 +341,19 @@ export default function App() {
     <div className="container">
       {/* HEADER */}
       <header className="header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ padding: '8px', background: 'rgba(0, 255, 65, 0.1)', borderRadius: '12px', border: '1px solid rgba(0, 255, 65, 0.3)' }}>
-            <Cpu size={28} color="#00FF41" />
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          <img 
+            src="/assets/loragent-logo-mark.svg" 
+            alt="Loragent" 
+            style={{ width: '40px', height: '40px', objectFit: 'contain', filter: 'drop-shadow(0 0 12px rgba(0, 243, 255, 0.4))' }} 
+          />
           <div>
-            <h1 style={{ fontSize: '1.75rem', fontWeight: '800', letterSpacing: '-0.5px', color: '#fff' }}>LORAGENT</h1>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Universal Multi-Agent Orchestration v2.0</p>
+            <h1 style={{ fontSize: '1.6rem', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', margin: 0 }}>
+              LOR<span style={{ color: '#00FF41' }}>AGENT</span>
+            </h1>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace', margin: 0 }}>
+              Universal Multi-Agent Orchestration • Lorapok Labs
+            </p>
           </div>
         </div>
 

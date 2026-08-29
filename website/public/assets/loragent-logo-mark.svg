@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Loragent Official Mark">
+  <defs>
+    <!-- Brand Neon Gradients -->
+    <linearGradient id="brandNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F3FF"/>
+      <stop offset="50%" stop-color="#39FF14"/>
+      <stop offset="100%" stop-color="#BC13FE"/>
+    </linearGradient>
+
+    <linearGradient id="cyberMetal" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#2a3342"/>
+      <stop offset="50%" stop-color="#141a24"/>
+      <stop offset="100%" stop-color="#070a0f"/>
+    </linearGradient>
+
+    <linearGradient id="shellHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <linearGradient id="emeraldPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#39FF14"/>
+      <stop offset="50%" stop-color="#00F3FF"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <radialGradient id="pupilGlow" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#39FF14"/>
+      <stop offset="100%" stop-color="#00F3FF" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="auraGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F3FF" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#39FF14" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.65"/>
+    </filter>
+  </defs>
+
+  <!-- Background Aura -->
+  <circle cx="256" cy="256" r="230" fill="url(#auraGlow)"/>
+
+  <!-- Squircle Base Tile -->
+  <rect x="36" y="36" width="440" height="440" rx="108" fill="#030712" filter="url(#softShadow)"/>
+  <rect x="36" y="36" width="440" height="440" rx="108" fill="none" stroke="url(#brandNeon)" stroke-width="4" opacity="0.85" filter="url(#neonGlow)"/>
+  <rect x="42" y="42" width="428" height="428" rx="102" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.12"/>
+
+  <!-- Subtle Matrix Circuit Tracer Lines -->
+  <g opacity="0.18" stroke="#00F3FF" stroke-width="1.5" stroke-linecap="round">
+    <path d="M 80 140 H 160 L 200 180 V 240"/>
+    <circle cx="80" cy="140" r="3.5" fill="#00F3FF"/>
+    <path d="M 432 140 H 352 L 312 180 V 240"/>
+    <circle cx="432" cy="140" r="3.5" fill="#00F3FF"/>
+    <path d="M 120 400 H 180 L 220 360"/>
+    <circle cx="120" cy="400" r="3.5" fill="#39FF14"/>
+    <path d="M 392 400 H 332 L 292 360"/>
+    <circle cx="392" cy="400" r="3.5" fill="#39FF14"/>
+  </g>
+
+  <!-- Mascot: Lorapok Cyber Larva -->
+  <g transform="translate(256, 265)">
+    <!-- Body Segment 4 (Tail) -->
+    <ellipse cx="96" cy="74" rx="42" ry="32" fill="url(#cyberMetal)"/>
+    <ellipse cx="96" cy="74" rx="42" ry="32" fill="url(#shellHighlight)"/>
+    <ellipse cx="96" cy="78" rx="26" ry="16" fill="url(#emeraldPanel)" opacity="0.5"/>
+
+    <!-- Body Segment 3 -->
+    <ellipse cx="58" cy="58" rx="52" ry="38" fill="url(#cyberMetal)"/>
+    <ellipse cx="58" cy="58" rx="52" ry="38" fill="url(#shellHighlight)"/>
+    <ellipse cx="58" cy="62" rx="34" ry="20" fill="url(#emeraldPanel)" opacity="0.55"/>
+
+    <!-- Body Segment 2 -->
+    <ellipse cx="14" cy="42" rx="60" ry="44" fill="url(#cyberMetal)"/>
+    <ellipse cx="14" cy="42" rx="60" ry="44" fill="url(#shellHighlight)"/>
+    <ellipse cx="14" cy="46" rx="42" ry="24" fill="url(#emeraldPanel)" opacity="0.6"/>
+
+    <!-- Body Segment 1 (Chest) -->
+    <ellipse cx="-34" cy="22" rx="68" ry="50" fill="url(#cyberMetal)"/>
+    <ellipse cx="-34" cy="22" rx="68" ry="50" fill="url(#shellHighlight)"/>
+    <ellipse cx="-34" cy="26" rx="48" ry="28" fill="url(#emeraldPanel)" opacity="0.65"/>
+
+    <!-- Head -->
+    <ellipse cx="-82" cy="-18" rx="76" ry="68" fill="url(#cyberMetal)"/>
+    <ellipse cx="-82" cy="-18" rx="76" ry="68" fill="url(#shellHighlight)"/>
+
+    <!-- Cyber Visor / Goggles Frame -->
+    <rect x="-144" y="-56" width="124" height="66" rx="28" fill="#010308" stroke="#00F3FF" stroke-width="4" filter="url(#neonGlow)"/>
+    <rect x="-140" y="-52" width="116" height="58" rx="24" fill="none" stroke="#39FF14" stroke-width="1" opacity="0.6"/>
+
+    <!-- Glowing Cyber Eyes -->
+    <circle cx="-112" cy="-23" r="18" fill="url(#pupilGlow)" filter="url(#neonGlow)"/>
+    <circle cx="-52" cy="-23" r="18" fill="url(#pupilGlow)" filter="url(#neonGlow)"/>
+    <circle cx="-110" cy="-26" r="6" fill="#ffffff"/>
+    <circle cx="-50" cy="-26" r="6" fill="#ffffff"/>
+
+    <!-- Cute Visor Smile -->
+    <path d="M -94 3 Q -82 12 -70 3" fill="none" stroke="#39FF14" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- Dual Cyber Antennae -->
+    <path d="M -110 -84 Q -128 -124 -146 -138" fill="none" stroke="#00F3FF" stroke-width="5" stroke-linecap="round" filter="url(#neonGlow)"/>
+    <circle cx="-146" cy="-138" r="10" fill="#00F3FF" filter="url(#neonGlow)"/>
+    <circle cx="-146" cy="-138" r="4" fill="#ffffff"/>
+
+    <path d="M -54 -84 Q -36 -124 -18 -138" fill="none" stroke="#39FF14" stroke-width="5" stroke-linecap="round" filter="url(#neonGlow)"/>
+    <circle cx="-18" cy="-138" r="10" fill="#39FF14" filter="url(#neonGlow)"/>
+    <circle cx="-18" cy="-138" r="4" fill="#ffffff"/>
+
+    <!-- Floating Holographic Orbit Ring -->
+    <ellipse cx="0" cy="15" rx="175" ry="55" fill="none" stroke="url(#brandNeon)" stroke-width="2.5" stroke-dasharray="8 6" opacity="0.75" transform="rotate(-18)"/>
+  </g>
+</svg>

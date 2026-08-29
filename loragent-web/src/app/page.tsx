@@ -618,15 +618,17 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-white/10 bg-black/70 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(0,255,65,0.2)]">
-              <Cpu className="w-5 h-5" />
-            </div>
+            <img 
+              src="/assets/loragent-logo-mark.svg" 
+              alt="Loragent" 
+              className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(0,243,255,0.4)]"
+            />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-bold tracking-tight text-white font-mono">LORAGENT</span>
+                <span className="text-lg font-bold tracking-tight text-white font-mono">LOR<span className="text-emerald-400">AGENT</span></span>
                 <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">v2.0</span>
               </div>
-              <p className="text-[10px] font-mono text-neutral-400">Universal Multi-Agent Orchestration</p>
+              <p className="text-[10px] font-mono text-neutral-400">Universal Multi-Agent Orchestration • Lorapok Labs</p>
             </div>
           </div>
 
