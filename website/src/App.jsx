@@ -1,487 +1,386 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { 
-  TerminalSquare, 
-  Sparkles, 
-  Workflow, 
-  Compass, 
-  Code2, 
-  Layers, 
-  Zap, 
-  ShieldCheck, 
-  Check, 
-  Copy, 
-  Search, 
-  DownloadCloud, 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  ChevronRight, 
-  ChevronLeft, 
-  X, 
-  ArrowUpRight,
-  Cpu,
-  Database,
-  Key,
-  Network,
-  Activity,
-  Terminal,
-  ExternalLink,
-  BookOpen,
-  Radio,
-  Globe,
-  Sliders,
-  FileCode2,
-  Boxes,
-  HelpCircle,
-  Flame,
-  Users,
-  MessageSquare,
-  ShieldAlert,
-  KeyRound,
-  UserCheck,
-  Server,
-  Settings,
-  Lock,
-  Unlock,
-  Heart,
-  Share2,
-  CheckSquare,
-  RefreshCw,
-  CheckCircle2,
-  AlertTriangle,
-  Cloud,
-  Mail,
-  Send,
-  Inbox,
-  Palette,
-  Package,
-  GitBranch
+  Terminal, Shield, Cpu, Cloud, Globe, Lock, Play, Pause, CheckCircle2, 
+  Copy, Check, Sparkles, Layers, Search, Server, RefreshCw, Zap,
+  ChevronRight, ChevronLeft, ExternalLink, Code2, Database, Workflow, Radio,
+  Activity, Eye, Box, AlertCircle, ArrowUpRight, GitBranch, Key,
+  FileCode, Laptop, Compass, BookOpen, UserCheck, ShieldAlert,
+  ShoppingBag, Sliders, CheckSquare, DownloadCloud, Info,
+  CheckCircle, ArrowRight, X, Filter, Share2, CornerDownRight,
+  FastForward, RotateCcw, Monitor, Send, CheckCheck, Boxes,
+  Flame, Users, MessageSquare, KeyRound, Unlock, Heart, AlertTriangle,
+  Mail, Inbox, Palette, Package
 } from 'lucide-react';
 import allAgentsData from './data/all-agents.json';
 
-const ALL_CATALOG_ITEMS = allAgentsData.items || [];
-
+// SHA-256 Clearance Hash for Zero-Trust Mission Control ('565087')
 const CLEARANCE_HASH = '22936f08ff7a9103eaaa3ea9c6b05ab91576bd9dcf2ff874843d55c39b906794';
 
-const THEMES = [
-  { id: 'matrix', name: 'Neural Matrix', color: '#00FF41', icon: Terminal, desc: 'Loragent Core Biological UI' },
-  { id: 'aurora', name: 'Aurora Cyber', color: '#00F3FF', icon: Globe, desc: 'Community Hub & Collaboration' },
-  { id: 'obsidian', name: 'Obsidian Gold', color: '#f59e0b', icon: ShieldCheck, desc: 'Mission Control Admin Enclave' }
-];
+async function sha256Hex(text) {
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
-const PACKAGE_ECOSYSTEMS = [
-  {
-    id: 'npx',
-    name: 'NPX (Instant Runner)',
-    command: 'npx -y @lorapok/loragent@latest',
-    url: 'https://www.npmjs.com/package/@lorapok/loragent',
-    badge: 'Zero-Install CLI',
-    color: '#00FF41',
-    icon: Terminal
-  },
-  {
-    id: 'npm',
-    name: 'NPM (Node.js)',
-    command: 'npm install @lorapok/loragent',
-    url: 'https://www.npmjs.com/package/@lorapok/loragent',
-    badge: 'NPM Registry',
-    color: '#ef4444',
-    icon: Boxes
-  },
-  {
-    id: 'pip',
-    name: 'PyPI / PIP (Python)',
-    command: 'pip install loragent',
-    url: 'https://pypi.org/project/loragent/',
-    badge: 'Python Wheels (v2.0.0)',
-    color: '#38bdf8',
-    icon: Code2
-  },
-  {
-    id: 'packagist',
-    name: 'Packagist (PHP Composer)',
-    command: 'composer require lorapok/loragent',
-    url: 'https://packagist.org/packages/lorapok/loragent',
-    badge: 'PHP Ecosystem',
-    color: '#f59e0b',
-    icon: Database
-  },
-  {
-    id: 'go',
-    name: 'Go (Golang Module)',
-    command: 'go install github.com/Maijied/Loragent/v2/cmd/loragent@latest',
-    url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2',
-    badge: 'Go Binaries (v2.0.0)',
-    color: '#00F3FF',
-    icon: Cpu
-  },
-  {
-    id: 'vscode',
-    name: 'VS Code Marketplace',
-    command: 'ext install LorapokLabs.loragent',
-    url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent',
-    badge: 'IDE Extension',
-    color: '#3b82f6',
-    icon: Sparkles
-  },
-  {
-    id: 'openvsx',
-    name: 'Open VSX Registry',
-    command: 'ovsx install LorapokLabs.loragent',
-    url: 'https://open-vsx.org/extension/LorapokLabs/loragent',
-    badge: 'VSCodium / Eclipse',
-    color: '#a855f7',
-    icon: Globe
-  },
-  {
-    id: 'firefox',
-    name: 'Firefox AMO Add-on',
-    command: 'web-ext run / AMO Add-on',
-    url: 'https://addons.mozilla.org/firefox/addon/loragent-assistant',
-    badge: 'Browser Add-on',
-    color: '#f97316',
-    icon: Radio
-  }
-];
+// 250 Catalog resources
+const MARKET_CATEGORIES = allAgentsData.categories || [];
+const ALL_CATALOG_ITEMS = allAgentsData.items || [];
+const totalAgents = allAgentsData.totalAgents || 224;
+const totalMcp = allAgentsData.totalMcp || 20;
+const totalFormations = allAgentsData.totalFormations || 6;
+const totalSkills = allAgentsData.totalSkills || 177;
 
-const LORAGENT_EMAILS = [
-  {
-    address: 'boss@lorapok.tech',
-    role: 'Autonomous Orchestrator Dispatch',
-    description: 'Direct webhook & email trigger pipeline for loragent-boss orchestration engine.',
-    badge: 'ORCHESTRATOR',
-    status: 'ACTIVE (CF Routing)',
-    color: '#00FF41'
-  },
-  {
-    address: 'agents@lorapok.tech',
-    role: 'Agent-to-Agent Mesh Telemetry',
-    description: 'Inter-agent telemetry receiver, distributed state checkpoints, and async handoffs.',
-    badge: 'TELEMETRY MESH',
-    status: 'ACTIVE (CF Routing)',
-    color: '#00F3FF'
-  },
-  {
-    address: 'security@lorapok.tech',
-    role: 'Zero-Trust Security & Vault Disclosure',
-    description: 'Responsible disclosure channel for LLE 5-seal encryption, vault CVEs, and compliance.',
-    badge: 'SECURITY VAULT',
-    status: 'ACTIVE (CF Routing)',
-    color: '#ef4444'
-  },
-  {
-    address: 'support@lorapok.tech',
-    role: 'Enterprise & Developer Support',
-    description: 'Technical troubleshooting, skill authoring assistance, and IDE configuration support.',
-    badge: 'SUPPORT',
-    status: 'ACTIVE (CF Routing)',
-    color: '#38bdf8'
-  },
-  {
-    address: 'billing@lorapok.tech',
-    role: 'Cloud Billing & Token Quotas',
-    description: 'Enterprise subscriptions, dedicated Cloudflare edge capacity, and credit allocation.',
-    badge: 'BILLING',
-    status: 'ACTIVE (CF Routing)',
-    color: '#f59e0b'
-  },
-  {
-    address: 'press@lorapok.tech',
-    role: 'Lorapok Labs Media & PR Inquiries',
-    description: 'Media inquiries, research publications, keynote presentations, and partnership announcements.',
-    badge: 'PR & MEDIA',
-    status: 'ACTIVE (CF Routing)',
-    color: '#a855f7'
-  },
-  {
-    address: 'careers@lorapok.tech',
-    role: 'AI Research & Systems Recruitment',
-    description: 'Full-stack multi-agent systems engineering and sensory computing research hiring.',
-    badge: 'CAREERS',
-    status: 'ACTIVE (CF Routing)',
-    color: '#ec4899'
-  },
-  {
-    address: 'contact@lorapok.tech',
-    role: 'General Strategic Inquiries',
-    description: 'Corporate partnerships, academic research licensing, and enterprise deployments.',
-    badge: 'GENERAL',
-    status: 'ACTIVE (CF Routing)',
-    color: '#94a3b8'
-  }
-];
-
-const CI_CD_PIPELINE_STAGES = [
-  {
-    step: 1,
-    name: '1. 🛡️ Security Guard',
-    tag: 'AST Secret Scanner',
-    duration: '9s',
-    status: 'SUCCESS',
-    details: 'Pre-push & CI checkout. Zero plaintext secrets verified. LLDP v2.0 catalog schema audited across 224 agent skills & 20 MCP servers.',
-    badge: 'ZERO-TRUST PASS',
-    link: null,
-    color: '#00FF41'
-  },
-  {
-    step: 2,
-    name: '2. 🧪 Test Harness',
-    tag: 'Node.js 22 & Go 1.22',
-    duration: '10s',
-    status: 'SUCCESS',
-    details: 'Automated per commit. 44/44 multi-layer Node test suites + Go unit tests pass across all 6 architectural layers.',
-    badge: '44/44 PASSED',
-    link: null,
-    color: '#00F3FF'
-  },
-  {
-    step: 3,
-    name: '3. 🌐 Web Platform',
-    tag: 'Vite SPA & Next.js SSR',
-    duration: '45s',
-    status: 'SUCCESS',
-    details: 'CNAME loragent.lorapok.tech with GitHub Pages deployment & Next.js App Router serverless endpoints.',
-    badge: 'WEB LIVE',
-    link: 'https://loragent.lorapok.tech/',
-    color: '#a855f7'
-  },
-  {
-    step: 4,
-    name: '4. 🐍 Python PyPI',
-    tag: 'PyPI (pip install loragent)',
-    duration: '14s',
-    status: 'SUCCESS',
-    details: 'Tag v* & pyproject.toml package build with wheel & sdist distributions published to official registry.',
-    badge: 'PYPI LIVE',
-    link: 'https://pypi.org/project/loragent/',
-    color: '#38bdf8'
-  },
-  {
-    step: 5,
-    name: '5. 🐹 Go Module',
-    tag: 'Go Proxy (pkg.go.dev/v2)',
-    duration: '8s',
-    status: 'SUCCESS',
-    details: 'Tag v* & go.mod semantic import versioning v2.0.0 cached and indexed across proxy.golang.org.',
-    badge: 'PKG.GO.DEV LIVE',
-    link: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2',
-    color: '#00F3FF'
-  },
-  {
-    step: 6,
-    name: '6. 📦 NPM & NPX',
-    tag: 'NPM (@lorapok/loragent)',
-    duration: '11s',
-    status: 'SUCCESS',
-    details: 'npm publish --access public. CLI instant runner with cross-platform npx execution support.',
-    badge: 'NPM READY',
-    link: 'https://www.npmjs.com/package/@lorapok/loragent',
-    color: '#ef4444'
-  },
-  {
-    step: 7,
-    name: '7. ✨ IDE Extension',
-    tag: 'VS Code & Open VSX',
-    duration: '15s',
-    status: 'SUCCESS',
-    details: 'vsce package / ovsx. Generates loragent-2.0.0.vsix (LorapokLabs.loragent) for Cursor, VS Code, and Windsurf.',
-    badge: 'VSIX READY',
-    link: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent',
-    color: '#f59e0b'
-  },
-  {
-    step: 8,
-    name: '8. ☁️ Edge MCP',
-    tag: 'Cloudflare Edge Worker',
-    duration: '12s',
-    status: 'SUCCESS',
-    details: 'Deploys Edge MCP runtime to mcp.lorapk-labs.workers.dev with streaming SSE (/sse) and JSON-RPC 2.0 endpoints.',
-    badge: 'EDGE MCP LIVE',
-    link: 'https://mcp.lorapk-labs.workers.dev',
-    color: '#10b981'
-  }
-];
-
+// Workspace Relevance Quick Stack Presets (Kilo Marketplace Standard)
 const WORKSPACE_STACKS = [
-  { id: 'all', label: 'All Stacks', icon: Layers },
-  { id: 'react', label: 'React / Next.js', icon: Globe },
-  { id: 'node', label: 'Node / TypeScript', icon: Terminal },
-  { id: 'python', label: 'Python / AI', icon: Cpu },
-  { id: 'go', label: 'Go / Backend', icon: Database },
-  { id: 'cloudflare', label: 'Cloudflare / Edge', icon: Zap },
-  { id: 'devops', label: 'DevOps / CI/CD', icon: GitBranch },
-  { id: 'security', label: 'Security / Zero-Trust', icon: ShieldCheck }
+  { id: 'all', label: 'All Stacks', icon: Layers, count: ALL_CATALOG_ITEMS.length },
+  { id: 'react', label: 'React / Next.js', icon: Code2, keywords: ['react', 'next', 'frontend', 'tailwind', 'ui', 'css', 'vite'] },
+  { id: 'node', label: 'Node.js / TS', icon: Terminal, keywords: ['node', 'typescript', 'backend', 'api', 'express', 'bun'] },
+  { id: 'python', label: 'Python / AI', icon: Cpu, keywords: ['python', 'ai', 'data', 'ml', 'fastapi', 'fal', 'replicate', 'agent'] },
+  { id: 'go', label: 'Go / Backend', icon: Database, keywords: ['go', 'golang', 'backend', 'grpc', 'cloud', 'concurrency'] },
+  { id: 'cloudflare', label: 'Cloudflare / Edge', icon: Cloud, keywords: ['cloudflare', 'worker', 'wrangler', 'edge', 'kv', 'd1', 'r2', 'amo'] },
+  { id: 'devops', label: 'DevOps / CI', icon: GitBranch, keywords: ['cicd', 'deploy', 'docker', 'pipeline', 'git', 'release'] },
+  { id: 'security', label: 'Security & Zero-Trust', icon: Shield, keywords: ['security', 'guard', 'vault', 'sqa', 'secret', 'auth', 'hash'] }
 ];
 
-const VAULT_CATEGORIES_DATA = [
-  { name: 'pypi', keys: ['token'], role: 'Python Package Index Release Credentials', envVar: 'TWINE_PASSWORD' },
-  { name: 'npm', keys: ['main_token', 'deploy_token'], role: 'NPM Public Registry Package Publishing', envVar: 'NPM_TOKEN' },
-  { name: 'github', keys: ['pat', 'workflow_token', 'read_token'], role: 'GitHub Actions & API Integration', envVar: 'GITHUB_TOKEN' },
-  { name: 'cloudflare', keys: ['api_token', 'account_id', 'zone_id'], role: 'Edge MCP Workers & DNS Routing', envVar: 'CLOUDFLARE_API_TOKEN' },
-  { name: 'packagist', keys: ['api_token', 'username'], role: 'PHP Composer Packagist Webhooks', envVar: 'PACKAGIST_TOKEN' },
-  { name: 'firefox', keys: ['jwt_issuer', 'jwt_secret'], role: 'Mozilla AMO Web-Ext Signing API', envVar: 'AMO_JWT_SECRET' },
-  { name: 'vscode', keys: ['vsce_pat', 'publisher_id'], role: 'VS Code Marketplace & Open VSX Publish', envVar: 'VSCE_PAT' }
+// Package Ecosystems
+const PACKAGE_ECOSYSTEMS = [
+  { id: 'npx', name: 'NPX Runner', command: 'npx -y @lorapok/loragent@latest', url: 'https://www.npmjs.com/package/@lorapok/loragent', color: '#00FF41', badge: 'INSTANT CLI' },
+  { id: 'npm', name: 'NPM Library', command: 'npm install @lorapok/loragent', url: 'https://www.npmjs.com/package/@lorapok/loragent', color: '#00F3FF', badge: 'SDK / TYPES' },
+  { id: 'pypi', name: 'Python PyPI', command: 'pip install loragent', url: 'https://pypi.org/project/loragent/', color: '#3b82f6', badge: 'PYTHON 3.11+' },
+  { id: 'go', name: 'Go Proxy', command: 'go get github.com/Maijied/Loragent/v2', url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2', color: '#a855f7', badge: 'PKG.GO.DEV' },
+  { id: 'vscode', name: 'VS Code Ext', command: 'code --install-extension LorapokLabs.loragent', url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent', color: '#00F3FF', badge: 'MARKETPLACE' },
+  { id: 'openvsx', name: 'Open VSX', command: 'ovsx get LorapokLabs.loragent', url: 'https://open-vsx.org/extension/LorapokLabs/loragent', color: '#f59e0b', badge: 'ECLIPSE' },
+  { id: 'amo', name: 'Firefox AMO', command: 'web-ext sign --api-key=... --api-secret=...', url: 'https://addons.mozilla.org/en-US/firefox/addon/loragent/', color: '#ff7043', badge: 'ADDON' },
+  { id: 'packagist', name: 'PHP Composer', command: 'composer require lorapok/loragent', url: 'https://packagist.org/packages/lorapok/loragent', color: '#ec4899', badge: 'LARAVEL 11' }
 ];
 
+// Themes
+const THEMES = [
+  { id: 'matrix', name: 'Matrix Cyberpunk', color: '#00FF41', icon: Terminal, desc: 'High-contrast dark-space with neon-green sensory glow' },
+  { id: 'aurora', name: 'Aurora Glass', color: '#00F3FF', icon: Sparkles, desc: 'Violet & cyan glassmorphic surfaces with radiant backdrops' },
+  { id: 'obsidian', name: 'Obsidian Amber', color: '#f59e0b', icon: Shield, desc: 'Deep warm amber tones with stealth dark aesthetics' }
+];
+
+// Formations
+const FORMATIONS = [
+  {
+    id: 'orchestrator',
+    name: 'Boss Orchestrator Squad',
+    badge: 'Supreme Router',
+    color: '#00FF41',
+    icon: Compass,
+    lead: 'loragent-boss',
+    description: 'Central intelligent routing hub. Evaluates task complexity, summons specialized squads via MCP, manages cross-agent steering, and enforces workspace guardrails.',
+    squad: ['loragent-boss', 'loragent-teacher', 'loragent-workspace-guard', 'loragent-watchman', 'loragent-spidernet'],
+    tools: ['loragent_summon_agent', 'loragent_dismiss_agent', 'loragent_steer', 'loragent_trigger_hook', 'loragent_watchman_save'],
+    triggerCmd: '/loragent:boss'
+  },
+  {
+    id: 'auto-team',
+    name: 'Auto Team Matrix',
+    badge: 'Engineering Squad',
+    color: '#00F3FF',
+    icon: Code2,
+    lead: 'loragent-tech-director',
+    description: 'Autonomous full-stack engineering. Converts product requirements into architecture, writes backend APIs, builds biological UIs, runs automated SQA suites, and executes CI/CD releases.',
+    squad: ['loragent-tech-director', 'loragent-backend-se', 'loragent-frontend-se', 'loragent-sqa', 'loragent-cicd-specialist'],
+    tools: ['bash', 'filesystem_read', 'filesystem_write', 'loragent_steer', 'loragent_trigger_hook'],
+    triggerCmd: '/loragent-boss auto'
+  },
+  {
+    id: 'office',
+    name: 'Enterprise Office Matrix',
+    badge: 'Business Operations',
+    color: '#a855f7',
+    icon: Layers,
+    lead: 'loragent-project-coordinator',
+    description: 'Strategic initialization and continuous operations. Manages roadmaps, prepares enterprise proposals, produces marketing campaigns, publishes release notes, and coordinates public relations.',
+    squad: ['loragent-project-coordinator', 'loragent-marketing-strategy-manager', 'loragent-publisher', 'loragent-pr-specialist', 'loragent-social-media-specialist'],
+    tools: ['filesystem_read', 'filesystem_write', 'loragent_steer', 'email_send', 'slack_notify'],
+    triggerCmd: '/loragent:office'
+  },
+  {
+    id: 'chela',
+    name: 'Chela Debugging Matrix',
+    badge: 'Zero-Guess Bug Hunter',
+    color: '#f59e0b',
+    icon: Zap,
+    lead: 'loragent-bug-hunter',
+    description: 'Mission-critical root-cause analysis. Parses real-time orchestration graphs and telemetry, diagnoses runtime regressions, repairs broken pipelines, and provides self-healing hotfixes.',
+    squad: ['loragent-bug-hunter', 'loragent-shift-engineer', 'loragent-git-specialist', 'loragent-inspector', 'loragent-repo-repair'],
+    tools: ['bash', 'filesystem_read', 'filesystem_write', 'loragent_steer', 'loragent_watchman_save'],
+    triggerCmd: '/loragent-boss chela'
+  },
+  {
+    id: 'freelance',
+    name: 'Freelance Isolation Matrix',
+    badge: 'Specialist Domain',
+    color: '#3b82f6',
+    icon: Sparkles,
+    lead: 'loragent-image-generate',
+    description: 'Singular hyper-focused specialists invoked on-demand for specific outputs: Fal.ai/Replicate generative art, FFmpeg GIF creation, Cloudflare Wrangler edge, 3D WebGL, and tool installation.',
+    squad: ['loragent-image-generate', 'loragent-gif-create', 'loragent-deploy', 'loragent-tools-install', 'loragent-wrangler-specialist', 'loragent-3d-designer'],
+    tools: ['bash', 'fal_run_model', 'run_model', 'filesystem_read', 'filesystem_write'],
+    triggerCmd: '/loragent:freelance'
+  },
+  {
+    id: 'observer',
+    name: 'Observer & Sentinel Matrix',
+    badge: 'Continuous Learning',
+    color: '#ec4899',
+    icon: Eye,
+    lead: 'loragent-watchman',
+    description: 'Continuous execution telemetry, memory preservation, and self-expanding conversational learning. Student extracts new paradigms and Register compiles new skills dynamically.',
+    squad: ['loragent-watchman', 'loragent-student', 'loragent-register', 'loragent-gold-collector', 'loragent-workspace-guard', 'loragent-database-updater'],
+    tools: ['loragent_watchman_save', 'loragent_get_state', 'filesystem_read', 'firebase_admin'],
+    triggerCmd: '/loragent-watchman continue'
+  }
+];
+
+// Rich Animated Workflow Scenarios
 const WORKFLOW_SCENARIOS = [
   {
     id: 'auto-team',
-    name: 'Full-Stack Feature Engineering (Auto Team)',
-    description: 'Autonomous DAG execution from requirements clarification to deployment.',
+    name: 'Auto Team: Full-Stack Engineering',
+    command: '/loragent:boss auto',
+    badge: 'Engineering Pipeline',
+    color: 'emerald',
+    description: 'Autonomous development of a multi-tenant cloud service from architecture to verified CI/CD release.',
     stages: [
       {
         step: 1,
-        title: 'Requirements Normalization',
-        agent: 'loragent-teacher',
-        status: 'COMPLETE',
-        output: 'Structured requirements matrix, security constraints, and API schema draft.',
+        title: 'Developer Prompt & IDE Dispatch',
+        agent: 'Developer via Cursor / Claude Code',
+        role: 'Client Prompt Input',
+        action: 'Ingesting directive: "Build auth service with PostgreSQL, Next.js UI & SQA suites"',
+        protocol: 'Layer 1 & Layer 2 Root Rules (AGENTS.md & .mcp.json)',
+        telemetry: 'PROMPT_INGEST: tokens=142, editor="cursor-ide", formation="auto"',
+        badge: 'INPUT',
         color: '#00FF41'
       },
       {
         step: 2,
-        title: 'System Architecture & Contract Spec',
-        agent: 'loragent-tech-director',
-        status: 'COMPLETE',
-        output: 'OpenAPI 3.1 schema, Postgres database models, and Cloudflare Worker endpoints.',
+        title: 'Requirements Normalization & Boss Routing',
+        agent: 'loragent-teacher ➔ loragent-boss',
+        role: 'Orchestration Hub',
+        action: 'Teacher clarifies API parameters; Boss selects Auto Team Matrix and initializes squad',
+        protocol: 'loragent_steer MCP routing with zero heuristic guessing',
+        telemetry: 'BOSS_EVAL: complexity=HIGH, squad=["tech-director", "backend-se", "frontend-se", "sqa", "cicd"]',
+        badge: 'ROUTING',
         color: '#00F3FF'
       },
       {
         step: 3,
-        title: 'Core Backend & Edge API Implementation',
-        agent: 'loragent-backend-se',
-        status: 'COMPLETE',
-        output: 'REST & JSON-RPC handlers with AES-256 TiTi Vault dynamic process injection.',
-        color: '#3b82f6'
-      },
-      {
-        step: 4,
-        title: 'Sensory Computing UI/UX Implementation',
-        agent: 'loragent-frontend-se',
-        status: 'COMPLETE',
-        output: 'Responsive dark-space glassmorphism components with micro-animations.',
+        title: 'On-Demand Specialist Lazy Summoning',
+        agent: 'loragent-boss ➔ Global Roster',
+        role: 'Token Sniper Loader',
+        action: 'Boss lazily summons loragent-tech-director and backend-se into workspace without context bloat',
+        protocol: 'loragent_summon_agent MCP tool call',
+        telemetry: 'MCP_SUMMON: agent="loragent-tech-director", tokens_cached=1240, resident_preserved=5',
+        badge: 'LAZY LOAD',
         color: '#a855f7'
       },
       {
-        step: 5,
-        title: 'Multi-Layer SQA & Accessibility Audit',
-        agent: 'loragent-sqa',
-        status: 'COMPLETE',
-        output: '44/44 unit test suites passing, zero security findings, 100% WCAG compliance.',
+        step: 4,
+        title: 'Zero-Trust Vault & Destructive Guardrails',
+        agent: 'loragent-workspace-guard ➔ TiTi Vault',
+        role: 'Security Enclave',
+        action: 'Workspace Guard approves safe read/write; Vault decrypts AES-256 tokens into in-memory child process',
+        protocol: 'Machine AES-256 Enclave (Zero Plaintext Secrets)',
+        telemetry: 'VAULT_AUTH: clearance_hash="VERIFIED", injected=["DATABASE_URL", "JWT_SECRET"], leaks_scanned=0',
+        badge: 'SECURITY',
         color: '#f59e0b'
       },
       {
+        step: 5,
+        title: 'Full-Stack Implementation & Handoffs',
+        agent: 'Tech Director ➔ Backend SE ➔ Frontend SE',
+        role: 'Collaborative Engineering',
+        action: 'Tech Director defines OpenAPI spec; Backend writes PostgreSQL routes; Frontend builds Biological UI',
+        protocol: 'Sequential loragent_steer structured JSON payloads',
+        telemetry: 'STEER_PAYLOAD: files_written=["src/auth.ts", "src/AuthCard.tsx"], status="SUCCESS"',
+        badge: 'BUILD',
+        color: '#3b82f6'
+      },
+      {
         step: 6,
-        title: 'State Checkpoint & Telemetry Sync',
-        agent: 'loragent-watchman ➔ loragent-database-updater',
-        status: 'COMPLETE',
-        output: 'Session cached to .loragent-debug/watchman-cache.json and synced to telemetry hivemind.',
+        title: 'Automated SQA Gates & Pre-Deploy Hook',
+        agent: 'loragent-sqa ➔ loragent-cicd-specialist',
+        role: 'Quality Assurance & Release',
+        action: 'Runs 44/44 test suites, executes security linters, validates SSG bundle and fires pre-deploy hook',
+        protocol: 'Lifecycle Hook: pre_git_commit & pre_deploy_verify',
+        telemetry: 'SQA_RUN: tests_passed=44, failed=0, code_coverage="100%", gate="APPROVED"',
+        badge: 'VERIFICATION',
         color: '#10b981'
+      },
+      {
+        step: 7,
+        title: 'Continuous Learning & Hivemind Sync',
+        agent: 'loragent-watchman ➔ loragent-student ➔ loragent-register',
+        role: 'Evolutionary Learning Sentinel',
+        action: 'Watchman checkpoints graph; Student extracts new patterns, Register dynamically updates catalog & Firebase',
+        protocol: 'Lifecycle Hook: post_agent_task + Continuous Evolution',
+        telemetry: 'STUDENT_LEARN: new_skill="auth-flow-v2", catalog="UPSERTED", mirrors="SYNCED", hivemind="EMITTED"',
+        badge: 'EVOLUTION',
+        color: '#ec4899'
       }
     ]
   },
   {
-    id: 'chela-debug',
-    name: 'Chela Mission-Critical Debugging & Root Cause Analysis',
-    description: 'Automated fault isolation, Git regression bisecting, and patch synthesis.',
+    id: 'chela',
+    name: 'Chela: Zero-Guess Bug Hunting',
+    command: '/loragent:boss chela',
+    badge: 'Mission-Critical Fix',
+    color: 'amber',
+    description: 'Diagnoses runtime regressions, parses live orchestration telemetry, and delivers hotfixes with zero guessing.',
     stages: [
       {
         step: 1,
-        title: 'Orchestration Graph Telemetry Scan',
-        agent: 'loragent-watchman',
-        status: 'COMPLETE',
-        output: 'Extracted active error telemetry from .loragent-debug/orchestration-graph.json.',
+        title: 'Incident Telemetry Ingestion',
+        agent: 'Developer Prompt / CI Failure',
+        role: 'Incident Alert',
+        action: 'Triggered by 500 error in token refresh or CI/CD test failure',
+        protocol: 'Error Telemetry Protocol',
+        telemetry: 'INCIDENT_ALERT: error="TypeError: Cannot read properties of undefined (reading refreshToken)"',
+        badge: 'ALERT',
         color: '#ef4444'
       },
       {
         step: 2,
-        title: 'VCS Regression Bisect & Anomaly Hunting',
-        agent: 'loragent-bug-hunter',
-        status: 'COMPLETE',
-        output: 'Pinpointed failing import in CLI runner module across git history.',
-        color: '#f97316'
+        title: 'Chela Formation Activation',
+        agent: 'loragent-boss ➔ loragent-bug-hunter',
+        role: 'Zero-Guess Investigator',
+        action: 'Boss routes task to Chela Squad; Bug Hunter summoned to inspect orchestration graph',
+        protocol: 'loragent_steer MCP routing',
+        telemetry: 'CHELA_DISPATCH: lead="loragent-bug-hunter", squad=["shift-engineer", "debugger", "inspector"]',
+        badge: 'DISPATCH',
+        color: '#f59e0b'
       },
       {
         step: 3,
-        title: 'Safe Patch Generation & Test Verification',
-        agent: 'loragent-shift-engineer',
-        status: 'COMPLETE',
-        output: 'Synthesized zero-regression patch and verified against full test harness.',
-        color: '#00FF41'
+        title: 'Orchestration Graph Telemetry Parsing',
+        agent: 'loragent-bug-hunter',
+        role: 'Telemetry Diagnosis',
+        action: 'Parses .loragent-debug/orchestration-graph.json to extract exact file path and stack trace',
+        protocol: 'Deterministic Graph Analysis (No heuristic guessing)',
+        telemetry: 'GRAPH_PARSE: file="src/middleware/auth.ts:42", root_cause="missing null check on bearer header"',
+        badge: 'DIAGNOSIS',
+        color: '#00F3FF'
       },
       {
         step: 4,
-        title: 'Knowledge Extraction & Skill Synthesis',
-        agent: 'loragent-gold-collector ➔ loragent-skill-creator',
-        status: 'COMPLETE',
-        output: 'Extracted novel debugging recipe into permanent SKILL.md catalog asset.',
-        color: '#00F3FF'
+        title: 'Surgical Minimal Patch Application',
+        agent: 'loragent-shift-engineer',
+        role: 'Surgical Patch Engineer',
+        action: 'Applies minimal 2-line defensive check without breaking existing contracts',
+        protocol: 'AST Safe Code Mutation',
+        telemetry: 'PATCH_APPLIED: diff="+if (!authHeader) return unauthorized();", lines_changed=2',
+        badge: 'PATCH',
+        color: '#10b981'
+      },
+      {
+        step: 5,
+        title: 'Regression Testing & Knowledge Extraction',
+        agent: 'loragent-sqa ➔ loragent-student',
+        role: 'Regression Validation & Self-Upgrade',
+        action: 'Executes reproduction tests and triggers loragent-student to upgrade existing middleware rules',
+        protocol: 'Automated Regression Pass & Dynamic Agent Evolution',
+        telemetry: 'VERIFICATION: tests=44/44 PASS, memory="UPDATED", regression_fixed=true',
+        badge: 'RESOLVED',
+        color: '#00FF41'
+      }
+    ]
+  },
+  {
+    id: 'office',
+    name: 'Enterprise Office: Strategic Launch',
+    command: '/loragent:office',
+    badge: 'Business Operations',
+    color: 'purple',
+    description: 'Executive strategy, documentation, marketing campaigns, and multi-channel publication.',
+    stages: [
+      {
+        step: 1,
+        title: 'Product Briefing & Strategy Alignment',
+        agent: 'Human Executive ➔ Project Coordinator',
+        role: 'Business Ingestion',
+        action: 'Coordinates product launch plan, milestone deadlines, and PR messaging targets',
+        protocol: 'Enterprise Office Matrix Ingestion',
+        telemetry: 'OFFICE_INIT: project="loragent-v2", deliverables=["press-release", "marketing-deck", "changelog"]',
+        badge: 'BRIEFING',
+        color: '#a855f7'
+      },
+      {
+        step: 2,
+        title: 'Sensory Campaign Generation',
+        agent: 'Marketing Strategy Manager ➔ Visual Generator',
+        role: 'Campaign Producer',
+        action: 'Produces biological UI mockups, dark-space banners, and high-conversion copy',
+        protocol: 'loragent_image_generate + Sensory UI Directives',
+        telemetry: 'CREATIVE_GEN: assets=8, style="biological-sensory", resolution="4K", format="WEBP"',
+        badge: 'CREATIVE',
+        color: '#ec4899'
+      },
+      {
+        step: 3,
+        title: 'Multi-Channel Publishing & PR Dispatch',
+        agent: 'Publisher ➔ PR Specialist',
+        role: 'Ecosystem Distribution',
+        action: 'Publishes release notes across GitHub, npm, PyPI, Go Proxy, and generates newsletter',
+        protocol: 'Ecosystem Broadcast & Webhook Triggers',
+        telemetry: 'CHANNELS_EMITTED: ["npm", "pypi", "pkg.go.dev", "marketplace", "twitter", "blog"]',
+        badge: 'BROADCAST',
+        color: '#3b82f6'
       }
     ]
   }
 ];
 
-const FORMATIONS = [
-  {
-    id: 'auto',
-    name: 'Auto Team (Engineering)',
-    badge: 'CORE SQUAD',
-    color: '#00FF41',
-    description: 'High-throughput software delivery squad for full-stack applications, APIs, and cloud services.',
-    squad: ['loragent-tech-director', 'loragent-backend-se', 'loragent-frontend-se', 'loragent-sqa', 'loragent-cicd-specialist']
+// IDE MCP Config Snippets
+const IDE_CONFIGS = {
+  cursor: {
+    name: 'Cursor IDE',
+    file: '.cursor/mcp.json',
+    snippet: `{\n  "mcpServers": {\n    "loragent": {\n      "command": "node",\n      "args": ["${typeof window !== 'undefined' ? window.location.origin : ''}/port/mcp/server.js"]\n    }\n  }\n}`,
+    description: 'Native Cursor agent integration with project-level or global rules.'
   },
-  {
-    id: 'office',
-    name: 'Office (Business & Product)',
-    badge: 'ENTERPRISE',
-    color: '#00F3FF',
-    description: 'Executive strategy, documentation, marketing collateral, and launch management.',
-    squad: ['loragent-project-coordinator', 'loragent-marketing-strategy-manager', 'loragent-publisher', 'loragent-pr-specialist']
+  claude: {
+    name: 'Claude Code / Desktop',
+    file: 'claude_desktop_config.json',
+    snippet: `{\n  "mcpServers": {\n    "loragent": {\n      "command": "node",\n      "args": ["/absolute/path/to/loragent/port/mcp/server.js"],\n      "env": {\n        "CRED_PASSPHRASE": "your-machine-vault-pin"\n      }\n    }\n  }\n}`,
+    description: 'Claude Code 3-layer extended memory with automated watchman checkpointing.'
   },
-  {
-    id: 'chela',
-    name: 'Chela (Debugging & RCA)',
-    badge: 'HOTFIX SQUAD',
-    color: '#ef4444',
-    description: 'Mission-critical problem solving, root cause analysis, and VCS regression recovery.',
-    squad: ['loragent-bug-hunter', 'loragent-shift-engineer', 'loragent-git-specialist', 'loragent-inspector']
+  antigravity: {
+    name: 'Google Antigravity',
+    file: '.agents/mcp_config.json',
+    snippet: `{\n  "mcpServers": {\n    "loragent": {\n      "command": "node",\n      "args": ["/path/to/loragent/port/mcp/server.js"]\n    }\n  }\n}`,
+    description: 'DeepMind Antigravity multi-agent orchestration and dynamic tool mesh.'
   },
-  {
-    id: 'freelance',
-    name: 'Freelance (Domain Specialists)',
-    badge: 'ON-DEMAND',
-    color: '#a855f7',
-    description: 'Deep domain experts loaded lazily for 3D modeling, branding, Cloudflare Wrangler, and Python.',
-    squad: ['loragent-logo-designer', 'loragent-3d-designer', 'loragent-wrangler-specialist', 'loragent-python-pro']
+  windsurf: {
+    name: 'Windsurf Cascade',
+    file: '~/.codeium/windsurf/mcp_config.json',
+    snippet: `{\n  "mcpServers": {\n    "loragent": {\n      "command": "node",\n      "args": ["/path/to/loragent/port/mcp/server.js"]\n    }\n  }\n}`,
+    description: 'Cascade agent integration with real-time Flow triggers.'
   },
-  {
-    id: 'observer',
-    name: 'Observer (Recovery & State)',
-    badge: 'SENTINEL',
-    color: '#f59e0b',
-    description: 'State persistence guardian, token budget optimization, and workspace guardrails.',
-    squad: ['loragent-watchman', 'loragent-workspace-guard', 'loragent-cache-collector', 'loragent-gold-collector', 'loragent-skill-creator', 'loragent-database-updater']
-  },
-  {
-    id: 'spidernet',
-    name: 'Spidernet (DAG Multi-Agent)',
-    badge: 'TOPOLOGY',
-    color: '#ec4899',
-    description: 'Non-linear dependency graph coordinator for complex distributed agent meshes.',
-    squad: ['loragent-spidernet', 'loragent-boss', 'loragent-teacher', 'loragent-tech-director']
+  zed: {
+    name: 'Zed Editor',
+    file: '~/.config/zed/settings.json',
+    snippet: `{\n  "assistant": {\n    "version": "2",\n    "mcp_servers": {\n      "loragent": {\n        "command": "node",\n        "args": ["/path/to/loragent/port/mcp/server.js"]\n      }\n    }\n  }\n}`,
+    description: 'Zed Assistant integration with ultra-fast Rust-level response and MCP capabilities.'
   }
-];
+};
 
 export default function App() {
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedFormationFilter, setSelectedFormationFilter] = useState('all');
-  const [selectedLayerFilter, setSelectedLayerFilter] = useState('all');
+  const [selectedStackFilter, setSelectedStackFilter] = useState('all');
   
   // Theme State
   const [activeTheme, setActiveTheme] = useState('matrix');
   const [activePackageTab, setActivePackageTab] = useState('npx');
-  const [adminActiveTab, setAdminActiveTab] = useState('vault');
+  const [activeTab, setActiveTab] = useState('workflow');
 
   // Sync theme class to body
   useEffect(() => {
@@ -491,17 +390,26 @@ export default function App() {
   // Pagination & Modal State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(24);
-  const [showAllItems, setShowAllItems] = useState(false);
   const [copied, setCopied] = useState(null);
   const [modalItem, setModalItem] = useState(null);
   const [installScope, setInstallScope] = useState('project');
   const [modalCopied, setModalCopied] = useState(false);
-  const [selectedStackFilter, setSelectedStackFilter] = useState('all');
 
-  // Workflow Simulator State
+  // Animated Workflow Simulator State
   const [selectedScenarioId, setSelectedScenarioId] = useState('auto-team');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [playSpeed, setPlaySpeed] = useState(1);
+
+  // Terminal Simulator State
+  const [simCommand, setSimCommand] = useState('loragent discover -f react');
+  const [simRunning, setSimRunning] = useState(false);
+  const [simLogs, setSimLogs] = useState([
+    '⚡ Loragent Core Sentinel initialized [v2.0.0-PROPOSAL]',
+    '🔒 Zero-Trust Vault: Connected via Machine AES-256 (PIN Protected)',
+    '🌐 Cloudflare Edge Registry: 250 Items Synchronized (224 Agents, 20 MCP Servers, 6 Formations)',
+    'Ready for directive. Select a command or click "Run Directive" below.'
+  ]);
 
   // MCP Config Tab State
   const [activeMcpTab, setActiveMcpTab] = useState('cursor');
@@ -511,24 +419,8 @@ export default function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminPin, setAdminPin] = useState('');
   const [adminPinError, setAdminPinError] = useState(false);
-  const [adminNotice, setAdminNotice] = useState(null);
 
-  // Skill Validator State (Community)
-  const [validatorCode, setValidatorCode] = useState(`---
-name: loragent-my-custom-agent
-description: Custom high-throughput specialist agent for automated data enrichment.
-version: 2.0.0
-license: MIT
-formation: freelance
-layer: cross
-tags: ["custom", "data", "loragent"]
-allowed_tools: ["loragent_exec_cli", "loragent_steer"]
-requires_confirmation: false
-can_spawn_subagents: false
-cost_tier: low
----`);
-  const [validationResult, setValidationResult] = useState(null);
-
+  // Active scenario & stage
   const currentScenario = useMemo(() => {
     return WORKFLOW_SCENARIOS.find((s) => s.id === selectedScenarioId) || WORKFLOW_SCENARIOS[0];
   }, [selectedScenarioId]);
@@ -537,257 +429,225 @@ cost_tier: low
     return currentScenario.stages[currentStepIndex] || currentScenario.stages[0];
   }, [currentScenario, currentStepIndex]);
 
-  // Autoplay effect for simulator
+  // Auto-play animation timer for workflow
   useEffect(() => {
     if (!isPlaying) return;
+    const intervalTime = 3200 / playSpeed;
     const timer = setInterval(() => {
       setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length);
-    }, 3200);
+    }, intervalTime);
     return () => clearInterval(timer);
-  }, [isPlaying, currentScenario]);
+  }, [isPlaying, currentScenario, playSpeed]);
 
-  // Reset pagination on filter change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter]);
-
-  const copyCode = (code, key) => {
-    navigator.clipboard.writeText(code);
+  const copyCode = (text, key) => {
+    navigator.clipboard.writeText(text);
     setCopied(key);
-    setTimeout(() => setCopied(null), 2500);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  const handleModalCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    setModalCopied(true);
+    setTimeout(() => setModalCopied(false), 2000);
+  };
+
+  const handleRunSim = () => {
+    setSimRunning(true);
+    setSimLogs((prev) => [...prev, `\n> ${simCommand}`, '⏳ Routing through loragent-boss...']);
+
+    setTimeout(() => {
+      if (simCommand.includes('discover')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔍 [FACE] Running Intelligent PC Asset Discovery & Deduplication...',
+          '📍 Scanned Locations: 12 root directories across OS',
+          '📦 Total Raw Files Scanned: 4,349 skills & agents',
+          '✨ Unique Canonical Skills: 25 distinct capabilities (Filtered by "react")',
+          '🗑️ Redundant Clones Filtered: 3,105 duplicates collapsed',
+          '⭐ Top Skill: react-specialist [Q:94/100] (+3 clones filtered)',
+          '✅ Deduplicated inventory saved to registry/pc-inventory.json'
+        ]);
+      } else if (simCommand.includes('analyze')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔍 [FACE] Analyzing project workspace at: .',
+          '💻 Languages Detected: TypeScript, JavaScript, Python, Go',
+          '📦 Frameworks Detected: React, Next.js, FastAPI, Tailwind CSS',
+          '🛡️ Recommended Formation Squad: Auto-Team Matrix',
+          '🤖 Summoned Squad: loragent-boss, loragent-tech-director, loragent-workspace-guard, loragent-frontend-se',
+          '✅ Ready! Run "loragent sync" to bind squad to workspace.'
+        ]);
+      } else if (simCommand.includes('sync')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔄 [FACE] Starting Universal Loragent IDE Sync...',
+          '✅ Synced MCP configs to: Cursor, Antigravity, Claude, Windsurf, VS Code, Zed',
+          '✅ Synced 224 canonical agents into master roster: ~/.loragent/master-roster/skills',
+          '✅ Synced workspace rules to: .cursor/rules/ and .agents/rules/',
+          '🎉 Universal AI Code Editor compatibility sync complete.'
+        ]);
+      } else if (simCommand.includes('student') || simCommand.includes('learn')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🎓 [Student] Listening to live developer conversation...',
+          '💡 [Student] Novel pattern identified: "FastAPI Lifespan Async Connection Pool"',
+          '📝 [Register] Synthesizing skills/loragent-fastapi-async/SKILL.md with LLDP v2.0 metadata',
+          '🔄 [Register] Re-indexing registry/marketplace.json (257 total resources)',
+          '📡 [Database Updater] Telemetry synchronized to Firebase Hivemind!'
+        ]);
+      } else {
+        setSimLogs((prev) => [
+          ...prev,
+          '🤖 [Boss] Delegating to specialist for execution',
+          '🛡️ [Workspace Guard] Zero destructive commands detected',
+          '✅ Task completed cleanly.'
+        ]);
+      }
+      setSimRunning(false);
+    }, 900);
   };
 
   const handleAdminAuth = async (e) => {
-    e?.preventDefault();
-    const input = adminPin.trim();
-    if (!input) {
+    e.preventDefault();
+    const hash = await sha256Hex(adminPin);
+    if (hash === CLEARANCE_HASH) {
+      setIsAdminAuthenticated(true);
+      setAdminPinError(false);
+      setAdminPin('');
+    } else {
       setAdminPinError(true);
-      return;
-    }
-    try {
-      const msgBuffer = new TextEncoder().encode(input);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-
-      if (hashHex === CLEARANCE_HASH || input.length >= 6) {
-        setIsAdminAuthenticated(true);
-        setAdminPinError(false);
-      } else {
-        setAdminPinError(true);
-      }
-    } catch {
-      if (input.length >= 6) {
-        setIsAdminAuthenticated(true);
-        setAdminPinError(false);
-      } else {
-        setAdminPinError(true);
-      }
     }
   };
 
-  const triggerAdminAction = (actionName) => {
-    setAdminNotice(`Executing ${actionName}... Action logged to TiTi Vault audit log.`);
-    setTimeout(() => setAdminNotice(null), 4000);
-  };
-
-  const validateSkillInput = () => {
-    try {
-      const hasName = validatorCode.includes('name:');
-      const hasDesc = validatorCode.includes('description:');
-      const hasFormation = validatorCode.includes('formation:');
-      const hasLayer = validatorCode.includes('layer:');
-
-      if (hasName && hasDesc && hasFormation && hasLayer) {
-        setValidationResult({
-          valid: true,
-          message: '✅ LLDP v2.0 Standard Compliant: Agent specification is valid and ready for Loragent catalog integration.'
-        });
-      } else {
-        setValidationResult({
-          valid: false,
-          message: '❌ Validation Error: Missing mandatory LLDP v2.0 fields (name, description, formation, or layer).'
-        });
-      }
-    } catch {
-      setValidationResult({
-        valid: false,
-        message: '❌ Parse Error: Invalid YAML metadata frontmatter.'
-      });
-    }
-  };
-
-  // Filter items
+  // Filter items based on search, stack preset, type, formation
   const filteredItems = useMemo(() => {
     return ALL_CATALOG_ITEMS.filter((item) => {
-      const matchesSearch = 
-        !search || 
-        (item.name && item.name.toLowerCase().includes(search.toLowerCase())) ||
-        (item.description && item.description.toLowerCase().includes(search.toLowerCase())) ||
-        (item.slug && item.slug.toLowerCase().includes(search.toLowerCase())) ||
-        (item.tags && item.tags.some(t => t.toLowerCase().includes(search.toLowerCase())));
-      
-      const matchesType = selectedType === 'all' || item.type === selectedType;
-      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-      const matchesFormation = selectedFormationFilter === 'all' || item.formation === selectedFormationFilter;
-      const matchesLayer = selectedLayerFilter === 'all' || item.layer === selectedLayerFilter;
+      const q = search.toLowerCase();
+      const matchSearch = !search ||
+        (item.name && item.name.toLowerCase().includes(q)) ||
+        (item.slug && item.slug.toLowerCase().includes(q)) ||
+        (item.description && item.description.toLowerCase().includes(q)) ||
+        (item.tags && item.tags.some(t => t.toLowerCase().includes(q)));
 
-      const matchesStack = selectedStackFilter === 'all' || (() => {
-        const query = selectedStackFilter.toLowerCase();
-        const text = `${item.name || ''} ${item.description || ''} ${item.slug || ''} ${(item.tags || []).join(' ')} ${(item.category || '')}`.toLowerCase();
-        if (query === 'react') return text.includes('react') || text.includes('next') || text.includes('frontend') || text.includes('tailwind') || text.includes('ui');
-        if (query === 'node') return text.includes('node') || text.includes('typescript') || text.includes('javascript') || text.includes('npm');
-        if (query === 'python') return text.includes('python') || text.includes('ai') || text.includes('ml') || text.includes('pypi') || text.includes('agent');
-        if (query === 'go') return text.includes('go') || text.includes('golang') || text.includes('backend') || text.includes('api');
-        if (query === 'cloudflare') return text.includes('cloudflare') || text.includes('wrangler') || text.includes('worker') || text.includes('edge') || text.includes('mcp');
-        if (query === 'devops') return text.includes('deploy') || text.includes('docker') || text.includes('ci') || text.includes('cd') || text.includes('git');
-        if (query === 'security') return text.includes('vault') || text.includes('guard') || text.includes('auth') || text.includes('cred') || text.includes('security');
-        return true;
-      })();
+      const matchType = selectedType === 'all' ||
+        (selectedType === 'agent' && (item.type === 'AGENT' || item.type === 'RESIDENT AGENT' || item.type === 'SPECIALIST SKILL')) ||
+        (selectedType === 'mcp_server' && item.type === 'MCP SERVER');
 
-      return matchesSearch && matchesType && matchesCategory && matchesFormation && matchesLayer && matchesStack;
+      const matchFormation = selectedFormationFilter === 'all' ||
+        (item.formation && item.formation.toLowerCase() === selectedFormationFilter.toLowerCase());
+
+      const matchCategory = selectedCategory === 'all' ||
+        (item.category && item.category.toLowerCase() === selectedCategory.toLowerCase());
+
+      let matchStack = true;
+      if (selectedStackFilter !== 'all') {
+        const stackConfig = WORKSPACE_STACKS.find(s => s.id === selectedStackFilter);
+        if (stackConfig && stackConfig.keywords) {
+          const haystack = `${item.name} ${item.slug} ${item.description} ${(item.tags || []).join(' ')} ${item.category || ''}`.toLowerCase();
+          matchStack = stackConfig.keywords.some(kw => haystack.includes(kw));
+        }
+      }
+
+      return matchSearch && matchType && matchFormation && matchCategory && matchStack;
     });
-  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter, selectedStackFilter]);
+  }, [search, selectedType, selectedFormationFilter, selectedCategory, selectedStackFilter]);
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
   const displayedItems = useMemo(() => {
-    if (showAllItems) return filteredItems;
     const start = (currentPage - 1) * itemsPerPage;
     return filteredItems.slice(start, start + itemsPerPage);
-  }, [filteredItems, currentPage, itemsPerPage, showAllItems]);
-
-  const categories = useMemo(() => {
-    const set = new Set(ALL_CATALOG_ITEMS.map((item) => item.category).filter(Boolean));
-    return Array.from(set).sort();
-  }, []);
-
-  const totalAgents = useMemo(() => ALL_CATALOG_ITEMS.filter((i) => i.type === 'agent').length, []);
-  const totalSkills = useMemo(() => ALL_CATALOG_ITEMS.filter((i) => i.type === 'skill').length, []);
-  const totalMcp = useMemo(() => ALL_CATALOG_ITEMS.filter((i) => i.type === 'mcp_server').length, []);
-
-  const getInstallCommand = (item, scope) => {
-    const slug = item?.slug || item?.name?.toLowerCase().replace(/\s+/g, '-');
-    if (scope === 'global') {
-      return `npx -y @lorapok/loragent@latest add ${slug} --global`;
-    }
-    return `npx -y @lorapok/loragent@latest add ${slug}`;
-  };
-
-  const currentThemeObj = THEMES.find(t => t.id === activeTheme) || THEMES[0];
-
-  const mcpConfigs = {
-    cursor: JSON.stringify({
-      "mcpServers": {
-        "loragent-edge": {
-          "url": "https://mcp.lorapk-labs.workers.dev/sse",
-          "transport": "sse"
-        },
-        "loragent-local": {
-          "command": "node",
-          "args": ["port/mcp/server.js"]
-        }
-      }
-    }, null, 2),
-    claude: JSON.stringify({
-      "mcpServers": {
-        "loragent-edge": {
-          "url": "https://mcp.lorapk-labs.workers.dev/sse"
-        }
-      }
-    }, null, 2),
-    antigravity: JSON.stringify({
-      "mcpServers": {
-        "loragent": {
-          "command": "npx",
-          "args": ["-y", "@lorapok/loragent@latest", "mcp"]
-        }
-      }
-    }, null, 2),
-    windsurf: JSON.stringify({
-      "mcpServers": {
-        "loragent-edge": {
-          "serverUrl": "https://mcp.lorapk-labs.workers.dev/sse"
-        }
-      }
-    }, null, 2)
-  };
+  }, [filteredItems, currentPage, itemsPerPage]);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-canvas)', color: 'var(--text-primary)', paddingBottom: '5rem' }}>
-      {/* ─── TOP NAVIGATION HEADER ─── */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(16px)', background: 'rgba(3, 7, 18, 0.85)', borderBottom: '1px solid var(--border-subtle)' }}>
-        <div className="container" style={{ padding: '0.85rem 1.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-neon)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080c10', boxShadow: 'var(--glow-neon)' }}>
-              <img src="/loragent-logo.svg" alt="Loragent Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    <div className="min-h-screen bg-[#030712] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-300">
+      
+      {/* ─── HEADER / NAVIGATION ─── */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#030712]/80 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(0,255,65,0.4)]">
+              <div className="w-full h-full bg-[#030712] rounded-[10px] flex items-center justify-center">
+                <Workflow className="w-5 h-5 text-emerald-400" />
+              </div>
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <h1 style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.02em', margin: 0, background: 'linear-gradient(135deg, #00FF41, #00F3FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  LORAGENT
-                </h1>
-                <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0, 255, 65, 0.15)', border: '1px solid rgba(0, 255, 65, 0.3)', color: '#00FF41', fontWeight: 'bold', fontFamily: 'monospace' }}>
-                  v2.0.0
-                </span>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold tracking-tight text-white font-mono">LOR<span className="text-emerald-400">AGENT</span></span>
+                <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">v2.0</span>
               </div>
-              <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', margin: 0 }}>
-                Universal Multi-Agent Ecosystem · Lorapok Labs
-              </p>
+              <p className="text-[10px] font-mono text-slate-400 hidden sm:block">Universal Multi-Agent Orchestration · Lorapok Labs</p>
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            {/* Quick Navigation Links */}
-            <nav style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }} className="hidden md:flex">
-              <a href="#packages" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>Packages</a>
-              <a href="#formations" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>Formations</a>
-              <a href="#catalog" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>Agents (224)</a>
-              <a href="#titi-vault" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>TiTi Vault</a>
-              <a href="#community" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>Discussions & RFCs</a>
-              <a href="#inboxes" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}>Inboxes</a>
-            </nav>
+          {/* Nav Tabs */}
+          <nav className="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
+            {[
+              { id: 'workflow', label: 'Animated Process', icon: Workflow, badge: 'LIVE' },
+              { id: 'catalog', label: '224 Agent Marketplace', icon: ShoppingBag, count: '250' },
+              { id: 'formations', label: '6 Squads', icon: Layers, count: '6' },
+              { id: 'terminal', label: 'Terminal Simulator', icon: Terminal },
+              { id: 'vault', label: 'Zero-Trust Vault', icon: Lock },
+              { id: 'ide', label: 'Multi-IDE Setup', icon: Laptop }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    const el = document.getElementById(tab.id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    isActive 
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_rgba(0,255,65,0.15)]' 
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{tab.label}</span>
+                  {tab.count && (
+                    <span className="text-[10px] px-1.5 py-0.2 bg-white/10 text-slate-300 rounded-full font-mono">
+                      {tab.count}
+                    </span>
+                  )}
+                  {tab.badge && (
+                    <span className="text-[9px] px-1.5 py-0.2 bg-emerald-500 text-black font-mono font-bold rounded-full animate-pulse">
+                      {tab.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
 
-            {/* Theme Selector */}
-            <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', padding: '3px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+          {/* Theme & GitHub Links */}
+          <div className="flex items-center gap-2">
+            <div className="flex bg-white/5 p-1 rounded-lg border border-white/10">
               {THEMES.map((theme) => {
-                const isCurrent = activeTheme === theme.id;
+                const isCur = activeTheme === theme.id;
                 const Icon = theme.icon;
                 return (
                   <button
                     key={theme.id}
                     onClick={() => setActiveTheme(theme.id)}
                     title={theme.desc}
-                    style={{
-                      padding: '5px 9px',
-                      borderRadius: '6px',
-                      background: isCurrent ? theme.color : 'transparent',
-                      color: isCurrent ? '#000' : '#94a3b8',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      fontSize: '0.72rem',
-                      fontWeight: isCurrent ? '700' : '500',
-                      transition: 'all 0.2s'
-                    }}
+                    className={`p-1.5 rounded-md transition-all ${isCur ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-white'}`}
                   >
-                    <Icon size={13} />
-                    <span className="hidden sm:inline">{theme.name.split(' ')[0]}</span>
+                    <Icon size={14} />
                   </button>
                 );
               })}
             </div>
 
-            {/* GitHub Repo Button */}
-            <a 
-              href="https://github.com/Maijied/Loragent" 
-              target="_blank" 
+            <a
+              href="https://github.com/Maijied/Loragent"
+              target="_blank"
               rel="noreferrer"
-              className="btn-secondary"
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '0.8rem' }}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-xl bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 transition-all"
             >
-              <ExternalLink size={14} />
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               <span className="hidden sm:inline">GitHub</span>
             </a>
           </div>
@@ -795,105 +655,89 @@ cost_tier: low
       </header>
 
       {/* ─── HERO SECTION ─── */}
-      <section style={{ width: '100%', padding: '4rem 1.5rem 3rem 1.5rem', textAlign: 'center', position: 'relative' }}>
-        <div className="container">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '9999px', background: 'rgba(0, 255, 65, 0.1)', border: '1px solid var(--border-neon)', marginBottom: '1.5rem', boxShadow: 'var(--glow-neon)' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00FF41', display: 'inline-block' }}></span>
-            <span style={{ fontSize: '0.8rem', color: '#00FF41', fontWeight: '600', fontFamily: 'monospace' }}>
-              LLDP v2.0 Enterprise Standard · 224 Autonomous Agents · 20 MCP Servers
-            </span>
+      <section className="relative z-10 pt-14 pb-12 px-4 sm:px-6 lg:px-8 border-b border-white/5 text-center">
+        <div className="max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-5 shadow-[0_0_20px_rgba(0,255,65,0.15)]">
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            <span>LLDP v2.0 Standard · 224 Autonomous Agents · 20 MCP Servers · 6 Formations</span>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontWeight: '900', lineHeight: '1.15', marginBottom: '1.25rem', letterSpacing: '-0.03em' }}>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-5">
             Universal Multi-Agent Ecosystem for <br />
-            <span style={{ background: 'linear-gradient(135deg, #00FF41 0%, #00F3FF 50%, #a855f7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
               Autonomous Software Engineering
             </span>
           </h1>
 
-          <p style={{ maxWidth: '780px', margin: '0 auto 2.5rem auto', fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-            A 224-agent virtual software firm powered by a Hub-and-Spoke topology. Orchestrated by <code>loragent-boss</code> across 6 specialized squad matrices, secured by the Zero-Trust <strong>TiTi Vault Machine Enclave</strong>, and live across all major package registries.
+          <p className="text-base sm:text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed mb-8">
+            A 224-agent virtual software firm powered by a Hub-and-Spoke topology. Orchestrated by <code className="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 font-mono text-sm">loragent-boss</code>, secured by the Zero-Trust <strong>TiTi Vault Enclave</strong>, and continuously evolved by <code className="text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/20 font-mono text-sm">loragent-student</code>.
           </p>
 
-          {/* ─── MULTI-ECOSYSTEM INSTALLATION HUB ─── */}
-          <div id="packages" className="glass-card" style={{ maxWidth: '960px', margin: '0 auto 3rem auto', padding: '1.5rem', textAlign: 'left' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Boxes size={18} color="#00F3FF" />
-                <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          {/* Universal Package Ecosystem Ribbon */}
+          <div className="glass-card max-w-4xl mx-auto p-5 text-left mb-8 border border-white/10 rounded-2xl">
+            <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <Boxes size={16} className="text-cyan-400" />
+                <span className="text-xs font-bold text-white uppercase tracking-wider font-mono">
                   Universal Package Ecosystem & Marketplaces
                 </span>
               </div>
-              <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace' }}>
-                Select registry to view live installer
+              <span className="text-[11px] text-slate-400 font-mono">
+                Live across 8 package registries
               </span>
             </div>
 
             {/* Package Tabs */}
-            <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '1rem' }}>
+            <div className="flex gap-2 overflow-x-auto pb-2 mb-3">
               {PACKAGE_ECOSYSTEMS.map((pkg) => {
                 const isSelected = activePackageTab === pkg.id;
-                const Icon = pkg.icon;
                 return (
                   <button
                     key={pkg.id}
                     onClick={() => setActivePackageTab(pkg.id)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '8px 14px',
-                      borderRadius: '8px',
-                      border: isSelected ? `1px solid ${pkg.color}` : '1px solid transparent',
-                      background: isSelected ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
-                      color: isSelected ? pkg.color : '#94a3b8',
-                      cursor: 'pointer',
-                      fontSize: '0.8rem',
-                      fontWeight: isSelected ? '700' : '500',
-                      whiteSpace: 'nowrap',
-                      transition: 'all 0.2s'
-                    }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all whitespace-nowrap border ${
+                      isSelected 
+                        ? 'bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]' 
+                        : 'bg-white/5 text-slate-400 border-white/5 hover:text-white'
+                    }`}
+                    style={{ borderColor: isSelected ? pkg.color : 'transparent' }}
                   >
-                    <Icon size={14} />
-                    <span>{pkg.name}</span>
+                    <span style={{ color: isSelected ? pkg.color : '#94a3b8' }}>{pkg.name}</span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Command Display */}
+            {/* Command Box */}
             {(() => {
-              const currentPkg = PACKAGE_ECOSYSTEMS.find(p => p.id === activePackageTab) || PACKAGE_ECOSYSTEMS[0];
+              const curPkg = PACKAGE_ECOSYSTEMS.find(p => p.id === activePackageTab) || PACKAGE_ECOSYSTEMS[0];
               return (
-                <div style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '280px' }}>
-                    <Terminal size={18} color={currentPkg.color} />
-                    <code style={{ fontFamily: 'monospace', fontSize: '0.92rem', color: '#fff' }}>
-                      {currentPkg.command}
-                    </code>
-                    <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(255,255,255,0.1)', color: currentPkg.color, fontWeight: '600' }}>
-                      {currentPkg.badge}
+                <div className="bg-[#020509] border border-white/10 rounded-xl p-3 sm:p-4 flex justify-between items-center flex-wrap gap-3">
+                  <div className="flex items-center gap-3 flex-1 min-w-[260px]">
+                    <Terminal size={16} style={{ color: curPkg.color }} />
+                    <code className="font-mono text-sm text-white">{curPkg.command}</code>
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-white/10 font-mono font-bold" style={{ color: curPkg.color }}>
+                      {curPkg.badge}
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <div className="flex gap-2 items-center">
                     <button
-                      onClick={() => copyCode(currentPkg.command, `pkg-${currentPkg.id}`)}
-                      className="btn-primary"
-                      style={{ padding: '7px 14px', fontSize: '0.78rem', background: currentPkg.color, borderColor: currentPkg.color, color: '#000' }}
+                      onClick={() => copyCode(curPkg.command, `pkg-${curPkg.id}`)}
+                      className="px-3 py-1.5 text-xs font-mono font-bold rounded-lg transition-all flex items-center gap-1.5"
+                      style={{ background: curPkg.color, color: '#000' }}
                     >
-                      {copied === `pkg-${currentPkg.id}` ? <Check size={14} /> : <Copy size={14} />}
-                      <span>{copied === `pkg-${currentPkg.id}` ? 'Copied' : 'Copy'}</span>
+                      {copied === `pkg-${curPkg.id}` ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copied === `pkg-${curPkg.id}` ? 'Copied' : 'Copy'}</span>
                     </button>
                     <a
-                      href={currentPkg.url}
+                      href={curPkg.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="btn-secondary"
-                      style={{ padding: '7px 14px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                      className="px-3 py-1.5 text-xs font-mono rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 flex items-center gap-1"
                     >
-                      <span>Registry Page</span>
-                      <ArrowUpRight size={14} />
+                      <span>Registry</span>
+                      <ArrowUpRight size={13} />
                     </a>
                   </div>
                 </div>
@@ -902,184 +746,412 @@ cost_tier: low
           </div>
 
           {/* Quick Metrics Bar */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', maxWidth: '960px', margin: '0 auto' }}>
-            <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '900', color: '#00FF41', marginBottom: '4px' }}>224</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Canonical Agents</div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+              <div className="text-2xl font-bold font-mono text-emerald-400 mb-0.5">224</div>
+              <div className="text-xs font-medium text-slate-300 font-mono">Autonomous Agents</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">LLDP v2.0 Standard</div>
             </div>
-            <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '900', color: '#00F3FF', marginBottom: '4px' }}>6</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Squad Formations</div>
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+              <div className="text-2xl font-bold font-mono text-cyan-400 mb-0.5">6</div>
+              <div className="text-xs font-medium text-slate-300 font-mono">Squad Formations</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Auto, Chela, Office, etc.</div>
             </div>
-            <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '900', color: '#a855f7', marginBottom: '4px' }}>20</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Edge MCP Servers</div>
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+              <div className="text-2xl font-bold font-mono text-purple-400 mb-0.5">20</div>
+              <div className="text-xs font-medium text-slate-300 font-mono">Edge MCP Servers</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Cloudflare Worker Mesh</div>
             </div>
-            <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '900', color: '#f59e0b', marginBottom: '4px' }}>100%</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>TiTi Vault Zero-Trust</div>
+            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 text-center">
+              <div className="text-2xl font-bold font-mono text-amber-400 mb-0.5">100%</div>
+              <div className="text-xs font-medium text-slate-300 font-mono">TiTi Vault Enclave</div>
+              <div className="text-[10px] text-slate-500 mt-0.5">Zero Plaintext Secrets</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 6 SQUAD FORMATIONS SECTION ─── */}
-      <section id="formations" style={{ width: '100%', padding: '4rem 1.5rem' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(0, 243, 255, 0.3)', display: 'inline-block', marginBottom: '8px' }}>
-              HUB-AND-SPOKE TOPOLOGY
-            </span>
-            <h2 className="section-title">6 Multi-Agent Squad Formations</h2>
-            <p className="section-subtitle">
-              Every task routed through <code>loragent-boss</code> dynamically synthesizes the optimal execution matrix.
-            </p>
+      {/* MAIN CONTAINER */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        {/* ─── 1. FULL ANIMATED WORKFLOW PROCESS SIMULATOR ─── */}
+        <section id="workflow" className="scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
+                <Workflow className="w-4 h-4" />
+                <span>INTERACTIVE MULTI-AGENT EXECUTION ENGINE</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Full Animated Execution Process
+              </h2>
+              <p className="text-sm text-slate-400 mt-1">
+                Experience real-time prompts flowing from AI IDEs through Boss routing, Zero-Trust vault decryption, collaborative specialist handoffs, and evolutionary student learning.
+              </p>
+            </div>
+
+            {/* Scenario Selector */}
+            <div className="flex flex-wrap gap-2">
+              {WORKFLOW_SCENARIOS.map((sc) => (
+                <button
+                  key={sc.id}
+                  onClick={() => {
+                    setSelectedScenarioId(sc.id);
+                    setCurrentStepIndex(0);
+                  }}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all flex items-center gap-2 border ${
+                    selectedScenarioId === sc.id
+                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_20px_rgba(0,255,65,0.2)]'
+                      : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: sc.color === 'emerald' ? '#00FF41' : sc.color === 'amber' ? '#f59e0b' : '#a855f7' }}></span>
+                  <span>{sc.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', width: '100%' }}>
-            {FORMATIONS.map((f) => (
-              <div key={f.id} className="glass-card" style={{ borderTop: `3px solid ${f.color}`, padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          {/* Visualizer Main Container */}
+          <div className="rounded-3xl border border-white/15 bg-[#050906] overflow-hidden shadow-[0_0_60px_rgba(0,255,65,0.08)]">
+            
+            {/* Top Stage Progress Nodes */}
+            <div className="p-5 sm:p-6 bg-black/60 border-b border-white/10">
+              <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2">
+                {currentScenario.stages.map((stage, idx) => {
+                  const isActive = idx === currentStepIndex;
+                  const isCompleted = idx < currentStepIndex;
+                  return (
+                    <button
+                      key={stage.step}
+                      onClick={() => {
+                        setCurrentStepIndex(idx);
+                        setIsPlaying(false);
+                      }}
+                      className="flex-1 min-w-[130px] text-left group transition-all"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold transition-all ${
+                            isActive
+                              ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(0,255,65,0.6)] scale-110'
+                              : isCompleted
+                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                              : 'bg-white/5 text-slate-500 border border-white/5 group-hover:border-white/20 group-hover:text-slate-300'
+                          }`}
+                        >
+                          {isCompleted ? <Check className="w-4 h-4" /> : stage.step}
+                        </div>
+                        <div className={`h-1 flex-1 rounded-full transition-all ${
+                          isCompleted ? 'bg-emerald-500/50' : isActive ? 'bg-emerald-500' : 'bg-white/10'
+                        }`} />
+                      </div>
+                      <div className={`text-[11px] font-mono font-semibold truncate transition-colors ${
+                        isActive ? 'text-emerald-300' : isCompleted ? 'text-slate-300' : 'text-slate-500'
+                      }`}>
+                        {stage.title}
+                      </div>
+                      <div className="text-[10px] font-mono text-slate-500 truncate">
+                        {stage.badge}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Central Animated Arena */}
+            <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              
+              {/* Left Column: Active Stage Details & Agent Role Card */}
+              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#fff', margin: 0 }}>{f.name}</h3>
-                    <span style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: f.color, fontWeight: '700', border: `1px solid ${f.color}40` }}>
-                      {f.badge}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span 
+                      className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase border"
+                      style={{ 
+                        backgroundColor: `${activeStage.color}15`, 
+                        color: activeStage.color, 
+                        borderColor: `${activeStage.color}40` 
+                      }}
+                    >
+                      STAGE {activeStage.step} OF {currentScenario.stages.length} · {activeStage.badge}
+                    </span>
+                    <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-emerald-400 animate-pulse" />
+                      Live Sensory Computing
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', lineHeight: '1.5' }}>
-                    {f.description}
+
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-3">
+                    {activeStage.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-300 leading-relaxed mb-6">
+                    {activeStage.action}
                   </p>
+
+                  {/* Active Actors Card */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10">
+                      <div className="text-[10px] font-mono text-slate-500 mb-1">ACTIVE SQUAD / AGENT</div>
+                      <div className="text-sm font-bold text-emerald-400 font-mono flex items-center gap-2 truncate">
+                        <Cpu className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{activeStage.agent}</span>
+                      </div>
+                      <div className="text-xs text-slate-400 mt-1">{activeStage.role}</div>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10">
+                      <div className="text-[10px] font-mono text-slate-500 mb-1">DIRECTIVE PROTOCOL</div>
+                      <div className="text-sm font-bold text-cyan-300 font-mono flex items-center gap-2 truncate">
+                        <Key className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{activeStage.protocol}</span>
+                      </div>
+                      <div className="text-xs text-slate-400 mt-1">Structured MCP Payload</div>
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: '600', textTransform: 'uppercase' }}>
-                    Squad Specialists:
+                {/* Workflow Playback Controls */}
+                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex((prev) => (prev === 0 ? currentScenario.stages.length - 1 : prev - 1));
+                        setIsPlaying(false);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-colors border border-white/10"
+                      title="Previous Step"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className={`px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all ${
+                        isPlaying
+                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          : 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(0,255,65,0.4)]'
+                      }`}
+                    >
+                      {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                      <span>{isPlaying ? 'Pause Simulator' : 'Auto Play'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length);
+                        setIsPlaying(false);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 transition-colors border border-white/10"
+                      title="Next Step"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex(0);
+                        setIsPlaying(true);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/10"
+                      title="Reset Workflow"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                    </button>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                    {f.squad.map((member) => (
-                      <span key={member} style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.08)', color: '#cbd5e1', fontFamily: 'monospace' }}>
-                        {member.replace('loragent-', '')}
-                      </span>
+
+                  {/* Playback Speed Switcher */}
+                  <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+                    {[1, 2, 4].map((spd) => (
+                      <button
+                        key={spd}
+                        onClick={() => setPlaySpeed(spd)}
+                        className={`px-2 py-1 rounded-lg text-[11px] font-mono font-medium transition-all ${
+                          playSpeed === spd
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                            : 'text-slate-500 hover:text-slate-300'
+                        }`}
+                      >
+                        {spd}x
+                      </button>
                     ))}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ─── LIVE WORKFLOW SIMULATOR ─── */}
-      <section style={{ width: '100%', padding: '2rem 1.5rem 4rem 1.5rem' }}>
-        <div className="container">
-          <div className="glass-card" style={{ width: '100%', padding: '2rem', borderColor: 'rgba(0, 243, 255, 0.2)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <Activity size={18} color="#00F3FF" />
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#fff', margin: 0 }}>Interactive DAG Workflow Simulator</h3>
-                </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>
-                  Observe real-time agent-to-agent handoffs via <code>loragent_steer</code> and state persistence.
-                </p>
-              </div>
-
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="btn-secondary"
-                  style={{ padding: '6px 12px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-                  <span>{isPlaying ? 'Pause' : 'Resume'}</span>
-                </button>
-                <button
-                  onClick={() => setCurrentStepIndex(0)}
-                  className="btn-secondary"
-                  style={{ padding: '6px 12px', fontSize: '0.78rem' }}
-                >
-                  <RotateCcw size={14} />
-                </button>
-              </div>
-            </div>
-
-            {/* Stepper Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${currentScenario.stages.length}, 1fr)`, gap: '8px', marginBottom: '1.5rem' }}>
-              {currentScenario.stages.map((stage, idx) => {
-                const isActive = idx === currentStepIndex;
-                const isDone = idx < currentStepIndex;
-                return (
-                  <button
-                    key={stage.step}
-                    onClick={() => setCurrentStepIndex(idx)}
-                    style={{
-                      padding: '10px 8px',
-                      borderRadius: '8px',
-                      border: isActive ? `1px solid ${stage.color}` : '1px solid rgba(255,255,255,0.06)',
-                      background: isActive ? 'rgba(255,255,255,0.08)' : isDone ? 'rgba(0, 255, 65, 0.05)' : 'rgba(0,0,0,0.3)',
-                      color: isActive ? '#fff' : isDone ? '#00FF41' : '#64748b',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      transition: 'all 0.2s'
-                    }}
-                  >
-                    <div style={{ fontSize: '0.68rem', fontFamily: 'monospace', opacity: 0.7 }}>Step {stage.step}</div>
-                    <div style={{ fontSize: '0.78rem', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {stage.title}
+              {/* Right Column: Live Monospace Matrix Telemetry Console */}
+              <div className="lg:col-span-5 flex flex-col">
+                <div className="rounded-2xl border border-white/15 bg-black/90 p-4 sm:p-5 flex-1 flex flex-col justify-between font-mono shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
+                  
+                  {/* Terminal Header */}
+                  <div>
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                        <span className="text-[11px] text-slate-400 ml-2">loragent_telemetry.log</span>
+                      </div>
+                      <span className="text-[10px] text-emerald-400 animate-pulse flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        RECORDING
+                      </span>
                     </div>
-                  </button>
-                );
-              })}
+
+                    {/* Console Telemetry Logs */}
+                    <div className="space-y-3 text-xs">
+                      <div className="text-slate-500 text-[11px]">
+                        // ACTIVE EVENT EMISSION
+                      </div>
+                      <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-emerald-300 leading-relaxed font-mono">
+                        {activeStage.telemetry}
+                      </div>
+
+                      <div className="pt-2 text-[11px] space-y-1.5 text-slate-400">
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">MCP Channel:</span>
+                          <span className="text-cyan-300">loragent_steer</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">Zero-Trust Vault:</span>
+                          <span className="text-emerald-400">AES-256 ENCRYPTED</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">Memory Graph:</span>
+                          <span className="text-purple-300">.loragent-debug/orchestration-graph.json</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Terminal Footer Prompt */}
+                  <div className="pt-4 border-t border-white/10 mt-4 flex items-center justify-between text-[11px] text-slate-500">
+                    <div className="flex items-center gap-1.5 text-emerald-400 font-mono">
+                      <span>$</span>
+                      <span className="animate-pulse">loragent --formation {currentScenario.id}</span>
+                    </div>
+                    <span>{activeStage.step}/{currentScenario.stages.length}</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Active Stage Detail */}
-            <div style={{ background: '#04070a', border: `1px solid ${activeStage.color}40`, borderRadius: '12px', padding: '1.25rem 1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: activeStage.color }}></span>
-                  <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0, fontWeight: '700' }}>
-                    {activeStage.title}
-                  </h4>
-                </div>
-                <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: activeStage.color, background: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '4px' }}>
-                  Active Agent: @{activeStage.agent}
-                </span>
+            {/* Bottom DAG Flow Map */}
+            <div className="p-4 sm:p-5 bg-[#020509] border-t border-white/10 flex items-center justify-between flex-wrap gap-4 text-xs font-mono">
+              <div className="flex items-center gap-2 text-slate-400">
+                <GitBranch className="w-4 h-4 text-cyan-400" />
+                <span>DAG NODE FLOW:</span>
               </div>
-              <div style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6', fontFamily: 'monospace', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '6px' }}>
-                {activeStage.output}
+              <div className="flex items-center gap-2 overflow-x-auto py-1">
+                <span className="px-2 py-1 rounded bg-white/5 border border-white/10 text-slate-300">Developer</span>
+                <span className="text-slate-600">➔</span>
+                <span className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">loragent-teacher</span>
+                <span className="text-slate-600">➔</span>
+                <span className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold">loragent-boss</span>
+                <span className="text-slate-600">➔</span>
+                <span className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-300">Specialist Squad</span>
+                <span className="text-slate-600">➔</span>
+                <span className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300">loragent-sqa</span>
+                <span className="text-slate-600">➔</span>
+                <span className="px-2 py-1 rounded bg-pink-500/10 border border-pink-500/30 text-pink-400">loragent-student</span>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── 224 AGENT CATALOG EXPLORER ─── */}
-      <section id="catalog" style={{ width: '100%', padding: '4rem 1.5rem' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0, 255, 65, 0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(0, 255, 65, 0.3)', display: 'inline-block', marginBottom: '8px' }}>
+        {/* ─── 2. 6 SQUAD FORMATIONS ─── */}
+        <section id="formations" className="scroll-mt-24">
+          <div className="text-center mb-10">
+            <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/30 inline-block mb-2">
+              HUB-AND-SPOKE TOPOLOGY
+            </span>
+            <h2 className="text-3xl font-bold text-white tracking-tight">6 Multi-Agent Squad Formations</h2>
+            <p className="text-sm text-slate-400 mt-1 max-w-2xl mx-auto">
+              Every task routed through <code>loragent-boss</code> dynamically synthesizes the optimal execution matrix.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FORMATIONS.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div 
+                  key={f.id} 
+                  className="glass-card rounded-2xl p-6 flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all group relative overflow-hidden"
+                  style={{ borderTop: `3px solid ${f.color}` }}
+                >
+                  <div>
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="p-2 rounded-xl bg-white/5 border border-white/10" style={{ color: f.color }}>
+                          <Icon size={18} />
+                        </div>
+                        <div>
+                          <h3 className="text-base font-bold text-white">{f.name}</h3>
+                          <span className="text-[10px] font-mono text-slate-400">Lead: @{f.lead}</span>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-white/10" style={{ color: f.color }}>
+                        {f.badge}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed mb-5">
+                      {f.description}
+                    </p>
+                  </div>
+
+                  <div>
+                    <div className="text-[10px] font-mono text-slate-500 mb-2 uppercase font-bold">Squad Members:</div>
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {f.squad.map((member) => (
+                        <span key={member} className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/50 border border-white/10 text-slate-300">
+                          {member.replace('loragent-', '')}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-white/10 text-[11px] font-mono">
+                      <span className="text-slate-500">Trigger:</span>
+                      <code className="text-emerald-400 font-bold">{f.triggerCmd}</code>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ─── 3. 224 AGENT CATALOG EXPLORER (KILO MARKETPLACE STANDARD) ─── */}
+        <section id="catalog" className="scroll-mt-24">
+          <div className="text-center mb-8">
+            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30 inline-block mb-2">
               REGISTRY & MARKETPLACE
             </span>
-            <h2 className="section-title">224 Agent Skills & MCP Server Catalog</h2>
-            <p className="section-subtitle">
+            <h2 className="text-3xl font-bold text-white tracking-tight">224 Agent Skills & MCP Server Catalog</h2>
+            <p className="text-sm text-slate-400 mt-1 max-w-2xl mx-auto">
               Browse, filter, and inspect canonical Loragent skills with complete LLDP v2.0 metadata contracts.
             </p>
           </div>
 
-          {/* Search & Filter Bar */}
-          <div className="glass-card" style={{ padding: '1.25rem', marginBottom: '2rem', width: '100%' }}>
-            {/* Workspace Relevance Quick Stacks (Kilo Marketplace Standard) */}
-            <div style={{ marginBottom: '1rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Layers size={13} color="#00FF41" />
+          {/* Search & Workspace Relevance Filter Bar */}
+          <div className="glass-card p-5 rounded-2xl border border-white/10 mb-8 space-y-4">
+            
+            {/* Quick Stack Presets */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
+                  <Layers size={13} className="text-emerald-400" />
                   <span>WORKSPACE RELEVANCE & STACK PRESETS:</span>
                 </span>
-                <span style={{ fontSize: '0.7rem', color: '#00FF41', fontFamily: 'monospace' }}>
-                  {filteredItems.length} matching asset{filteredItems.length === 1 ? '' : 's'}
+                <span className="text-[11px] text-emerald-400 font-mono">
+                  {filteredItems.length} matching resources
                 </span>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              <div className="flex flex-wrap gap-2">
                 {WORKSPACE_STACKS.map((st) => {
                   const Icon = st.icon;
                   const isActive = selectedStackFilter === st.id;
@@ -1090,21 +1162,11 @@ cost_tier: low
                         setSelectedStackFilter(st.id);
                         setCurrentPage(1);
                       }}
-                      style={{
-                        padding: '5px 10px',
-                        borderRadius: '6px',
-                        fontSize: '0.72rem',
-                        fontFamily: 'monospace',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        transition: 'all 0.2s',
-                        background: isActive ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255,255,255,0.03)',
-                        border: `1px solid ${isActive ? '#00FF41' : 'rgba(255,255,255,0.08)'}`,
-                        color: isActive ? '#00FF41' : '#cbd5e1',
-                        fontWeight: isActive ? 'bold' : 'normal'
-                      }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all border ${
+                        isActive 
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_15px_rgba(0,255,65,0.15)] font-bold' 
+                          : 'bg-white/5 text-slate-400 border-white/5 hover:text-white'
+                      }`}
                     >
                       <Icon size={12} />
                       <span>{st.label}</span>
@@ -1114,808 +1176,506 @@ cost_tier: low
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <div style={{ position: 'relative', flex: '1 1 300px' }}>
-                <Search size={16} color="#64748b" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+            {/* Search Input & Select Dropdowns */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-3 border-t border-white/10">
+              <div className="sm:col-span-6 relative">
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search 224 agents by name, role, slug, or tags (e.g. backend, docker, rust)..."
-                  style={{ width: '100%', padding: '10px 12px 10px 36px', background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', fontSize: '0.85rem', outline: 'none' }}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  placeholder="Search 224 agents by name, role, slug, or tags (e.g. backend, docker, student, rust)..."
+                  className="w-full bg-[#020509] border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-500/50 font-mono"
                 />
               </div>
 
-              {/* Type Filter */}
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                style={{ padding: '10px 12px', background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#cbd5e1', fontSize: '0.82rem', outline: 'none' }}
-              >
-                <option value="all">All Types ({ALL_CATALOG_ITEMS.length})</option>
-                <option value="agent">Agents ({totalAgents})</option>
-                <option value="skill">Skills ({totalSkills})</option>
-                <option value="mcp_server">MCP Servers ({totalMcp})</option>
-              </select>
+              <div className="sm:col-span-3">
+                <select
+                  value={selectedType}
+                  onChange={(e) => {
+                    setSelectedType(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full bg-[#020509] border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-emerald-500/50 font-mono"
+                >
+                  <option value="all">All Types ({ALL_CATALOG_ITEMS.length})</option>
+                  <option value="agent">Agents & Skills ({totalAgents})</option>
+                  <option value="mcp_server">MCP Servers ({totalMcp})</option>
+                </select>
+              </div>
 
-              {/* Formation Filter */}
-              <select
-                value={selectedFormationFilter}
-                onChange={(e) => setSelectedFormationFilter(e.target.value)}
-                style={{ padding: '10px 12px', background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#cbd5e1', fontSize: '0.82rem', outline: 'none' }}
-              >
-                <option value="all">All Formations</option>
-                <option value="auto">Auto Team</option>
-                <option value="office">Office</option>
-                <option value="chela">Chela</option>
-                <option value="freelance">Freelance</option>
-                <option value="observer">Observer</option>
-                <option value="spidernet">Spidernet</option>
-              </select>
+              <div className="sm:col-span-3">
+                <select
+                  value={selectedFormationFilter}
+                  onChange={(e) => {
+                    setSelectedFormationFilter(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full bg-[#020509] border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-emerald-500/50 font-mono"
+                >
+                  <option value="all">All Formations</option>
+                  <option value="auto">Auto Team</option>
+                  <option value="office">Office</option>
+                  <option value="chela">Chela</option>
+                  <option value="freelance">Freelance</option>
+                  <option value="observer">Observer & Student</option>
+                  <option value="orchestrator">Orchestrator</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          {/* Results Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem', width: '100%', marginBottom: '2rem' }}>
+          {/* Catalog Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
             {displayedItems.map((item) => (
               <div
                 key={item.id || item.slug}
                 onClick={() => setModalItem(item)}
-                className="glass-card"
-                style={{ padding: '1.25rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'transform 0.2s, border-color 0.2s' }}
+                className="glass-card p-5 rounded-2xl border border-white/10 hover:border-emerald-500/40 transition-all cursor-pointer flex flex-col justify-between group"
               >
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>
-                      {item.type || 'agent'}
+                  <div className="flex justify-between items-start mb-2.5">
+                    <span className="text-[9px] font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                      {item.type || 'AGENT'}
                     </span>
-                    <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#94a3b8' }}>
+                    <span className="text-[10px] font-mono text-slate-500">
                       {item.formation || 'auto'}
                     </span>
                   </div>
-                  <h4 style={{ fontSize: '0.95rem', fontWeight: '700', color: '#fff', marginBottom: '6px' }}>
+
+                  <h4 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors mb-1.5 font-mono">
                     {item.name}
                   </h4>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+
+                  <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
                     {item.description}
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
-                    /{item.slug || 'loragent'}
-                  </span>
-                  <span style={{ fontSize: '0.72rem', color: '#00FF41', display: 'flex', alignItems: 'center', gap: '2px' }}>
-                    View Contract <ChevronRight size={12} />
-                  </span>
+                <div>
+                  {item.allowedTools && item.allowedTools.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {item.allowedTools.slice(0, 3).map((t) => (
+                        <span key={t} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-400">
+                          {t}
+                        </span>
+                      ))}
+                      {item.allowedTools.length > 3 && (
+                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-500">
+                          +{item.allowedTools.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-3 border-t border-white/10 text-[10px] font-mono text-slate-500">
+                    <span>LLDP v2.0</span>
+                    <span className="text-emerald-400 group-hover:underline flex items-center gap-1">
+                      <span>Inspect</span>
+                      <ChevronRight size={12} />
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && !showAllItems && (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '2rem' }}>
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2">
               <button
-                onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
-                className="btn-secondary"
-                style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10"
               >
-                <ChevronLeft size={14} /> Prev
+                Previous
               </button>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
-                Page {currentPage} of {totalPages} ({filteredItems.length} items)
+              <span className="text-xs font-mono text-slate-400 px-3">
+                Page {currentPage} of {totalPages}
               </span>
               <button
-                onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="btn-secondary"
-                style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10"
               >
-                Next <ChevronRight size={14} />
+                Next
               </button>
             </div>
           )}
-        </div>
-      </section>
+        </section>
 
-      {/* ─── TITI VAULT & ZERO-TRUST SECURITY GUIDE ─── */}
-      <section id="titi-vault" style={{ width: '100%', padding: '4rem 1.5rem', background: 'rgba(0,0,0,0.4)' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#f59e0b', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'inline-block', marginBottom: '8px' }}>
-              LLE 5-SEAL CHAOS ENGINE
-            </span>
-            <h2 className="section-title">TiTi Vault — Zero-Trust Machine Enclave</h2>
-            <p className="section-subtitle">
-              How Loragent protects secrets without plaintext disk exposure or chat transcript leaks.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', width: '100%' }}>
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
-                <Lock size={20} color="#f59e0b" />
+        {/* ─── 4. TERMINAL SIMULATOR ─── */}
+        <section id="terminal" className="scroll-mt-24">
+          <div className="rounded-3xl border border-white/15 bg-black/90 p-6 sm:p-8 font-mono shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+              <div className="flex items-center gap-2">
+                <Terminal size={18} className="text-emerald-400" />
+                <span className="text-sm font-bold text-white">Loragent CLI & Dynamic Learning Terminal</span>
               </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#fff', marginBottom: '0.75rem' }}>1. Encrypted at Rest (GPG AES-256)</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                All sensitive credentials (PyPI tokens, NPM keys, Cloudflare API tokens, GitHub PATs) reside exclusively inside the master symmetric vault file at <code>/mnt/NewVolume/Personal_Projects/cred/credentials.json.gpg</code>.
-              </p>
+              <span className="text-xs text-slate-500">Universal Directives</span>
             </div>
 
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(0, 243, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', border: '1px solid rgba(0, 243, 255, 0.3)' }}>
-                <Cpu size={20} color="#00F3FF" />
-              </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#fff', marginBottom: '0.75rem' }}>2. Dynamic In-Memory Injection</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                Child processes and agent CLI commands query <code>titi get &lt;cat&gt; &lt;key&gt;</code> synchronously in process memory. Decrypted secrets are never written to disk, committed to Git, or exposed in shell history.
-              </p>
-            </div>
-
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(0, 255, 65, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', border: '1px solid rgba(0, 255, 65, 0.3)' }}>
-                <ShieldCheck size={20} color="#00FF41" />
-              </div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#fff', marginBottom: '0.75rem' }}>3. LLE 5-Seal Pre-Push Guard</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                Git pre-push hooks automatically execute <code>protect-and-minify.mjs</code>, encrypting runtime code containers to <code>*.titi.enc</code> with chaotic 6D Galois field transformations before pushing to remote branches.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── COMMUNITY, RFCS & WORKING GITHUB DISCUSSIONS ─── */}
-      <section id="community" style={{ width: '100%', padding: '4rem 1.5rem' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#a855f7', background: 'rgba(168, 85, 247, 0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(168, 85, 247, 0.3)', display: 'inline-block', marginBottom: '8px' }}>
-              COMMUNITY & ARCHITECTURAL RFCS
-            </span>
-            <h2 className="section-title">GitHub Discussions, RFCs & Skill Authoring</h2>
-            <p className="section-subtitle">
-              Join active architectural proposals, share multi-agent orchestration recipes, and test custom agent specifications.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem', width: '100%' }}>
-            {/* Live Interactive Skill Validator */}
-            <div className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-                <FileCode2 size={18} color="#a855f7" />
-                <h3 style={{ fontSize: '1.1rem', color: '#fff', margin: 0, fontWeight: '700' }}>
-                  Interactive Skill Metadata Validator
-                </h3>
-              </div>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-                Test your custom agent specification YAML metadata against the LLDP v2.0 standard in real-time.
-              </p>
-
-              <textarea
-                value={validatorCode}
-                onChange={(e) => setValidatorCode(e.target.value)}
-                rows={10}
-                style={{ width: '100%', padding: '12px', background: '#04070a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.8rem', outline: 'none', resize: 'vertical', marginBottom: '1rem' }}
-              />
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+            {/* Quick Command Chips */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {[
+                { cmd: 'loragent discover -f react', label: 'PC Asset Discovery' },
+                { cmd: 'loragent analyze .', label: 'Stack Detection' },
+                { cmd: 'loragent sync', label: 'Universal 8-IDE Sync' },
+                { cmd: '/loragent-student learn', label: 'Continuous Learning' }
+              ].map((c) => (
                 <button
-                  onClick={validateSkillInput}
-                  className="btn-primary"
-                  style={{ padding: '8px 16px', fontSize: '0.8rem', background: '#a855f7', borderColor: '#a855f7', color: '#fff' }}
+                  key={c.cmd}
+                  onClick={() => setSimCommand(c.cmd)}
+                  className={`px-3 py-1.5 rounded-lg text-xs transition-all border ${
+                    simCommand === c.cmd
+                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold'
+                      : 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
+                  }`}
                 >
-                  Validate Specification
+                  {c.label}
                 </button>
-                <a
-                  href="https://github.com/Maijied/Loragent/issues/new?template=feature_request.md"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-secondary"
-                  style={{ padding: '8px 16px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <span>Submit RFC Proposal</span>
-                  <ExternalLink size={12} />
-                </a>
-              </div>
-
-              {validationResult && (
-                <div style={{ marginTop: '1rem', padding: '10px 12px', borderRadius: '6px', background: validationResult.valid ? 'rgba(0, 255, 65, 0.1)' : 'rgba(239, 68, 68, 0.1)', border: `1px solid ${validationResult.valid ? '#00FF41' : '#ef4444'}40`, color: validationResult.valid ? '#00FF41' : '#ef4444', fontSize: '0.8rem', fontFamily: 'monospace' }}>
-                  {validationResult.message}
-                </div>
-              )}
+              ))}
             </div>
 
-            {/* Direct Working Community Channels */}
-            <div className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
-                  <MessageSquare size={18} color="#00F3FF" />
-                  <h3 style={{ fontSize: '1.1rem', color: '#fff', margin: 0, fontWeight: '700' }}>
-                    Active GitHub Community Links
-                  </h3>
-                </div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', lineHeight: '1.6' }}>
-                  Direct functional links to official Loragent repository discussions, feature requests, RFC proposals, and pull requests:
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1.5rem' }}>
-                  <a 
-                    href="https://github.com/Maijied/Loragent/discussions" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    style={{ padding: '12px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: '600', color: '#00F3FF' }}>💬 GitHub Discussions Forum</div>
-                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>General chat, Q&A, and community agent recipes</div>
-                    </div>
-                    <ExternalLink size={14} color="#00F3FF" />
-                  </a>
-
-                  <a 
-                    href="https://github.com/Maijied/Loragent/issues" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    style={{ padding: '12px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: '600', color: '#00FF41' }}>📋 Issue Tracker & Bug Reports</div>
-                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Report bugs, verify edge cases, and request tools</div>
-                    </div>
-                    <ExternalLink size={14} color="#00FF41" />
-                  </a>
-
-                  <a 
-                    href="https://github.com/Maijied/Loragent/pulls" 
-                    target="_blank" 
-                    rel="noreferrer"
-                    style={{ padding: '12px 14px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: '600', color: '#a855f7' }}>🚀 Pull Requests & Code Contributions</div>
-                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Submit new agent skills and core engine patches</div>
-                    </div>
-                    <ExternalLink size={14} color="#a855f7" />
-                  </a>
-                </div>
+            {/* Terminal Input Row */}
+            <div className="flex gap-2 mb-6">
+              <div className="flex-1 bg-[#04070a] border border-white/15 rounded-xl px-4 py-2.5 flex items-center gap-2">
+                <span className="text-emerald-400 font-bold">$</span>
+                <input
+                  type="text"
+                  value={simCommand}
+                  onChange={(e) => setSimCommand(e.target.value)}
+                  className="flex-1 bg-transparent text-sm text-white focus:outline-none font-mono"
+                />
               </div>
-
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Specification: LLDP v2.0 Standard</span>
-                <a 
-                  href="https://github.com/Maijied/Loragent/blob/main/docs/LORAGENT_STANDARD_v2.md" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  style={{ fontSize: '0.75rem', color: '#00F3FF', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-                >
-                  <span>Read Spec Document</span>
-                  <BookOpen size={12} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CLOUDFLARE EMAIL ROUTING INBOXES ─── */}
-      <section id="inboxes" style={{ width: '100%', padding: '4rem 1.5rem', background: 'rgba(0,0,0,0.3)' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(0, 243, 255, 0.3)', display: 'inline-block', marginBottom: '8px' }}>
-              OFFICIAL SYSTEM CHANNELS
-            </span>
-            <h2 className="section-title">Cloudflare Email Routing Inboxes (lorapok.tech)</h2>
-            <p className="section-subtitle">
-              8 direct enterprise routing mailboxes mapped across autonomous orchestration, telemetry, security, and developer support.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', width: '100%' }}>
-            {LORAGENT_EMAILS.map((email) => (
-              <div key={email.address} className="glass-card" style={{ padding: '1.25rem', borderLeft: `3px solid ${email.color}` }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                  <code style={{ fontSize: '0.85rem', color: '#fff', fontWeight: '700' }}>{email.address}</code>
-                  <span style={{ fontSize: '0.62rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: email.color, fontWeight: '700' }}>
-                    {email.badge}
-                  </span>
-                </div>
-                <div style={{ fontSize: '0.8rem', color: '#cbd5e1', fontWeight: '500', marginBottom: '4px' }}>{email.role}</div>
-                <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)', margin: 0, lineHeight: '1.4' }}>{email.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FOOTER WITH MISSION CONTROL BOTTOM DRAWER TRIGGER ─── */}
-      <footer style={{ width: '100%', borderTop: '1px solid var(--border-subtle)', background: 'rgba(3, 7, 18, 0.95)', padding: '2.5rem 1.5rem 6rem 1.5rem', marginTop: '3rem' }}>
-        <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', width: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(0, 255, 65, 0.3)' }}>
-                <img src="/loragent-logo.svg" alt="Loragent Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-              </div>
-              <div>
-                <span style={{ fontWeight: '800', color: '#fff', fontSize: '1rem', letterSpacing: '-0.01em' }}>LORAGENT</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: '8px' }}>© {new Date().getFullYear()} Lorapok Labs. All rights reserved.</span>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}>GitHub Repo</a>
-              <a href="https://pypi.org/project/loragent/" target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}>PyPI (v2.0.0)</a>
-              <a href="https://pkg.go.dev/github.com/Maijied/Loragent/v2" target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}>Go (pkg.go.dev)</a>
-              <a href="https://www.npmjs.com/package/@lorapok/loragent" target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}>NPM (@lorapok)</a>
-              <a href="https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent" target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}>VS Code Marketplace</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* ─── FIXED BOTTOM STATUS BAR (ADMIN BUTTON LOCATED AT BOTTOM) ─── */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 60, background: 'rgba(4, 7, 10, 0.95)', backdropFilter: 'blur(16px)', borderTop: '1px solid rgba(255,255,255,0.1)', padding: '0.6rem 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00FF41', boxShadow: '0 0 8px #00FF41' }}></span>
-          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#cbd5e1' }}>
-            Loragent Gateway: <span style={{ color: '#00FF41' }}>224 Agents Online</span> · Edge MCP: <span style={{ color: '#00F3FF' }}>Live (SSE)</span>
-          </span>
-        </div>
-
-        {/* The Requested Bottom Admin / Mission Control Button */}
-        <button
-          onClick={() => setIsMissionControlOpen(true)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '6px 14px',
-            borderRadius: '8px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            border: '1px solid rgba(245, 158, 11, 0.4)',
-            color: '#f59e0b',
-            cursor: 'pointer',
-            fontSize: '0.78rem',
-            fontWeight: '700',
-            fontFamily: 'monospace',
-            transition: 'all 0.2s'
-          }}
-        >
-          <ShieldCheck size={14} color="#f59e0b" />
-          <span>⚡ Operator Mission Control (TiTi Vault)</span>
-        </button>
-      </div>
-
-      {/* ─── SLIDE-UP MISSION CONTROL DRAWER OVERLAY ─── */}
-      {isMissionControlOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-          <div style={{ width: '100%', maxWidth: '1100px', maxHeight: '85vh', background: '#0a0f18', borderTop: '2px solid #f59e0b', borderLeft: '1px solid rgba(255,255,255,0.1)', borderRight: '1px solid rgba(255,255,255,0.1)', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 -20px 50px rgba(0,0,0,0.8)' }}>
-            {/* Drawer Header */}
-            <div style={{ padding: '1.25rem 1.75rem', background: 'rgba(0,0,0,0.6)', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Server size={18} color="#f59e0b" />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.1rem', color: '#fff', margin: 0, fontWeight: '700' }}>Lorapok Mission Control & TiTi Enclave</h3>
-                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontFamily: 'monospace' }}>
-                    Zero-Trust Authorization Enclave · <code>mission-control.lorapok.tech</code>
-                  </span>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <a
-                  href="https://mission-control.lorapok.tech"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-secondary"
-                  style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(245,158,11,0.4)', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <span>Cloud Admin</span>
-                  <ExternalLink size={12} />
-                </a>
-                <button
-                  onClick={() => setIsMissionControlOpen(false)}
-                  style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '6px' }}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Drawer Body */}
-            <div style={{ padding: '1.5rem', overflowY: 'auto', flex: 1 }}>
-              {!isAdminAuthenticated ? (
-                <div style={{ maxWidth: '460px', margin: '2rem auto', textAlign: 'center', padding: '2rem', background: '#04070a', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
-                  <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem auto' }}>
-                    <Lock size={24} color="#f59e0b" />
-                  </div>
-                  <h4 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '8px', fontWeight: '700' }}>TiTi Vault Clearance Required</h4>
-                  <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-                    Enter master clearance authorization key to decrypt runtime credentials in memory.
-                  </p>
-                  <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px', marginBottom: '0.5rem' }}>
-                    <input 
-                      type="password"
-                      value={adminPin}
-                      onChange={(e) => setAdminPin(e.target.value)}
-                      placeholder="Enter Clearance Key..."
-                      style={{ flex: 1, padding: '10px 14px', background: 'rgba(0,0,0,0.85)', border: adminPinError ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)', borderRadius: '8px', color: '#fff', fontSize: '0.88rem', fontFamily: 'monospace', outline: 'none' }}
-                    />
-                    <button type="submit" className="btn-primary" style={{ padding: '10px 16px', background: '#f59e0b', borderColor: '#f59e0b', color: '#000', fontWeight: 'bold' }}>
-                      Unlock
-                    </button>
-                  </form>
-                  {adminPinError && (
-                    <div style={{ fontSize: '0.75rem', color: '#ef4444', marginTop: '8px', fontFamily: 'monospace' }}>
-                      Clearance rejected. Invalid authorization key.
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div>
-                  {/* Active Notice */}
-                  {adminNotice && (
-                    <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.4)', color: '#f59e0b', fontSize: '0.8rem', fontFamily: 'monospace', marginBottom: '1rem' }}>
-                      {adminNotice}
-                    </div>
-                  )}
-
-                  {/* Unlocked status banner */}
-                  <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(0,255,65,0.1)', border: '1px solid rgba(0,255,65,0.3)', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.8rem', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <CheckCircle2 size={16} />
-                      <span><strong>TiTi Vault Enclave Active:</strong> Clearance Level 1 Superadmin Granted. Zero-Trust AES-256 In-Memory Decryption Active.</span>
-                    </div>
-                    <span style={{ fontSize: '0.68rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.2)' }}>
-                      LLE 5-SEAL: ONLINE
-                    </span>
-                  </div>
-
-                  {/* Admin Navigation Tabs */}
-                  <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '10px', marginBottom: '1.25rem', overflowX: 'auto' }}>
-                    {[
-                      { id: 'vault', label: 'TiTi Vault Secrets', icon: Key },
-                      { id: 'emails', label: 'Email Routing Hub', icon: Mail },
-                      { id: 'cicd', label: 'CI/CD Telemetry', icon: GitBranch },
-                      { id: 'daemons', label: 'Active Daemons', icon: Activity }
-                    ].map((tab) => {
-                      const Icon = tab.icon;
-                      const isActive = adminActiveTab === tab.id;
-                      return (
-                        <button
-                          key={tab.id}
-                          onClick={() => setAdminActiveTab(tab.id)}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            padding: '6px 12px',
-                            borderRadius: '6px',
-                            border: isActive ? '1px solid #f59e0b' : '1px solid transparent',
-                            background: isActive ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
-                            color: isActive ? '#f59e0b' : '#94a3b8',
-                            fontSize: '0.78rem',
-                            fontWeight: isActive ? '700' : '500',
-                            cursor: 'pointer'
-                          }}
-                        >
-                          <Icon size={14} />
-                          <span>{tab.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* TAB 1: TiTi Vault Secrets */}
-                  {adminActiveTab === 'vault' && (
-                    <div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
-                        {VAULT_CATEGORIES_DATA.map((cat) => (
-                          <div key={cat.name} style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '1rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                              <code style={{ fontSize: '0.88rem', color: '#f59e0b', fontWeight: 'bold' }}>{cat.name}</code>
-                              <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', border: '1px solid rgba(0, 255, 65, 0.3)' }}>
-                                ENCRYPTED
-                              </span>
-                            </div>
-                            <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '8px' }}>{cat.role}</p>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                              {cat.keys.map((k) => (
-                                <span key={k} style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.05)', color: '#cbd5e1', fontFamily: 'monospace' }}>
-                                  ●●●● ({k})
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* TAB 2: Email Routing Hub */}
-                  {adminActiveTab === 'emails' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '10px' }}>
-                      {LORAGENT_EMAILS.map((em) => (
-                        <div key={em.address} style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px' }}>
-                          <code style={{ fontSize: '0.8rem', color: '#00F3FF' }}>{em.address}</code>
-                          <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '4px' }}>{em.role}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* TAB 3: CI/CD Pipeline Telemetry */}
-                  {adminActiveTab === 'cicd' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                        <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontFamily: 'monospace' }}>8 Multi-Ecosystem Stages · Automated Deployment Graph</span>
-                        <span style={{ fontSize: '0.72rem', color: '#00FF41', fontFamily: 'monospace', fontWeight: 'bold' }}>● ALL 8 STAGES PASSING</span>
-                      </div>
-                      {CI_CD_PIPELINE_STAGES.map((st) => (
-                        <div key={st.step} style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-                          <div style={{ flex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>{st.name}</span>
-                              <span style={{ fontSize: '0.68rem', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', color: '#94a3b8', fontFamily: 'monospace' }}>{st.tag}</span>
-                            </div>
-                            <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '3px' }}>{st.details}</div>
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            {st.link && (
-                              <a href={st.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.72rem', color: '#00F3FF', textDecoration: 'none', padding: '4px 8px', borderRadius: '4px', background: 'rgba(0, 243, 255, 0.08)', border: '1px solid rgba(0, 243, 255, 0.2)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                <span>Visit</span>
-                                <ExternalLink size={11} />
-                              </a>
-                            )}
-                            <span style={{ fontSize: '0.7rem', padding: '4px 8px', borderRadius: '4px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', fontWeight: 'bold', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                              {st.badge} ({st.duration})
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* TAB 4: Active Daemons */}
-                  {adminActiveTab === 'daemons' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '10px' }}>
-                      <div style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px' }}>
-                        <div style={{ color: '#00FF41', fontSize: '0.82rem', fontWeight: 'bold' }}>loragent-watchman (PID: 4128)</div>
-                        <div style={{ color: '#94a3b8', fontSize: '0.72rem', marginTop: '4px' }}>State persistence & crash recovery sentinel</div>
-                      </div>
-                      <div style={{ background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px' }}>
-                        <div style={{ color: '#00F3FF', fontSize: '0.82rem', fontWeight: 'bold' }}>loragent-workspace-guard (Active)</div>
-                        <div style={{ color: '#94a3b8', fontSize: '0.72rem', marginTop: '4px' }}>Destructive I/O prevention interceptor</div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── AGENT CONTRACT DETAIL MODAL (Kilo Marketplace Standard) ─── */}
-      {modalItem && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 110, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-          <div className="glass-card" style={{ maxWidth: '680px', width: '100%', maxHeight: '88vh', overflowY: 'auto', padding: '2rem', borderColor: 'var(--border-neon)', boxShadow: '0 0 40px rgba(0,255,65,0.15)' }}>
-            
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
-              <div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0, 255, 65, 0.1)', border: '1px solid rgba(0, 255, 65, 0.3)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
-                    {modalItem.type || 'agent'}
-                  </span>
-                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.1)', border: '1px solid rgba(0, 243, 255, 0.3)', padding: '2px 8px', borderRadius: '4px' }}>
-                    Formation: {modalItem.formation || 'auto'}
-                  </span>
-                  {modalItem.layer && (
-                    <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#a855f7', background: 'rgba(168, 85, 247, 0.1)', border: '1px solid rgba(168, 85, 247, 0.3)', padding: '2px 8px', borderRadius: '4px' }}>
-                      Layer: {modalItem.layer}
-                    </span>
-                  )}
-                  <span style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#94a3b8', background: 'rgba(255, 255, 255, 0.05)', padding: '2px 8px', borderRadius: '4px' }}>
-                    Category: {modalItem.category || 'Engineering'}
-                  </span>
-                </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fff', margin: '4px 0' }}>
-                  {modalItem.name}
-                </h3>
-                <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>
-                  Canonical Identifier: <span style={{ color: '#cbd5e1' }}>{modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}</span>
-                </div>
-              </div>
-              <button onClick={() => setModalItem(null)} style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px' }}>
-                <X size={22} />
+              <button
+                disabled={simRunning}
+                onClick={handleRunSim}
+                className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,65,0.3)] disabled:opacity-50"
+              >
+                {simRunning ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
+                <span>{simRunning ? 'Executing...' : 'Run Directive'}</span>
               </button>
             </div>
 
-            {/* Description & Objective */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '4px', textTransform: 'uppercase' }}>Description</div>
-              <p style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '12px' }}>
+            {/* Terminal Output Screen */}
+            <div className="bg-[#020408] border border-white/10 rounded-xl p-4 sm:p-5 text-xs text-slate-300 space-y-1.5 max-h-72 overflow-y-auto font-mono">
+              {simLogs.map((log, idx) => (
+                <div key={idx} className={log.startsWith('>') ? 'text-emerald-400 font-bold' : log.includes('✅') ? 'text-cyan-300' : 'text-slate-300'}>
+                  {log}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 5. MULTI-IDE SETUP HUB ─── */}
+        <section id="ide" className="scroll-mt-24">
+          <div className="text-center mb-8">
+            <span className="text-xs font-mono text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/30 inline-block mb-2">
+              IDE & AGENT INTEGRATION
+            </span>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Multi-IDE 1-Click Configuration</h2>
+            <p className="text-sm text-slate-400 mt-1 max-w-2xl mx-auto">
+              Seamlessly bind Loragent to Cursor, Claude Code, Google Antigravity, Windsurf, or Zed.
+            </p>
+          </div>
+
+          <div className="glass-card rounded-2xl border border-white/10 p-6">
+            {/* IDE Tabs */}
+            <div className="flex gap-2 border-b border-white/10 pb-4 mb-6 overflow-x-auto">
+              {Object.entries(IDE_CONFIGS).map(([key, ide]) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveMcpTab(key)}
+                  className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all ${
+                    activeMcpTab === key
+                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+                      : 'bg-white/5 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {ide.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Active IDE Detail */}
+            {(() => {
+              const curIde = IDE_CONFIGS[activeMcpTab] || IDE_CONFIGS.cursor;
+              return (
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                      <div className="text-sm font-bold text-white font-mono">{curIde.name} Configuration</div>
+                      <div className="text-xs text-slate-400 font-mono mt-0.5">Target file: <code>{curIde.file}</code></div>
+                    </div>
+                    <button
+                      onClick={() => copyCode(curIde.snippet, `ide-${activeMcpTab}`)}
+                      className="px-3 py-1.5 text-xs font-mono font-bold rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center gap-1.5 hover:bg-purple-500/30 transition-all"
+                    >
+                      {copied === `ide-${activeMcpTab}` ? <Check size={14} /> : <Copy size={14} />}
+                      <span>{copied === `ide-${activeMcpTab}` ? 'Copied Config' : 'Copy JSON'}</span>
+                    </button>
+                  </div>
+
+                  <pre className="bg-[#020509] border border-white/10 rounded-xl p-4 text-xs font-mono text-cyan-300 overflow-x-auto">
+                    {curIde.snippet}
+                  </pre>
+                  <p className="text-xs text-slate-400">{curIde.description}</p>
+                </div>
+              );
+            })()}
+          </div>
+        </section>
+
+        {/* ─── 6. ZERO-TRUST TITI VAULT SHOWCASE ─── */}
+        <section id="vault" className="scroll-mt-24">
+          <div className="glass-card rounded-3xl border border-amber-500/20 p-6 sm:p-8 relative overflow-hidden">
+            <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
+              <Lock className="w-4 h-4" />
+              <span>ZERO-TRUST MACHINE ENCLAVE</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              TiTi Code Protector & AES-256 Vault Architecture
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed mb-6">
+              Loragent prevents source code theft and secret leaks using 5-Seal Machine LLE encryption. Plaintext secrets are NEVER written to Git or disk. Child processes receive credentials dynamically in memory.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+              <div className="p-4 rounded-xl bg-black/40 border border-white/10">
+                <div className="text-amber-400 font-bold mb-1">1. Git Pre-Push Hook</div>
+                <div className="text-slate-400 text-[11px]">Automatically minifies and encrypts all source payloads into .titi.enc before hitting remote origin.</div>
+              </div>
+              <div className="p-4 rounded-xl bg-black/40 border border-white/10">
+                <div className="text-cyan-400 font-bold mb-1">2. In-Memory Keyring</div>
+                <div className="text-slate-400 text-[11px]">Passphrase hashes are stored in secure process memory with SHA-256 validation.</div>
+              </div>
+              <div className="p-4 rounded-xl bg-black/40 border border-white/10">
+                <div className="text-emerald-400 font-bold mb-1">3. Workspace Guard</div>
+                <div className="text-slate-400 text-[11px]">Blocks destructive bash commands (rm -rf, DROP TABLE) without operator confirmation.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ─── 7. KILO-STYLE INTERACTIVE INSTALL MODAL ─── */}
+      {modalItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-[#0a0f16] border border-white/15 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-5 border-b border-white/10 flex justify-between items-start bg-black/40">
+              <div>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
+                    {modalItem.type || 'AGENT'}
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">
+                    Formation: <strong className="text-white">{modalItem.formation || 'auto'}</strong>
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white font-mono">{modalItem.name}</h3>
+              </div>
+              <button
+                onClick={() => setModalItem(null)}
+                className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 {modalItem.description}
               </p>
-            </div>
 
-            {modalItem.objective && (
-              <div style={{ marginBottom: '1.25rem' }}>
-                <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41', marginBottom: '4px', textTransform: 'uppercase' }}>Primary Objective & Scope</div>
-                <p style={{ fontSize: '0.82rem', color: '#86efac', lineHeight: '1.5', background: 'rgba(0, 255, 65, 0.04)', border: '1px solid rgba(0, 255, 65, 0.2)', borderRadius: '8px', padding: '10px 12px' }}>
-                  {modalItem.objective}
-                </p>
-              </div>
-            )}
-
-            {/* Allowed Tools & Connectors Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px', marginBottom: '1.25rem' }}>
+              {/* Dual Scope Selector */}
               <div>
-                <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '6px', textTransform: 'uppercase' }}>
-                  Allowed Tools ({modalItem.allowedTools?.length || 2})
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '8px', minHeight: '42px' }}>
-                  {(modalItem.allowedTools || ['loragent_exec_cli', 'loragent_steer']).map((tool, idx) => (
-                    <span key={idx} style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#cbd5e1', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>
-                      {tool}
-                    </span>
-                  ))}
+                <div className="text-xs font-mono text-slate-400 mb-2 uppercase font-bold">Installation Scope:</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setInstallScope('project')}
+                    className={`p-3 rounded-xl border text-left transition-all font-mono ${
+                      installScope === 'project'
+                        ? 'bg-emerald-500/15 border-emerald-500/50 text-emerald-300'
+                        : 'bg-white/5 border-white/10 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <div className="text-xs font-bold">📁 Project Scope</div>
+                    <div className="text-[10px] text-slate-500 mt-0.5">.agents/skills/</div>
+                  </button>
+
+                  <button
+                    onClick={() => setInstallScope('global')}
+                    className={`p-3 rounded-xl border text-left transition-all font-mono ${
+                      installScope === 'global'
+                        ? 'bg-cyan-500/15 border-cyan-500/50 text-cyan-300'
+                        : 'bg-white/5 border-white/10 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <div className="text-xs font-bold">🌐 Global Scope</div>
+                    <div className="text-[10px] text-slate-500 mt-0.5">~/.gemini/ / ~/.cursor/</div>
+                  </button>
                 </div>
               </div>
 
-              <div>
-                <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '6px', textTransform: 'uppercase' }}>
-                  Connectors & Mesh
+              {/* Live Destination Path Preview */}
+              <div className="p-3.5 rounded-xl bg-black/60 border border-white/10 font-mono text-xs">
+                <div className="text-slate-500 text-[10px] mb-1">DESTINATION PATH:</div>
+                <div className="text-cyan-300">
+                  {installScope === 'project'
+                    ? `.agents/skills/${modalItem.slug}/SKILL.md`
+                    : `~/.loragent/skills/${modalItem.slug}/SKILL.md`}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', background: '#04070a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '8px', minHeight: '42px' }}>
-                  {(modalItem.connectors || ['loragent-core', 'titi-vault', 'watchman']).map((conn, idx) => (
-                    <span key={idx} style={{ fontSize: '0.68rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0, 243, 255, 0.08)', border: '1px solid rgba(0, 243, 255, 0.2)', padding: '2px 6px', borderRadius: '4px' }}>
-                      {conn}
-                    </span>
-                  ))}
+              </div>
+
+              {/* Slash Command & CLI Box */}
+              <div className="space-y-2">
+                <div className="text-xs font-mono text-slate-400 uppercase font-bold">Invocation Directive:</div>
+                <div className="bg-[#03060a] border border-white/15 rounded-xl p-3 flex justify-between items-center">
+                  <code className="font-mono text-sm text-emerald-400">/loragent:{modalItem.slug}</code>
+                  <button
+                    onClick={() => handleModalCopy(`/loragent:${modalItem.slug}`)}
+                    className="px-3 py-1 rounded bg-white/10 hover:bg-white/20 text-xs font-mono text-white flex items-center gap-1"
+                  >
+                    {modalCopied ? <Check size={12} /> : <Copy size={12} />}
+                    <span>{modalCopied ? 'Copied' : 'Copy'}</span>
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Scope Selector: [ Project ] vs [ Global ] (Kilo Feature) */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontFamily: 'monospace', color: '#fff', fontWeight: 'bold', marginBottom: '8px' }}>
-                Where should this asset be installed?
-              </label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <button
-                  type="button"
-                  onClick={() => setInstallScope('project')}
-                  style={{
-                    padding: '8px 12px',
-                    borderRadius: '8px',
-                    fontSize: '0.8rem',
-                    fontFamily: 'monospace',
-                    fontWeight: installScope === 'project' ? 'bold' : 'normal',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    background: installScope === 'project' ? '#00FF41' : 'rgba(255,255,255,0.03)',
-                    color: installScope === 'project' ? '#000' : '#cbd5e1',
-                    border: `1px solid ${installScope === 'project' ? '#00FF41' : 'rgba(255,255,255,0.1)'}`,
-                    boxShadow: installScope === 'project' ? '0 0 15px rgba(0,255,65,0.3)' : 'none'
-                  }}
-                >
-                  📁 Project Scope (.agents/)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setInstallScope('global')}
-                  style={{
-                    padding: '8px 12px',
-                    borderRadius: '8px',
-                    fontSize: '0.8rem',
-                    fontFamily: 'monospace',
-                    fontWeight: installScope === 'global' ? 'bold' : 'normal',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    background: installScope === 'global' ? '#a855f7' : 'rgba(255,255,255,0.03)',
-                    color: installScope === 'global' ? '#fff' : '#cbd5e1',
-                    border: `1px solid ${installScope === 'global' ? '#a855f7' : 'rgba(255,255,255,0.1)'}`,
-                    boxShadow: installScope === 'global' ? '0 0 15px rgba(168,85,247,0.3)' : 'none'
-                  }}
-                >
-                  🌐 Global Scope (~/.gemini/ / ~/.loragent/)
-                </button>
-              </div>
-              <p style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '6px', fontFamily: 'monospace' }}>
-                {installScope === 'project'
-                  ? '• Project scope: Installed in this project (.agents/skills/); can be committed to git and shared with your team.'
-                  : '• Global scope: Available across all your local workspaces, Antigravity, Claude Code, Cursor, and Windsurf sessions.'}
-              </p>
-            </div>
-
-            {/* Installation Destination Preview */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <div style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#94a3b8', marginBottom: '4px' }}>Installation Destination Path:</div>
-              <div style={{ padding: '8px 12px', borderRadius: '8px', background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'monospace', fontSize: '0.76rem', color: '#00F3FF' }}>
-                {installScope === 'project' 
-                  ? `./.agents/skills/${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}/SKILL.md`
-                  : `~/.gemini/config/skills/${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}/SKILL.md`}
-              </div>
-            </div>
-
-            {/* Security Warning Notice */}
-            <div style={{ marginBottom: '1.25rem', padding: '10px 14px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)', fontSize: '0.74rem', color: '#fef3c7', fontFamily: 'monospace', lineHeight: '1.5' }}>
-              🔒 Zero-Trust Vault Protection: Injected API credentials are AES-256 encrypted in memory via TiTi Vault. Destructive operations are strictly intercepted and blocked by loragent-workspace-guard.
-            </div>
-
-            {/* Slash Directive Box */}
-            <div style={{ marginBottom: '1rem', background: '#04070a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace', marginRight: '8px' }}>Slash Directive:</span>
-                <code style={{ fontSize: '0.82rem', color: '#00F3FF', fontFamily: 'monospace', fontWeight: 'bold' }}>
-                  /loragent:{modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}
-                </code>
-              </div>
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-white/10 bg-black/40 flex justify-end gap-2">
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(`/loragent:${modalItem.slug || modalItem.name.toLowerCase().replace(/\s+/g, '-')}`);
-                  setModalCopied(true);
-                  setTimeout(() => setModalCopied(false), 2000);
-                }}
-                className="btn-secondary"
-                style={{ padding: '3px 8px', fontSize: '0.7rem' }}
-                title="Copy slash directive"
+                onClick={() => setModalItem(null)}
+                className="px-4 py-2 rounded-xl text-xs font-mono text-slate-400 hover:text-white bg-white/5"
               >
-                {modalCopied ? <Check size={11} color="#00FF41" /> : <Copy size={11} />}
-              </button>
-            </div>
-
-            {/* CLI Instant Install Box */}
-            <div style={{ marginBottom: '1.5rem', background: '#04070a', border: '1px solid rgba(0,255,65,0.25)', borderRadius: '8px', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
-              <div style={{ overflow: 'hidden' }}>
-                <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace', display: 'block', marginBottom: '2px' }}>CLI Instant Install Runner:</span>
-                <code style={{ fontSize: '0.85rem', color: '#00FF41', fontFamily: 'monospace', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
-                  {getInstallCommand(modalItem, installScope)}
-                </code>
-              </div>
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(getInstallCommand(modalItem, installScope));
-                  setModalCopied(true);
-                  setTimeout(() => setModalCopied(false), 2000);
-                }}
-                className="btn-primary"
-                style={{ padding: '6px 12px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
-              >
-                {modalCopied ? <Check size={13} /> : <Copy size={13} />}
-                <span>{modalCopied ? 'Copied' : 'Copy'}</span>
-              </button>
-            </div>
-
-            {/* Action Buttons */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button onClick={() => setModalItem(null)} className="btn-secondary" style={{ padding: '8px 18px', fontSize: '0.82rem' }}>
                 Close
               </button>
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(getInstallCommand(modalItem, installScope));
-                  setModalCopied(true);
-                  setTimeout(() => {
-                    setModalCopied(false);
-                    setModalItem(null);
-                  }, 800);
-                }}
-                className="btn-primary"
-                style={{ padding: '8px 20px', fontSize: '0.82rem' }}
+                onClick={() => handleModalCopy(`npx -y @lorapok/loragent@latest install ${modalItem.slug} ${installScope === 'global' ? '--global' : ''}`)}
+                className="px-4 py-2 rounded-xl text-xs font-mono font-bold text-black bg-emerald-400 hover:bg-emerald-300 flex items-center gap-1.5"
               >
-                <Check size={14} />
-                <span>{modalCopied ? 'Copied Command!' : 'Copy Install Command'}</span>
+                {modalCopied ? <Check size={14} /> : <DownloadCloud size={14} />}
+                <span>{modalCopied ? 'Copied Install Command' : 'Copy 1-Click Install'}</span>
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* ─── 8. BOTTOM OPERATOR STATUS BAR & MISSION CONTROL DRAWER ─── */}
+      <div className="sticky bottom-0 z-40 border-t border-white/10 bg-[#030712]/95 backdrop-blur-md px-4 py-2.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs font-mono">
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-slate-400 hidden sm:inline">Loragent Universal Mesh:</span>
+            <span className="text-emerald-400 font-bold">250 RESOURCES ONLINE</span>
+          </div>
+
+          <button
+            onClick={() => setIsMissionControlOpen(!isMissionControlOpen)}
+            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 text-[11px] transition-all"
+          >
+            <Shield size={13} className="text-cyan-400" />
+            <span>Operator Mission Control</span>
+            <ChevronRight size={13} className={`transition-transform ${isMissionControlOpen ? '-rotate-90' : ''}`} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mission Control Bottom Drawer */}
+      {isMissionControlOpen && (
+        <div className="fixed inset-x-0 bottom-10 z-40 bg-[#080d14] border-t border-white/15 p-6 shadow-2xl max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom duration-200">
+          <div className="max-w-7xl mx-auto space-y-6">
+            <div className="flex justify-between items-center border-b border-white/10 pb-4">
+              <div className="flex items-center gap-2">
+                <Shield size={18} className="text-cyan-400" />
+                <h3 className="text-base font-bold text-white font-mono">Mission Control Enclave</h3>
+              </div>
+              <button
+                onClick={() => setIsMissionControlOpen(false)}
+                className="p-1 rounded-lg bg-white/5 text-slate-400 hover:text-white"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {!isAdminAuthenticated ? (
+              <form onSubmit={handleAdminAuth} className="max-w-md mx-auto py-8 text-center space-y-4 font-mono">
+                <Lock size={32} className="mx-auto text-amber-400 mb-2" />
+                <h4 className="text-base font-bold text-white">Operator Clearance Required</h4>
+                <p className="text-xs text-slate-400">Enter your Machine PIN to unlock secret variables and deployment triggers.</p>
+                <div className="flex gap-2 justify-center">
+                  <input
+                    type="password"
+                    value={adminPin}
+                    onChange={(e) => setAdminPin(e.target.value)}
+                    placeholder="Enter Clearance PIN..."
+                    className="bg-black border border-white/20 rounded-xl px-4 py-2 text-sm text-center text-white focus:outline-none focus:border-cyan-400 font-mono w-48"
+                  />
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs"
+                  >
+                    Unlock
+                  </button>
+                </div>
+                {adminPinError && (
+                  <div className="text-xs text-red-400">Invalid clearance PIN hash.</div>
+                )}
+              </form>
+            ) : (
+              <div className="space-y-6 font-mono text-xs">
+                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-center justify-between">
+                  <span>✅ Clearance Verified: Operator Mode Active</span>
+                  <button
+                    onClick={() => setIsAdminAuthenticated(false)}
+                    className="px-3 py-1 rounded bg-white/10 text-xs text-slate-300 hover:text-white"
+                  >
+                    Lock Enclave
+                  </button>
+                </div>
+
+                {/* 8-Stage CI/CD Deployment Graph */}
+                <div>
+                  <div className="text-xs text-slate-400 uppercase font-bold mb-3">8-Stage Master CI/CD Pipeline:</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      { step: 1, title: 'Security Guard', desc: 'AST Secret Scanner', status: 'PASS' },
+                      { step: 2, title: 'Test Harness', desc: '44 Node + Go Suites', status: 'PASS' },
+                      { step: 3, title: 'Web Platform', desc: 'Vite + Next.js SSR', status: 'PASS' },
+                      { step: 4, title: 'Python PyPI', desc: 'pip install loragent', status: 'PASS' },
+                      { step: 5, title: 'Go Module', desc: 'pkg.go.dev/v2', status: 'PASS' },
+                      { step: 6, title: 'NPM / NPX', desc: '@lorapok/loragent', status: 'PASS' },
+                      { step: 7, title: 'IDE Extensions', desc: 'VS Code & Open VSX', status: 'PASS' },
+                      { step: 8, title: 'Edge MCP', desc: 'Cloudflare Worker', status: 'PASS' }
+                    ].map((st) => (
+                      <div key={st.step} className="p-3 rounded-xl bg-black/50 border border-white/10">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-emerald-400 font-bold">Stage {st.step}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                            {st.status}
+                          </span>
+                        </div>
+                        <div className="font-bold text-white">{st.title}</div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">{st.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
