@@ -12,7 +12,7 @@ export async function GET(
   const { slug } = await params;
   
   // 1. Try finding in catalog dataset
-  let item = allAgentsData.items.find((i: any) => i.slug === slug || i.slug === `loragent-${slug}`);
+  let item: any = allAgentsData.items.find((i: any) => i.slug === slug || i.slug === `loragent-${slug}`);
 
   // 2. If not found in static dataset, dynamically search filesystem live
   if (!item) {
