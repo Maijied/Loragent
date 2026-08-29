@@ -2,9 +2,9 @@ import { AGENT_INDEX } from './agents-index.js';
 
 const MCP_SERVER_INFO = {
   name: "loragent-mcp-cloud",
-  version: "1.0.0",
+  version: "2.0.0",
   protocolVersion: "2024-11-05",
-  instructions: "Loragent Enterprise Orchestration & Autonomous Multi-Agent Protocol by Lorapok Labs. Provides access to 174 specialized AI agents across 22 categories and 4 formations."
+  instructions: "Loragent Enterprise Orchestration & Autonomous Multi-Agent Protocol by Lorapok Labs. Provides access to 224 specialized AI agents, 20 MCP servers, and 6 formations."
 };
 
 const MCP_TOOLS = [
@@ -644,18 +644,22 @@ export default {
 
     // Health / Status
     if (pathname === "/health" || pathname === "/status") {
+      const agents = Array.isArray(AGENT_INDEX) ? AGENT_INDEX : (AGENT_INDEX.agents || AGENT_INDEX.items || []);
       return Response.json({
         status: "healthy",
         service: "loragent-mcp-cloud",
-        version: "1.0.0",
-        totalAgents: AGENT_INDEX.statistics?.totalAgents || 170,
+        version: "2.0.0",
+        totalAgents: agents.length,
+        totalMcpServers: 20,
+        totalFormations: 6,
         timestamp: new Date().toISOString()
       }, { headers: corsHeaders });
     }
 
     // REST Agents Endpoint
     if (pathname === "/agents") {
-      return Response.json(AGENT_INDEX, { headers: corsHeaders });
+      const agents = Array.isArray(AGENT_INDEX) ? AGENT_INDEX : (AGENT_INDEX.agents || AGENT_INDEX.items || []);
+      return Response.json({ items: agents, total: agents.length }, { headers: corsHeaders });
     }
 
     // REST Tools Endpoint
