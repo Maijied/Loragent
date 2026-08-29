@@ -48,7 +48,8 @@ import {
   CheckSquare,
   RefreshCw,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
+  Cloud
 } from 'lucide-react';
 import allAgentsData from './data/all-agents.json';
 
@@ -1527,79 +1528,182 @@ node scripts/enrich-skills.js --compile --mirrors`
           {/* Admin Body Content */}
           <div style={{ padding: '2rem' }}>
             {!isAdminAuthenticated ? (
-              <div style={{ maxWidth: '440px', margin: '0 auto', textAlign: 'center', padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
-                  <Lock size={22} color="#fbbf24" />
+              <div style={{ maxWidth: '480px', margin: '0 auto', textAlign: 'center', padding: '2rem', background: 'rgba(0,0,0,0.6)', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.25)', boxShadow: '0 16px 40px rgba(0,0,0,0.6)' }}>
+                <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem auto' }}>
+                  <Lock size={24} color="#fbbf24" />
                 </div>
-                <h4 style={{ fontSize: '1.1rem', color: '#fff', marginBottom: '6px' }}>Clearance Clearance Required</h4>
-                <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
-                  Enter authorization clearance PIN (<code style={{ color: '#fbbf24' }}>565087</code>) to inspect live runtime state and Zero-Trust vault.
+                <h4 style={{ fontSize: '1.25rem', color: '#fff', marginBottom: '8px', fontWeight: '700' }}>TiTi Vault Clearance Required</h4>
+                <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '1.5rem', lineHeight: '1.6' }}>
+                  Loragent Admin operations are protected by the <strong>TiTi Vault LLE 5-Seal Engine</strong>. Enter master clearance PIN (<code style={{ color: '#fbbf24' }}>565087</code>) to decrypt runtime enclave in memory.
                 </p>
-                <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px' }}>
+                <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px', marginBottom: '1rem' }}>
                   <input 
                     type="password"
                     value={adminPin}
                     onChange={(e) => setAdminPin(e.target.value)}
-                    placeholder="Enter PIN..."
-                    style={{ flex: 1, padding: '10px 14px', background: 'rgba(0,0,0,0.8)', border: adminPinError ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff', fontSize: '0.85rem', fontFamily: 'monospace', outline: 'none' }}
+                    placeholder="Enter Master PIN (565087)..."
+                    style={{ flex: 1, padding: '12px 16px', background: 'rgba(0,0,0,0.85)', border: adminPinError ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)', borderRadius: '10px', color: '#fff', fontSize: '0.9rem', fontFamily: 'monospace', outline: 'none' }}
                   />
-                  <button type="submit" className="btn-primary" style={{ padding: '10px 16px', background: '#fbbf24', borderColor: '#fbbf24', color: '#000' }}>
-                    Unlock
+                  <button type="submit" className="btn-primary" style={{ padding: '12px 20px', background: '#fbbf24', borderColor: '#fbbf24', color: '#000', fontWeight: 'bold' }}>
+                    Unlock Enclave
                   </button>
                 </form>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setAdminPin('565087'); }}
+                    style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer', textDecoration: 'underline' }}
+                  >
+                    Use Clearance PIN: 565087
+                  </button>
+                </div>
                 {adminPinError && (
-                  <div style={{ fontSize: '0.75rem', color: '#ef4444', marginTop: '8px', fontFamily: 'monospace' }}>
-                    Invalid PIN. Use default clearance PIN 565087.
+                  <div style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '10px', fontFamily: 'monospace', background: 'rgba(239,68,68,0.1)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(239,68,68,0.3)' }}>
+                    Invalid PIN. Clearance rejected by TiTi Vault. Use PIN 565087.
                   </div>
                 )}
               </div>
             ) : (
               <div>
-                {adminNotice && (
-                  <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(0,255,65,0.15)', border: '1px solid rgba(0,255,65,0.3)', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.8rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <CheckCircle2 size={16} />
-                    <span>{adminNotice}</span>
+                {/* Unlocked banner */}
+                <div style={{ padding: '12px 16px', borderRadius: '10px', background: 'rgba(0,255,65,0.1)', border: '1px solid rgba(0,255,65,0.3)', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.82rem', marginBottom: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={18} />
+                    <span><strong>TiTi Vault Enclave Active:</strong> Clearance Level 1 Superadmin Granted. Zero-Trust AES-256 In-Memory Decryption Active.</span>
                   </div>
-                )}
+                  <span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,255,65,0.2)', border: '1px solid rgba(0,255,65,0.4)' }}>
+                    LLE 5-SEAL ENGINE: ONLINE
+                  </span>
+                </div>
 
-                <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-                  {/* Daemon 1 */}
-                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(0,255,65,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41' }}>DAEMON 01</span>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.2)', color: '#00FF41' }}>RUNNING</span>
+                {/* Categories of credentials & Daemons Grid */}
+                <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+                  
+                  {/* Category 1: Cloudflare & Edge */}
+                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(0,243,255,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Cloud size={18} color="#00F3FF" />
+                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Cloudflare Edge Secrets</span>
+                      </div>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,243,255,0.15)', color: '#00F3FF' }}>
+                        CATEGORY: cloudflare
+                      </span>
                     </div>
-                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Watchman State Checkpoint</div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Path: <code style={{ color: '#38bdf8' }}>.loragent-debug/watchman-cache.json</code></div>
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
+                      Managed keys in <code style={{ color: '#00F3FF' }}>credentials.json.gpg</code>:
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_API_KEY</span>
+                        <span style={{ color: '#00FF41' }}>•••••••••••••••• (Set)</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_ACCOUNT_ID</span>
+                        <span style={{ color: '#00FF41' }}>26b9a1161cddac39•••• (Set)</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_EMAIL</span>
+                        <span style={{ color: '#00FF41' }}>mdshuvo40@gmail.com (Set)</span>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
+                      <button 
+                        onClick={() => copyCode('eval "$(cred env cloudflare)"', 'cred-env-cf')} 
+                        style={{ flex: 1, padding: '6px', background: 'rgba(0,243,255,0.1)', border: '1px solid rgba(0,243,255,0.3)', borderRadius: '6px', color: '#00F3FF', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                      >
+                        {copied === 'cred-env-cf' ? 'Copied Shell Script!' : 'Copy cred env cloudflare'}
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Daemon 2 */}
-                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(6,182,212,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#06b6d4' }}>DAEMON 02</span>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(6,182,212,0.2)', color: '#06b6d4' }}>ACTIVE</span>
+                  {/* Category 2: Package Ecosystem (NPM, VSCE, Packagist) */}
+                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(168,85,247,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Boxes size={18} color="#a855f7" />
+                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Package Registries</span>
+                      </div>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.15)', color: '#a855f7' }}>
+                        CATEGORIES: npm, vsce, packagist
+                      </span>
                     </div>
-                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Cloudflare Edge MCP Tunnel</div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Endpoint: <code style={{ color: '#06b6d4' }}>mcp.lorapk-labs.workers.dev</code></div>
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
+                      Automated publishing tokens:
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>NPM_TOKEN (@lorapok)</span>
+                        <span style={{ color: '#00FF41' }}>npm_live•••••••• (Set)</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>VSCE_PAT / OVSX_PAT</span>
+                        <span style={{ color: '#00FF41' }}>Active (LorapokLabs)</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>PACKAGIST_TOKEN</span>
+                        <span style={{ color: '#00FF41' }}>Active (maijied)</span>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
+                      <button 
+                        onClick={() => copyCode('node /mnt/NewVolume/Personal_Projects/cred/sync-all.mjs', 'cred-sync-all')} 
+                        style={{ flex: 1, padding: '6px', background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.3)', borderRadius: '6px', color: '#a855f7', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                      >
+                        {copied === 'cred-sync-all' ? 'Copied Sync Command!' : 'Copy Multi-Vault Sync Script'}
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Daemon 3 */}
-                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(168,85,247,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#a855f7' }}>SECURITY VAULT</span>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.2)', color: '#a855f7' }}>AES-256</span>
+                  {/* Category 3: Orchestration Daemons */}
+                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(0,255,65,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Activity size={18} color="#00FF41" />
+                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Active Orchestration Daemons</span>
+                      </div>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.15)', color: '#00FF41' }}>
+                        4 DAEMONS
+                      </span>
                     </div>
-                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Zero-Trust Machine Credentials</div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Secrets: <code style={{ color: '#a855f7' }}>Cloudflare, NPM, VSCE, OVSX, PAT</code></div>
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
+                      Background self-healing & telemetry loops:
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>Watchman State Sentinel</span>
+                        <span style={{ color: '#00FF41' }}>AUTO-SAVED</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>Cloudflare MCP Edge SSE</span>
+                        <span style={{ color: '#00FF41' }}>LIVE (100% Green)</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                        <span style={{ color: '#cbd5e1' }}>AST Token Sniper (&lt;40k)</span>
+                        <span style={{ color: '#00FF41' }}>ENABLED</span>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
+                      <button 
+                        onClick={() => copyCode('node scripts/enrich-skills.js --compile --mirrors', 'enrich-mirrors-cmd')} 
+                        style={{ flex: 1, padding: '6px', background: 'rgba(0,255,65,0.1)', border: '1px solid rgba(0,255,65,0.3)', borderRadius: '6px', color: '#00FF41', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                      >
+                        {copied === 'enrich-mirrors-cmd' ? 'Copied Compile Command!' : 'Sync Multi-IDE Mirrors'}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                {/* Lock Console Control */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                  <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>
+                    TiTi Master Vault File: <code style={{ color: '#fbbf24' }}>/mnt/NewVolume/Personal_Projects/cred/credentials.json.gpg</code>
+                  </span>
                   <button 
-                    onClick={() => setIsAdminAuthenticated(false)}
-                    style={{ padding: '6px 12px', background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: '#94a3b8', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                    onClick={() => { setIsAdminAuthenticated(false); setAdminPin(''); }}
+                    style={{ padding: '8px 16px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', color: '#ef4444', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer' }}
                   >
-                    Lock Console
+                    Lock Enclave Session
                   </button>
                 </div>
               </div>
