@@ -1,18 +1,12 @@
 /**
- * Loragent Standard Logger
- * Provides structured logging for CLI and background tasks.
+ * @file logger.js
+ * @notice PROTECTED LORAPOK VAULT CONTAINER (AES-256-GCM / 6D Hyperchaotic)
+ * Plain source is encrypted in logger.js.titi.enc.
  */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const logger = {
-    info: (msg) => console.log(`[INFO] ${msg}`),
-    warn: (msg) => console.warn(`[WARN] ${msg}`),
-    error: (msg) => console.error(`[ERROR] ${msg}`),
-    success: (msg) => console.log(`[SUCCESS] ${msg}`),
-    debug: (msg) => {
-        if (process.env.DEBUG) {
-            console.debug(`[DEBUG] ${msg}`);
-        }
-    }
-};
-
-export default logger;
+const __encFile = path.join(path.dirname(fileURLToPath(import.meta.url)), 'logger.js.titi.enc');
+export const __titi_vault_protected = true;
+export default { protected: true, container: __encFile };
