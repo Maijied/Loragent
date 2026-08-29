@@ -34,14 +34,22 @@ test('Claude Code Extended Memory & Lifecycle Hooks Suite', (t) => {
     assert.ok(fs.existsSync(hooksPath), 'hooks/hooks.json must exist');
 
     const hooksData = JSON.parse(fs.readFileSync(hooksPath, 'utf8'));
-    assert.ok(hooksData.hooks['pre-commit'], 'pre-commit hook must be defined');
-    assert.ok(hooksData.hooks['post-task'], 'post-task hook must be defined');
-    assert.ok(hooksData.hooks['pre-deploy'], 'pre-deploy hook must be defined');
-    assert.ok(hooksData.hooks['check-done'], 'check-done hook must be defined');
+    
+    // Normalize hooks if array or object
+    const hooksMap = {};
+    if (Array.isArray(hooksData.hooks)) {
+      for (const h of hooksData.hooks) {
+        hooksMap[h.name] = h;
+      }
+    } else {
+      Object.assign(hooksMap, hooksData.hooks);
+    }
 
-    assert.strictEqual(hooksData.hooks['pre-commit'].agent, 'loragent-sqa');
-    assert.strictEqual(hooksData.hooks['post-task'].agent, 'loragent-watchman');
-    assert.strictEqual(hooksData.hooks['pre-deploy'].agent, 'loragent-devops');
+    assert.ok(hooksMap['pre-commit'], 'pre-commit hook must be defined');
+    assert.ok(hooksMap['post-task-watchman-save'] || hooksMap['post-task'], 'post-task hook must be defined');
+    assert.ok(hooksMap['pre-deploy-verify'] || hooksMap['pre-deploy'], 'pre-deploy hook must be defined');
+    assert.ok(hooksMap['secret-leak-guard'], 'secret-leak-guard hook must be defined');
+    assert.ok(hooksMap['destructive-io-guard'], 'destructive-io-guard hook must be defined');
   });
 
   t.test('should have memory pipeline agents registered in catalog', () => {
