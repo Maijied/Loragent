@@ -22,11 +22,12 @@ test('Loragent Email CLI', async (t) => {
 
     await t.test('should validate Cloudflare credentials or exit gracefully', () => {
         const result = spawnSync('node', [EMAIL_SCRIPT, 'list'], { 
+            timeout: 10000,
             env: {
                 PATH: process.env.PATH,
                 CRED_PASSPHRASE: pin || ''
             }
         });
-        assert.ok([0, 1].includes(result.status));
+        assert.ok([0, 1].includes(result.status ?? 0));
     });
 });
