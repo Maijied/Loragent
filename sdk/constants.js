@@ -61,7 +61,9 @@ export const CoreAgents = {
   BACKEND_SE: 'loragent-backend-se',
   FRONTEND_SE: 'loragent-frontend-se',
   SQA: 'loragent-sqa',
-  BUG_HUNTER: 'loragent-bug-hunter'
+  BUG_HUNTER: 'loragent-bug-hunter',
+  STUDENT: 'loragent-student',
+  REGISTER: 'loragent-register'
 };
 
 export const LifecycleHooks = {

@@ -9,6 +9,8 @@
     "loragent-watchman",
     "loragent-cache-collector",
     "loragent-gold-collector",
+    "loragent-student",
+    "loragent-register",
     "loragent-skill-creator",
     "loragent-database-updater"
   ],
