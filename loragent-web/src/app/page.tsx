@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { 
-  Terminal, Shield, Cpu, Cloud, Globe, Lock, Play, CheckCircle2, 
+  Terminal, Shield, Cpu, Cloud, Globe, Lock, Play, Pause, CheckCircle2, 
   Copy, Check, Sparkles, Layers, Search, Server, RefreshCw, Zap,
-  ChevronRight, ExternalLink, Code2, Database, Workflow, Radio,
+  ChevronRight, ChevronLeft, ExternalLink, Code2, Database, Workflow, Radio,
   Activity, Eye, Box, AlertCircle, ArrowUpRight, GitBranch, Key,
   FileCode, Laptop, Compass, BookOpen, UserCheck, ShieldAlert,
   ShoppingBag, Sliders, CheckSquare, Square, DownloadCloud, Info,
-  CheckCircle, ArrowRight, X, Filter, Share2, CornerDownRight
+  CheckCircle, ArrowRight, X, Filter, Share2, CornerDownRight,
+  FastForward, RotateCcw, Monitor, Send, CpuIcon, CheckCheck
 } from 'lucide-react';
 
 // Categories matching Open Agent Skills & Kilo Marketplace
@@ -107,6 +108,270 @@ const FORMATIONS = [
     squad: ['loragent-watchman', 'loragent-workspace-guard', 'loragent-cache-collector', 'loragent-gold-collector', 'loragent-skill-creator'],
     tools: ['loragent_watchman_save', 'loragent_get_state', 'filesystem_read', 'firebase_admin'],
     triggerCmd: '/loragent-watchman continue'
+  }
+];
+
+const WORKFLOW_SCENARIOS = [
+  {
+    id: 'auto-team',
+    name: 'Auto Team: Full-Stack Feature',
+    command: '/loragent:boss auto',
+    badge: 'Engineering Pipeline',
+    color: 'emerald',
+    description: 'Autonomous development of a multi-tenant auth system from architecture to verified CI/CD release.',
+    stages: [
+      {
+        step: 1,
+        title: 'Developer Prompt & IDE Dispatch',
+        agent: 'Developer via Cursor / Claude Code',
+        role: 'Client Prompt Input',
+        action: 'Ingesting directive: "Build auth service with PostgreSQL, Next.js UI & SQA suites"',
+        protocol: 'Layer 1 & Layer 2 Root Rules (AGENTS.md & .mcp.json)',
+        telemetry: 'PROMPT_INGEST: tokens=142, editor="cursor-ide", formation="auto"',
+        badge: 'INPUT',
+        color: '#00FF41'
+      },
+      {
+        step: 2,
+        title: 'Requirements Normalization & Boss Routing',
+        agent: 'loragent-teacher ➔ loragent-boss',
+        role: 'Orchestration Hub',
+        action: 'Teacher clarifies API parameters; Boss selects Auto Team Matrix and initializes squad',
+        protocol: 'loragent_steer MCP routing with zero heuristic guessing',
+        telemetry: 'BOSS_EVAL: complexity=HIGH, squad=["tech-director", "backend-se", "frontend-se", "sqa", "cicd"]',
+        badge: 'ROUTING',
+        color: '#06b6d4'
+      },
+      {
+        step: 3,
+        title: 'On-Demand Specialist Lazy Summoning',
+        agent: 'loragent-boss ➔ Global Roster',
+        role: 'Token Sniper Loader',
+        action: 'Boss lazily summons loragent-tech-director and backend-se into workspace without context bloat',
+        protocol: 'loragent_summon_agent MCP tool call',
+        telemetry: 'MCP_SUMMON: agent="loragent-tech-director", tokens_cached=1240, resident_preserved=5',
+        badge: 'LAZY LOAD',
+        color: '#a855f7'
+      },
+      {
+        step: 4,
+        title: 'Zero-Trust Vault & Destructive Guardrails',
+        agent: 'loragent-workspace-guard ➔ Secure Vault',
+        role: 'Security & Enclave',
+        action: 'Workspace Guard approves safe read/write; Vault decrypts AES-256 tokens into in-memory child process',
+        protocol: 'Machine AES-256 Enclave (Zero Plaintext Secrets)',
+        telemetry: 'VAULT_AUTH: pin_status="VERIFIED", injected=["DATABASE_URL", "JWT_SECRET"], leaks_scanned=0',
+        badge: 'SECURITY',
+        color: '#f59e0b'
+      },
+      {
+        step: 5,
+        title: 'Full-Stack Implementation & Handoffs',
+        agent: 'Tech Director ➔ Backend SE ➔ Frontend SE',
+        role: 'Collaborative Engineering',
+        action: 'Tech Director defines OpenAPI spec; Backend writes PostgreSQL routes; Frontend builds Biological UI',
+        protocol: 'Sequential loragent_steer structured JSON payloads',
+        telemetry: 'STEER_PAYLOAD: files_written=["src/auth.ts", "src/AuthCard.tsx"], status="SUCCESS"',
+        badge: 'BUILD',
+        color: '#3b82f6'
+      },
+      {
+        step: 6,
+        title: 'Automated SQA Gates & Pre-Deploy Hook',
+        agent: 'loragent-sqa ➔ loragent-cicd-specialist',
+        role: 'Quality Assurance & Release',
+        action: 'Runs 40/40 test suites, executes security linters, validates SSG bundle and fires pre-deploy hook',
+        protocol: 'Lifecycle Hook: pre_git_commit & pre_deploy_verify',
+        telemetry: 'SQA_RUN: tests_passed=40, failed=0, code_coverage="100%", gate="APPROVED"',
+        badge: 'VERIFICATION',
+        color: '#10b981'
+      },
+      {
+        step: 7,
+        title: 'State Checkpointing & Hivemind Learning',
+        agent: 'loragent-watchman ➔ loragent-gold-collector',
+        role: 'State Sentinel & Collective Memory',
+        action: 'Watchman caches state to .loragent-debug/watchman-cache.json; Gold Collector scrubs PII and syncs to Firebase',
+        protocol: 'Lifecycle Hook: post_agent_task + Firebase Hivemind Sync',
+        telemetry: 'WATCHMAN_SAVE: graph_updated=true, idea_extracted="jwt-refresh-pattern", hivemind="SYNCED"',
+        badge: 'SENTINEL',
+        color: '#ec4899'
+      }
+    ]
+  },
+  {
+    id: 'chela',
+    name: 'Chela: Zero-Guess Bug Hunting',
+    command: '/loragent:boss chela',
+    badge: 'Mission-Critical Fix',
+    color: 'amber',
+    description: 'Diagnoses runtime regressions, parses live orchestration telemetry, and delivers hotfixes with zero guessing.',
+    stages: [
+      {
+        step: 1,
+        title: 'Incident Telemetry Ingestion',
+        agent: 'Developer Prompt / CI Failure',
+        role: 'Incident Alert',
+        action: 'Triggered by 500 error in token refresh or CI/CD test failure',
+        protocol: 'Error Telemetry Protocol',
+        telemetry: 'INCIDENT_ALERT: error="TypeError: Cannot read properties of undefined (reading refreshToken)"',
+        badge: 'ALERT',
+        color: '#ef4444'
+      },
+      {
+        step: 2,
+        title: 'Chela Formation Activation',
+        agent: 'loragent-boss ➔ loragent-bug-hunter',
+        role: 'Zero-Guess Investigator',
+        action: 'Boss routes task to Chela Squad; Bug Hunter summoned to inspect orchestration graph',
+        protocol: 'loragent_steer MCP routing',
+        telemetry: 'CHELA_DISPATCH: lead="loragent-bug-hunter", squad=["shift-engineer", "debugger", "inspector"]',
+        badge: 'DISPATCH',
+        color: '#f59e0b'
+      },
+      {
+        step: 3,
+        title: 'Orchestration Graph Telemetry Parsing',
+        agent: 'loragent-bug-hunter',
+        role: 'Telemetry Diagnosis',
+        action: 'Parses .loragent-debug/orchestration-graph.json to extract exact file path and stack trace',
+        protocol: 'Deterministic Graph Analysis (No heuristic guessing)',
+        telemetry: 'GRAPH_PARSE: file="src/middleware/auth.ts:42", root_cause="missing null check on bearer header"',
+        badge: 'DIAGNOSIS',
+        color: '#06b6d4'
+      },
+      {
+        step: 4,
+        title: 'Surgical Minimal Patch Application',
+        agent: 'loragent-shift-engineer',
+        role: 'Surgical Patch Engineer',
+        action: 'Applies minimal 2-line defensive check without breaking existing contracts',
+        protocol: 'AST Safe Code Mutation',
+        telemetry: 'PATCH_APPLIED: diff="+if (!authHeader) return unauthorized();", lines_changed=2',
+        badge: 'PATCH',
+        color: '#10b981'
+      },
+      {
+        step: 5,
+        title: 'Regression Testing & Verification',
+        agent: 'loragent-debugger ➔ loragent-sqa',
+        role: 'Regression Validation',
+        action: 'Executes targeted reproduction test and full 40-test regression suite',
+        protocol: 'Targeted Node/Jest Test Runner',
+        telemetry: 'TEST_VERIFY: repro_test="PASSED", regression_suite="40/40 PASSED", latency=18ms',
+        badge: 'REGRESSION',
+        color: '#00FF41'
+      },
+      {
+        step: 6,
+        title: 'Root Cause Analysis (RCA) Report',
+        agent: 'loragent-inspector',
+        role: 'RCA Documentation',
+        action: 'Generates structured RCA markdown detailing incident trigger, resolution, and future guards',
+        protocol: 'Loragent Incident Management Standard',
+        telemetry: 'RCA_EMIT: report="REPORTS/INCIDENT-2026-08-29.md", severity="P1-RESOLVED"',
+        badge: 'RCA',
+        color: '#a855f7'
+      },
+      {
+        step: 7,
+        title: 'Incident Closure & State Sentinel Sync',
+        agent: 'loragent-watchman ➔ loragent-database-updater',
+        role: 'Closure & Sync',
+        action: 'Updates orchestration graph error matrix and syncs fix pattern to Firebase hivemind',
+        protocol: 'post_agent_task + watchman checkpoint',
+        telemetry: 'INCIDENT_CLOSED: state="CLEAN", active_errors=0, session_resumed=true',
+        badge: 'RESOLVED',
+        color: '#10b981'
+      }
+    ]
+  },
+  {
+    id: 'recovery',
+    name: 'Watchman: Crash Recovery Resumption',
+    command: '/loragent-watchman continue',
+    badge: 'State Resilience',
+    color: 'purple',
+    description: 'Resumes execution mid-task after token limit exhaustion, terminal crash, or network disconnect with zero data loss.',
+    stages: [
+      {
+        step: 1,
+        title: 'Token Budget / Context Threshold Alert',
+        agent: 'Claude Code / AI IDE Engine',
+        role: 'Context Sentinel',
+        action: 'Session approaches 40k token limit or unexpected process termination occurs',
+        protocol: 'token_budget_alert hook @ 90% threshold',
+        telemetry: 'TOKEN_ALERT: context_tokens=38900, threshold="CRITICAL_SAVE_TRIGGERED"',
+        badge: 'ALERT',
+        color: '#f43f5e'
+      },
+      {
+        step: 2,
+        title: 'Automatic Ephemeral State Checkpoint',
+        agent: 'loragent-watchman',
+        role: 'State Preservation',
+        action: 'Watchman flushes active task step, AST diffs, completed phases, and pending commands to disk',
+        protocol: 'post_agent_task hook & .loragent-debug/watchman-cache.json',
+        telemetry: 'CACHE_DUMP: file=".loragent-debug/watchman-cache.json", step=4, completed_pct=65%',
+        badge: 'CHECKPOINT',
+        color: '#a855f7'
+      },
+      {
+        step: 3,
+        title: 'Session Resumption Command',
+        agent: 'Developer in New Session',
+        role: 'Resumption Prompt',
+        action: 'Developer launches fresh IDE chat and types "/loragent-watchman continue"',
+        protocol: 'Slash Command Directive',
+        telemetry: 'DIRECTIVE: cmd="/loragent-watchman continue", session_id="new-session-42"',
+        badge: 'RESUME',
+        color: '#00FF41'
+      },
+      {
+        step: 4,
+        title: 'Execution Graph & Checkpoint Hydration',
+        agent: 'loragent-watchman',
+        role: 'Graph Restorer',
+        action: 'Watchman parses cached state, reconstructs active squad roster, and skips completed steps',
+        protocol: 'State Machine Restoration Protocol',
+        telemetry: 'GRAPH_RESTORE: restored_step=5, skipped_steps=[1,2,3,4], token_loss=0',
+        badge: 'HYDRATION',
+        color: '#06b6d4'
+      },
+      {
+        step: 5,
+        title: 'Selective Specialist Re-Summoning',
+        agent: 'loragent-boss ➔ Target Specialist',
+        role: 'Context-Optimized Summon',
+        action: 'Boss summons only the single agent required for the current pending step (e.g. SQA tester)',
+        protocol: 'loragent_summon_agent MCP call',
+        telemetry: 'LAZY_REMOUNT: agent="loragent-sqa", memory_footprint="4.2MB", context_tokens=1800',
+        badge: 'SUMMON',
+        color: '#3b82f6'
+      },
+      {
+        step: 6,
+        title: 'Workflow Execution Continuation',
+        agent: 'Target Specialist (SQA & DevOps)',
+        role: 'Continuation',
+        action: 'Executes pending tests, completes build verification, and dispatches release',
+        protocol: 'loragent_steer MCP tool execution',
+        telemetry: 'EXECUTION_CONTINUED: step_5="COMPLETE", step_6="COMPLETE", build="GREEN"',
+        badge: 'EXECUTE',
+        color: '#10b981'
+      },
+      {
+        step: 7,
+        title: 'Clean Task Finalization & State Reset',
+        agent: 'loragent-watchman ➔ loragent-chorki',
+        role: 'Final Verification',
+        action: 'Check-done hook verifies 100% completion; watchman archives cache to historical telemetry',
+        protocol: 'check_done hook & Telemetry Archival',
+        telemetry: 'TASK_COMPLETE: status="100% VERIFIED", total_resumptions=1, token_saved=38000',
+        badge: 'SUCCESS',
+        color: '#00FF41'
+      }
+    ]
   }
 ];
 
@@ -368,8 +633,16 @@ export default function Home() {
   const [installMethod, setInstallMethod] = useState('NPX');
   const [modalCopied, setModalCopied] = useState(false);
 
+  // Animated Workflow Simulator State
+  const [selectedScenarioId, setSelectedScenarioId] = useState('auto-team');
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isPlayingWorkflow, setIsPlayingWorkflow] = useState(true);
+  const [playSpeed, setPlaySpeed] = useState(1);
+
+  // Active Tab
+  const [activeTab, setActiveTab] = useState<'workflow' | 'marketplace' | 'formations' | 'terminal' | 'vault' | 'ide'>('workflow');
+
   // Terminal Simulator State
-  const [activeTab, setActiveTab] = useState<'terminal' | 'marketplace' | 'formations' | 'vault' | 'ide'>('marketplace');
   const [simCommand, setSimCommand] = useState('/loragent:boss auto');
   const [simRunning, setSimRunning] = useState(false);
   const [simLogs, setSimLogs] = useState<string[]>([
@@ -382,6 +655,24 @@ export default function Home() {
   // PIN Demo State
   const [enteredPin, setEnteredPin] = useState('');
   const [pinStatus, setPinStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const currentScenario = useMemo(() => {
+    return WORKFLOW_SCENARIOS.find((s) => s.id === selectedScenarioId) || WORKFLOW_SCENARIOS[0];
+  }, [selectedScenarioId]);
+
+  const activeStage = useMemo(() => {
+    return currentScenario.stages[currentStepIndex] || currentScenario.stages[0];
+  }, [currentScenario, currentStepIndex]);
+
+  // Workflow auto-player effect
+  useEffect(() => {
+    if (!isPlayingWorkflow) return;
+    const intervalTime = 3000 / playSpeed;
+    const timer = setInterval(() => {
+      setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length);
+    }, intervalTime);
+    return () => clearInterval(timer);
+  }, [isPlayingWorkflow, currentScenario, playSpeed]);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -500,13 +791,14 @@ export default function Home() {
                 <span className="text-lg font-bold tracking-tight text-white font-mono">LORAGENT</span>
                 <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">v2.0</span>
               </div>
-              <p className="text-[10px] font-mono text-neutral-400">Lorapok Labs Multi-Agent Intelligence</p>
+              <p className="text-[10px] font-mono text-neutral-400">Universal Multi-Agent Orchestration</p>
             </div>
           </div>
 
           {/* Navigation Tabs */}
           <nav className="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
             {[
+              { id: 'workflow', label: 'Animated Workflow', icon: Workflow, badge: 'LIVE' },
               { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag, count: '250' },
               { id: 'formations', label: '6 Formations', icon: Layers, count: '6' },
               { id: 'terminal', label: 'Terminal Simulator', icon: Terminal },
@@ -518,7 +810,11 @@ export default function Home() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
+                  onClick={() => {
+                    setActiveTab(tab.id as any);
+                    const el = document.getElementById(tab.id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                     isActive 
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_rgba(0,255,65,0.15)]' 
@@ -532,6 +828,11 @@ export default function Home() {
                       {tab.count}
                     </span>
                   )}
+                  {tab.badge && (
+                    <span className="text-[9px] px-1.5 py-0.2 bg-emerald-500 text-black font-mono font-bold rounded-full animate-pulse">
+                      {tab.badge}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -539,12 +840,12 @@ export default function Home() {
 
           <div className="flex items-center gap-3">
             <Link
-              href="#marketplace-hub"
-              onClick={() => setActiveTab('marketplace')}
+              href="#workflow-visualizer"
+              onClick={() => setActiveTab('workflow')}
               className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-mono font-medium rounded-xl bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-[0_0_25px_rgba(0,255,65,0.4)]"
             >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Explore Marketplace</span>
+              <Workflow className="w-3.5 h-3.5" />
+              <span>Watch Live Flow</span>
             </Link>
           </div>
         </div>
@@ -584,11 +885,15 @@ export default function Home() {
             </div>
 
             <button
-              onClick={() => setActiveTab('marketplace')}
-              className="flex items-center gap-2 px-5 py-2.5 text-xs font-mono font-medium rounded-xl bg-white/10 hover:bg-white/15 text-white border border-white/20 transition-all"
+              onClick={() => {
+                setActiveTab('workflow');
+                const el = document.getElementById('workflow-visualizer');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center gap-2 px-5 py-2.5 text-xs font-mono font-medium rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)]"
             >
-              <Filter className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Browse 250 Resources</span>
+              <Workflow className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Interactive Workflow Visualizer</span>
             </button>
           </div>
 
@@ -598,7 +903,7 @@ export default function Home() {
               { label: 'Catalog Resources', value: '250+', desc: 'Agents, Skills & MCPs' },
               { label: 'Specialist Agents', value: '224', desc: 'LLDP Standardized' },
               { label: 'Squad Formations', value: '6', desc: 'Auto, Chela, Office, etc.' },
-              { label: 'IDE Platforms', value: '6+', desc: 'Cursor, Claude, Antigravity' }
+              { label: 'IDE Platforms', value: '28+', desc: 'Cursor, Claude, Antigravity' }
             ].map((stat, i) => (
               <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
                 <div className="text-2xl font-bold font-mono text-white mb-1">{stat.value}</div>
@@ -613,8 +918,262 @@ export default function Home() {
       {/* MAIN DYNAMIC CONTENT TABS */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
+        {/* ─── 0. INTERACTIVE ANIMATED WORKFLOW VISUALIZER ─── */}
+        <section id="workflow-visualizer" className="mb-24 scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
+                <Workflow className="w-4 h-4" />
+                <span>INTERACTIVE MULTI-AGENT EXECUTION ENGINE</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                How Loragent Works in Real-Time
+              </h2>
+              <p className="text-sm text-neutral-400 mt-1">
+                Watch how prompts flow from AI IDEs through the Boss orchestrator, Zero-Trust vault, specialized squads, and Watchman state sentinel.
+              </p>
+            </div>
+
+            {/* Scenario Selector */}
+            <div className="flex flex-wrap gap-2">
+              {WORKFLOW_SCENARIOS.map((sc) => (
+                <button
+                  key={sc.id}
+                  onClick={() => {
+                    setSelectedScenarioId(sc.id);
+                    setCurrentStepIndex(0);
+                  }}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all flex items-center gap-2 border ${
+                    selectedScenarioId === sc.id
+                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_20px_rgba(0,255,65,0.2)]'
+                      : 'bg-white/5 text-neutral-400 border-white/10 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: sc.color === 'emerald' ? '#00FF41' : sc.color === 'amber' ? '#f59e0b' : '#a855f7' }}></span>
+                  <span>{sc.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Visualizer Main Container */}
+          <div className="rounded-3xl border border-white/15 bg-[#050906] overflow-hidden shadow-[0_0_60px_rgba(0,255,65,0.08)]">
+            
+            {/* Top Stage Progress Nodes */}
+            <div className="p-6 bg-black/60 border-b border-white/10">
+              <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2">
+                {currentScenario.stages.map((stage, idx) => {
+                  const isActive = idx === currentStepIndex;
+                  const isCompleted = idx < currentStepIndex;
+                  return (
+                    <button
+                      key={stage.step}
+                      onClick={() => {
+                        setCurrentStepIndex(idx);
+                        setIsPlayingWorkflow(false);
+                      }}
+                      className="flex-1 min-w-[140px] text-left group transition-all"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold transition-all ${
+                            isActive
+                              ? 'bg-emerald-500 text-black shadow-[0_0_20px_rgba(0,255,65,0.6)] scale-110'
+                              : isCompleted
+                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                              : 'bg-white/5 text-neutral-500 border border-white/5 group-hover:border-white/20 group-hover:text-neutral-300'
+                          }`}
+                        >
+                          {isCompleted ? <Check className="w-4 h-4" /> : stage.step}
+                        </div>
+                        <div className={`h-1 flex-1 rounded-full transition-all ${
+                          isCompleted ? 'bg-emerald-500/50' : isActive ? 'bg-emerald-500' : 'bg-white/10'
+                        }`} />
+                      </div>
+                      <div className={`text-[11px] font-mono font-semibold truncate transition-colors ${
+                        isActive ? 'text-emerald-300' : isCompleted ? 'text-neutral-300' : 'text-neutral-500'
+                      }`}>
+                        {stage.title}
+                      </div>
+                      <div className="text-[10px] font-mono text-neutral-500 truncate">
+                        {stage.badge}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Central Animated Arena */}
+            <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              
+              {/* Left Column: Active Stage Details & Agent Role Card */}
+              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span 
+                      className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase border"
+                      style={{ 
+                        backgroundColor: `${activeStage.color}15`, 
+                        color: activeStage.color, 
+                        borderColor: `${activeStage.color}40` 
+                      }}
+                    >
+                      STAGE {activeStage.step} OF {currentScenario.stages.length} • {activeStage.badge}
+                    </span>
+                    <span className="text-xs font-mono text-neutral-400 flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-emerald-400 animate-pulse" />
+                      Live Matrix
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-3">
+                    {activeStage.title}
+                  </h3>
+
+                  <p className="text-sm text-neutral-300 leading-relaxed mb-6">
+                    {activeStage.action}
+                  </p>
+
+                  {/* Active Actors Card */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10">
+                      <div className="text-[10px] font-mono text-neutral-500 mb-1">ACTIVE AGENT / SENDER</div>
+                      <div className="text-sm font-bold text-emerald-400 font-mono flex items-center gap-2">
+                        <Cpu className="w-4 h-4" />
+                        <span>{activeStage.agent}</span>
+                      </div>
+                      <div className="text-xs text-neutral-400 mt-1">{activeStage.role}</div>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10">
+                      <div className="text-[10px] font-mono text-neutral-500 mb-1">DIRECTIVE PROTOCOL</div>
+                      <div className="text-sm font-bold text-cyan-300 font-mono flex items-center gap-2">
+                        <Key className="w-4 h-4" />
+                        <span>{activeStage.protocol}</span>
+                      </div>
+                      <div className="text-xs text-neutral-400 mt-1">Structured MCP Payload</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Workflow Playback Controls */}
+                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex((prev) => (prev === 0 ? currentScenario.stages.length - 1 : prev - 1));
+                        setIsPlayingWorkflow(false);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors border border-white/10"
+                      title="Previous Step"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => setIsPlayingWorkflow(!isPlayingWorkflow)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-black font-mono text-xs font-bold hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(0,255,65,0.4)]"
+                    >
+                      {isPlayingWorkflow ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
+                      <span>{isPlayingWorkflow ? 'Pause Flow' : 'Auto Play'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length);
+                        setIsPlayingWorkflow(false);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 transition-colors border border-white/10"
+                      title="Next Step"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setCurrentStepIndex(0);
+                        setIsPlayingWorkflow(true);
+                      }}
+                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white transition-colors border border-white/10"
+                      title="Restart Scenario"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Playback Speed */}
+                  <div className="flex items-center gap-1 font-mono text-xs text-neutral-400">
+                    <span className="text-[11px] text-neutral-500 mr-1">Speed:</span>
+                    {[0.5, 1, 2].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setPlaySpeed(s)}
+                        className={`px-2 py-1 rounded-lg text-xs transition-all ${
+                          playSpeed === s
+                            ? 'bg-white/20 text-white font-bold'
+                            : 'text-neutral-500 hover:text-neutral-300'
+                        }`}
+                      >
+                        {s}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Live Micro-Terminal & Real-Time Telemetry Stream */}
+              <div className="lg:col-span-5 rounded-2xl bg-black/80 border border-emerald-500/30 overflow-hidden flex flex-col justify-between font-mono text-xs shadow-inner">
+                
+                {/* Terminal Header */}
+                <div className="px-4 py-3 bg-black/90 border-b border-emerald-500/20 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/70 inline-block"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70 inline-block"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70 inline-block"></span>
+                    <span className="text-[11px] text-neutral-400 ml-2">loragent-runtime-telemetry</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-400 flex items-center gap-1 animate-pulse">
+                    <Radio className="w-3 h-3" /> STREAMING
+                  </span>
+                </div>
+
+                {/* Real-Time Telemetry Packet Display */}
+                <div className="p-5 space-y-3 flex-1 flex flex-col justify-center text-neutral-300 leading-relaxed bg-[#030604]">
+                  <div>
+                    <div className="text-[10px] text-neutral-500 uppercase tracking-widest mb-1">COMMAND DIRECTIVE:</div>
+                    <div className="text-emerald-400 font-bold bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/30 truncate">
+                      $ {currentScenario.command}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[10px] text-neutral-500 uppercase tracking-widest mb-1">ACTIVE PACKET PAYLOAD:</div>
+                    <div className="text-xs text-cyan-300 bg-white/5 p-3 rounded-lg border border-white/10 break-all font-mono leading-relaxed">
+                      {activeStage.telemetry}
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between text-[11px] text-neutral-400 border-t border-white/5">
+                    <span>STATUS: <span className="text-emerald-400 font-bold">100% GREEN</span></span>
+                    <span>CONTEXT LOSS: <span className="text-cyan-300 font-bold">0 TOKENS</span></span>
+                  </div>
+                </div>
+
+                {/* Packet Verification Footer */}
+                <div className="px-4 py-2.5 bg-black/60 border-t border-emerald-500/20 text-[10px] text-neutral-500 flex items-center justify-between">
+                  <span>Zero-Trust Vault: Active (AES-256)</span>
+                  <span className="text-emerald-400 font-semibold">Step {activeStage.step}/{currentScenario.stages.length} Verified</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
         {/* ─── 1. MARKETPLACE EXPLORER & HUB (Inspired by Kilo Marketplace) ─── */}
-        <section id="marketplace-hub" className="mb-20">
+        <section id="marketplace" className="mb-24 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
@@ -781,7 +1340,7 @@ export default function Home() {
         </section>
 
         {/* ─── 2. 6 FORMATION SQUAD PRESETS SECTION ─── */}
-        <section id="formations" className="mb-20">
+        <section id="formations" className="mb-24 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
@@ -840,6 +1399,8 @@ export default function Home() {
                       onClick={() => {
                         setSimCommand(form.triggerCmd);
                         setActiveTab('terminal');
+                        const el = document.getElementById('terminal');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }}
                       className="px-3 py-1 text-xs font-mono rounded-lg bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all flex items-center gap-1"
                     >
@@ -854,7 +1415,7 @@ export default function Home() {
         </section>
 
         {/* ─── 3. LIVE SENSORY TERMINAL SIMULATOR ─── */}
-        <section id="terminal" className="mb-20">
+        <section id="terminal" className="mb-24 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
@@ -944,7 +1505,7 @@ export default function Home() {
         </section>
 
         {/* ─── 4. ZERO-TRUST CREDENTIAL VAULT & PIN DEMO ─── */}
-        <section id="vault" className="mb-20">
+        <section id="vault" className="mb-24 scroll-mt-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-2">
@@ -1036,7 +1597,7 @@ export default function Home() {
         </section>
 
         {/* ─── 5. MULTI-IDE INTEGRATION MATRIX ─── */}
-        <section id="ide-setup" className="mb-20">
+        <section id="ide" className="mb-24 scroll-mt-24">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-3">
               <Laptop className="w-3.5 h-3.5" />

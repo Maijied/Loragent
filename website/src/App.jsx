@@ -1,12 +1,190 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Network, Bot, Cpu, Command, ShieldCheck, TerminalSquare, 
   Sparkles, Layers, Search, Server, Cloud, Lock, Copy, Check,
-  Zap, Compass, ChevronRight, Activity, ArrowUpRight, Code2,
-  RefreshCw, CheckCircle2, ShoppingBag, DownloadCloud, X, CheckCircle
+  Zap, Compass, ChevronRight, ChevronLeft, Activity, ArrowUpRight, Code2,
+  RefreshCw, CheckCircle2, ShoppingBag, DownloadCloud, X, CheckCircle,
+  Play, Pause, RotateCcw, Workflow, Key, ShieldAlert
 } from 'lucide-react';
 import './index.css';
+
+const WORKFLOW_SCENARIOS = [
+  {
+    id: 'auto-team',
+    name: 'Auto Team: Full-Stack Engineering',
+    command: '/loragent:boss auto',
+    badge: 'Engineering Pipeline',
+    color: '#00FF41',
+    description: 'Autonomous development of full-stack feature from architecture to verified CI/CD release.',
+    stages: [
+      {
+        step: 1,
+        title: 'Developer Prompt & IDE Dispatch',
+        agent: 'Developer via Cursor / Claude Code',
+        role: 'Client Prompt Input',
+        action: 'Ingesting directive: "Build auth service with PostgreSQL, Next.js UI & SQA suites"',
+        protocol: 'Layer 1 & Layer 2 Root Rules (AGENTS.md & .mcp.json)',
+        telemetry: 'PROMPT_INGEST: tokens=142, editor="cursor-ide", formation="auto"',
+        badge: 'INPUT',
+        color: '#00FF41'
+      },
+      {
+        step: 2,
+        title: 'Requirements Normalization & Boss Routing',
+        agent: 'loragent-teacher ➔ loragent-boss',
+        role: 'Orchestration Hub',
+        action: 'Teacher clarifies API parameters; Boss selects Auto Team Matrix and initializes squad',
+        protocol: 'loragent_steer MCP routing with zero heuristic guessing',
+        telemetry: 'BOSS_EVAL: complexity=HIGH, squad=["tech-director", "backend-se", "frontend-se", "sqa", "cicd"]',
+        badge: 'ROUTING',
+        color: '#06b6d4'
+      },
+      {
+        step: 3,
+        title: 'On-Demand Specialist Lazy Summoning',
+        agent: 'loragent-boss ➔ Global Roster',
+        role: 'Token Sniper Loader',
+        action: 'Boss lazily summons loragent-tech-director and backend-se into workspace without context bloat',
+        protocol: 'loragent_summon_agent MCP tool call',
+        telemetry: 'MCP_SUMMON: agent="loragent-tech-director", tokens_cached=1240, resident_preserved=5',
+        badge: 'LAZY LOAD',
+        color: '#a855f7'
+      },
+      {
+        step: 4,
+        title: 'Zero-Trust Vault & Destructive Guardrails',
+        agent: 'loragent-workspace-guard ➔ Secure Vault',
+        role: 'Security & Enclave',
+        action: 'Workspace Guard approves safe read/write; Vault decrypts AES-256 tokens into in-memory child process',
+        protocol: 'Machine AES-256 Enclave (Zero Plaintext Secrets)',
+        telemetry: 'VAULT_AUTH: pin_status="VERIFIED", injected=["DATABASE_URL", "JWT_SECRET"], leaks_scanned=0',
+        badge: 'SECURITY',
+        color: '#f59e0b'
+      },
+      {
+        step: 5,
+        title: 'Full-Stack Implementation & Handoffs',
+        agent: 'Tech Director ➔ Backend SE ➔ Frontend SE',
+        role: 'Collaborative Engineering',
+        action: 'Tech Director defines OpenAPI spec; Backend writes PostgreSQL routes; Frontend builds Biological UI',
+        protocol: 'Sequential loragent_steer structured JSON payloads',
+        telemetry: 'STEER_PAYLOAD: files_written=["src/auth.ts", "src/AuthCard.tsx"], status="SUCCESS"',
+        badge: 'BUILD',
+        color: '#3b82f6'
+      },
+      {
+        step: 6,
+        title: 'Automated SQA Gates & Pre-Deploy Hook',
+        agent: 'loragent-sqa ➔ loragent-cicd-specialist',
+        role: 'Quality Assurance & Release',
+        action: 'Runs 40/40 test suites, executes security linters, validates SSG bundle and fires pre-deploy hook',
+        protocol: 'Lifecycle Hook: pre_git_commit & pre_deploy_verify',
+        telemetry: 'SQA_RUN: tests_passed=40, failed=0, code_coverage="100%", gate="APPROVED"',
+        badge: 'VERIFICATION',
+        color: '#10b981'
+      },
+      {
+        step: 7,
+        title: 'State Checkpointing & Hivemind Learning',
+        agent: 'loragent-watchman ➔ loragent-gold-collector',
+        role: 'State Sentinel & Collective Memory',
+        action: 'Watchman caches state to .loragent-debug/watchman-cache.json; Gold Collector scrubs PII and syncs to Firebase',
+        protocol: 'Lifecycle Hook: post_agent_task + Firebase Hivemind Sync',
+        telemetry: 'WATCHMAN_SAVE: graph_updated=true, idea_extracted="jwt-refresh-pattern", hivemind="SYNCED"',
+        badge: 'SENTINEL',
+        color: '#ec4899'
+      }
+    ]
+  },
+  {
+    id: 'chela',
+    name: 'Chela: Zero-Guess Bug Hunting',
+    command: '/loragent:boss chela',
+    badge: 'Mission-Critical Fix',
+    color: '#f59e0b',
+    description: 'Diagnoses runtime regressions, parses live orchestration telemetry, and delivers hotfixes with zero guessing.',
+    stages: [
+      {
+        step: 1,
+        title: 'Incident Telemetry Ingestion',
+        agent: 'Developer Prompt / CI Failure',
+        role: 'Incident Alert',
+        action: 'Triggered by 500 error in token refresh or CI/CD test failure',
+        protocol: 'Error Telemetry Protocol',
+        telemetry: 'INCIDENT_ALERT: error="TypeError: Cannot read properties of undefined (reading refreshToken)"',
+        badge: 'ALERT',
+        color: '#ef4444'
+      },
+      {
+        step: 2,
+        title: 'Chela Formation Activation',
+        agent: 'loragent-boss ➔ loragent-bug-hunter',
+        role: 'Zero-Guess Investigator',
+        action: 'Boss routes task to Chela Squad; Bug Hunter summoned to inspect orchestration graph',
+        protocol: 'loragent_steer MCP routing',
+        telemetry: 'CHELA_DISPATCH: lead="loragent-bug-hunter", squad=["shift-engineer", "debugger", "inspector"]',
+        badge: 'DISPATCH',
+        color: '#f59e0b'
+      },
+      {
+        step: 3,
+        title: 'Orchestration Graph Telemetry Parsing',
+        agent: 'loragent-bug-hunter',
+        role: 'Telemetry Diagnosis',
+        action: 'Parses .loragent-debug/orchestration-graph.json to extract exact file path and stack trace',
+        protocol: 'Deterministic Graph Analysis (No heuristic guessing)',
+        telemetry: 'GRAPH_PARSE: file="src/middleware/auth.ts:42", root_cause="missing null check on bearer header"',
+        badge: 'DIAGNOSIS',
+        color: '#06b6d4'
+      },
+      {
+        step: 4,
+        title: 'Surgical Minimal Patch Application',
+        agent: 'loragent-shift-engineer',
+        role: 'Surgical Patch Engineer',
+        action: 'Applies minimal 2-line defensive check without breaking existing contracts',
+        protocol: 'AST Safe Code Mutation',
+        telemetry: 'PATCH_APPLIED: diff="+if (!authHeader) return unauthorized();", lines_changed=2',
+        badge: 'PATCH',
+        color: '#10b981'
+      },
+      {
+        step: 5,
+        title: 'Regression Testing & Verification',
+        agent: 'loragent-debugger ➔ loragent-sqa',
+        role: 'Regression Validation',
+        action: 'Executes targeted reproduction test and full 40-test regression suite',
+        protocol: 'Targeted Node/Jest Test Runner',
+        telemetry: 'TEST_VERIFY: repro_test="PASSED", regression_suite="40/40 PASSED", latency=18ms',
+        badge: 'REGRESSION',
+        color: '#00FF41'
+      },
+      {
+        step: 6,
+        title: 'Root Cause Analysis (RCA) Report',
+        agent: 'loragent-inspector',
+        role: 'RCA Documentation',
+        action: 'Generates structured RCA markdown detailing incident trigger, resolution, and future guards',
+        protocol: 'Loragent Incident Management Standard',
+        telemetry: 'RCA_EMIT: report="REPORTS/INCIDENT-2026-08-29.md", severity="P1-RESOLVED"',
+        badge: 'RCA',
+        color: '#a855f7'
+      },
+      {
+        step: 7,
+        title: 'Incident Closure & State Sentinel Sync',
+        agent: 'loragent-watchman ➔ loragent-database-updater',
+        role: 'Closure & Sync',
+        action: 'Updates orchestration graph error matrix and syncs fix pattern to Firebase hivemind',
+        protocol: 'post_agent_task + watchman checkpoint',
+        telemetry: 'INCIDENT_CLOSED: state="CLEAN", active_errors=0, session_resumed=true',
+        badge: 'RESOLVED',
+        color: '#10b981'
+      }
+    ]
+  }
+];
 
 const FORMATIONS = [
   {
@@ -148,6 +326,28 @@ export default function App() {
   const [installScope, setInstallScope] = useState('project');
   const [modalCopied, setModalCopied] = useState(false);
 
+  // Workflow Simulator State
+  const [selectedScenarioId, setSelectedScenarioId] = useState('auto-team');
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const currentScenario = useMemo(() => {
+    return WORKFLOW_SCENARIOS.find((s) => s.id === selectedScenarioId) || WORKFLOW_SCENARIOS[0];
+  }, [selectedScenarioId]);
+
+  const activeStage = useMemo(() => {
+    return currentScenario.stages[currentStepIndex] || currentScenario.stages[0];
+  }, [currentScenario, currentStepIndex]);
+
+  // Autoplay effect
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPlaying, currentScenario]);
+
   const copyCode = (code, key) => {
     navigator.clipboard.writeText(code);
     setCopied(key);
@@ -179,11 +379,12 @@ export default function App() {
           </div>
           <div>
             <h1 style={{ fontSize: '1.75rem', fontWeight: '800', letterSpacing: '-0.5px', color: '#fff' }}>LORAGENT</h1>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Lorapok Labs Multi-Agent Ecosystem v2.0</p>
+            <p style={{ fontSize: '0.8rem', color: '#94a3b8', fontFamily: 'monospace' }}>Universal Multi-Agent Orchestration v2.0</p>
           </div>
         </div>
 
         <nav style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <a href="#workflow" style={{ color: '#00FF41', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace', fontWeight: 'bold' }}>Live Workflow</a>
           <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace' }}>Marketplace</a>
           <a href="#formations" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace' }}>6 Formations</a>
           <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -217,6 +418,169 @@ export default function App() {
             >
               {copied === 'hero-npx' ? <Check size={14} color="#00FF41" /> : <Copy size={14} />}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── ANIMATED WORKFLOW VISUALIZER ─── */}
+      <section id="workflow" style={{ width: '100%', marginBottom: '5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Workflow size={14} />
+              <span>INTERACTIVE MULTI-AGENT EXECUTION ENGINE</span>
+            </div>
+            <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '0' }}>How Loragent Works in Real-Time</h2>
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {WORKFLOW_SCENARIOS.map((sc) => (
+              <button
+                key={sc.id}
+                onClick={() => {
+                  setSelectedScenarioId(sc.id);
+                  setCurrentStepIndex(0);
+                }}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  fontSize: '0.75rem',
+                  fontFamily: 'monospace',
+                  cursor: 'pointer',
+                  background: selectedScenarioId === sc.id ? 'rgba(0,255,65,0.2)' : 'rgba(255,255,255,0.05)',
+                  color: selectedScenarioId === sc.id ? '#00FF41' : '#94a3b8',
+                  border: `1px solid ${selectedScenarioId === sc.id ? '#00FF41' : 'rgba(255,255,255,0.1)'}`,
+                  fontWeight: '600'
+                }}
+              >
+                {sc.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Visualizer Card */}
+        <div className="glass-card" style={{ padding: '0', overflow: 'hidden' }}>
+          
+          {/* Top Progress Nodes */}
+          <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.6)', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', gap: '12px', overflowX: 'auto' }}>
+            {currentScenario.stages.map((st, idx) => {
+              const isActive = idx === currentStepIndex;
+              const isDone = idx < currentStepIndex;
+              return (
+                <button
+                  key={st.step}
+                  onClick={() => {
+                    setCurrentStepIndex(idx);
+                    setIsPlaying(false);
+                  }}
+                  style={{
+                    flex: '1',
+                    minWidth: '120px',
+                    textAlign: 'left',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    opacity: isActive ? 1 : isDone ? 0.8 : 0.4
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '6px', background: isActive ? '#00FF41' : isDone ? 'rgba(0,255,65,0.2)' : 'rgba(255,255,255,0.1)', color: isActive ? '#000' : '#00FF41', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                      {isDone ? <Check size={12} /> : st.step}
+                    </div>
+                    <div style={{ flex: 1, height: '2px', background: isActive ? '#00FF41' : isDone ? 'rgba(0,255,65,0.4)' : 'rgba(255,255,255,0.1)' }} />
+                  </div>
+                  <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: isActive ? '#fff' : '#94a3b8', fontWeight: isActive ? '700' : '400', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {st.title}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Stage Details Grid */}
+          <div style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            <div>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: `${activeStage.color}20`, color: activeStage.color, border: `1px solid ${activeStage.color}40` }}>
+                STAGE {activeStage.step} OF {currentScenario.stages.length} • {activeStage.badge}
+              </span>
+              <h3 style={{ fontSize: '1.4rem', color: '#fff', marginTop: '8px', marginBottom: '8px' }}>{activeStage.title}</h3>
+              <p style={{ fontSize: '0.9rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '1.5rem' }}>{activeStage.action}</p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '1.5rem' }}>
+                <div style={{ padding: '12px', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#64748b' }}>ACTIVE AGENT</div>
+                  <div style={{ fontSize: '0.85rem', fontFamily: 'monospace', color: '#00FF41', fontWeight: 'bold', marginTop: '2px' }}>{activeStage.agent}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '2px' }}>{activeStage.role}</div>
+                </div>
+
+                <div style={{ padding: '12px', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#64748b' }}>PROTOCOL</div>
+                  <div style={{ fontSize: '0.85rem', fontFamily: 'monospace', color: '#06b6d4', fontWeight: 'bold', marginTop: '2px' }}>{activeStage.protocol}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '2px' }}>Structured MCP Payload</div>
+                </div>
+              </div>
+
+              {/* Controls */}
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button 
+                  onClick={() => { setCurrentStepIndex((prev) => (prev === 0 ? currentScenario.stages.length - 1 : prev - 1)); setIsPlaying(false); }}
+                  style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', cursor: 'pointer' }}
+                >
+                  <ChevronLeft size={14} />
+                </button>
+
+                <button 
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  style={{ padding: '8px 16px', background: '#00FF41', border: 'none', borderRadius: '8px', color: '#000', fontFamily: 'monospace', fontWeight: 'bold', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+                  <span>{isPlaying ? 'Pause' : 'Auto Play'}</span>
+                </button>
+
+                <button 
+                  onClick={() => { setCurrentStepIndex((prev) => (prev + 1) % currentScenario.stages.length); setIsPlaying(false); }}
+                  style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', cursor: 'pointer' }}
+                >
+                  <ChevronRight size={14} />
+                </button>
+
+                <button 
+                  onClick={() => { setCurrentStepIndex(0); setIsPlaying(true); }}
+                  style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#94a3b8', cursor: 'pointer' }}
+                >
+                  <RotateCcw size={14} />
+                </button>
+              </div>
+            </div>
+
+            {/* Live Micro-Terminal */}
+            <div style={{ background: '#030604', borderRadius: '12px', border: '1px solid rgba(0,255,65,0.3)', padding: '1.25rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', fontFamily: 'monospace' }}>
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '8px' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b' }}>runtime-telemetry-stream</span>
+                  <span style={{ fontSize: '0.7rem', color: '#00FF41', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00FF41', display: 'inline-block' }}></span>
+                    LIVE STREAM
+                  </span>
+                </div>
+
+                <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>COMMAND DIRECTIVE:</div>
+                <div style={{ fontSize: '0.85rem', color: '#00FF41', fontWeight: 'bold', background: 'rgba(0,255,65,0.08)', padding: '8px 10px', borderRadius: '6px', marginBottom: '1rem' }}>
+                  $ {currentScenario.command}
+                </div>
+
+                <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>ACTIVE PACKET PAYLOAD:</div>
+                <div style={{ fontSize: '0.75rem', color: '#38bdf8', background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)', lineHeight: '1.6', wordBreak: 'break-all' }}>
+                  {activeStage.telemetry}
+                </div>
+              </div>
+
+              <div style={{ marginTop: '1rem', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: '#64748b' }}>
+                <span>Zero-Trust Vault: ACTIVE</span>
+                <span style={{ color: '#00FF41' }}>Step {activeStage.step}/7 100% Green</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
