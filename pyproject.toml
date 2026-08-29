@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "loragent"
+version = "2.0.0"
+description = "Universal Multi-Agent Ecosystem for Lorapok Labs — 224 Autonomous Agents, 20 MCP Servers, and 6 Formations"
+readme = "README.md"
+authors = [{ name = "Lorapok Labs", email = "lorapokdev@gmail.com" }]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+keywords = [
+    "loragent",
+    "lorapok",
+    "ai-agents",
+    "mcp",
+    "multi-agent",
+    "orchestration",
+    "claude-code",
+    "cursor",
+    "antigravity"
+]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.urls]
+Homepage = "https://loragent.lorapok.tech"
+Documentation = "https://loragent.lorapok.tech"
+Repository = "https://github.com/Maijied/Loragent"
+Issues = "https://github.com/Maijied/Loragent/issues"
+
+[project.scripts]
+loragent = "loragent.cli:main"
+loragent-install = "loragent.installer:main"
+install-officers = "loragent.installer:main"
+
+[tool.setuptools]
+packages = ["loragent"]

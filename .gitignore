@@ -37,3 +37,8 @@ credentials.json
 *.plain.js
 *.titi.enc
 .recovery.key
+
+py_dist/
+*.egg-info/
+build/
+
