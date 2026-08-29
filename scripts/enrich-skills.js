@@ -1,15 +1,105 @@
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
-import { fileURLToPath } from 'url';
+#!/usr/bin/env node
+/**
+ * Loragent — Agent/Skill Mass Enrichment Pipeline v2
+ * =====================================================
+ * Reads all SKILL.md files across the Loragent repos,
+ * enriches them with the v2 AGENT_TEMPLATE, and optionally
+ * mirrors each agent to Kiro steering, Cursor .mdc, Windsurf
+ * rules, Cline rules, and Roo Code modes.
+ *
+ * Modes:
+ *   --extract       Scan all repos → reports/agents.manifest.json (read-only)
+ *   --compile       Read manifest → write enriched SKILL.md files
+ *   --compile --dry-run    Preview diffs, no writes
+ *   --compile --mirrors    Also emit Kiro/Cursor/Windsurf/Cline mirrors
+ *   --validate      Check all SKILL.md files against the v2 template schema
+ *   --agent-index   Regenerate AGENT_INDEX.md and agent-index.json from manifest
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '..');
+const defaultRoot = path.resolve(__dirname, '..');
 
-const TEMPLATE_PATH = path.join(rootDir, 'AGENT_TEMPLATE.md');
-const AGENTS_DIR = path.join(rootDir, 'agents');
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+export const CONFIG = {
+  repos: [
+    {
+      root: defaultRoot,
+      agentsDirs: ['agents', 'skills', '.agents/skills'],
+      outputMirrorRoot: true,   // emit .kiro/steering + .cursor/rules at repo root
+    },
+    {
+      root: '/mnt/NewVolume/Personal_Projects/lorapok_player',
+      agentsDirs: ['.agents/skills'],
+      outputMirrorRoot: true,
+    },
+    {
+      root: '/mnt/NewVolume/Personal_Projects/loragent-officers',
+      agentsDirs: ['agents'],
+      outputMirrorRoot: true,
+    },
+  ],
+  templateDir:   path.join(defaultRoot, 'templates'),
+  reportDir:     path.join(defaultRoot, 'reports'),
+  defaultVersion: '2.0.0',
+  defaultTags:    ['lorapok', 'loragent'],
+  formations:     ['auto', 'office', 'chela', 'freelance', 'observer', 'orchestrator'],
+  lldpLayers:     ['face', 'pulse', 'lore', 'port', 'loom', 'cross'],
+  requiredFields: ['name', 'description', 'version', 'tags'],
+};
+// ─── END CONFIG ─────────────────────────────────────────────────────────────
 
+// ── Minimal YAML frontmatter parser ─────────────────────────────────────────
+export function parseFrontmatter(raw) {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) return { fm: {}, body: raw.trim() };
+  const [, fmBlock, body] = m;
+  const fm = {};
+  let key = null, multiline = false;
+  for (const line of fmBlock.split('\n')) {
+    const kv = line.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
+    if (kv) {
+      multiline = false;
+      key = kv[1];
+      const val = kv[2].trim();
+      if (val === '>-' || val === '>') { fm[key] = ''; multiline = true; continue; }
+      if (val.startsWith('[') && val.endsWith(']')) {
+        fm[key] = val.slice(1,-1).split(',').map(s => s.trim().replace(/^['"]|['"]$/g,'')).filter(Boolean);
+      } else {
+        fm[key] = val.replace(/^['"]|['"]$/g, '');
+      }
+    } else if (multiline && key && line.trim()) {
+      fm[key] += (fm[key] ? ' ' : '') + line.trim();
+    } else if (line.match(/^\s+-\s+/)) {
+      if (!fm[key]) fm[key] = [];
+      if (!Array.isArray(fm[key])) fm[key] = [fm[key]];
+      fm[key].push(line.trim().replace(/^-\s+/, '').replace(/^['"]|['"]$/g, ''));
+    }
+  }
+  return { fm, body: body.trim() };
+}
+
+export function toYamlList(arr) {
+  if (!arr || arr.length === 0) return '[]';
+  return `[${arr.map(s => `"${s}"`).join(', ')}]`;
+}
+
+// ── File discovery ───────────────────────────────────────────────────────────
+export function findSkillFiles(dir) {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...findSkillFiles(full));
+    else if (entry.isFile() && entry.name === 'SKILL.md') out.push(full);
+  }
+  return out;
+}
+
+// ── Backward Compatible Template Formatter for Unit Tests ────────────────────
 export function formatAgentFromTemplate(agentData, templateContent) {
   const slug = agentData.name.startsWith('loragent-') ? agentData.name : `loragent-${agentData.name}`;
   const displayName = slug.replace(/^loragent-/, '').replace(/-/g, ' ').toUpperCase();
@@ -58,51 +148,247 @@ export function formatAgentFromTemplate(agentData, templateContent) {
   return formatted;
 }
 
-export function enrichAgentSkills() {
-  if (!fs.existsSync(AGENTS_DIR)) return;
-  const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-  const agentFolders = fs.readdirSync(AGENTS_DIR);
+// ── EXTRACT ──────────────────────────────────────────────────────────────────
+export function extract() {
+  const manifest = [];
+  let total = 0;
+  for (const repo of CONFIG.repos) {
+    if (!fs.existsSync(repo.root)) continue;
+    for (const agentsDir of repo.agentsDirs) {
+      const root = path.join(repo.root, agentsDir);
+      for (const file of findSkillFiles(root)) {
+        total++;
+        const raw  = fs.readFileSync(file, 'utf8');
+        const { fm, body } = parseFrontmatter(raw);
+        const slug = (fm.name || path.basename(path.dirname(file))).replace(/^loragent-?/, 'loragent-');
+        const displayName = slug.replace(/^loragent-?/i, '').replace(/-/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
+        const description = fm.description || `${displayName} specialist agent in the Loragent ecosystem.`;
+        manifest.push({
+          // ── Source metadata ──────────────────────────────────────
+          repo:    repo.root,
+          file,
+          repoRelativePath: path.relative(repo.root, file),
+          // ── Frontmatter (auto-extracted) ─────────────────────────
+          name:         fm.name || slug,
+          slug,
+          displayName,
+          description,
+          version:      fm.version || CONFIG.defaultVersion,
+          tags:         fm.tags || CONFIG.defaultTags,
+          connectors:   fm.connectors || [],
+          allowedTools: fm.allowed_tools || [],
+          formation:    fm.formation || 'auto',
+          layer:        fm.layer || 'cross',
+          requiresConfirmation: fm.requires_confirmation || false,
+          canSpawnSubagents:    fm.can_spawn_subagents || false,
+          costTier:     fm.cost_tier || 'low',
+          // ── Human-review fields (fill in manifest before --compile) ──
+          roleIdentity:          fm.role_identity || '',
+          scopeBoundary:         '',
+          handoffTargets:        '',
+          agentSpecificPhilosophy: '',
+          primaryObjective:      '',
+          definitionOfDone:      '',
+          inputs:                [],
+          outputFormat:          '',
+          handoffProtocol:       '',
+          escalation:            '',
+          // ── Original body (preserved as §4 Execution Specs) ──────
+          originalBody: body,
+          // ── Mirrors config ──────────────────────────────────────
+          kiroInclusion:     'manual',
+          kiroFileMatch:     '',
+          cursorGlobs:       '[]',
+          cursorAlwaysApply: false,
+        });
+      }
+    }
+  }
+  fs.mkdirSync(CONFIG.reportDir, { recursive: true });
+  const reportPath = path.join(CONFIG.reportDir, 'agents.manifest.json');
+  fs.writeFileSync(reportPath, JSON.stringify(manifest, null, 2), 'utf8');
+  console.log(`[extract] ✅ ${total} SKILL.md files scanned across available repos`);
+  console.log(`[extract] 📄 Manifest → ${reportPath}`);
+  console.log(`[extract] 👉 Next: review manifest, fill in human-review fields, then run --compile`);
+  return manifest;
+}
 
-  console.log(`Enriching ${agentFolders.length} agents against AGENT_TEMPLATE.md standard...`);
-  let enrichedCount = 0;
+// ── COMPILE ──────────────────────────────────────────────────────────────────
+export function compile({ dryRun, mirrors } = {}) {
+  const reportPath = path.join(CONFIG.reportDir, 'agents.manifest.json');
+  if (!fs.existsSync(reportPath)) {
+    console.error('[compile] ❌ No manifest found. Running extract first...');
+    extract();
+  }
+  const manifest = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
 
-  for (const folder of agentFolders) {
-    const skillPath = path.join(AGENTS_DIR, folder, 'SKILL.md');
-    const manifestPath = path.join(AGENTS_DIR, folder, 'manifest.json');
-    if (!fs.existsSync(skillPath)) continue;
+  const skillTplPath  = path.join(CONFIG.templateDir, 'SKILL.md.template');
+  const kiroTplPath   = path.join(CONFIG.templateDir, 'steering.kiro.md.template');
+  const cursorTplPath = path.join(CONFIG.templateDir, 'rules.cursor.mdc.template');
 
-    let manifest = {};
-    if (fs.existsSync(manifestPath)) {
-      try {
-        manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-      } catch {}
+  const skillTpl  = fs.readFileSync(skillTplPath, 'utf8');
+  const kiroTpl   = fs.existsSync(kiroTplPath) ? fs.readFileSync(kiroTplPath, 'utf8') : '';
+  const cursorTpl = fs.existsSync(cursorTplPath) ? fs.readFileSync(cursorTplPath, 'utf8') : '';
+
+  let written = 0, skipped = 0;
+
+  for (const e of manifest) {
+    const desc = e.description || `${e.displayName} specialist agent in the Loragent ecosystem.`;
+    const vars = {
+      AGENT_SLUG:    e.slug,
+      DISPLAY_NAME:  e.displayName,
+      VERSION:       e.version,
+      FORMATION:     e.formation,
+      LLDP_LAYER:    e.layer,
+      TAGS_YAML:     toYamlList(e.tags),
+      CONNECTORS_YAML: toYamlList(e.connectors),
+      ALLOWED_TOOLS_YAML: toYamlList(e.allowedTools),
+      REQUIRES_CONFIRMATION: String(!!e.requiresConfirmation),
+      CAN_SPAWN:     String(!!e.canSpawnSubagents),
+      COST_TIER:     e.costTier,
+      // description block — multiline in frontmatter uses >- block scalar
+      DESCRIPTION_BLOCK: desc.length > 80
+        ? `>-\n  ${desc.replace(/\n/g, '\n  ')}`
+        : desc,
+      ROLE_IDENTITY:   e.roleIdentity || `${e.displayName} is a Loragent ecosystem specialist. Scope: ${desc}`,
+      SCOPE_BOUNDARY:  e.scopeBoundary || 'Anything outside the stated scope — route to the appropriate specialist via loragent-boss.',
+      HANDOFF_TARGETS: e.handoffTargets || 'loragent-boss (on completion)',
+      AGENT_SPECIFIC_PHILOSOPHY: e.agentSpecificPhilosophy || '',
+      PRIMARY_OBJECTIVE: e.primaryObjective || desc,
+      DEFINITION_OF_DONE: e.definitionOfDone || 'Deliverable matches specification, output payload is complete, agent dismissed.',
+      ORIGINAL_BODY:   e.originalBody || '_No legacy instructions found._',
+      OUTPUT_FORMAT:   e.outputFormat || 'Structured JSON payload via loragent_steer, plus Markdown summary for the user.',
+      HANDOFF_PROTOCOL: e.handoffProtocol || 'Report completion to loragent-boss via loragent_steer. No automatic downstream routing.',
+      ESCALATION:      e.escalation || 'Halt and report to loragent-boss if task is outside scope. Never guess.',
+      CONNECTORS_PROSE: e.connectors.length ? e.connectors.join(', ') : 'none required',
+      REPO_RELATIVE:   e.repoRelativePath,
+      // Kiro/Cursor vars
+      INCLUSION_MODE:  e.kiroInclusion,
+      FILE_MATCH_LINE: e.kiroInclusion === 'fileMatch' && e.kiroFileMatch
+        ? `fileMatchPattern: '${e.kiroFileMatch}'\n`
+        : '',
+      CURSOR_GLOBS:    e.cursorGlobs,
+      CURSOR_ALWAYS:   String(!!e.cursorAlwaysApply),
+    };
+
+    const fill = (tpl) => tpl.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k] != null ? vars[k] : '');
+
+    const skillRendered = fill(skillTpl);
+
+    if (dryRun) {
+      console.log(`\n── DRY RUN ── ${e.file}`);
+      console.log(skillRendered.split('\n').slice(0, 15).join('\n') + '\n  ...');
+      skipped++;
+      continue;
     }
 
-    const currentContent = fs.readFileSync(skillPath, 'utf8');
-    if (!currentContent.includes('§1 · Role & Identity')) {
-      const match = currentContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-      let desc = manifest.description || 'Specialized agent.';
-      if (match) {
-        const descMatch = match[1].match(/description:\s*"?([^"\n]+)"?/);
-        if (descMatch) desc = descMatch[1];
-      }
+    // Backup + write SKILL.md
+    if (fs.existsSync(e.file)) fs.copyFileSync(e.file, `${e.file}.bak`);
+    fs.mkdirSync(path.dirname(e.file), { recursive: true });
+    fs.writeFileSync(e.file, skillRendered, 'utf8');
+    written++;
 
-      const enriched = formatAgentFromTemplate({
-        name: folder,
-        description: desc,
-        formation: manifest.formation || 'freelance',
-        layer: manifest.layer || 'lore',
-        category: manifest.category || 'specialist'
-      }, template);
-
-      fs.writeFileSync(skillPath, enriched, 'utf8');
-      enrichedCount++;
+    // Mirrors
+    if (mirrors) {
+      const kiroDir   = path.join(e.repo, '.kiro', 'steering');
+      const cursorDir = path.join(e.repo, '.cursor', 'rules');
+      fs.mkdirSync(kiroDir,   { recursive: true });
+      fs.mkdirSync(cursorDir, { recursive: true });
+      if (kiroTpl) fs.writeFileSync(path.join(kiroDir,   `${e.slug}.md`),  fill(kiroTpl),   'utf8');
+      if (cursorTpl) fs.writeFileSync(path.join(cursorDir, `${e.slug}.mdc`), fill(cursorTpl), 'utf8');
     }
   }
 
-  console.log(`✅ Successfully validated & enriched ${enrichedCount} agent skills.`);
+  if (dryRun) {
+    console.log(`\n[compile] Dry run — ${manifest.length} entries previewed, 0 written.`);
+  } else {
+    console.log(`[compile] ✅ Written ${written}/${manifest.length} SKILL.md${mirrors ? ' + Kiro + Cursor mirrors' : ''}`);
+    if (written !== manifest.length) console.warn(`[compile] ⚠️  ${manifest.length - written} skipped (check above)`);
+  }
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  enrichAgentSkills();
+// ── VALIDATE ─────────────────────────────────────────────────────────────────
+export function validate() {
+  const reportPath = path.join(CONFIG.reportDir, 'agents.manifest.json');
+  const manifest = fs.existsSync(reportPath)
+    ? JSON.parse(fs.readFileSync(reportPath, 'utf8'))
+    : (() => { console.log('[validate] No manifest — running extract first'); return extract(); })();
+
+  let errors = 0;
+  for (const e of manifest) {
+    const missing = CONFIG.requiredFields.filter(f => !e[f] || e[f].toString().trim() === '');
+    if (missing.length) {
+      console.warn(`⚠️  ${e.slug}: missing required fields: ${missing.join(', ')}`);
+      errors++;
+    }
+    if (!CONFIG.formations.includes(e.formation)) {
+      console.warn(`⚠️  ${e.slug}: invalid formation "${e.formation}"`);
+      errors++;
+    }
+    if (!CONFIG.lldpLayers.includes(e.layer)) {
+      console.warn(`⚠️  ${e.slug}: invalid LLDP layer "${e.layer}"`);
+      errors++;
+    }
+  }
+  if (errors === 0) {
+    console.log(`[validate] ✅ All ${manifest.length} agents pass schema validation`);
+  } else {
+    console.log(`[validate] ❌ ${errors} validation errors across ${manifest.length} agents`);
+  }
+}
+
+// ── AGENT INDEX ──────────────────────────────────────────────────────────────
+export function buildIndex(argv = process.argv) {
+  const reportPath = path.join(CONFIG.reportDir, 'agents.manifest.json');
+  if (!fs.existsSync(reportPath)) {
+    console.log('[agent-index] No manifest found. Extracting...');
+    extract();
+  }
+  const manifest = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+
+  const byFormation = {};
+  for (const e of manifest) {
+    if (!byFormation[e.formation]) byFormation[e.formation] = [];
+    byFormation[e.formation].push({ slug: e.slug, name: e.displayName, description: e.description, layer: e.layer });
+  }
+
+  let md = `# Loragent Agent Index\n\n> Auto-generated. Do not hand-edit. Run \`node scripts/enrich-skills.js --agent-index\`.\n\n`;
+  md += `**Total agents:** ${manifest.length}\n\n`;
+  for (const [formation, agents] of Object.entries(byFormation)) {
+    md += `## ${formation.toUpperCase()} Formation (${agents.length})\n\n`;
+    for (const a of agents) {
+      md += `- **\`${a.slug}\`** \`[${a.layer}]\` — ${a.description || a.name}\n`;
+    }
+    md += '\n';
+  }
+
+  const indexPath = path.join(CONFIG.repos[0].root, 'AGENT_INDEX.md');
+  const jsonPath  = path.join(CONFIG.repos[0].root, 'agent-index.json');
+
+  if (!dryRun(argv)) {
+    fs.writeFileSync(indexPath, md, 'utf8');
+    fs.writeFileSync(jsonPath, JSON.stringify({ generated: new Date().toISOString(), total: manifest.length, formations: byFormation }, null, 2), 'utf8');
+    console.log(`[agent-index] ✅ AGENT_INDEX.md + agent-index.json regenerated (${manifest.length} agents)`);
+  } else {
+    console.log(md.split('\n').slice(0,20).join('\n') + '\n...');
+  }
+}
+
+export const dryRun = (argv) => argv.includes('--dry-run');
+
+// ── CLI Execution ─────────────────────────────────────────────────────────────
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
+  const args = process.argv.slice(2);
+  if      (args.includes('--extract'))     extract();
+  else if (args.includes('--compile'))     compile({ dryRun: args.includes('--dry-run'), mirrors: args.includes('--mirrors') });
+  else if (args.includes('--validate'))    validate();
+  else if (args.includes('--agent-index')) buildIndex(process.argv);
+  else console.log(`
+Loragent Enrichment Pipeline v2
+Usage:
+  node scripts/enrich-skills.js --extract
+  node scripts/enrich-skills.js --compile [--dry-run] [--mirrors]
+  node scripts/enrich-skills.js --validate
+  node scripts/enrich-skills.js --agent-index [--dry-run]
+`);
 }

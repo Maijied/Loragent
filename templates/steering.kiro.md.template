@@ -1,0 +1,18 @@
+---
+inclusion: {{INCLUSION_MODE}}
+{{FILE_MATCH_LINE}}name: {{AGENT_SLUG}}
+description: {{DESCRIPTION_BLOCK}}
+---
+
+# {{DISPLAY_NAME}} — Kiro Steering Directives
+
+> **Formation:** {{FORMATION}} | **Layer:** {{LLDP_LAYER}} | **v{{VERSION}}**
+
+## Primary Directives
+{{ROLE_IDENTITY}}
+
+## Scope & Objective
+{{PRIMARY_OBJECTIVE}}
+
+## Execution Standards
+{{ORIGINAL_BODY}}

@@ -1,0 +1,18 @@
+---
+description: {{DESCRIPTION_BLOCK}}
+globs: {{CURSOR_GLOBS}}
+alwaysApply: {{CURSOR_ALWAYS}}
+---
+
+# {{DISPLAY_NAME}} — Cursor Directive
+
+> **Formation:** {{FORMATION}} | **Layer:** {{LLDP_LAYER}} | **v{{VERSION}}**
+
+## Primary Directives
+{{ROLE_IDENTITY}}
+
+## Scope & Objective
+{{PRIMARY_OBJECTIVE}}
+
+## Execution Standards
+{{ORIGINAL_BODY}}
