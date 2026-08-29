@@ -33,6 +33,9 @@ const LORAGENT_MCP = {
 const mcpPaths = [
   // Cursor
   path.join(home, 'mcp.json'),
+  path.join(rootDir, '.cursor', 'mcp.json'),
+  // VSCode / GitHub Copilot
+  path.join(rootDir, '.vscode', 'mcp.json'),
   // Antigravity / Gemini IDE
   path.join(home, '.gemini', 'config', 'mcp_config.json'),
   // VSCode (Cline)
@@ -45,7 +48,7 @@ const mcpPaths = [
   path.join(home, '.codeium', 'windsurf', 'mcp_config.json')
 ];
 
-console.log('🔄 Merging Loragent MCP into global configs...');
+console.log('🔄 Merging Loragent & Official Cloudflare MCP servers into global configs...');
 for (const mcpFile of mcpPaths) {
   try {
     let config = { mcpServers: {} };
@@ -67,11 +70,39 @@ for (const mcpFile of mcpPaths) {
       config.mcpServers = {};
     }
 
+    const isWindsurf = mcpFile.includes('windsurf');
+
+    // Loragent Local MCP
     config.mcpServers["loragent"] = LORAGENT_MCP;
-    config.mcpServers["loragent-cloud"] = {
-      url: "https://mcp.lorapk-labs.workers.dev/mcp",
-      type: "http"
+
+    // Loragent Cloud MCP
+    if (isWindsurf) {
+      config.mcpServers["loragent-cloud"] = {
+        serverUrl: "https://mcp.lorapk-labs.workers.dev/mcp"
+      };
+    } else {
+      config.mcpServers["loragent-cloud"] = {
+        url: "https://mcp.lorapk-labs.workers.dev/mcp",
+        type: "http"
+      };
+    }
+
+    // Official Cloudflare Remote MCP Servers
+    const cloudflareUrls = {
+      "cloudflare": "https://mcp.cloudflare.com/mcp",
+      "cloudflare-docs": "https://docs.mcp.cloudflare.com/mcp",
+      "cloudflare-bindings": "https://bindings.mcp.cloudflare.com/mcp",
+      "cloudflare-builds": "https://builds.mcp.cloudflare.com/mcp",
+      "cloudflare-observability": "https://observability.mcp.cloudflare.com/mcp"
     };
+
+    for (const [name, url] of Object.entries(cloudflareUrls)) {
+      if (isWindsurf) {
+        config.mcpServers[name] = { serverUrl: url };
+      } else {
+        config.mcpServers[name] = { url };
+      }
+    }
 
     fs.writeFileSync(mcpFile, JSON.stringify(config, null, 2), 'utf8');
     console.log(`✅ Synced MCP to: ${mcpFile}`);
@@ -86,7 +117,7 @@ for (const mcpFile of mcpPaths) {
 const agentsSourceDir = path.join(rootDir, 'agents');
 const masterRosterSkillsDir = path.join(home, '.loragent', 'master-roster', 'skills');
 
-console.log('\n🔄 Syncing 165 Agents to Global Master Roster...');
+console.log('\n🔄 Syncing 174 Agents to Global Master Roster...');
 if (fs.existsSync(agentsSourceDir)) {
   fs.mkdirSync(masterRosterSkillsDir, { recursive: true });
   const agentDirs = fs.readdirSync(agentsSourceDir);
@@ -137,7 +168,7 @@ if (fs.existsSync(skillsSourceDir)) {
 // Ensure local workspace .agents/skills has core agents + system skills
 const localWorkspaceSkillsDir = path.join(rootDir, '.agents', 'skills');
 fs.mkdirSync(localWorkspaceSkillsDir, { recursive: true });
-const coreAgents = ['boss', 'teacher', 'spidernet', 'watchman', 'workspace-guard', 'tech-director', 'backend-se', 'frontend-se', 'sqa', 'bug-hunter'];
+const coreAgents = ['boss', 'teacher', 'spidernet', 'watchman', 'workspace-guard', 'tech-director', 'backend-se', 'frontend-se', 'sqa', 'bug-hunter', 'wrangler-specialist'];
 for (const agent of coreAgents) {
   const src = path.join(agentsSourceDir, agent);
   if (fs.existsSync(src)) {
@@ -209,7 +240,7 @@ const rooModesConfig = {
     {
       slug: "loragent-boss",
       name: "Loragent Boss",
-      roleDefinition: "Central intelligent routing hub and supreme orchestrator of the Loragent 165-agent ecosystem. Directs Auto Team, Office, Freelance, and Chela formations.",
+      roleDefinition: "Central intelligent routing hub and supreme orchestrator of the Loragent 174-agent ecosystem. Directs Auto Team, Office, Freelance, and Chela formations.",
       groups: ["read", "edit", "browser", "command", "mcp"]
     },
     {
