@@ -707,14 +707,20 @@ export default function Home() {
             })}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link
-              href="#workflow-visualizer"
-              onClick={() => setActiveTab('workflow')}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-mono font-medium rounded-xl bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-[0_0_25px_rgba(0,255,65,0.4)]"
+              href="/api-explorer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-xl bg-purple-500/15 text-purple-300 border border-purple-500/30 hover:bg-purple-500/25 transition-all shadow-[0_0_20px_rgba(123,47,190,0.3)]"
             >
-              <Workflow className="w-3.5 h-3.5" />
-              <span>Watch Live Flow</span>
+              <Server className="w-3.5 h-3.5 text-purple-400" />
+              <span>Live MCP & API</span>
+            </Link>
+            <Link
+              href="/wiki"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-xl bg-white/5 text-neutral-300 border border-white/10 hover:bg-white/10 transition-all"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-neutral-400" />
+              <span>Wiki</span>
             </Link>
           </div>
         </div>
