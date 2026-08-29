@@ -1,11 +1,13 @@
 {
     "name": "loragent/loragent",
-    "description": "Professional virtual office system for loragent Labs (32 Agent Mega-Agency)",
+    "version": "2.0.0",
+    "description": "Universal Multi-Agent Ecosystem for Lorapok Labs — 224 Agents, 20 MCP Servers, and 6 Formations",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "loragent Labs"
+            "name": "Lorapok Labs",
+            "email": "lorapokdev@gmail.com"
         }
     ],
     "bin": ["bin/install-officers.php"],

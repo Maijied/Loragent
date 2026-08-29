@@ -11,6 +11,7 @@ out/
 .next/
 build/
 loragent-web/registry/
+*.bak
 
 # Loragent Runtime & Caches
 .loragent/

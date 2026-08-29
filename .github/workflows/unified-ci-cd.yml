@@ -41,7 +41,7 @@ jobs:
       - name: Zero-Trust Secret Scan
         run: |
           echo "Scanning for plaintext secrets and unencrypted API tokens..."
-          bash hooks/secret-scan.sh || true
+          bash scripts/hooks/secret-scan.sh || true
 
       - name: Verify LLDP v2.0 Agent Catalog & IDE Mirrors
         run: |

@@ -63,6 +63,7 @@
   },
   "scripts": {
     "start": "node ./face/cli/index.js",
+    "build": "node scripts/build-website-data.js",
     "sync-rules": "node scripts/universal-sync.js",
     "sync": "node scripts/universal-sync.js",
     "postinstall": "npm run sync",

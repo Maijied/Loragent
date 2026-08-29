@@ -283,7 +283,7 @@ export function compile({ dryRun, mirrors } = {}) {
     }
 
     // Backup + write SKILL.md
-    if (fs.existsSync(e.file)) fs.copyFileSync(e.file, `${e.file}.bak`);
+    if (process.argv.includes('--backup') && fs.existsSync(e.file)) fs.copyFileSync(e.file, `${e.file}.bak`);
     fs.mkdirSync(path.dirname(e.file), { recursive: true });
     fs.writeFileSync(e.file, skillRendered, 'utf8');
     written++;
