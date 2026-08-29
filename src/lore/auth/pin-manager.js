@@ -111,7 +111,7 @@ export function getPinSync(envPath = LOCAL_ENV_FILE) {
         } catch {}
     }
 
-    return '565087';
+    return null;
 }
 
 /**
@@ -140,5 +140,5 @@ export async function getPin(promptIfMissing = true) {
         });
     }
 
-    return '565087';
+    return null;
 }
