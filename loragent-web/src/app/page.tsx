@@ -13,28 +13,19 @@ import {
   FastForward, RotateCcw, Monitor, Send, CpuIcon, CheckCheck
 } from 'lucide-react';
 
-// Categories matching Open Agent Skills & Kilo Marketplace
-const MARKET_CATEGORIES = [
-  { id: 'all', label: 'All Categories', count: 250, icon: '⚡' },
-  { id: 'ENGINEERING', label: 'Development', count: 62, icon: '💻' },
-  { id: 'DATA', label: 'Data & Databases', count: 24, icon: '🗄️' },
-  { id: 'CREATIVE', label: 'Creative & Media', count: 23, icon: '🎨' },
-  { id: 'DEVOPS', label: 'DevOps & Cloud', count: 38, icon: '🚀' },
-  { id: 'SECURITY', label: 'Security & QA', count: 27, icon: '🛡️' },
-  { id: 'BUSINESS', label: 'Business & Operations', count: 21, icon: '📊' },
-  { id: 'ORCHESTRATION', label: 'Orchestration & Hub', count: 12, icon: '👑' },
-  { id: 'TOOLS', label: 'Tooling & Resolvers', count: 20, icon: '🔧' },
-  { id: 'RESEARCH', label: 'Science & Research', count: 15, icon: '🔬' },
-  { id: 'COMMUNICATION', label: 'Alerts & Messages', count: 8, icon: '💬' }
-];
+import allAgentsData from '@/data/all-agents.json';
+
+// Categories matching Open Agent Skills & 224-agent ecosystem
+const MARKET_CATEGORIES = allAgentsData.categories;
+const ALL_CATALOG_ITEMS = allAgentsData.items;
 
 const RESOURCE_TYPES = [
-  { id: 'all', label: 'All Resources', count: 250 },
-  { id: 'AGENT', label: 'Agents', count: 224 },
-  { id: 'MCP SERVER', label: 'MCP Servers', count: 20 },
-  { id: 'SKILL', label: 'Open Skills', count: 224 },
-  { id: 'FORMATION', label: 'Formations', count: 6 }
+  { id: 'all', label: 'All Resources', count: allAgentsData.total },
+  { id: 'AGENT', label: 'Agents (224)', count: allAgentsData.totalAgents },
+  { id: 'MCP SERVER', label: 'MCP Servers (20)', count: allAgentsData.totalMcp },
+  { id: 'FORMATION', label: 'Formations (6)', count: allAgentsData.totalFormations }
 ];
+
 
 const FORMATIONS = [
   {
@@ -375,201 +366,7 @@ const WORKFLOW_SCENARIOS = [
   }
 ];
 
-const MARKETPLACE_ITEMS = [
-  {
-    id: 'firebase-admin',
-    slug: 'firebase-admin',
-    name: 'Firebase Admin & Firestore MCP',
-    type: 'MCP SERVER',
-    category: 'DATA',
-    version: '2.0.0',
-    description: 'An MCP server giving AI agents direct capabilities to manage Firestore databases, Auth rules, Cloud Functions, and storage buckets.',
-    prereqs: ['Node.js >= 18', 'Firebase CLI'],
-    methods: ['NPX', 'STDIO'],
-    destinationProject: '.loragent/loragent.json',
-    destinationGlobal: '~/.loragent/config.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp firebase-admin',
-    relevantFiles: ['firebase.json', '.firebaserc', 'firestore.rules'],
-    badge: 'MCP SERVER'
-  },
-  {
-    id: 'loragent-boss',
-    slug: 'loragent-boss',
-    name: 'Boss Orchestrator Agent',
-    type: 'AGENT',
-    category: 'ORCHESTRATION',
-    version: '2.0.0',
-    description: 'Central intelligent routing hub of the 224-agent ecosystem. Normalizes prompts, selects 6 squad formations, and manages steer payloads.',
-    prereqs: ['Loragent Core runtime'],
-    methods: ['DIRECT_INJECT', 'NPX'],
-    destinationProject: '.agents/skills/loragent-boss/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-boss/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-boss',
-    relevantFiles: ['AGENTS.md', 'CLAUDE.md'],
-    badge: 'AGENT'
-  },
-  {
-    id: 'cloudflare-wrangler',
-    slug: 'cloudflare-wrangler',
-    name: 'Cloudflare Wrangler Specialist',
-    type: 'SKILL',
-    category: 'DEVOPS',
-    version: '2.0.0',
-    description: 'Cloudflare edge deployment skill. Automates Workers, Pages, KV, D1 SQL, R2 object store, Vectorize, and Zero-Trust secrets.',
-    prereqs: ['Wrangler CLI', 'Node.js >= 18'],
-    methods: ['NPX', 'GIT_SUBMODULE'],
-    destinationProject: '.agents/skills/loragent-wrangler-specialist/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-wrangler-specialist/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-wrangler-specialist',
-    relevantFiles: ['wrangler.jsonc', 'wrangler.toml'],
-    badge: 'SKILL'
-  },
-  {
-    id: 'image-generate-fal',
-    slug: 'image-generate-fal',
-    name: 'Fal.ai & Replicate Image Generator',
-    type: 'MCP SERVER',
-    category: 'CREATIVE',
-    version: '2.0.0',
-    description: 'Ultra-fast production AI image generation MCP server with Flux Pro, Recraft V3, SDXL, and automated vault credential injection.',
-    prereqs: ['Fal.ai API Key / Replicate Token'],
-    methods: ['NPX', 'STDIO'],
-    destinationProject: '.cursor/mcp.json',
-    destinationGlobal: '~/.claude/mcp.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp image-generate-fal',
-    relevantFiles: ['assets/', 'public/images/'],
-    badge: 'MCP SERVER'
-  },
-  {
-    id: 'auto-team-preset',
-    slug: 'auto-team',
-    name: 'Auto-Team Engineering Matrix',
-    type: 'FORMATION',
-    category: 'ENGINEERING',
-    version: '2.0.0',
-    description: 'Complete full-stack squad preset linking Tech Director, Backend SE, Frontend SE, Senior QA, and CI/CD Specialist.',
-    prereqs: ['Loragent Hub'],
-    methods: ['DIRECT_INJECT'],
-    destinationProject: '.loragent/formations/auto-team.json',
-    destinationGlobal: '~/.loragent/formations/auto-team.json',
-    installCmd: 'npx -y @lorapok/loragent@latest formation auto-team',
-    relevantFiles: ['package.json', 'src/', 'tests/'],
-    badge: 'FORMATION'
-  },
-  {
-    id: 'loragent-sqa',
-    slug: 'loragent-sqa',
-    name: 'Senior SQA & Security Auditor',
-    type: 'AGENT',
-    category: 'SECURITY',
-    version: '2.0.0',
-    description: 'Senior Software Quality Assurance. Executes unit suites, performs type checking, security audits, and lifecycle pre-commit gates.',
-    prereqs: ['Node.js / Python test runner'],
-    methods: ['DIRECT_INJECT', 'NPX'],
-    destinationProject: '.agents/skills/loragent-sqa/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-sqa/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-sqa',
-    relevantFiles: ['tests/', 'package.json', 'pytest.ini'],
-    badge: 'AGENT'
-  },
-  {
-    id: 'browser-automation',
-    slug: 'browser-automation',
-    name: 'Headless Browser & DOM Inspector MCP',
-    type: 'MCP SERVER',
-    category: 'TOOLS',
-    version: '2.0.0',
-    description: 'Automates Chrome / Chromium for visual verification, automated UI end-to-end testing, and DOM screenshot recording.',
-    prereqs: ['Node.js >= 18', 'Chromium / Puppeteer'],
-    methods: ['NPX', 'STDIO'],
-    destinationProject: '.mcp.json',
-    destinationGlobal: '~/.claude/mcp.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp browser-automation',
-    relevantFiles: ['e2e/', 'playwright.config.ts'],
-    badge: 'MCP SERVER'
-  },
-  {
-    id: 'loragent-watchman',
-    slug: 'loragent-watchman',
-    name: 'Watchman State Sentinel & Recovery',
-    type: 'AGENT',
-    category: 'ORCHESTRATION',
-    version: '2.0.0',
-    description: 'Session state guardian. Auto-saves state checkpoints and recovers crashed or token-exhausted sessions seamlessly.',
-    prereqs: ['Loragent Core'],
-    methods: ['DIRECT_INJECT'],
-    destinationProject: '.agents/skills/loragent-watchman/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-watchman/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-watchman',
-    relevantFiles: ['.loragent-debug/'],
-    badge: 'AGENT'
-  },
-  {
-    id: 'chela-debugger-preset',
-    slug: 'chela',
-    name: 'Chela Bug Hunter Squad Preset',
-    type: 'FORMATION',
-    category: 'SECURITY',
-    version: '2.0.0',
-    description: 'Squad preset linking Bug Hunter, Shift Engineer, Git Specialist, and SQA for instant root-cause analysis.',
-    prereqs: ['Git', 'Loragent Hub'],
-    methods: ['DIRECT_INJECT'],
-    destinationProject: '.loragent/formations/chela.json',
-    destinationGlobal: '~/.loragent/formations/chela.json',
-    installCmd: 'npx -y @lorapok/loragent@latest formation chela',
-    relevantFiles: ['.git/', 'tests/'],
-    badge: 'FORMATION'
-  },
-  {
-    id: 'deploy-docker',
-    slug: 'deploy-docker',
-    name: 'Docker & Container CI Lead MCP',
-    type: 'MCP SERVER',
-    category: 'DEVOPS',
-    version: '2.0.0',
-    description: 'Builds, tags, and pushes multi-architecture Docker container images to registries with zero plaintext credentials.',
-    prereqs: ['Docker Engine / CLI'],
-    methods: ['NPX', 'STDIO'],
-    destinationProject: '.mcp.json',
-    destinationGlobal: '~/.claude/mcp.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp deploy-docker',
-    relevantFiles: ['Dockerfile', 'docker-compose.yml'],
-    badge: 'MCP SERVER'
-  },
-  {
-    id: 'loragent-gif-create',
-    slug: 'loragent-gif-create',
-    name: 'FFmpeg Animated GIF & Video Producer',
-    type: 'SKILL',
-    category: 'CREATIVE',
-    version: '2.0.0',
-    description: 'High-performance video to animated GIF converter with palettegen optimization, Slack constraints, and micro-animations.',
-    prereqs: ['FFmpeg', 'Gifsicle'],
-    methods: ['NPX', 'GIT_SUBMODULE'],
-    destinationProject: '.agents/skills/loragent-gif-create/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-gif-create/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-gif-create',
-    relevantFiles: ['public/', 'assets/'],
-    badge: 'SKILL'
-  },
-  {
-    id: 'database-postgres',
-    slug: 'database-postgres',
-    name: 'PostgreSQL & Drizzle Schema MCP',
-    type: 'MCP SERVER',
-    category: 'DATA',
-    version: '2.0.0',
-    description: 'Connects AI agents directly to Postgres databases for schema inspection, query execution, indexing, and migration planning.',
-    prereqs: ['PostgreSQL connection URL'],
-    methods: ['NPX', 'STDIO'],
-    destinationProject: '.mcp.json',
-    destinationGlobal: '~/.claude/mcp.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp database-postgres',
-    relevantFiles: ['drizzle.config.ts', 'prisma/schema.prisma', 'schema.sql'],
-    badge: 'MCP SERVER'
-  }
-];
-
+// Static IDE configs & terminal directives
 const IDE_CONFIGS: Record<string, { name: string; file: string; snippet: string; description: string }> = {
   cursor: {
     name: 'Cursor IDE',
@@ -623,9 +420,16 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedFormationFilter, setSelectedFormationFilter] = useState('all');
+  const [selectedLayerFilter, setSelectedLayerFilter] = useState('all');
   const [relevantOnly, setRelevantOnly] = useState(false);
   const [selectedIDE, setSelectedIDE] = useState('cursor');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  // Pagination & Display Mode
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(24);
+  const [showAllItems, setShowAllItems] = useState(false);
   
   // Interactive Modal State (Matching Kilo Marketplace Screenshot)
   const [installModalItem, setInstallModalItem] = useState<any | null>(null);
@@ -648,7 +452,7 @@ export default function Home() {
   const [simLogs, setSimLogs] = useState<string[]>([
     '⚡ Loragent Core Sentinel initialized [v2.0.0-PROPOSAL]',
     '🔒 Zero-Trust Vault: Connected via Machine AES-256 (PIN Protected)',
-    '🌐 Cloudflare Edge Registry: 250 Items Synchronized',
+    '🌐 Cloudflare Edge Registry: 250 Items Synchronized (224 Agents, 20 MCP Servers, 6 Formations)',
     'Ready for directive. Select a command or click "Run Directive" below.'
   ]);
 
@@ -734,18 +538,49 @@ export default function Home() {
     return FORMATIONS.find((f) => f.id === activeFormation) || FORMATIONS[0];
   }, [activeFormation]);
 
-  const filteredMarketplace = useMemo(() => {
-    return MARKETPLACE_ITEMS.filter((item) => {
-      const matchSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.slug.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchType = selectedType === 'all' || item.type === selectedType;
-      const matchCategory = selectedCategory === 'all' || item.category === selectedCategory;
-      const matchRelevant = !relevantOnly || (item.relevantFiles && item.relevantFiles.length > 0);
+  // Reset pagination on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter, relevantOnly]);
 
-      return matchSearch && matchType && matchCategory && matchRelevant;
+  const filteredMarketplace = useMemo(() => {
+    return ALL_CATALOG_ITEMS.filter((item: any) => {
+      const q = searchQuery.toLowerCase();
+      const matchSearch = !searchQuery ||
+                          (item.name && item.name.toLowerCase().includes(q)) ||
+                          (item.slug && item.slug.toLowerCase().includes(q)) ||
+                          (item.description && item.description.toLowerCase().includes(q)) ||
+                          (item.objective && item.objective.toLowerCase().includes(q)) ||
+                          (item.allowedTools && item.allowedTools.some((t: string) => t.toLowerCase().includes(q))) ||
+                          (item.tags && item.tags.some((t: string) => t.toLowerCase().includes(q)));
+      
+      const matchType = selectedType === 'all' || 
+                        (selectedType === 'AGENT' && (item.type === 'AGENT' || item.type === 'RESIDENT AGENT' || item.type === 'SPECIALIST SKILL')) ||
+                        (item.type === selectedType);
+
+      const matchCategory = selectedCategory === 'all' || 
+                            item.category.toLowerCase() === selectedCategory.toLowerCase();
+
+      const matchFormation = selectedFormationFilter === 'all' || 
+                             item.formation.toLowerCase() === selectedFormationFilter.toLowerCase();
+
+      const matchLayer = selectedLayerFilter === 'all' || 
+                         (item.layer && item.layer.toUpperCase() === selectedLayerFilter.toUpperCase());
+
+      const matchRelevant = !relevantOnly || item.isResident || (item.connectors && item.connectors.length > 0);
+
+      return matchSearch && matchType && matchCategory && matchFormation && matchLayer && matchRelevant;
     });
-  }, [searchQuery, selectedType, selectedCategory, relevantOnly]);
+  }, [searchQuery, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter, relevantOnly]);
+
+  // Paginated items
+  const totalPages = Math.ceil(filteredMarketplace.length / itemsPerPage) || 1;
+  const paginatedItems = useMemo(() => {
+    if (showAllItems) return filteredMarketplace;
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredMarketplace.slice(start, start + itemsPerPage);
+  }, [filteredMarketplace, currentPage, itemsPerPage, showAllItems]);
+
 
   return (
     <div className="min-h-screen bg-[#030704] text-neutral-100 selection:bg-emerald-500/30 selection:text-emerald-300">
@@ -1172,27 +1007,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── 1. MARKETPLACE EXPLORER & HUB (Inspired by Kilo Marketplace) ─── */}
+        {/* ─── 1. 224+ AGENTS & SKILLS MARKETPLACE DIRECTORY ─── */}
         <section id="marketplace" className="mb-24 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-1">
                 <ShoppingBag className="w-4 h-4" />
-                <span>LORAGENT MARKETPLACE REGISTRY</span>
+                <span>UNIVERSAL 224+ AGENTS & TOOLS DIRECTORY</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                Install Reusable Agents, Skills & MCP Tools
+                250 Autonomous AI Resources & Specialists
               </h2>
               <p className="text-sm text-neutral-400 mt-1">
-                Configure tools for one project (`.loragent/loragent.json`) or globally across your development environment.
+                Explore every agent, open skill, and MCP connector across FACE, PULSE, LORE, PORT, LOOM, and CROSS layers.
               </p>
             </div>
 
             {/* Scope / Help Links */}
             <div className="flex items-center gap-3 text-xs font-mono">
-              <span className="text-neutral-500">Target Scopes:</span>
-              <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Project (.loragent/)</span>
-              <span className="px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded">Global (~/.loragent/)</span>
+              <span className="text-neutral-500">Installation Targets:</span>
+              <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">Project (.agents/skills/)</span>
+              <span className="px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded">Global (~/.loragent/skills/)</span>
             </div>
           </div>
 
@@ -1204,7 +1039,7 @@ export default function Home() {
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" />
                 <input
                   type="text"
-                  placeholder="Search 250 items (e.g. Firebase, Docker, Wrangler, Boss, Image)..."
+                  placeholder="Search all 250 resources (e.g. tech-director, docker, firebase, sqa, rust, python)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all"
@@ -1226,7 +1061,7 @@ export default function Home() {
                 }`}
               >
                 {relevantOnly ? <CheckSquare className="w-4 h-4 text-cyan-400" /> : <Square className="w-4 h-4" />}
-                <span>Relevant to my workspace</span>
+                <span>Resident & Core Only</span>
               </button>
 
               {/* Type Dropdown / Badges */}
@@ -1250,7 +1085,7 @@ export default function Home() {
             {/* Category Pills Strip */}
             <div className="flex items-center gap-2 overflow-x-auto pt-4 mt-4 border-t border-white/5 text-xs font-mono">
               <span className="text-neutral-500 text-[11px] whitespace-nowrap pl-1">Category:</span>
-              {MARKET_CATEGORIES.map((c) => (
+              {MARKET_CATEGORIES.map((c: any) => (
                 <button
                   key={c.id}
                   onClick={() => setSelectedCategory(c.id)}
@@ -1260,84 +1095,219 @@ export default function Home() {
                       : 'text-neutral-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <span>{c.icon}</span>
-                  <span>{c.label}</span>
+                  <span>{c.name}</span>
+                  <span className="text-[10px] opacity-60">({c.count})</span>
                 </button>
               ))}
+            </div>
+
+            {/* Secondary Filters: Formations & LLDP Layers */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 mt-3 border-t border-white/5 text-xs font-mono">
+              <div className="flex items-center gap-2 overflow-x-auto">
+                <span className="text-neutral-500 text-[11px] whitespace-nowrap">Formation:</span>
+                {['all', 'auto', 'office', 'chela', 'freelance', 'observer', 'spidernet'].map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setSelectedFormationFilter(f)}
+                    className={`px-2 py-0.5 rounded text-[10px] font-mono transition-all uppercase ${
+                      selectedFormationFilter === f
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 overflow-x-auto">
+                <span className="text-neutral-500 text-[11px] whitespace-nowrap">Layer:</span>
+                {['all', 'FACE', 'PULSE', 'LORE', 'PORT', 'LOOM', 'CROSS'].map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setSelectedLayerFilter(l)}
+                    className={`px-2 py-0.5 rounded text-[10px] font-mono transition-all ${
+                      selectedLayerFilter === l
+                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                        : 'text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Results Count & Quick Stats Bar */}
+          <div className="flex items-center justify-between mb-4 px-1 text-xs font-mono text-neutral-400">
+            <div>
+              Showing <span className="text-emerald-400 font-semibold">{paginatedItems.length}</span> of <span className="text-white font-semibold">{filteredMarketplace.length}</span> resources matching filters
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowAllItems(!showAllItems)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all border ${
+                  showAllItems 
+                    ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' 
+                    : 'bg-white/5 text-neutral-400 border-white/10 hover:text-white'
+                }`}
+              >
+                {showAllItems ? 'Paginated View' : 'Show All 250'}
+              </button>
             </div>
           </div>
 
           {/* Marketplace Items Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredMarketplace.map((item) => (
+            {paginatedItems.map((item: any) => (
               <div
                 key={item.id}
                 className="group p-5 rounded-2xl bg-black/40 border border-white/10 hover:border-emerald-500/40 transition-all flex flex-col justify-between hover:shadow-[0_0_25px_rgba(0,255,65,0.1)] relative"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-2">
+                  {/* Card Header Badges */}
+                  <div className="flex items-start justify-between gap-2 mb-3 flex-wrap">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold tracking-wider ${
                         item.type === 'MCP SERVER' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' :
+                        item.type === 'RESIDENT AGENT' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' :
                         item.type === 'AGENT' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' :
-                        item.type === 'FORMATION' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/30' :
+                        item.type === 'FORMATION PRESET' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/30' :
                         'bg-amber-500/10 text-amber-400 border border-amber-500/30'
                       }`}>
                         {item.type}
                       </span>
-                      <span className="text-[11px] font-mono text-neutral-500">{item.category}</span>
+                      <span className="px-1.5 py-0.5 text-[9px] font-mono bg-white/5 text-neutral-300 rounded border border-white/10">
+                        {item.layer}
+                      </span>
+                      <span className="px-1.5 py-0.5 text-[9px] font-mono bg-white/5 text-cyan-300/80 rounded border border-white/10 uppercase">
+                        {item.formation}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-mono text-neutral-500">v{item.version}</span>
+                    <span className="text-[10px] font-mono text-neutral-500">Tier: {item.costTier || 'low'}</span>
                   </div>
 
-                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors mb-2 font-mono flex items-center justify-between">
-                    <span>{item.name}</span>
+                  {/* Title & Slug */}
+                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors mb-1 font-mono">
+                    {item.name}
                   </h3>
+                  <div className="text-[11px] font-mono text-neutral-500 mb-2.5 truncate">
+                    {item.slug}
+                  </div>
 
-                  <p className="text-xs text-neutral-400 line-clamp-3 leading-relaxed mb-4">
+                  {/* Description */}
+                  <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed mb-3">
                     {item.description}
                   </p>
 
-                  {/* Prerequisites indicator */}
-                  {item.prereqs && (
-                    <div className="mb-4 flex flex-wrap gap-1.5">
-                      {item.prereqs.map((p, idx) => (
-                        <span key={idx} className="text-[10px] font-mono px-2 py-0.5 bg-white/5 text-neutral-300 rounded border border-white/5">
-                          {p}
-                        </span>
-                      ))}
+                  {/* Allowed Tools list */}
+                  {item.allowedTools && item.allowedTools.length > 0 && (
+                    <div className="mb-3">
+                      <div className="text-[10px] font-mono text-neutral-500 mb-1">Allowed Tools:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {item.allowedTools.slice(0, 4).map((tool: string, idx: number) => (
+                          <span key={idx} className="text-[9px] font-mono px-1.5 py-0.5 bg-white/5 text-neutral-300 rounded border border-white/5">
+                            {tool}
+                          </span>
+                        ))}
+                        {item.allowedTools.length > 4 && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.5 bg-white/5 text-neutral-500 rounded">
+                            +{item.allowedTools.length - 4}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   )}
+
+                  {/* Slash Command Preview */}
+                  <div className="p-2 rounded-lg bg-black/50 border border-white/5 font-mono text-[11px] text-emerald-400/90 flex items-center justify-between mb-2">
+                    <span className="truncate">{item.slashCommand}</span>
+                    <button
+                      onClick={() => handleCopy(item.slashCommand, `slash-${item.id}`)}
+                      className="text-neutral-400 hover:text-white ml-1 p-0.5"
+                      title="Copy slash command"
+                    >
+                      {copiedKey === `slash-${item.id}` ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    </button>
+                  </div>
                 </div>
 
-                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-neutral-500">Lorapok Labs</span>
+                {/* Card Footer */}
+                <div className="pt-3 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-neutral-500 truncate max-w-[120px]">
+                    v{item.version} • Lorapok
+                  </span>
                   <button
                     onClick={() => setInstallModalItem(item)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-black transition-all"
                   >
                     <DownloadCloud className="w-3.5 h-3.5" />
-                    <span>Install</span>
+                    <span>Inspect & Install</span>
                   </button>
                 </div>
               </div>
             ))}
           </div>
 
+          {/* Pagination Controls */}
+          {!showAllItems && totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-8 font-mono text-xs">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-neutral-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10"
+              >
+                Previous
+              </button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                  let pageNum = i + 1;
+                  if (totalPages > 7 && currentPage > 4) {
+                    pageNum = Math.min(totalPages - 6 + i, totalPages);
+                  }
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-8 h-8 rounded-lg font-mono text-xs transition-all ${
+                        currentPage === pageNum
+                          ? 'bg-emerald-500 text-black font-bold'
+                          : 'bg-white/5 text-neutral-400 hover:text-white border border-white/5'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-neutral-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10"
+              >
+                Next
+              </button>
+            </div>
+          )}
+
           {filteredMarketplace.length === 0 && (
             <div className="text-center py-16 bg-white/[0.02] border border-white/5 rounded-2xl">
               <Search className="w-8 h-8 text-neutral-500 mx-auto mb-3" />
-              <div className="text-base font-mono text-white font-semibold">No marketplace items match your filter</div>
-              <p className="text-xs text-neutral-400 mt-1">Try resetting the category filter or searching for a different keyword.</p>
+              <div className="text-base font-mono text-white font-semibold">No resources match your filter criteria</div>
+              <p className="text-xs text-neutral-400 mt-1">Try clearing filters or searching for another keyword.</p>
               <button
-                onClick={() => { setSearchQuery(''); setSelectedType('all'); setSelectedCategory('all'); setRelevantOnly(false); }}
+                onClick={() => { setSearchQuery(''); setSelectedType('all'); setSelectedCategory('all'); setSelectedFormationFilter('all'); setSelectedLayerFilter('all'); setRelevantOnly(false); }}
                 className="mt-4 px-4 py-2 text-xs font-mono rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all"
               >
-                Reset Filters
+                Reset All Filters
               </button>
             </div>
           )}
         </section>
+
 
         {/* ─── 2. 6 FORMATION SQUAD PRESETS SECTION ─── */}
         <section id="formations" className="mb-24 scroll-mt-24">
@@ -1656,29 +1626,83 @@ export default function Home() {
 
       </main>
 
-      {/* ─── INTERACTIVE INSTALL MODAL (Matching Kilo Marketplace Screenshot) ─── */}
+      {/* ─── INTERACTIVE DETAILED AGENT INSPECTOR & INSTALL MODAL ─── */}
       {installModalItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-2xl bg-[#0a0f0d] border border-white/20 shadow-2xl p-6 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#080d0a] border border-white/20 shadow-2xl p-6">
+            
             {/* Header with Close */}
-            <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-white/10">
               <div>
-                <h3 className="text-lg font-bold text-white font-mono flex items-center gap-2">
-                  <span>Install {installModalItem.name}</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                     {installModalItem.type}
                   </span>
-                </h3>
-                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                  {installModalItem.description}
-                </p>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                    LAYER: {installModalItem.layer}
+                  </span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/10 text-purple-400 border border-purple-500/30 uppercase">
+                    FORMATION: {installModalItem.formation}
+                  </span>
+                  <span className="text-[11px] font-mono text-neutral-500">v{installModalItem.version}</span>
+                </div>
+                <h3 className="text-xl font-bold text-white font-mono">{installModalItem.name}</h3>
+                <div className="text-xs font-mono text-neutral-400 mt-0.5">{installModalItem.slug}</div>
               </div>
               <button
                 onClick={() => setInstallModalItem(null)}
-                className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
+            </div>
+
+            {/* Description & Objective */}
+            <div className="mb-5 space-y-3">
+              <div>
+                <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-1">Description</label>
+                <p className="text-xs text-neutral-200 leading-relaxed bg-black/40 p-3 rounded-xl border border-white/5 font-mono">
+                  {installModalItem.description}
+                </p>
+              </div>
+
+              {installModalItem.objective && (
+                <div>
+                  <label className="block text-[11px] font-mono text-emerald-400 uppercase tracking-wider mb-1">Primary Objective & Scope</label>
+                  <p className="text-xs text-neutral-300 leading-relaxed bg-emerald-950/20 p-3 rounded-xl border border-emerald-500/20 font-mono">
+                    {installModalItem.objective}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Allowed Tools & Connectors Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              <div>
+                <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-1.5">
+                  Allowed Tools ({installModalItem.allowedTools?.length || 0})
+                </label>
+                <div className="flex flex-wrap gap-1.5 p-2.5 bg-black/40 rounded-xl border border-white/5 min-h-[50px]">
+                  {installModalItem.allowedTools?.map((t: string, idx: number) => (
+                    <span key={idx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-neutral-300 border border-white/5">
+                      {t}
+                    </span>
+                  )) || <span className="text-xs text-neutral-500 font-mono">Core filesystem tools</span>}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-mono text-neutral-400 uppercase tracking-wider mb-1.5">
+                  Connectors & Mesh ({installModalItem.connectors?.length || 0})
+                </label>
+                <div className="flex flex-wrap gap-1.5 p-2.5 bg-black/40 rounded-xl border border-white/5 min-h-[50px]">
+                  {installModalItem.connectors?.map((c: string, idx: number) => (
+                    <span key={idx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                      {c}
+                    </span>
+                  )) || <span className="text-xs text-neutral-500 font-mono">loragent-core</span>}
+                </div>
+              </div>
             </div>
 
             {/* Scope Selector: [ Project ] vs [ Global ] */}
@@ -1722,61 +1746,55 @@ export default function Home() {
               <label className="block text-xs font-mono text-neutral-400 mb-1">
                 Installation destination
               </label>
-              <div className="p-2.5 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-neutral-200">
+              <div className="p-2.5 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-neutral-200 truncate">
                 {installScope === 'project' ? installModalItem.destinationProject : installModalItem.destinationGlobal}
               </div>
             </div>
 
-            {/* Security Warning Box (As shown in screenshot) */}
+            {/* Security Warning Box */}
             <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200/90 leading-relaxed font-mono">
-              ⚠️ MCP servers can run local commands or connect to external services. Loragent Zero-Trust Vault will encrypt any injected credentials. Project files may be committed to version control. Do not store secrets here unless the configuration references an environment variable.
+              ⚠️ Zero-Trust Vault: All injected credentials (API keys, tokens) are AES-256 encrypted in-memory. Plaintext secrets are automatically blocked by loragent-workspace-guard.
             </div>
 
-            {/* Installation Method */}
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-xs font-mono text-neutral-400 mb-1">Installation Method</label>
-                <select
-                  value={installMethod}
-                  onChange={(e) => setInstallMethod(e.target.value)}
-                  className="w-full px-3 py-2 bg-black/60 border border-white/10 rounded-xl text-xs font-mono text-white focus:outline-none"
-                >
-                  <option value="NPX">NPX</option>
-                  <option value="CLI">Loragent CLI</option>
-                  <option value="GIT">Git Submodule</option>
-                </select>
+            {/* Slash Command Copy */}
+            <div className="mb-3 p-3 rounded-xl bg-black/80 border border-white/10 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 overflow-hidden">
+                <span className="text-[11px] font-mono text-neutral-500 whitespace-nowrap">Slash Directive:</span>
+                <span className="text-xs font-mono text-cyan-300 font-bold truncate">{installModalItem.slashCommand}</span>
               </div>
-
-              {/* Prerequisites */}
-              <div>
-                <label className="block text-xs font-mono text-neutral-400 mb-1">Prerequisites</label>
-                <div className="text-xs font-mono text-neutral-300 pt-1.5">
-                  {installModalItem.prereqs ? installModalItem.prereqs.join(', ') : 'Node.js'}
-                </div>
-              </div>
+              <button
+                onClick={() => handleModalCopy(installModalItem.slashCommand)}
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
+                title="Copy slash command"
+              >
+                {modalCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
             </div>
 
-            {/* Copyable CLI command */}
+            {/* CLI Command Copy */}
             <div className="mb-6 p-3 rounded-xl bg-black/80 border border-emerald-500/30 flex items-center justify-between gap-2">
-              <span className="text-xs font-mono text-emerald-400 truncate">
-                {installModalItem.installCmd} {installScope === 'global' ? '--global' : ''}
-              </span>
+              <div className="flex items-center gap-2 overflow-hidden">
+                <span className="text-[11px] font-mono text-neutral-500 whitespace-nowrap">CLI Install:</span>
+                <span className="text-xs font-mono text-emerald-400 font-bold truncate">
+                  {installModalItem.installCmd} {installScope === 'global' ? '--global' : ''}
+                </span>
+              </div>
               <button
                 onClick={() => handleModalCopy(`${installModalItem.installCmd} ${installScope === 'global' ? '--global' : ''}`)}
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
                 title="Copy install command"
               >
-                {modalCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                {modalCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-3 pt-2">
+            <div className="flex items-center justify-end gap-3 pt-2 border-t border-white/10">
               <button
                 onClick={() => setInstallModalItem(null)}
                 className="px-4 py-2 rounded-xl text-xs font-mono text-neutral-400 hover:text-white transition-colors"
               >
-                Cancel
+                Close
               </button>
               <button
                 onClick={() => {
@@ -1786,7 +1804,7 @@ export default function Home() {
                 className="px-5 py-2.5 rounded-xl text-xs font-mono font-semibold bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(0,255,65,0.4)] flex items-center gap-1.5"
               >
                 <CheckCircle className="w-3.5 h-3.5" />
-                <span>{modalCopied ? 'Copied to Clipboard!' : 'Install Now'}</span>
+                <span>{modalCopied ? 'Copied Command!' : 'Copy Install Command'}</span>
               </button>
             </div>
           </div>

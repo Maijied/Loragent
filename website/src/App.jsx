@@ -5,9 +5,13 @@ import {
   Sparkles, Layers, Search, Server, Cloud, Lock, Copy, Check,
   Zap, Compass, ChevronRight, ChevronLeft, Activity, ArrowUpRight, Code2,
   RefreshCw, CheckCircle2, ShoppingBag, DownloadCloud, X, CheckCircle,
-  Play, Pause, RotateCcw, Workflow, Key, ShieldAlert
+  Play, Pause, RotateCcw, Workflow, Key, ShieldAlert, Filter, Eye
 } from 'lucide-react';
+import allAgentsData from './data/all-agents.json';
 import './index.css';
+
+const ALL_CATALOG_ITEMS = allAgentsData.items;
+const CATALOG_CATEGORIES = allAgentsData.categories;
 
 const WORKFLOW_SCENARIOS = [
   {
@@ -243,84 +247,17 @@ const FORMATIONS = [
   }
 ];
 
-const MARKETPLACE_ITEMS = [
-  {
-    id: 'firebase-admin',
-    name: 'Firebase Admin & Firestore MCP',
-    type: 'MCP SERVER',
-    category: 'DATA',
-    version: '2.0.0',
-    description: 'Direct AI tools for managing Firestore databases, security rules, Cloud Functions, and auth tokens.',
-    destinationProject: '.loragent/loragent.json',
-    destinationGlobal: '~/.loragent/config.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp firebase-admin',
-    prereqs: ['Node.js >= 18', 'Firebase CLI']
-  },
-  {
-    id: 'loragent-boss',
-    name: 'Boss Orchestrator Agent',
-    type: 'AGENT',
-    category: 'ORCHESTRATION',
-    version: '2.0.0',
-    description: 'Master routing hub of the 224-agent ecosystem. Synthesizes task requirements into optimal squads.',
-    destinationProject: '.agents/skills/loragent-boss/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-boss/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-boss',
-    prereqs: ['Loragent Core']
-  },
-  {
-    id: 'cloudflare-wrangler',
-    name: 'Cloudflare Wrangler Specialist',
-    type: 'SKILL',
-    category: 'DEVOPS',
-    version: '2.0.0',
-    description: 'Deploys Cloudflare Workers, Pages, KV, D1 SQL, R2, Vectorize, and automated Zero-Trust secrets.',
-    destinationProject: '.agents/skills/loragent-wrangler-specialist/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-wrangler-specialist/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-wrangler-specialist',
-    prereqs: ['Wrangler CLI']
-  },
-  {
-    id: 'image-generate-fal',
-    name: 'Fal.ai & Replicate Image Generator',
-    type: 'MCP SERVER',
-    category: 'CREATIVE',
-    version: '2.0.0',
-    description: 'Ultra-fast production AI image generation MCP server with Flux Pro, Recraft V3, and SDXL.',
-    destinationProject: '.cursor/mcp.json',
-    destinationGlobal: '~/.claude/mcp.json',
-    installCmd: 'npx -y @lorapok/loragent@latest add-mcp image-generate-fal',
-    prereqs: ['Fal.ai API Key']
-  },
-  {
-    id: 'auto-team-preset',
-    name: 'Auto-Team Engineering Matrix',
-    type: 'FORMATION',
-    category: 'ENGINEERING',
-    version: '2.0.0',
-    description: 'Squad preset linking Tech Director, Backend SE, Frontend SE, Senior QA, and CI/CD Specialist.',
-    destinationProject: '.loragent/formations/auto-team.json',
-    destinationGlobal: '~/.loragent/formations/auto-team.json',
-    installCmd: 'npx -y @lorapok/loragent@latest formation auto-team',
-    prereqs: ['Loragent Hub']
-  },
-  {
-    id: 'loragent-sqa',
-    name: 'Senior SQA & Security Auditor',
-    type: 'AGENT',
-    category: 'SECURITY',
-    version: '2.0.0',
-    description: 'Runs automated test suites, performs type checking, security audits, and lifecycle pre-commit gates.',
-    destinationProject: '.agents/skills/loragent-sqa/SKILL.md',
-    destinationGlobal: '~/.loragent/skills/loragent-sqa/SKILL.md',
-    installCmd: 'npx -y @lorapok/loragent@latest install loragent-sqa',
-    prereqs: ['Node.js / Python']
-  }
-];
-
 export default function App() {
   const [search, setSearch] = useState('');
+  const [selectedType, setSelectedType] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedFormationFilter, setSelectedFormationFilter] = useState('all');
+  const [selectedLayerFilter, setSelectedLayerFilter] = useState('all');
+  
+  // Pagination & Modal State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(24);
+  const [showAllItems, setShowAllItems] = useState(false);
   const [copied, setCopied] = useState(null);
   const [modalItem, setModalItem] = useState(null);
   const [installScope, setInstallScope] = useState('project');
@@ -348,6 +285,11 @@ export default function App() {
     return () => clearInterval(timer);
   }, [isPlaying, currentScenario]);
 
+  // Reset pagination on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter]);
+
   const copyCode = (code, key) => {
     navigator.clipboard.writeText(code);
     setCopied(key);
@@ -361,13 +303,39 @@ export default function App() {
   };
 
   const filteredItems = useMemo(() => {
-    return MARKETPLACE_ITEMS.filter((item) => {
-      const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
-                          item.description.toLowerCase().includes(search.toLowerCase());
-      const matchCategory = selectedCategory === 'all' || item.category.toLowerCase() === selectedCategory.toLowerCase();
-      return matchSearch && matchCategory;
+    return ALL_CATALOG_ITEMS.filter((item) => {
+      const q = search.toLowerCase();
+      const matchSearch = !search ||
+                          (item.name && item.name.toLowerCase().includes(q)) ||
+                          (item.slug && item.slug.toLowerCase().includes(q)) ||
+                          (item.description && item.description.toLowerCase().includes(q)) ||
+                          (item.objective && item.objective.toLowerCase().includes(q)) ||
+                          (item.allowedTools && item.allowedTools.some(t => t.toLowerCase().includes(q))) ||
+                          (item.tags && item.tags.some(t => t.toLowerCase().includes(q)));
+
+      const matchType = selectedType === 'all' || 
+                        (selectedType === 'AGENT' && (item.type === 'AGENT' || item.type === 'RESIDENT AGENT' || item.type === 'SPECIALIST SKILL')) ||
+                        (item.type === selectedType);
+
+      const matchCategory = selectedCategory === 'all' || 
+                            item.category.toLowerCase() === selectedCategory.toLowerCase();
+
+      const matchFormation = selectedFormationFilter === 'all' || 
+                             item.formation.toLowerCase() === selectedFormationFilter.toLowerCase();
+
+      const matchLayer = selectedLayerFilter === 'all' || 
+                         (item.layer && item.layer.toUpperCase() === selectedLayerFilter.toUpperCase());
+
+      return matchSearch && matchType && matchCategory && matchFormation && matchLayer;
     });
-  }, [search, selectedCategory]);
+  }, [search, selectedType, selectedCategory, selectedFormationFilter, selectedLayerFilter]);
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
+  const paginatedItems = useMemo(() => {
+    if (showAllItems) return filteredItems;
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredItems.slice(start, start + itemsPerPage);
+  }, [filteredItems, currentPage, itemsPerPage, showAllItems]);
 
   return (
     <div className="container">
@@ -385,7 +353,7 @@ export default function App() {
 
         <nav style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <a href="#workflow" style={{ color: '#00FF41', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace', fontWeight: 'bold' }}>Live Workflow</a>
-          <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace' }}>Marketplace</a>
+          <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace' }}>224+ Agents Directory</a>
           <a href="#formations" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.85rem', fontFamily: 'monospace' }}>6 Formations</a>
           <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span>GitHub</span>
@@ -398,14 +366,14 @@ export default function App() {
       <section className="hero">
         <span className="badge">
           <Sparkles size={14} color="#00FF41" />
-          Universal AI Agent, Skill & MCP Server Registry
+          250 Autonomous Resources • 224 Agents • 20 MCP Servers • 6 Formations
         </span>
         <h1 className="title">
-          The 250-Resource AI Agent <br />
-          <span style={{ color: '#00FF41' }}>Marketplace & Squad Matrix</span>
+          Universal Multi-Agent <br />
+          <span style={{ color: '#00FF41' }}>Orchestration & Roster Directory</span>
         </h1>
         <p className="subtitle">
-          Hub-and-Spoke topology orchestrating 224+ specialized AI agents, Open Agent Skills, and MCP tools across Cursor, Claude Code, Windsurf, Antigravity, and Zed.
+          Hub-and-Spoke topology orchestrating 224+ specialized AI agents across FACE, PULSE, LORE, PORT, LOOM, and CROSS layers on Cursor, Claude Code, Windsurf, Antigravity, and Zed.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
@@ -585,72 +553,241 @@ export default function App() {
         </div>
       </section>
 
-      {/* MARKETPLACE SECTION */}
-      <h2 id="marketplace" className="section-title">Loragent Marketplace Registry</h2>
-      <div style={{ width: '100%', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative', minWidth: '280px', flex: '1' }}>
-          <Search size={16} color="#64748b" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-          <input 
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search 250 resources (Firebase, Boss, Docker, SQA)..."
-            style={{ width: '100%', padding: '12px 16px 12px 42px', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontSize: '0.85rem', fontFamily: 'monospace', outline: 'none' }}
-          />
-        </div>
+      {/* ─── 224+ AGENTS DIRECTORY & MARKETPLACE ─── */}
+      <h2 id="marketplace" className="section-title">224+ Autonomous Agents & MCP Registry</h2>
+      
+      {/* Search & Filter Strip */}
+      <div style={{ width: '100%', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto' }}>
-          {['all', 'engineering', 'data', 'creative', 'devops', 'security', 'orchestration'].map((c) => (
+        {/* Search and Type row */}
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ position: 'relative', minWidth: '300px', flex: '1' }}>
+            <Search size={16} color="#64748b" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+            <input 
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search 250 resources by name, slug, allowed tools, tags (e.g. tech-director, docker, sql, sqa)..."
+              style={{ width: '100%', padding: '12px 16px 12px 42px', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', fontSize: '0.85rem', fontFamily: 'monospace', outline: 'none' }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: '6px', overflowX: 'auto' }}>
+            {[
+              { id: 'all', label: `All (${allAgentsData.total})` },
+              { id: 'AGENT', label: `Agents (${allAgentsData.totalAgents})` },
+              { id: 'MCP SERVER', label: `MCPs (${allAgentsData.totalMcp})` },
+              { id: 'FORMATION', label: `Formations (${allAgentsData.totalFormations})` }
+            ].map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setSelectedType(t.id)}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  fontSize: '0.75rem',
+                  fontFamily: 'monospace',
+                  cursor: 'pointer',
+                  background: selectedType === t.id ? '#00FF41' : 'rgba(255,255,255,0.05)',
+                  color: selectedType === t.id ? '#000' : '#94a3b8',
+                  fontWeight: selectedType === t.id ? '700' : '400',
+                  border: 'none',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Category Filter Pills */}
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px' }}>
+          {CATALOG_CATEGORIES.map((c) => (
             <button
-              key={c}
-              onClick={() => setSelectedCategory(c)}
+              key={c.id}
+              onClick={() => setSelectedCategory(c.id)}
               style={{
-                padding: '8px 14px',
-                borderRadius: '10px',
+                padding: '6px 12px',
+                borderRadius: '8px',
                 fontSize: '0.75rem',
                 fontFamily: 'monospace',
                 cursor: 'pointer',
-                background: selectedCategory === c ? '#00FF41' : 'rgba(255,255,255,0.05)',
-                color: selectedCategory === c ? '#000' : '#94a3b8',
-                fontWeight: selectedCategory === c ? '700' : '400',
-                border: 'none'
+                background: selectedCategory === c.id ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.03)',
+                color: selectedCategory === c.id ? '#fff' : '#94a3b8',
+                border: selectedCategory === c.id ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(255,255,255,0.05)',
+                whiteSpace: 'nowrap'
               }}
             >
-              {c.toUpperCase()}
+              <span>{c.name}</span> <span style={{ opacity: 0.6, fontSize: '0.7rem' }}>({c.count})</span>
             </button>
           ))}
         </div>
+
+        {/* Secondary Filter: Formations & Layers */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.05)', fontSize: '0.75rem', fontFamily: 'monospace' }}>
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', overflowX: 'auto' }}>
+            <span style={{ color: '#64748b' }}>Formation:</span>
+            {['all', 'auto', 'office', 'chela', 'freelance', 'observer', 'spidernet'].map((f) => (
+              <button
+                key={f}
+                onClick={() => setSelectedFormationFilter(f)}
+                style={{
+                  padding: '3px 8px',
+                  borderRadius: '6px',
+                  fontSize: '0.7rem',
+                  fontFamily: 'monospace',
+                  cursor: 'pointer',
+                  background: selectedFormationFilter === f ? 'rgba(0,255,65,0.2)' : 'transparent',
+                  color: selectedFormationFilter === f ? '#00FF41' : '#94a3b8',
+                  border: selectedFormationFilter === f ? '1px solid #00FF41' : 'none',
+                  textTransform: 'uppercase'
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', overflowX: 'auto' }}>
+            <span style={{ color: '#64748b' }}>Layer:</span>
+            {['all', 'FACE', 'PULSE', 'LORE', 'PORT', 'LOOM', 'CROSS'].map((l) => (
+              <button
+                key={l}
+                onClick={() => setSelectedLayerFilter(l)}
+                style={{
+                  padding: '3px 8px',
+                  borderRadius: '6px',
+                  fontSize: '0.7rem',
+                  fontFamily: 'monospace',
+                  cursor: 'pointer',
+                  background: selectedLayerFilter === l ? 'rgba(6,182,212,0.2)' : 'transparent',
+                  color: selectedLayerFilter === l ? '#06b6d4' : '#94a3b8',
+                  border: selectedLayerFilter === l ? '1px solid #06b6d4' : 'none'
+                }}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Count and View All toggle */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>
+          <div>
+            Showing <span style={{ color: '#00FF41', fontWeight: 'bold' }}>{paginatedItems.length}</span> of <span style={{ color: '#fff' }}>{filteredItems.length}</span> resources
+          </div>
+          <button
+            onClick={() => setShowAllItems(!showAllItems)}
+            style={{ padding: '4px 10px', background: showAllItems ? 'rgba(168,85,247,0.2)' : 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: showAllItems ? '#a855f7' : '#94a3b8', cursor: 'pointer', fontSize: '0.75rem', fontFamily: 'monospace' }}
+          >
+            {showAllItems ? 'Paginated View' : 'Show All (250)'}
+          </button>
+        </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.25rem', width: '100%', marginBottom: '5rem' }}>
-        {filteredItems.map((item) => (
+      {/* Grid of Agents */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.25rem', width: '100%', marginBottom: '3rem' }}>
+        {paginatedItems.map((item) => (
           <div 
             key={item.id}
             style={{ background: 'rgba(10, 17, 32, 0.7)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41', border: '1px solid rgba(0,255,65,0.2)' }}>
-                {item.type}
-              </span>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b' }}>{item.category}</span>
+            {/* Top Badges */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+              <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: item.type === 'MCP SERVER' ? 'rgba(6,182,212,0.15)' : 'rgba(0, 255, 65, 0.1)', color: item.type === 'MCP SERVER' ? '#06b6d4' : '#00FF41', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  {item.type}
+                </span>
+                <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.05)', color: '#cbd5e1' }}>
+                  {item.layer}
+                </span>
+                <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(255,255,255,0.05)', color: '#38bdf8', textTransform: 'uppercase' }}>
+                  {item.formation}
+                </span>
+              </div>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b' }}>Tier: {item.costTier}</span>
             </div>
+
+            {/* Title & Slug */}
             <div>
               <div style={{ fontWeight: '700', fontFamily: 'monospace', color: '#fff', fontSize: '1.05rem' }}>{item.name}</div>
-              <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '6px', lineHeight: '1.6' }}>{item.description}</div>
+              <div style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b', marginTop: '2px' }}>{item.slug}</div>
+              <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '8px', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {item.description}
+              </div>
             </div>
-            <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+            {/* Allowed Tools */}
+            {item.allowedTools && item.allowedTools.length > 0 && (
+              <div style={{ marginTop: 'auto', paddingTop: '8px' }}>
+                <div style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '4px' }}>ALLOWED TOOLS:</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  {item.allowedTools.slice(0, 4).map((t, idx) => (
+                    <span key={idx} style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      {t}
+                    </span>
+                  ))}
+                  {item.allowedTools.length > 4 && (
+                    <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', color: '#64748b' }}>
+                      +{item.allowedTools.length - 4}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Slash Directive */}
+            <div style={{ background: 'rgba(0,0,0,0.5)', padding: '6px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41' }}>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.slashCommand}</span>
+              <button 
+                onClick={() => copyCode(item.slashCommand, `slash-${item.id}`)}
+                style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: '2px' }}
+                title="Copy command"
+              >
+                {copied === `slash-${item.id}` ? <Check size={12} color="#00FF41" /> : <Copy size={12} />}
+              </button>
+            </div>
+
+            {/* Card Bottom */}
+            <div style={{ paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>v{item.version}</span>
               <button
                 onClick={() => setModalItem(item)}
                 style={{ padding: '6px 12px', background: 'rgba(0, 255, 65, 0.15)', border: '1px solid rgba(0, 255, 65, 0.3)', borderRadius: '8px', color: '#00FF41', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
               >
                 <DownloadCloud size={13} />
-                <span>Install</span>
+                <span>Inspect & Install</span>
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {!showAllItems && totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: '5rem', fontFamily: 'monospace', fontSize: '0.8rem' }}>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', cursor: currentPage === 1 ? 'not-allowed' : 'pointer', opacity: currentPage === 1 ? 0.3 : 1 }}
+          >
+            Prev
+          </button>
+
+          <span style={{ color: '#94a3b8' }}>
+            Page <span style={{ color: '#00FF41', fontWeight: 'bold' }}>{currentPage}</span> of <span style={{ color: '#fff' }}>{totalPages}</span>
+          </span>
+
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer', opacity: currentPage === totalPages ? 0.3 : 1 }}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       {/* 6 FORMATIONS SECTION */}
       <h2 id="formations" className="section-title">6 Dynamic Squad Formations</h2>
@@ -686,20 +823,79 @@ export default function App() {
         })}
       </main>
 
-      {/* MODAL */}
+      {/* DETAILED AGENT INSPECTOR & INSTALL MODAL */}
       {modalItem && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', zIndex: 100 }}>
-          <div style={{ maxWidth: '520px', width: '100%', background: '#0a0f1d', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '1.75rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+          <div style={{ maxWidth: '640px', width: '100%', maxHeight: '90vh', overflowY: 'auto', background: '#0a0f1d', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '1.75rem' }}>
+            
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
               <div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#fff', fontFamily: 'monospace' }}>Install {modalItem.name}</h3>
-                <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '4px' }}>{modalItem.description}</p>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,255,65,0.15)', color: '#00FF41', border: '1px solid rgba(0,255,65,0.3)' }}>
+                    {modalItem.type}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 8px', borderRadius: '4px', background: 'rgba(6,182,212,0.15)', color: '#06b6d4' }}>
+                    LAYER: {modalItem.layer}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 8px', borderRadius: '4px', background: 'rgba(168,85,247,0.15)', color: '#a855f7', textTransform: 'uppercase' }}>
+                    FORMATION: {modalItem.formation}
+                  </span>
+                  <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b' }}>v{modalItem.version}</span>
+                </div>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: '700', color: '#fff', fontFamily: 'monospace' }}>{modalItem.name}</h3>
+                <div style={{ fontSize: '0.8rem', color: '#64748b', fontFamily: 'monospace' }}>{modalItem.slug}</div>
               </div>
-              <button onClick={() => setModalItem(null)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}>
+              <button onClick={() => setModalItem(null)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: '4px' }}>
                 <X size={20} />
               </button>
             </div>
 
+            {/* Description & Objective */}
+            <div style={{ marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '4px' }}>DESCRIPTION</div>
+                <div style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6', background: 'rgba(0,0,0,0.4)', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  {modalItem.description}
+                </div>
+              </div>
+
+              {modalItem.objective && (
+                <div>
+                  <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#00FF41', marginBottom: '4px' }}>PRIMARY OBJECTIVE & SCOPE</div>
+                  <div style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: '1.6', background: 'rgba(0,255,65,0.05)', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(0,255,65,0.2)' }}>
+                    {modalItem.objective}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Allowed Tools & Connectors */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '1.25rem' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '6px' }}>ALLOWED TOOLS ({modalItem.allowedTools?.length || 0})</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '8px' }}>
+                  {modalItem.allowedTools?.map((t, idx) => (
+                    <span key={idx} style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 6px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', color: '#cbd5e1' }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '6px' }}>CONNECTORS ({modalItem.connectors?.length || 0})</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '8px' }}>
+                  {modalItem.connectors?.map((c, idx) => (
+                    <span key={idx} style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 6px', background: 'rgba(6,182,212,0.1)', borderRadius: '4px', color: '#06b6d4' }}>
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Scope Selection */}
             <div style={{ marginBottom: '1rem' }}>
               <label style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'monospace', color: '#cbd5e1', marginBottom: '6px' }}>Where should this be available?</label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -707,41 +903,53 @@ export default function App() {
                   onClick={() => setInstallScope('project')}
                   style={{ padding: '8px', borderRadius: '8px', fontSize: '0.8rem', fontFamily: 'monospace', cursor: 'pointer', background: installScope === 'project' ? '#00FF41' : 'rgba(255,255,255,0.05)', color: installScope === 'project' ? '#000' : '#94a3b8', border: 'none', fontWeight: '600' }}
                 >
-                  project
+                  project (.agents/skills/)
                 </button>
                 <button 
                   onClick={() => setInstallScope('global')}
                   style={{ padding: '8px', borderRadius: '8px', fontSize: '0.8rem', fontFamily: 'monospace', cursor: 'pointer', background: installScope === 'global' ? '#a855f7' : 'rgba(255,255,255,0.05)', color: installScope === 'global' ? '#fff' : '#94a3b8', border: 'none', fontWeight: '600' }}
                 >
-                  global
+                  global (~/.loragent/skills/)
                 </button>
               </div>
             </div>
 
+            {/* Destination path */}
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '4px' }}>Installation destination</label>
-              <div style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.8rem', fontFamily: 'monospace', color: '#cbd5e1' }}>
+              <label style={{ display: 'block', fontSize: '0.7rem', fontFamily: 'monospace', color: '#64748b', marginBottom: '4px' }}>Installation destination</label>
+              <div style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#cbd5e1', wordBreak: 'break-all' }}>
                 {installScope === 'project' ? modalItem.destinationProject : modalItem.destinationGlobal}
               </div>
             </div>
 
-            <div style={{ marginBottom: '1.25rem', padding: '10px 12px', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#fbbf24' }}>
-              ⚠️ Zero-Trust Vault will encrypt any injected credentials. Never store plaintext secrets in committed files.
+            {/* Zero-Trust Notice */}
+            <div style={{ marginBottom: '1rem', padding: '10px 12px', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#fbbf24' }}>
+              ⚠️ Zero-Trust Vault: All credentials injected into child processes are AES-256 encrypted. Never store plaintext secrets.
             </div>
 
+            {/* Copyable Slash Directive */}
+            <div style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', fontFamily: 'monospace', fontSize: '0.8rem', color: '#38bdf8' }}>
+              <span>Slash Directive: {modalItem.slashCommand}</span>
+              <button onClick={() => handleModalCopy(modalItem.slashCommand)} style={{ background: 'none', border: 'none', color: '#38bdf8', cursor: 'pointer' }}>
+                {modalCopied ? <Check size={14} /> : <Copy size={14} />}
+              </button>
+            </div>
+
+            {/* Copyable CLI command */}
             <div style={{ padding: '10px 14px', background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(0, 255, 65, 0.3)', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', fontFamily: 'monospace', fontSize: '0.8rem', color: '#00FF41' }}>
-              <span>{modalItem.installCmd} {installScope === 'global' ? '--global' : ''}</span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{modalItem.installCmd} {installScope === 'global' ? '--global' : ''}</span>
               <button onClick={() => handleModalCopy(`${modalItem.installCmd} ${installScope === 'global' ? '--global' : ''}`)} style={{ background: 'none', border: 'none', color: '#00FF41', cursor: 'pointer' }}>
                 {modalCopied ? <Check size={16} /> : <Copy size={16} />}
               </button>
             </div>
 
+            {/* Modal Actions */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
               <button onClick={() => setModalItem(null)} style={{ padding: '8px 16px', background: 'none', border: 'none', color: '#64748b', fontSize: '0.85rem', fontFamily: 'monospace', cursor: 'pointer' }}>
-                Cancel
+                Close
               </button>
               <button onClick={() => { handleModalCopy(`${modalItem.installCmd} ${installScope === 'global' ? '--global' : ''}`); setTimeout(() => setModalItem(null), 700); }} className="btn-primary" style={{ fontSize: '0.85rem' }}>
-                {modalCopied ? 'Copied!' : 'Install Now'}
+                {modalCopied ? 'Copied Command!' : 'Copy Install Command'}
               </button>
             </div>
           </div>
@@ -750,7 +958,7 @@ export default function App() {
 
       {/* FOOTER */}
       <footer style={{ width: '100%', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '2.5rem', paddingBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: '#64748b', fontFamily: 'monospace' }}>
-        <div>LORAGENT v2.0.0 • Lorapok Labs Official Asset</div>
+        <div>LORAGENT v2.0.0 • 224 Autonomous Agents • Lorapok Labs Official Asset</div>
         <div style={{ display: 'flex', gap: '1.5rem' }}>
           <a href="https://lorapok.tech" target="_blank" rel="noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>Lorapok Labs</a>
           <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>GitHub</a>
