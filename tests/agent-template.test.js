@@ -4,11 +4,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { formatAgentFromTemplate } from '../scripts/enrich-skills.js';
 
-test('Agent Template & Specification Standard Suite', (t) => {
+test('Agent Template & Specification Standard Suite', async (t) => {
   const root = process.cwd();
   const templatePath = path.join(root, 'AGENT_TEMPLATE.md');
 
-  t.test('should validate AGENT_TEMPLATE.md file existence and sections', () => {
+  await t.test('should validate AGENT_TEMPLATE.md file existence and sections', () => {
     assert.ok(fs.existsSync(templatePath), 'AGENT_TEMPLATE.md must exist');
     const content = fs.readFileSync(templatePath, 'utf8');
 
@@ -25,7 +25,7 @@ test('Agent Template & Specification Standard Suite', (t) => {
     assert.ok(content.includes('§8 · Editor Compatibility Matrix'), 'Must contain §8 · Editor Compatibility Matrix');
   });
 
-  t.test('should correctly compile an agent specification from template', () => {
+  await t.test('should correctly compile an agent specification from template', () => {
     const templateContent = fs.readFileSync(templatePath, 'utf8');
     const mockAgent = {
       name: 'loragent-test-specialist',

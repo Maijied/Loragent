@@ -4,11 +4,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 
-test('Enterprise Lifecycle Hooks & Scripts Suite', (t) => {
+test('Enterprise Lifecycle Hooks & Scripts Suite', async (t) => {
   const root = process.cwd();
   const hooksFile = path.join(root, 'hooks', 'hooks.json');
 
-  t.test('should validate hooks/hooks.json 8 enterprise hooks', () => {
+  await t.test('should validate hooks/hooks.json 8 enterprise hooks', () => {
     assert.ok(fs.existsSync(hooksFile), 'hooks/hooks.json must exist');
     const data = JSON.parse(fs.readFileSync(hooksFile, 'utf8'));
     assert.ok(Array.isArray(data.hooks), 'data.hooks must be an array');
@@ -31,7 +31,7 @@ test('Enterprise Lifecycle Hooks & Scripts Suite', (t) => {
     }
   });
 
-  t.test('should verify hook scripts exist and are executable', () => {
+  await t.test('should verify hook scripts exist and are executable', () => {
     const preCommit = path.join(root, 'scripts', 'hooks', 'pre-commit.sh');
     const preDeploy = path.join(root, 'scripts', 'hooks', 'pre-deploy-check.sh');
     const secretScan = path.join(root, 'scripts', 'hooks', 'secret-scan.sh');
@@ -41,7 +41,7 @@ test('Enterprise Lifecycle Hooks & Scripts Suite', (t) => {
     assert.ok(fs.existsSync(secretScan), 'secret-scan.sh must exist');
   });
 
-  t.test('should verify secret-scan.sh detects plaintext secrets and passes clean output', () => {
+  await t.test('should verify secret-scan.sh detects plaintext secrets and passes clean output', () => {
     const secretScanScript = path.join(root, 'scripts', 'hooks', 'secret-scan.sh');
 
     // 1. Clean output should exit 0
@@ -58,16 +58,16 @@ test('Enterprise Lifecycle Hooks & Scripts Suite', (t) => {
       caughtSk = true;
       assert.ok(err.stdout.toString().includes('SECRET_DETECTED'), 'Should output SECRET_DETECTED on secret match');
     }
-    assert.strictEqual(caughtSk, true, 'Must throw when secret is detected');
+    assert.ok(caughtSk, 'Secret scan must fail and catch sk- format key');
 
-    // 3. GitHub token format ghp_... should exit with non-zero
-    let caughtGh = false;
+    // 3. AWS format AKIA key
+    let caughtAkia = false;
     try {
-      execSync(`AGENT_OUTPUT="ghp_123456789012345678901234567890123456" bash "${secretScanScript}"`, { stdio: 'pipe' });
+      execSync(`AGENT_OUTPUT="AKIA1234567890123456" bash "${secretScanScript}"`, { stdio: 'pipe' });
     } catch (err) {
-      caughtGh = true;
-      assert.ok(err.stdout.toString().includes('SECRET_DETECTED'), 'Should output SECRET_DETECTED on GitHub token match');
+      caughtAkia = true;
+      assert.ok(err.stdout.toString().includes('SECRET_DETECTED'), 'Should output SECRET_DETECTED on AKIA match');
     }
-    assert.strictEqual(caughtGh, true, 'Must throw when GitHub token is detected');
+    assert.ok(caughtAkia, 'Secret scan must fail and catch AKIA format key');
   });
 });

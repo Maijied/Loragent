@@ -3,11 +3,11 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 
-test('MCP Server Registry (.mcp.json) Suite', (t) => {
+test('MCP Server Registry (.mcp.json) Suite', async (t) => {
   const root = process.cwd();
   const mcpJsonPath = path.join(root, '.mcp.json');
 
-  t.test('should validate .mcp.json file existence and schema', () => {
+  await t.test('should validate .mcp.json file existence and schema', () => {
     assert.ok(fs.existsSync(mcpJsonPath), '.mcp.json must exist in project root');
     const content = fs.readFileSync(mcpJsonPath, 'utf8');
     const data = JSON.parse(content);
@@ -41,7 +41,7 @@ test('MCP Server Registry (.mcp.json) Suite', (t) => {
     }
   });
 
-  t.test('should verify MCP servers are synced to IDE config paths', () => {
+  await t.test('should verify MCP servers are synced to IDE config paths', () => {
     const cursorMcp = path.join(root, '.cursor', 'mcp.json');
     const vscodeMcp = path.join(root, '.vscode', 'mcp.json');
 

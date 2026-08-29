@@ -6,25 +6,25 @@ import { getPinSync } from '../src/lore/auth/pin-manager.js';
 
 const EMAIL_SCRIPT = path.join(process.cwd(), 'bin', 'loragent-email.js');
 
-test('Loragent Email CLI', (t) => {
+test('Loragent Email CLI', async (t) => {
     const pin = getPinSync();
 
-    t.test('should output usage when called with help or without args', () => {
+    await t.test('should output usage when called with help or without args', () => {
         const result = spawnSync('node', [EMAIL_SCRIPT, 'help'], { 
             env: {
                 PATH: process.env.PATH,
-                CRED_PASSPHRASE: pin
+                CRED_PASSPHRASE: pin || ''
             }
         });
         assert.strictEqual(result.status, 0);
         assert.ok(result.stdout.toString().includes('Usage:'));
     });
 
-    t.test('should validate Cloudflare credentials or exit gracefully', () => {
+    await t.test('should validate Cloudflare credentials or exit gracefully', () => {
         const result = spawnSync('node', [EMAIL_SCRIPT, 'list'], { 
             env: {
                 PATH: process.env.PATH,
-                CRED_PASSPHRASE: pin
+                CRED_PASSPHRASE: pin || ''
             }
         });
         assert.ok([0, 1].includes(result.status));

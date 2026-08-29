@@ -11,6 +11,15 @@ export const Formations = {
   ALL: 'all'
 };
 
+export const FORMATIONS = [
+  'orchestrator',
+  'auto',
+  'office',
+  'chela',
+  'freelance',
+  'observer'
+];
+
 export const Categories = {
   ENGINEERING: 'engineering',
   ORCHESTRATION: 'orchestration',
@@ -35,6 +44,10 @@ export const Categories = {
   FREQGHOST: 'freqghost',
   GENERAL: 'general'
 };
+
+export const CATEGORIES = Object.values(Categories);
+
+export const AGENT_ROSTER_TOTAL = 224;
 
 export const CoreAgents = {
   BOSS: 'loragent-boss',

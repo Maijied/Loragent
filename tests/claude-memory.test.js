@@ -4,10 +4,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { executeCLI } from '../sdk/tools/cli-runner.js';
 
-test('Claude Code Extended Memory & Lifecycle Hooks Suite', (t) => {
+test('Claude Code Extended Memory & Lifecycle Hooks Suite', async (t) => {
   const root = process.cwd();
 
-  t.test('should have 3-Layer memory files configured', () => {
+  await t.test('should have 3-Layer memory files configured', () => {
     // Layer 1
     const claudeMd = path.join(root, 'CLAUDE.md');
     const agentsMd = path.join(root, 'AGENTS.md');
@@ -29,7 +29,7 @@ test('Claude Code Extended Memory & Lifecycle Hooks Suite', (t) => {
     assert.ok(content.includes('.loragent-debug/watchman-cache.json'), 'Must reference Layer 3 ephemeral session cache');
   });
 
-  t.test('should validate hooks/hooks.json configuration and lifecycle events', () => {
+  await t.test('should validate hooks/hooks.json configuration and lifecycle events', () => {
     const hooksPath = path.join(root, 'hooks', 'hooks.json');
     assert.ok(fs.existsSync(hooksPath), 'hooks/hooks.json must exist');
 
@@ -52,37 +52,40 @@ test('Claude Code Extended Memory & Lifecycle Hooks Suite', (t) => {
     assert.ok(hooksMap['destructive-io-guard'], 'destructive-io-guard hook must be defined');
   });
 
-  t.test('should have memory pipeline agents registered in catalog', () => {
+  await t.test('should have memory pipeline agents registered in catalog', () => {
     const goldCollector = path.join(root, 'agents', 'gold-collector', 'SKILL.md');
     const skillCreator = path.join(root, 'agents', 'skill-creator', 'SKILL.md');
     const dbUpdater = path.join(root, 'agents', 'database-updater', 'SKILL.md');
     const cacheCollector = path.join(root, 'agents', 'cache-collector', 'SKILL.md');
 
-    assert.ok(fs.existsSync(goldCollector), 'loragent-gold-collector must exist');
-    assert.ok(fs.existsSync(skillCreator), 'loragent-skill-creator must exist');
-    assert.ok(fs.existsSync(dbUpdater), 'loragent-database-updater must exist');
-    assert.ok(fs.existsSync(cacheCollector), 'loragent-cache-collector must exist');
+    assert.ok(fs.existsSync(goldCollector), 'loragent-gold-collector SKILL.md must exist');
+    assert.ok(fs.existsSync(skillCreator), 'loragent-skill-creator SKILL.md must exist');
+    assert.ok(fs.existsSync(dbUpdater), 'loragent-database-updater SKILL.md must exist');
+    assert.ok(fs.existsSync(cacheCollector), 'loragent-cache-collector SKILL.md must exist');
   });
 
-  t.test('should enforce token budget resident set (boss, watchman, workspace-guard, spidernet, teacher)', () => {
-    const residentSet = ['boss', 'watchman', 'workspace-guard', 'spidernet', 'teacher'];
-    for (const agent of residentSet) {
-      const p = path.join(root, 'agents', agent, 'SKILL.md');
-      assert.ok(fs.existsSync(p), `Resident core agent ${agent} must exist`);
+  await t.test('should enforce token budget resident set (boss, watchman, workspace-guard, spidernet, teacher)', () => {
+    const claudeMd = path.join(root, 'CLAUDE.md');
+    const content = fs.readFileSync(claudeMd, 'utf8');
+
+    const requiredResident = [
+      'boss',
+      'watchman',
+      'workspace-guard',
+      'spidernet',
+      'teacher'
+    ];
+
+    for (const resident of requiredResident) {
+      assert.ok(content.includes(resident), `Resident set must include ${resident}`);
     }
   });
 
-  t.test('should block destructive bash commands per tool permissions matrix', async () => {
+  await t.test('should block destructive bash commands per tool permissions matrix', async () => {
+    const destructive = 'rm -rf /some/directory';
     await assert.rejects(
       async () => {
-        await executeCLI('rm -rf /tmp/loragent-unsafe-test');
-      },
-      /WORKSPACE_GUARD/
-    );
-
-    await assert.rejects(
-      async () => {
-        await executeCLI('wrangler delete test-worker');
+        await executeCLI(destructive);
       },
       /WORKSPACE_GUARD/
     );

@@ -3,11 +3,11 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 
-test('Loragent Plugin Manifest Suite', (t) => {
+test('Loragent Plugin Manifest Suite', async (t) => {
   const root = process.cwd();
   const pluginJsonPath = path.join(root, 'plugin.json');
 
-  t.test('should validate plugin.json structure and required metadata', () => {
+  await t.test('should validate plugin.json structure and required metadata', () => {
     assert.ok(fs.existsSync(pluginJsonPath), 'plugin.json must exist in root');
     const manifest = JSON.parse(fs.readFileSync(pluginJsonPath, 'utf8'));
 
@@ -23,7 +23,7 @@ test('Loragent Plugin Manifest Suite', (t) => {
     assert.ok(manifest.keywords.includes('lorapok'));
   });
 
-  t.test('should verify all referenced assets in plugin.json exist', () => {
+  await t.test('should verify all referenced assets in plugin.json exist', () => {
     const manifest = JSON.parse(fs.readFileSync(pluginJsonPath, 'utf8'));
 
     const skillsPath = path.resolve(root, manifest.skills);

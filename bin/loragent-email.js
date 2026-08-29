@@ -3,9 +3,27 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-
 import { execSync } from 'child_process';
 import { getPin } from '../src/lore/auth/pin-manager.js';
+
+const args = process.argv.slice(2);
+const command = args[0];
+
+if (!command || command === 'help' || command === '--help' || command === '-h') {
+    console.log(`
+🚀 Loragent Email Manager (Cloudflare Email Routing)
+
+Usage:
+  loragent-email create <address> [destination]   Create a new email routing rule
+  loragent-email list                             List all existing email routing rules
+  loragent-email delete <address>                 Delete an email routing rule
+  
+Examples:
+  loragent-email create support@lorapok.tech
+  loragent-email create billing@lorapok.tech my-other-email@gmail.com
+`);
+    process.exit(0);
+}
 
 async function getSecure(vaultPath) {
     const pin = await getPin();
@@ -35,25 +53,6 @@ if (!ZONE_ID || !API_KEY || !API_EMAIL) {
     process.exit(1);
 }
 
-const args = process.argv.slice(2);
-const command = args[0];
-
-if (!command || command === 'help') {
-    console.log(`
-🚀 Loragent Email Manager (Cloudflare Email Routing)
-
-Usage:
-  loragent-email create <address> [destination]   Create a new email routing rule
-  loragent-email list                             List all existing email routing rules
-  loragent-email delete <address>                 Delete an email routing rule
-  
-Examples:
-  loragent-email create support@${DOMAIN}
-  loragent-email create billing@${DOMAIN} my-other-email@gmail.com
-`);
-    process.exit(0);
-}
-
 async function listRules() {
     const url = `https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/email/routing/rules`;
     const response = await fetch(url, {
@@ -63,37 +62,24 @@ async function listRules() {
             'Content-Type': 'application/json'
         }
     });
-
     const data = await response.json();
     if (!data.success) {
-        console.error('❌ Failed to fetch rules:', data.errors);
-        process.exit(1);
+        throw new Error(data.errors.map(e => e.message).join(', '));
     }
-
-    console.log('📋 Cloudflare Email Routing Rules:');
-    for (const rule of data.result) {
-        if (rule.matchers && rule.matchers.length > 0 && rule.actions && rule.actions.length > 0) {
-            const match = rule.matchers[0].value;
-            const action = rule.actions[0];
-            const target = (action && action.value) ? action.value[0] : JSON.stringify(action);
-            console.log(`   ${rule.enabled ? '✅' : '❌'} ${match} ➡️ ${target}`);
-        }
-    }
+    return data.result;
 }
 
-async function createRule(address, destination) {
-    if (!address.includes('@')) {
-        address = `${address}@${DOMAIN}`;
-    }
-    
-    const target = destination || FORWARD_TO;
+async function createRule(customAddress, destinationAddress = FORWARD_TO) {
     const url = `https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/email/routing/rules`;
     
-    const payload = {
-        matchers: [{ type: 'literal', field: 'to', value: address }],
-        actions: [{ type: 'forward', value: [target] }],
+    // Ensure full address
+    const fullAddress = customAddress.includes('@') ? customAddress : `${customAddress}@${DOMAIN}`;
+
+    const body = {
+        actions: [{ type: "forward", value: [destinationAddress] }],
+        matchers: [{ field: "to", type: "literal", value: fullAddress }],
+        name: `Loragent Rule: ${fullAddress}`,
         enabled: true,
-        name: `Loragent Auto-Generated: ${address}`,
         priority: 0
     };
 
@@ -104,37 +90,72 @@ async function createRule(address, destination) {
             'X-Auth-Key': API_KEY,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(body)
     });
 
     const data = await response.json();
     if (!data.success) {
-        console.error('❌ Failed to create rule:', data.errors);
-        process.exit(1);
+        throw new Error(data.errors.map(e => e.message).join(', '));
     }
-
-    console.log(`✅ Successfully created email routing rule!`);
-    console.log(`   ${address} ➡️ ${target}`);
+    return data.result;
 }
 
-if (command === 'list') {
-    listRules().catch(console.error);
-} else if (command === 'create') {
-    const address = args[1];
-    if (!address) {
-        console.error(`❌ Please provide an email address to create (e.g., support@${DOMAIN})`);
+async function deleteRule(ruleId) {
+    const url = `https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/email/routing/rules/${ruleId}`;
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'X-Auth-Email': API_EMAIL,
+            'X-Auth-Key': API_KEY,
+            'Content-Type': 'application/json'
+        }
+    });
+    const data = await response.json();
+    if (!data.success) {
+        throw new Error(data.errors.map(e => e.message).join(', '));
+    }
+    return data.result;
+}
+
+try {
+    if (command === 'list') {
+        const rules = await listRules();
+        console.log(`\n📬 Active Email Routing Rules for ${DOMAIN}:`);
+        rules.forEach(r => {
+            const matcher = r.matchers?.[0]?.value || 'any';
+            const forward = r.actions?.[0]?.value?.join(', ') || 'drop';
+            console.log(` - [${r.enabled ? 'ACTIVE' : 'DISABLED'}] ${matcher} ➔ ${forward} (ID: ${r.tag || r.id})`);
+        });
+    } else if (command === 'create') {
+        const address = args[1];
+        const dest = args[2] || FORWARD_TO;
+        if (!address) {
+            console.error('❌ Error: Please specify the email address to create (e.g. support or support@lorapok.tech)');
+            process.exit(1);
+        }
+        console.log(`⏳ Creating forward rule for ${address} ➔ ${dest}...`);
+        const rule = await createRule(address, dest);
+        console.log(`✅ Forward rule created successfully! ID: ${rule.tag || rule.id}`);
+    } else if (command === 'delete') {
+        const address = args[1];
+        if (!address) {
+            console.error('❌ Error: Please specify the email address or rule ID to delete');
+            process.exit(1);
+        }
+        const rules = await listRules();
+        const rule = rules.find(r => r.tag === address || r.id === address || r.matchers?.[0]?.value === address || r.matchers?.[0]?.value === `${address}@${DOMAIN}`);
+        if (!rule) {
+            console.error(`❌ Error: No rule found matching "${address}"`);
+            process.exit(1);
+        }
+        console.log(`⏳ Deleting rule ${rule.tag || rule.id}...`);
+        await deleteRule(rule.tag || rule.id);
+        console.log(`✅ Rule deleted successfully!`);
+    } else {
+        console.error(`❌ Unknown command: "${command}". Run "loragent-email help" for usage.`);
         process.exit(1);
     }
-    createRule(address, args[2]).catch(console.error);
-} else if (command === 'delete') {
-    const address = args[1];
-    if (!address) {
-        console.error('❌ Please provide an email address to delete');
-        process.exit(1);
-    }
-    // TODO: implement delete
-    console.log(`Deletion not yet implemented. Use Cloudflare Dashboard to delete ${address}.`);
-} else {
-    console.error(`❌ Unknown command: ${command}`);
+} catch (err) {
+    console.error(`❌ API Error: ${err.message}`);
     process.exit(1);
 }

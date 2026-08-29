@@ -5,20 +5,11 @@ import { getPinSync } from '../../src/lore/auth/pin-manager.js';
 /**
  * Safe CLI Command Runner with Multi-Cloud & Platform Auto-Credential Injection
  * Lorapok Labs Enterprise Tool Execution Standard
- * 
- * Supports:
- * - Cloudflare (wrangler)
- * - GitHub (gh, git)
- * - Firebase (firebase, npx firebase-tools)
- * - Microsoft Azure (az)
- * - Google Cloud (gcloud, bq, gsutil)
- * - Amazon Web Services (aws)
- * - Vercel (vercel)
- * - Container & Package tools (docker, npm, pnpm, python)
  */
 
 const DESTRUCTIVE_PATTERNS = [
   /rm\s+-rf\s+(\/|~|\.\.)/i,
+  /rm\s+-rf/i,
   /wrangler\s+(delete|drop)/i,
   /gh\s+repo\s+delete/i,
   /firebase\s+(projects:delete|database:remove)/i,
@@ -95,48 +86,37 @@ export async function executeCLI(command, options = {}) {
 
   // Azure CLI auto-credentials
   if (command.startsWith('az ') || command.includes(' az ')) {
-    if (!env.AZURE_CLIENT_ID) {
-      const azClientId = fetchVaultCredential('cursor', 'azure_client_id');
-      if (azClientId) env.AZURE_CLIENT_ID = azClientId;
-    }
     if (!env.AZURE_CLIENT_SECRET) {
-      const azSecret = fetchVaultCredential('cursor', 'azure_client_secret');
-      if (azSecret) env.AZURE_CLIENT_SECRET = azSecret;
-    }
-    if (!env.AZURE_TENANT_ID) {
-      const azTenant = fetchVaultCredential('cursor', 'azure_tenant_id');
-      if (azTenant) env.AZURE_TENANT_ID = azTenant;
+      const secret = fetchVaultCredential('cursor', 'azure_client_secret') || fetchVaultCredential('azure', 'client_secret');
+      if (secret) env.AZURE_CLIENT_SECRET = secret;
     }
   }
 
   // Google Cloud CLI auto-credentials
   if (command.startsWith('gcloud') || command.startsWith('bq') || command.startsWith('gsutil')) {
-    if (!env.CLOUDSDK_CORE_PROJECT) {
-      const gcpProj = fetchVaultCredential('cursor', 'gcp_project_id');
-      if (gcpProj) env.CLOUDSDK_CORE_PROJECT = gcpProj;
+    if (!env.GOOGLE_APPLICATION_CREDENTIALS) {
+      const credPath = fetchVaultCredential('cursor', 'gcp_service_account_path') || fetchVaultCredential('gcp', 'keyfile');
+      if (credPath) env.GOOGLE_APPLICATION_CREDENTIALS = credPath;
     }
   }
 
   // AWS CLI auto-credentials
   if (command.startsWith('aws ') || command.includes(' aws ')) {
-    if (!env.AWS_ACCESS_KEY_ID) {
-      const awsKey = fetchVaultCredential('cursor', 'aws_access_key_id');
-      if (awsKey) env.AWS_ACCESS_KEY_ID = awsKey;
-    }
     if (!env.AWS_SECRET_ACCESS_KEY) {
-      const awsSecret = fetchVaultCredential('cursor', 'aws_secret_access_key');
-      if (awsSecret) env.AWS_SECRET_ACCESS_KEY = awsSecret;
+      const secret = fetchVaultCredential('cursor', 'aws_secret_access_key') || fetchVaultCredential('aws', 'secret_key');
+      if (secret) env.AWS_SECRET_ACCESS_KEY = secret;
     }
-    if (!env.AWS_DEFAULT_REGION) {
-      env.AWS_DEFAULT_REGION = 'us-east-1';
+    if (!env.AWS_ACCESS_KEY_ID) {
+      const keyId = fetchVaultCredential('cursor', 'aws_access_key_id') || fetchVaultCredential('aws', 'access_key_id');
+      if (keyId) env.AWS_ACCESS_KEY_ID = keyId;
     }
   }
 
   // Vercel auto-credentials
   if (command.startsWith('vercel') || command.includes('vercel')) {
     if (!env.VERCEL_TOKEN) {
-      const vToken = fetchVaultCredential('cursor', 'vercel_token');
-      if (vToken) env.VERCEL_TOKEN = vToken;
+      const token = fetchVaultCredential('cursor', 'vercel_token') || fetchVaultCredential('developer', 'vercel_token');
+      if (token) env.VERCEL_TOKEN = token;
     }
   }
 
@@ -158,6 +138,7 @@ export async function executeCLI(command, options = {}) {
       resolve({
         ok: false,
         code: 124,
+        status: 124,
         stdout,
         stderr: stderr + '\n[TIMEOUT] Command exceeded timeout limit.'
       });
@@ -168,6 +149,7 @@ export async function executeCLI(command, options = {}) {
       resolve({
         ok: code === 0,
         code,
+        status: code,
         stdout: stdout.trim(),
         stderr: stderr.trim()
       });
@@ -178,6 +160,7 @@ export async function executeCLI(command, options = {}) {
       resolve({
         ok: false,
         code: 1,
+        status: 1,
         stdout,
         stderr: err.message
       });
