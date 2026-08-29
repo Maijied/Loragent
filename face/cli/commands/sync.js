@@ -1,20 +1,24 @@
 import { Command } from 'commander';
-import SourceRegistry from '../../../lore/models/source-registry.js';
-import platform from '../../../lore/models/platform.js';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.resolve(__dirname, '../../..');
 
 export default function(program) {
   const syncCmd = new Command('sync')
-    .description('Sync assets from registry sources into the IDE global state')
+    .description('Sync Loragent MCPs, skills, rules, and modes into all IDE global directories')
     .action(() => {
-      console.log('[FACE] Starting synchronization process...');
-      const sources = SourceRegistry.getSources();
-      
-      console.log(`[FACE] Found ${sources.length} sources to sync.`);
-      // Sync logic stub
-      console.log(`[FACE] Synchronized with ${platform.osType} globals:`);
-      console.log(`  -> Cursor MCP: ${platform.getCursorMcpPath()}`);
-      console.log(`  -> Claude MCP: ${platform.getClaudeMcpPath()}`);
+      console.log('🔄 [FACE] Starting Universal Loragent IDE Sync...');
+      const scriptPath = path.join(ROOT, 'scripts', 'universal-sync.js');
+      try {
+        execSync(`node ${scriptPath}`, { stdio: 'inherit', cwd: ROOT });
+      } catch (err) {
+        console.error('❌ [FACE] Sync failed:', err.message);
+      }
     });
 
   program.addCommand(syncCmd);
-};
+}
