@@ -217,7 +217,7 @@ console.log('\n🔄 Syncing Workspace Rules...');
 // Target-specific mappings
 const ruleMappings = [
   { target: 'CLAUDE.md', source: path.join(rootDir, 'rules', 'AGENTS.md') },
-  { target: '.clinerules', source: path.join(rootDir, 'rules', 'AGENTS.md') },
+  { target: '.clinerules', source: path.join(rootDir, 'rules', 'loragent-cline.md'), fallback: path.join(rootDir, 'rules', 'AGENTS.md') },
   { target: '.cursorrules', source: path.join(rootDir, 'rules', 'loragent-cursor.md'), fallback: path.join(rootDir, 'rules', 'AGENTS.md') },
   { target: '.windsurfrules', source: path.join(rootDir, 'rules', 'loragent-windsurf.md'), fallback: path.join(rootDir, 'rules', 'AGENTS.md') }
 ];
