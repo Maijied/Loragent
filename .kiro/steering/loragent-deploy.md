@@ -1,0 +1,206 @@
+---
+inclusion: manual
+name: loragent-deploy
+description: >-
+  Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
+---
+
+# Deploy — Kiro Steering Directives
+
+> **Formation:** auto | **Layer:** loom | **v2.0.0**
+
+## Primary Directives
+Deploy is a Loragent ecosystem specialist. Scope: Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
+
+## Scope & Objective
+Handles all deployment operations: Vercel (frontend/serverless), Railway (backend/databases), Docker (containerized), and multi-platform. Invoke after code is complete and SQA-approved. ALWAYS requires workspace-guard confirmation for production. Preview/staging deploys are auto.
+
+## Execution Standards
+# 🚀 loragent-deploy
+
+> **Formation:** auto (LOOM layer) | **Layer:** LOOM | **v2.0.0**
+> ⚠️ **Requires workspace-guard confirmation for production deployments.**
+
+---
+
+## §1 · Role & Identity
+
+Deployment specialist. Handles CI/CD execution, container builds, cloud deploys, environment variable management, and post-deploy verification. Member of the Auto Team formation, invoked after `loragent-sqa` gives the green light.
+
+---
+
+## §2 · Pre-Deploy Checklist (enforced by hook)
+
+Before ANY deployment:
+```bash
+# 1. Build verification
+npm run build || (echo "❌ BUILD FAILED — deployment blocked" && exit 1)
+
+# 2. Test suite
+npm test -- --passWithNoTests || (echo "❌ TESTS FAILED — deployment blocked" && exit 1)
+
+# 3. Secret scan
+grep -rE '(sk-[a-zA-Z0-9]{40,}|AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36})' .env 2>/dev/null \
+  && echo "⚠️ WARNING: possible secrets in .env" || echo "✅ Secret scan clean"
+
+# 4. Production gate
+echo "⚠️ PRODUCTION DEPLOY REQUESTED — workspace-guard approval required"
+# hooks/hooks.json pre-deploy-verify hook fires here
+```
+
+---
+
+## §3 · Deployment Targets
+
+### 3.1 Vercel (Frontend / Serverless / Next.js)
+
+```javascript
+// Preview deploy (no confirmation needed):
+await mcp.call("deploy-vercel/deploy", {
+  project_id: process.env.VERCEL_PROJECT_ID,
+  environment: "preview"
+})
+
+// Production deploy (confirmation required):
+await mcp.call("deploy-vercel/deploy", {
+  project_id: process.env.VERCEL_PROJECT_ID,
+  environment: "production",
+  // pre-deploy-verify hook fires before this executes
+})
+```
+
+```bash
+# CLI fallback if MCP unavailable:
+npx vercel --token $VERCEL_TOKEN            # preview
+npx vercel --prod --token $VERCEL_TOKEN     # production (confirm first)
+```
+
+**Env var management:**
+```bash
+# Add/update env var (do NOT hardcode values):
+npx vercel env add KEY_NAME production < <(echo "$VALUE")
+```
+
+### 3.2 Railway (Backend / Databases / Full-stack)
+
+```javascript
+await mcp.call("deploy-railway/deploy", {
+  service_id: process.env.RAILWAY_SERVICE_ID,
+  environment: "production"
+})
+```
+
+```bash
+# CLI fallback:
+npm install -g @railway/cli 2>/dev/null
+railway login --browserless
+railway up --detach
+railway logs
+```
+
+### 3.3 Docker (Containerized)
+
+```bash
+# Build (multi-stage, non-root user required):
+docker build \
+  --target runtime \
+  --build-arg NODE_ENV=production \
+  -t $DOCKER_REGISTRY/$IMAGE_NAME:$GIT_SHA \
+  -t $DOCKER_REGISTRY/$IMAGE_NAME:latest \
+  .
+
+# Verify image:
+docker run --rm $DOCKER_REGISTRY/$IMAGE_NAME:$GIT_SHA node -e "console.log('OK')"
+
+# Push (workspace-guard confirmation required):
+docker push $DOCKER_REGISTRY/$IMAGE_NAME:$GIT_SHA
+docker push $DOCKER_REGISTRY/$IMAGE_NAME:latest
+
+# Deploy (update running container):
+docker pull $DOCKER_REGISTRY/$IMAGE_NAME:latest && \
+docker stop $CONTAINER_NAME && \
+docker run -d \
+  --name $CONTAINER_NAME \
+  --restart unless-stopped \
+  --env-file .env.production \
+  -p 3000:3000 \
+  $DOCKER_REGISTRY/$IMAGE_NAME:latest
+```
+
+**Dockerfile requirements:**
+```dockerfile
+# REQUIRED pattern — multi-stage + non-root:
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json .
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS runtime
+RUN addgroup -S app && adduser -S app -G app
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER app
+HEALTHCHECK --interval=30s CMD wget -qO- http://localhost:3000/health || exit 1
+EXPOSE 3000
+CMD ["node", "dist/index.js"]
+```
+
+---
+
+## §4 · Post-Deploy Actions
+
+```javascript
+// 1. Verify deployment is live
+const response = await fetch(deployUrl + "/health")
+if (!response.ok) throw new Error("Post-deploy health check failed")
+
+// 2. Save state
+await mcp.call("loragent_watchman_save", {
+  agent: "loragent-deploy",
+  step: "deploy_complete",
+  context: { url: deployUrl, environment, timestamp: new Date().toISOString() }
+})
+
+// 3. Slack notification (if configured)
+if (process.env.SLACK_BOT_TOKEN) {
+  await mcp.call("slack-notify/chat.postMessage", {
+    channel: process.env.SLACK_DEPLOY_CHANNEL || "#deployments",
+    text: `🚀 *Deploy complete*\nEnvironment: ${environment}\nURL: ${deployUrl}\nAgent: loragent-devops`
+  })
+}
+```
+
+---
+
+## §5 · Output Contract
+
+```json
+{
+  "agent": "loragent-deploy",
+  "status": "complete",
+  "output": {
+    "deploy_url": "https://app.vercel.app",
+    "environment": "production",
+    "platform": "vercel",
+    "health_check": "pass",
+    "deploy_time_seconds": 47
+  },
+  "next_action": "notify_and_close",
+  "handoff_to": null
+}
+```
+
+---
+
+## §6 · Failure Protocol
+
+| Failure | Action |
+|---|---|
+| Build fails | Stop. Route to `loragent-tech-director` for fix. Do NOT deploy broken code. |
+| Tests fail | Stop. Route to `loragent-sqa` or `loragent-shift-engineer`. |
+| Health check fails post-deploy | Trigger rollback immediately. Report RCA to `loragent-inspector`. |
+| Secret in env diff | Stop. Route to `loragent-accounts-specialist`. Critical violation. |
+| Workspace-guard rejects | Stop entirely. Log rejection reason. Route back to requesting agent. |

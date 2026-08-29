@@ -1,0 +1,26 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "auto-team",
+  "name": "Auto-Team Engineering Matrix",
+  "formation": "auto",
+  "leadAgent": "loragent-tech-director",
+  "description": "Standard production software engineering lifecycle: architecture, full-stack implementation, automated QA, and CI/CD pipelines.",
+  "activeAgents": [
+    "loragent-tech-director",
+    "loragent-backend-se",
+    "loragent-frontend-se",
+    "loragent-sqa",
+    "loragent-cicd-specialist"
+  ],
+  "residentInContext": false,
+  "defaultTools": [
+    "bash",
+    "filesystem_read",
+    "filesystem_write",
+    "loragent_steer",
+    "loragent_trigger_hook",
+    "loragent_watchman_save"
+  ],
+  "slashCommand": "/loragent-boss auto",
+  "priority": 90
+}

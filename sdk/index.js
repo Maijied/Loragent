@@ -4,6 +4,7 @@ export { LoragentChorki } from './chorki.js';
 export { executeCLI } from './tools/cli-runner.js';
 export { LoragentCheckpointEngine } from './durable/checkpoint.js';
 export { LoragentTracer } from './telemetry/tracer.js';
+export { loadFormationPreset, loadAllFormations, getMarketplaceCatalog, SQUAD_PRESETS } from './formations.js';
 export * from './constants.js';
 
 import { LoragentClient } from './client.js';
@@ -12,6 +13,7 @@ import { LoragentChorki } from './chorki.js';
 import { executeCLI } from './tools/cli-runner.js';
 import { LoragentCheckpointEngine } from './durable/checkpoint.js';
 import { LoragentTracer } from './telemetry/tracer.js';
+import { loadFormationPreset, loadAllFormations, getMarketplaceCatalog, SQUAD_PRESETS } from './formations.js';
 
 export default {
   LoragentClient,
@@ -19,5 +21,9 @@ export default {
   LoragentChorki,
   executeCLI,
   LoragentCheckpointEngine,
-  LoragentTracer
+  LoragentTracer,
+  loadFormationPreset,
+  loadAllFormations,
+  getMarketplaceCatalog,
+  SQUAD_PRESETS
 };

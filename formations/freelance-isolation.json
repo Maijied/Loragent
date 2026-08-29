@@ -1,0 +1,27 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "freelance-isolation",
+  "name": "Freelance Domain Isolation Squad",
+  "formation": "freelance",
+  "leadAgent": "loragent-boss",
+  "description": "On-demand execution of specialized singular domain workflows: graphic & 3D design, media conversion, Cloudflare Wrangler, and dependency installation.",
+  "activeAgents": [
+    "loragent-image-generate",
+    "loragent-gif-create",
+    "loragent-logo-designer",
+    "loragent-3d-designer",
+    "loragent-wrangler-specialist",
+    "loragent-tools-install"
+  ],
+  "residentInContext": false,
+  "defaultTools": [
+    "bash",
+    "fal_run_model",
+    "run_model",
+    "filesystem_read",
+    "filesystem_write",
+    "loragent_watchman_save"
+  ],
+  "slashCommand": "/loragent:freelance",
+  "priority": 70
+}

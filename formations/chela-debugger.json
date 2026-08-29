@@ -1,0 +1,25 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "chela-debugger",
+  "name": "Chela Mission-Critical Debugging Squad",
+  "formation": "chela",
+  "leadAgent": "loragent-bug-hunter",
+  "description": "Root cause analysis, critical bug hunting, runtime log triage, test regression fixing, and VCS conflict resolution.",
+  "activeAgents": [
+    "loragent-bug-hunter",
+    "loragent-shift-engineer",
+    "loragent-git-specialist",
+    "loragent-sqa"
+  ],
+  "residentInContext": false,
+  "defaultTools": [
+    "bash",
+    "filesystem_read",
+    "filesystem_write",
+    "loragent_steer",
+    "loragent_watchman_save",
+    "loragent_trigger_hook"
+  ],
+  "slashCommand": "/loragent-boss chela",
+  "priority": 85
+}

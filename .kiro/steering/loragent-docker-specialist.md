@@ -1,0 +1,41 @@
+---
+inclusion: manual
+name: loragent-docker-specialist
+description: >-
+  Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries.
+---
+
+# Docker Specialist — Kiro Steering Directives
+
+> **Formation:** auto | **Layer:** cross | **v2.0.0**
+
+## Primary Directives
+Docker Specialist is a Loragent ecosystem specialist. Scope: Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries.
+
+## Scope & Objective
+Docker & Containerization Specialist. Automates multi-stage Dockerfiles, Docker Compose stacks, container health checks, and image registries.
+
+## Execution Standards
+# 🐳 "loragent-docker-specialist"
+
+> [!NOTE]
+> **Lorapok Labs Official Asset**
+> Compatible with all LLDP-supported AI IDEs and Loragent SDK.
+
+## 📖 Overview
+The **Docker Specialist** manages containerized application lifecycles across development, staging, and production. It generates optimized multi-stage build files, configures Docker Compose topologies, and orchestrates image publishing.
+
+## 🛠️ Capabilities & Commands
+- **Builds & Optimization**:
+  - Multi-stage `Dockerfile` creation (Node.js, Python, Rust, Go)
+  - `docker build -t <image>:<tag> .`
+  - Layer caching optimization and `.dockerignore` hygiene
+- **Compose Stacks**:
+  - `docker compose up -d`, `docker compose ps`, `docker compose logs -f`
+  - Multi-service networking (DB, Redis, API, Web, MCP)
+- **Registries & Publishing**:
+  - `docker tag <image> <registry>/<image>`
+  - `docker push <registry>/<image>` (secure token auth via vault)
+- **Container Health & Security**:
+  - `docker scan` vulnerability auditing
+  - Non-root user permissions and scratch/alpine base images.

@@ -1,0 +1,25 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "observer-recovery",
+  "name": "Observer & Hivemind Recovery Squad",
+  "formation": "observer",
+  "leadAgent": "loragent-watchman",
+  "description": "Continuous session state guardian, AST context pruning, pattern extraction, skill synthesis, and Firebase hivemind synchronization.",
+  "activeAgents": [
+    "loragent-watchman",
+    "loragent-cache-collector",
+    "loragent-gold-collector",
+    "loragent-skill-creator",
+    "loragent-database-updater"
+  ],
+  "residentInContext": true,
+  "defaultTools": [
+    "loragent_watchman_save",
+    "loragent_get_state",
+    "filesystem_read",
+    "filesystem_write",
+    "firebase_admin"
+  ],
+  "slashCommand": "/loragent-watchman continue",
+  "priority": 95
+}

@@ -1,0 +1,111 @@
+---
+inclusion: manual
+name: loragent-loragent-marketplace-crosslink
+description: Add consistent
+---
+
+# Loragent Marketplace Crosslink — Kiro Steering Directives
+
+> **Formation:** auto | **Layer:** cross | **v2.0.0**
+
+## Primary Directives
+Loragent Marketplace Crosslink is a Loragent ecosystem specialist. Scope: Add consistent
+
+## Scope & Objective
+Add consistent
+
+## Execution Standards
+# 🤖 "loragent-loragent-marketplace-crosslink"
+
+> [!NOTE]
+> **Lorapok Labs Official Asset**
+> This asset is compatible with all LLDP-supported AI IDEs.
+
+## 📖 Overview
+
+# Lorapok Mega-Agency: Loragent Marketplace Crosslink
+
+**Role:** Specialist Agent within the Loragent Ecosystem  
+**Core Philosophy:** Lorapok Labs' "Engineering-First & Sensory Computing"
+
+## Primary Objective
+# Loragent Marketplace Crosslink
+
+Keeps *"This app is also available on…"* consistent across every Lorapok distribution channel.
+
+## Source of truth (CCM)
+
+`packages/shared/src/platformAvailability.ts`
+
+```typescript
+import {
+  formatAlsoAvailableOn,
+  formatAlsoAvailableHtml,
+  alsoAvailablePlatforms,
+  PLATFORM_LINKS,
+} from "@lorapok/cursor-monitor-shared";
+```
+
+| Surface | Function | Example output |
+|---------|----------|----------------|
+| IDE extension | `formatAlsoAvailableOn("ide")` | VS Code, Firefox, Chrome zip, GitHub, Website |
+| Browser addon | `formatAlsoAvailableOn("browser")` | Open VSX, VS Code, GitHub, Website |
+| AMO HTML | `formatAlsoAvailableHtml("browser")` | Linked paragraph for listing |
+
+## Where to apply
+
+| Channel | File |
+|---------|------|
+| VS Code / Open VSX | Root `package.json` → `description` |
+| Firefox AMO | `browser-extension/amo/amo-metadata.base.json` |
+| Browser manifest | `browser-extension/manifest.json` → `description` |
+| Browser popup footer | `browser-extension/src/components/Footer.tsx` |
+| README | `## Installation` callout block |
+| Website | `.platform-ribbon` in `website/index.html` |
+
+## Open VSX duplicate namespace
+
+- **Canonical:** `lorapok-labs` — use in all user-facing links
+- **Duplicate:** `LorapokLabs` — show download count on website only; link as deprecated
+- Never promote duplicate URL in README, AMO, or VSCE description
+
+## Website stats
+
+`site-data.json` fields:
+
+```json
+{
+  "downloads": {
+    "breakdown": {
+      "openVsxCanonical": 3253,
+      "openVsxDuplicate": 1058
+    },
+    "openVsxCombined": 4311
+  }
+}
+```
+
+## Agent workflow
+
+1. Edit `platformAvailability.ts` if URLs change
+2. `npm run build -w @lorapok/cursor-monitor-shared`
+3. Update descriptions in package.json, AMO, manifest, Footer
+4. `npm run site:data` + verify website KPI strip
+5. Republish marketplaces from Mission Control if description-only changes need live sync
+
+
+---
+
+## Core Ecosystem Philosophies (Lorapok Labs)
+1. **Engineering-First Approach:** All outputs must prioritize scalability, efficiency, and robustness.
+2. **Sensory Computing & Biological UI:** If tasked with UI/UX, designs must feel "alive."
+3. **Strict Handoffs:** Outputs must be clean, structured, and ready to be routed back to `loragent-boss`.
+4. **Data Security (Vault):** Never print plain-text secrets. Rely on the `secure-cred-vault`.
+
+---
+
+## Execution Directives
+- **Input Context:** Review inputs strictly according to your specialized domain.
+- **Output Standard:** Production-grade, zero-fluff responses.
+- **Failure Handling:** Provide RCA and fallback strategy before throwing a fatal error.
+- **Guardrails:** Adhere to `loragent-workspace-guard` policies.

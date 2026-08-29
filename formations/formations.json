@@ -1,0 +1,89 @@
+{
+  "version": "2.0.0",
+  "formations": [
+    {
+      "id": "orchestrator",
+      "name": "Central Orchestrator Squad",
+      "slug": "orchestrator",
+      "leadAgent": "loragent-boss",
+      "description": "Central intelligent routing, requirements normalization, multi-agent steering, and global session state guardian.",
+      "activeAgents": [
+        "loragent-boss",
+        "loragent-teacher",
+        "loragent-spidernet",
+        "loragent-watchman",
+        "loragent-workspace-guard"
+      ]
+    },
+    {
+      "id": "auto-team",
+      "name": "Auto-Team Engineering Matrix",
+      "slug": "auto-team",
+      "leadAgent": "loragent-tech-director",
+      "description": "Standard production software engineering lifecycle: architecture, full-stack implementation, automated QA, and CI/CD pipelines.",
+      "activeAgents": [
+        "loragent-tech-director",
+        "loragent-backend-se",
+        "loragent-frontend-se",
+        "loragent-sqa",
+        "loragent-cicd-specialist"
+      ]
+    },
+    {
+      "id": "office",
+      "name": "Enterprise Office & Business Squad",
+      "slug": "office",
+      "leadAgent": "loragent-project-coordinator",
+      "description": "Full-scale business operations: project coordination, marketing strategy, publishing management, PR communications, and community outreach.",
+      "activeAgents": [
+        "loragent-project-coordinator",
+        "loragent-marketing-strategy-manager",
+        "loragent-publisher",
+        "loragent-pr-specialist",
+        "loragent-social-media-specialist"
+      ]
+    },
+    {
+      "id": "chela",
+      "name": "Chela Mission-Critical Debugging Squad",
+      "slug": "chela",
+      "leadAgent": "loragent-bug-hunter",
+      "description": "Root cause analysis, critical bug hunting, runtime log triage, test regression fixing, and VCS conflict resolution.",
+      "activeAgents": [
+        "loragent-bug-hunter",
+        "loragent-shift-engineer",
+        "loragent-git-specialist",
+        "loragent-sqa"
+      ]
+    },
+    {
+      "id": "freelance",
+      "name": "Freelance Domain Isolation Squad",
+      "slug": "freelance",
+      "leadAgent": "loragent-boss",
+      "description": "On-demand execution of specialized singular domain workflows: graphic & 3D design, media conversion, Cloudflare Wrangler, and dependency installation.",
+      "activeAgents": [
+        "loragent-image-generate",
+        "loragent-gif-create",
+        "loragent-logo-designer",
+        "loragent-3d-designer",
+        "loragent-wrangler-specialist",
+        "loragent-tools-install"
+      ]
+    },
+    {
+      "id": "observer",
+      "name": "Observer & Hivemind Recovery Squad",
+      "slug": "observer",
+      "leadAgent": "loragent-watchman",
+      "description": "Continuous session state guardian, AST context pruning, pattern extraction, skill synthesis, and Firebase hivemind synchronization.",
+      "activeAgents": [
+        "loragent-watchman",
+        "loragent-cache-collector",
+        "loragent-gold-collector",
+        "loragent-skill-creator",
+        "loragent-database-updater"
+      ]
+    }
+  ]
+}

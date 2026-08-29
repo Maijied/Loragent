@@ -1,0 +1,26 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "office",
+  "name": "Enterprise Office & Business Squad",
+  "formation": "office",
+  "leadAgent": "loragent-project-coordinator",
+  "description": "Full-scale business operations: project coordination, marketing strategy, publishing management, PR communications, and community outreach.",
+  "activeAgents": [
+    "loragent-project-coordinator",
+    "loragent-marketing-strategy-manager",
+    "loragent-publisher",
+    "loragent-pr-specialist",
+    "loragent-social-media-specialist"
+  ],
+  "residentInContext": false,
+  "defaultTools": [
+    "filesystem_read",
+    "filesystem_write",
+    "loragent_steer",
+    "email_send",
+    "slack_notify",
+    "loragent_watchman_save"
+  ],
+  "slashCommand": "/loragent:office",
+  "priority": 75
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../schemas/formation.schema.json",
+  "id": "orchestrator",
+  "name": "Central Orchestrator Squad",
+  "formation": "orchestrator",
+  "leadAgent": "loragent-boss",
+  "description": "Central intelligent routing, requirements normalization, multi-agent steering, and global session state guardian.",
+  "activeAgents": [
+    "loragent-boss",
+    "loragent-teacher",
+    "loragent-spidernet",
+    "loragent-watchman",
+    "loragent-workspace-guard"
+  ],
+  "residentInContext": true,
+  "defaultTools": [
+    "loragent_summon_agent",
+    "loragent_dismiss_agent",
+    "loragent_steer",
+    "loragent_trigger_hook",
+    "loragent_watchman_save",
+    "loragent_get_state"
+  ],
+  "slashCommand": "/loragent:boss",
+  "priority": 100
+}
