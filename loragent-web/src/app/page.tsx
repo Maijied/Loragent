@@ -407,12 +407,12 @@ const IDE_CONFIGS: Record<string, { name: string; file: string; snippet: string;
 };
 
 const TERMINAL_COMMANDS = [
+  { cmd: 'loragent discover -f react', desc: 'Deduplicated PC Asset Discovery & Quality Scoring' },
+  { cmd: 'loragent analyze .', desc: 'Polyglot Stack Detection & Squad Recommender' },
+  { cmd: 'loragent sync', desc: 'Universal 8-IDE Sync (MCPs, Rules, Modes)' },
   { cmd: '/loragent:boss auto', desc: 'Auto Team Full-Stack Engineering Squad' },
   { cmd: '/loragent:boss chela', desc: 'Chela Mission-Critical Bug Hunting' },
-  { cmd: '/loragent-watchman continue', desc: 'Resume Session from Ephemeral Cache' },
-  { cmd: '/loragent:image-generate', desc: 'Fal.ai / Replicate Ultra-Fast Art' },
-  { cmd: '/loragent:tools-install', desc: 'Auto-Detect & Install Missing Binaries' },
-  { cmd: '/loragent autopilot [task]', desc: 'Iterative Loop with Check-Done Hook' }
+  { cmd: '/loragent-watchman continue', desc: 'Resume Session from Ephemeral Cache' }
 ];
 
 export default function Home() {
@@ -447,7 +447,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'workflow' | 'marketplace' | 'formations' | 'terminal' | 'vault' | 'ide'>('workflow');
 
   // Terminal Simulator State
-  const [simCommand, setSimCommand] = useState('/loragent:boss auto');
+  const [simCommand, setSimCommand] = useState('loragent discover -f react');
   const [simRunning, setSimRunning] = useState(false);
   const [simLogs, setSimLogs] = useState<string[]>([
     '⚡ Loragent Core Sentinel initialized [v2.0.0-PROPOSAL]',
@@ -495,14 +495,46 @@ export default function Home() {
     setSimLogs((prev) => [...prev, `\n> ${simCommand}`, '⏳ Routing through loragent-boss...']);
 
     setTimeout(() => {
-      if (simCommand.includes('auto')) {
+      if (simCommand.includes('discover')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔍 [FACE] Running Intelligent PC Asset Discovery & Deduplication...',
+          '📍 Scanned Locations: 12 root directories across OS',
+          '📦 Total Raw Files Scanned: 4,349 skills & agents',
+          '✨ Unique Canonical Skills: 25 distinct capabilities (Filtered by keyword "react")',
+          '🗑️ Redundant Clones Filtered: 3,105 duplicates collapsed',
+          '⭐ Top Skill: react-specialist [Q:71/100] (+3 clones filtered)',
+          '⭐ Top Skill: react-best-practices [Q:61/100] (+1 clones filtered)',
+          '✅ Deduplicated clean inventory saved to registry/pc-inventory.json'
+        ]);
+      } else if (simCommand.includes('analyze')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔍 [FACE] Analyzing project at: .',
+          '💻 Languages Detected: JavaScript, TypeScript',
+          '📦 Frameworks Detected: React, Next.js, Tailwind CSS',
+          '🛡️ Recommended Formation Squad: Auto-Team Matrix',
+          '🤖 Recommended Autonomous Squad: loragent-boss, loragent-tech-director, loragent-workspace-guard, loragent-frontend-se',
+          '✅ Ready! Run "loragent sync" to bind squad to workspace.'
+        ]);
+      } else if (simCommand.includes('sync')) {
+        setSimLogs((prev) => [
+          ...prev,
+          '🔄 [FACE] Starting Universal Loragent IDE Sync...',
+          '✅ Synced MCP configs to: Cursor, Antigravity, Claude, Windsurf, VS Code, Cline, Roo Code',
+          '✅ Synced 177 canonical agents into master roster: ~/.loragent/master-roster/skills',
+          '✅ Synced 11 workspace rules to: .cursor/rules/ and .agents/rules/',
+          '✅ Generated Roo Code custom modes in: .roomodes',
+          '🎉 Universal AI Code Editor compatibility sync complete.'
+        ]);
+      } else if (simCommand.includes('auto')) {
         setSimLogs((prev) => [
           ...prev,
           '🤖 [Boss] Forming Auto Team Matrix: Tech Director, Backend SE, Frontend SE, SQA, CI/CD Specialist',
           '📐 [Tech Director] Synthesizing LLDP modular blueprint across FACE/PULSE/LORE/PORT/LOOM layers',
           '💻 [Backend SE] Implementing API routes with zero plaintext secrets',
           '🎨 [Frontend SE] Rendering sensory computing glassmorphic UI',
-          '🛡️ [SQA] Executing 40/40 test suites — All Passed (0 errors)',
+          '🛡️ [SQA] Executing 44/44 test suites — All Passed (0 errors)',
           '🚀 [CI/CD Specialist] Building SSG and dispatching deploy hook to GitHub Pages',
           '✅ [Check-Done] Task complete with 100% verification.'
         ]);
