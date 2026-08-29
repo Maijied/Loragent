@@ -314,6 +314,30 @@ const rooModesConfig = {
       source: "project"
     },
     {
+      slug: "loragent-auto-team",
+      name: "⚙️ Auto-Team — Autonomous Engineering",
+      roleDefinition: "Autonomous engineering squad: Tech Director, Backend SE, Frontend SE, SQA, and DevOps.",
+      customInstructions: "Build, verify, test, and ship complete software features end-to-end.",
+      groups: ["read", "edit", "browser", "command", "mcp"],
+      source: "project"
+    },
+    {
+      slug: "loragent-chela",
+      name: "🎯 Chela — Mission Critical Debugging",
+      roleDefinition: "Root cause analysis, stack trace inspection, hotfixes, and regression testing.",
+      customInstructions: "Diagnose and repair defects without heuristics — parse orchestration graph first.",
+      groups: ["read", "edit", "command", "mcp"],
+      source: "project"
+    },
+    {
+      slug: "loragent-office",
+      name: "🏢 Enterprise Office — Business & Operations",
+      roleDefinition: "Project coordination, marketing strategy, publishing, PR, and administrative operations.",
+      customInstructions: "Manage requirements, marketing releases, documentation, and stakeholder updates.",
+      groups: ["read", "edit", "browser", "mcp"],
+      source: "project"
+    },
+    {
       slug: "loragent-creative",
       name: "🎨 Creative Studio — Visuals & UI",
       roleDefinition: "Creative squad: UI/UX Professional + 3D Designer + Animator + Logo Designer + Image Generator. Produces all visual assets: images (Fal.ai MCP), GIFs (FFmpeg MCP), UI mockups, logos, animations. Uses Biological UI standards: dark-space, violet glow, glassmorphic.",
