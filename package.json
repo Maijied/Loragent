@@ -1,9 +1,11 @@
 {
   "name": "loragent",
+  "displayName": "Loragent — Universal Multi-Agent Ecosystem",
   "version": "2.0.0",
-  "description": "108-agent virtual software firm for Lorapok Labs — includes orchestration, image generation, GIF creation, deployment, development, business, and design agents. Hub-and-Spoke topology with MCP lazy-loading and crash recovery.",
+  "description": "224-agent virtual software firm for Lorapok Labs — Hub-and-Spoke topology, 6 squad formations, TiTi Vault zero-trust enclave, MCP lazy-loading, and autonomous multi-agent orchestration.",
   "publisher": "LorapokLabs",
   "license": "MIT",
+  "icon": "media/icon.png",
   "author": {
     "name": "Maizied",
     "url": "https://lorapok.github.io"
@@ -13,6 +15,15 @@
     "type": "git",
     "url": "https://github.com/Maijied/Loragent"
   },
+  "engines": {
+    "node": ">=20.0.0",
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Other"
+  ],
   "keywords": [
     "lorapok",
     "loragent",
@@ -21,6 +32,7 @@
     "mcp",
     "orchestration",
     "multi-agent",
+    "titi-vault",
     "image-generation",
     "deployment",
     "development",
@@ -36,14 +48,14 @@
   "company": {
     "name": "Lorapok Labs",
     "email": "lorapokdev@gmail.com",
-    "supportEmail": "hello@lorapok.tech",
+    "supportEmail": "support@lorapok.tech",
     "website": "https://lorapok.tech",
     "adminUrl": "https://mission-control.lorapok.tech"
   },
   "publishConfig": {
     "access": "public"
   },
-  "main": "./sdk/index.js",
+  "main": "./src/extension.js",
   "types": "./sdk/index.d.ts",
   "exports": {
     ".": {
@@ -64,6 +76,33 @@
     "loragent-mcp": "./port/mcp/server.js",
     "loragent": "./face/cli/index.js"
   },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "loragent.boss",
+        "title": "Loragent: Summon Boss Orchestrator",
+        "category": "Loragent"
+      },
+      {
+        "command": "loragent.formations",
+        "title": "Loragent: Select Squad Formation Matrix",
+        "category": "Loragent"
+      },
+      {
+        "command": "loragent.sync",
+        "title": "Loragent: Synchronize All 224 Agent Skills",
+        "category": "Loragent"
+      },
+      {
+        "command": "loragent.titiVault",
+        "title": "Loragent: TiTi Vault Enclave Status",
+        "category": "Loragent"
+      }
+    ]
+  },
   "scripts": {
     "start": "node ./face/cli/index.js",
     "build": "node scripts/build-website-data.js",
@@ -73,6 +112,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "package:vsix": "vsce package --no-dependencies",
     "test": "node --test"
   },
   "dependencies": {

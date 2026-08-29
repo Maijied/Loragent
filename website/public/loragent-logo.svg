@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="cyberGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00FF41" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#00F3FF" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00FF41"/>
+      <stop offset="50%" stop-color="#00F3FF"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00FF41"/>
+      <stop offset="50%" stop-color="#00F3FF"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Ambient Glow -->
+  <circle cx="256" cy="256" r="230" fill="url(#cyberGlow)" />
+
+  <!-- Obsidian Outer Shield -->
+  <path d="M 256,40 L 430,110 C 430,300 256,450 256,470 C 256,450 82,300 82,110 Z" 
+        fill="#080c10" stroke="url(#shieldBorder)" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Inner Shield Bevel -->
+  <path d="M 256,65 L 405,125 C 405,285 256,420 256,440 C 256,420 107,285 107,125 Z" 
+        fill="#04070a" stroke="#00FF41" stroke-width="2" stroke-opacity="0.4"/>
+
+  <!-- Neural Cyber Matrix Core -->
+  <g filter="url(#neonGlow)">
+    <!-- Central Node -->
+    <circle cx="256" cy="250" r="18" fill="#00FF41" />
+    <circle cx="256" cy="250" r="8" fill="#ffffff" />
+
+    <!-- Pulse Ring -->
+    <circle cx="256" cy="250" r="64" fill="none" stroke="#00F3FF" stroke-width="2.5" stroke-dasharray="8 6" opacity="0.8"/>
+    <circle cx="256" cy="250" r="105" fill="none" stroke="#00FF41" stroke-width="1.5" stroke-dasharray="4 8" opacity="0.6"/>
+
+    <!-- Sensory Neural Branches (North, South, East, West & Diagonals) -->
+    <!-- Top Central Leaf Filaments -->
+    <path d="M 256,232 C 256,180 230,130 256,105 C 282,130 256,180 256,232 Z" 
+          fill="none" stroke="url(#neuralGrad)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="256" cy="105" r="5" fill="#00FF41"/>
+
+    <!-- Bottom Spoke -->
+    <path d="M 256,268 C 256,320 235,360 256,395 C 277,360 256,320 256,268 Z" 
+          fill="none" stroke="url(#neuralGrad)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="256" cy="395" r="5" fill="#00F3FF"/>
+
+    <!-- Left Upper Branch -->
+    <path d="M 240,240 C 180,210 160,170 145,150" fill="none" stroke="#00FF41" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="145" cy="150" r="4.5" fill="#00FF41"/>
+    <path d="M 180,210 C 160,230 140,240 125,245" fill="none" stroke="#00F3FF" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="125" cy="245" r="4" fill="#00F3FF"/>
+
+    <!-- Right Upper Branch -->
+    <path d="M 272,240 C 332,210 352,170 367,150" fill="none" stroke="#00FF41" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="367" cy="150" r="4.5" fill="#00FF41"/>
+    <path d="M 332,210 C 352,230 372,240 387,245" fill="none" stroke="#00F3FF" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="387" cy="245" r="4" fill="#00F3FF"/>
+
+    <!-- Left Lower Branch -->
+    <path d="M 242,260 C 190,290 160,330 155,360" fill="none" stroke="#00F3FF" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="155" cy="360" r="4.5" fill="#00F3FF"/>
+
+    <!-- Right Lower Branch -->
+    <path d="M 270,260 C 322,290 352,330 357,360" fill="none" stroke="#00F3FF" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="357" cy="360" r="4.5" fill="#00F3FF"/>
+
+    <!-- Central Bio-Heartbeat Pulse Wave -->
+    <path d="M 205,250 L 225,250 L 235,235 L 245,265 L 255,240 L 265,260 L 275,250 L 307,250" 
+          fill="none" stroke="#00FF41" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
