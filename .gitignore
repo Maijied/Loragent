@@ -18,8 +18,9 @@ build/
 # Local Wiki details (as per project directive)
 WIKI.md
 WIKI_DETAILS.md
-wiki/
-.wiki/
+/wiki/
+/.wiki/
+!loragent-web/src/app/wiki/
 
 # Environment & Secrets
 .env
