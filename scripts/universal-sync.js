@@ -233,12 +233,25 @@ if (fs.existsSync(sourceRuleFile)) {
     }
   }
   
-  // Also sync to Antigravity local rules
+  // Also sync all rules/*.md and rules/*.mdc to .cursor/rules and .agents/rules
+  const rulesSrcDir = path.join(rootDir, 'rules');
+  const cursorRulesDir = path.join(rootDir, '.cursor', 'rules');
   const agentsRuleDir = path.join(rootDir, '.agents', 'rules');
+  fs.mkdirSync(cursorRulesDir, { recursive: true });
   fs.mkdirSync(agentsRuleDir, { recursive: true });
-  fs.writeFileSync(path.join(agentsRuleDir, 'AGENTS.md'), ruleContent, 'utf8');
-  console.log(`✅ Successfully synced rules to: .agents/rules/AGENTS.md (Antigravity)`);
 
+  if (fs.existsSync(rulesSrcDir)) {
+    const ruleFiles = fs.readdirSync(rulesSrcDir);
+    for (const file of ruleFiles) {
+      const srcFile = path.join(rulesSrcDir, file);
+      if (fs.statSync(srcFile).isFile()) {
+        fs.copyFileSync(srcFile, path.join(agentsRuleDir, file));
+        const cursorDest = file.endsWith('.md') ? `${file}c` : file;
+        fs.copyFileSync(srcFile, path.join(cursorRulesDir, cursorDest));
+      }
+    }
+    console.log(`✅ Successfully synced ${ruleFiles.length} rules to: .cursor/rules/ and .agents/rules/`);
+  }
 } else {
   console.log(`⚠️  Source rule file not found at ${sourceRuleFile}`);
 }

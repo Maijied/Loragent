@@ -1,0 +1,21 @@
+---
+description: Prevents hardcoding of local absolute paths to ensure project portability.
+globs: ["**/*.js", "**/*.ts", "**/*.sh", "**/*.json", "**/*.md", "**/*.py", "**/*.php"]
+---
+
+# Universal Pathing Rule
+
+When writing, modifying, or generating code, scripts, or documentation for this project, you MUST strictly follow these pathing rules to ensure the product remains universal and portable across different operating systems and developer environments.
+
+## DO NOT
+- NEVER hardcode absolute local PC paths (e.g., `/mnt/NewVolume/...`, `/home/...`, `C:/Users/...`).
+- NEVER assume the project root is located at a specific directory on the host machine.
+- NEVER hardcode paths to credential vaults or secret files unless they are universal defaults (e.g., `~/.cred` or `~/.loragent/cred`).
+
+## DO
+- Use `process.cwd()` or `__dirname` / `import.meta.url` in Node.js to resolve paths dynamically.
+- Use `os.homedir()` in Node.js or `~` / `$HOME` in Bash scripts to reference the user's home directory.
+- Use environment variables (e.g., `process.env.LORAGENT_ROOT`) with sensible universal fallbacks for cross-project integrations.
+- When generating Markdown documentation, use placeholders like `<PROJECT_ROOT>` or relative paths instead of absolute paths.
+- In Python, use `os.path.dirname(__file__)` to dynamically resolve the script's location.
+- In PHP, use `__DIR__` to dynamically resolve the script's location.
