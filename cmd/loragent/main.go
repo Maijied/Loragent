@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Maijied/Loragent/pkg/loragent"
+	"github.com/Maijied/Loragent/v2/pkg/loragent"
 )
 
 func printUsage() {
