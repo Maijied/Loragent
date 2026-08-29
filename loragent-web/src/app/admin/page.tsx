@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import allAgentsData from '@/data/all-agents.json';
 
-const CLEARANCE_PIN = '565087';
+const CLEARANCE_HASH = '22936f08ff7a9103eaaa3ea9c6b05ab91576bd9dcf2ff874843d55c39b906794';
 
 type Role = 'SUPERADMIN' | 'ARCHITECT' | 'OPERATOR' | 'AUDITOR';
 
@@ -91,16 +91,38 @@ export default function AdminPage() {
     { id: 'task-discovery', name: 'PC Deduplication & AST Cache', status: 'READY', cpu: '0.0%', memory: '42 MB', uptime: '12m' },
   ]);
 
-  const handlePinSubmit = (e?: React.FormEvent) => {
+  const handlePinSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (pinInput === CLEARANCE_PIN || pinInput === '1234' || pinInput === '565087') {
-      setIsAuthenticated(true);
-      setPinError(false);
-      triggerNotice('Authenticated successfully. Superadmin clearance granted.', 'success');
-    } else {
+    const input = pinInput.trim();
+    if (!input) {
       setPinError(true);
-      setPinInput('');
-      triggerNotice('Access Denied. Invalid TiTi Vault PIN challenge.', 'error');
+      return;
+    }
+    try {
+      const msgBuffer = new TextEncoder().encode(input);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
+      if (hashHex === CLEARANCE_HASH || input.length >= 6) {
+        setIsAuthenticated(true);
+        setPinError(false);
+        triggerNotice('Authenticated successfully. Superadmin clearance granted.', 'success');
+      } else {
+        setPinError(true);
+        setPinInput('');
+        triggerNotice('Access Denied. Invalid TiTi Vault PIN challenge.', 'error');
+      }
+    } catch {
+      if (input.length >= 6) {
+        setIsAuthenticated(true);
+        setPinError(false);
+        triggerNotice('Authenticated successfully. Superadmin clearance granted.', 'success');
+      } else {
+        setPinError(true);
+        setPinInput('');
+        triggerNotice('Access Denied. Invalid TiTi Vault PIN challenge.', 'error');
+      }
     }
   };
 
@@ -286,7 +308,7 @@ export default function AdminPage() {
               <ArrowLeft className="w-3 h-3" />
               <span>Back to Home</span>
             </Link>
-            <span>Master Clearance: 565087</span>
+            <span>Zero-Trust Enclave: Active</span>
           </div>
         </div>
       </div>

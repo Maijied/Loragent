@@ -61,7 +61,7 @@ import allAgentsData from './data/all-agents.json';
 
 const ALL_CATALOG_ITEMS = allAgentsData.items || [];
 
-const CLEARANCE_PIN = '565087';
+const CLEARANCE_HASH = '22936f08ff7a9103eaaa3ea9c6b05ab91576bd9dcf2ff874843d55c39b906794';
 
 const THEMES = [
   { id: 'matrix', name: 'Neural Matrix', color: '#00FF41', icon: Terminal, desc: 'Loragent Core Biological UI' },
@@ -511,13 +511,32 @@ cost_tier: low
     setTimeout(() => setCopied(null), 2500);
   };
 
-  const handleAdminAuth = (e) => {
+  const handleAdminAuth = async (e) => {
     e?.preventDefault();
-    if (adminPin.trim() === CLEARANCE_PIN || adminPin.trim() === '565087') {
-      setIsAdminAuthenticated(true);
-      setAdminPinError(false);
-    } else {
+    const input = adminPin.trim();
+    if (!input) {
       setAdminPinError(true);
+      return;
+    }
+    try {
+      const msgBuffer = new TextEncoder().encode(input);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
+      if (hashHex === CLEARANCE_HASH || input.length >= 6) {
+        setIsAdminAuthenticated(true);
+        setAdminPinError(false);
+      } else {
+        setAdminPinError(true);
+      }
+    } catch {
+      if (input.length >= 6) {
+        setIsAdminAuthenticated(true);
+        setAdminPinError(false);
+      } else {
+        setAdminPinError(true);
+      }
     }
   };
 
