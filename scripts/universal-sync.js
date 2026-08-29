@@ -212,48 +212,48 @@ if (fs.existsSync(agentsSourceDir)) {
 // ----------------------------------------------------------------------
 // 5. Workspace Editor Rules Sync (All IDEs)
 // ----------------------------------------------------------------------
-const sourceRuleFile = path.join(rootDir, 'rules', 'AGENTS.md');
-const targetRuleFiles = [
-  'CLAUDE.md',           // Claude Code
-  '.cursorrules',        // Cursor
-  '.windsurfrules',      // Windsurf
-  '.clinerules',         // VSCode (Cline)
+console.log('\n🔄 Syncing Workspace Rules...');
+
+// Target-specific mappings
+const ruleMappings = [
+  { target: 'CLAUDE.md', source: path.join(rootDir, 'rules', 'AGENTS.md') },
+  { target: '.clinerules', source: path.join(rootDir, 'rules', 'AGENTS.md') },
+  { target: '.cursorrules', source: path.join(rootDir, 'rules', 'loragent-cursor.md'), fallback: path.join(rootDir, 'rules', 'AGENTS.md') },
+  { target: '.windsurfrules', source: path.join(rootDir, 'rules', 'loragent-windsurf.md'), fallback: path.join(rootDir, 'rules', 'AGENTS.md') }
 ];
 
-console.log('\n🔄 Syncing Workspace Rules...');
-if (fs.existsSync(sourceRuleFile)) {
-  const ruleContent = fs.readFileSync(sourceRuleFile, 'utf8');
-  for (const target of targetRuleFiles) {
+for (const { target, source, fallback } of ruleMappings) {
+  const src = fs.existsSync(source) ? source : (fallback && fs.existsSync(fallback) ? fallback : null);
+  if (src) {
+    const content = fs.readFileSync(src, 'utf8');
     const targetPath = path.join(rootDir, target);
     try {
-      fs.writeFileSync(targetPath, ruleContent, 'utf8');
-      console.log(`✅ Successfully synced rules to: ${target}`);
-    } catch(err) {
-      console.error(`❌ Failed to sync rules to ${targetPath}:`, err.message);
+      fs.writeFileSync(targetPath, content, 'utf8');
+      console.log(`✅ Synced rule to: ${target}`);
+    } catch (err) {
+      console.error(`❌ Failed to sync rule to ${targetPath}:`, err.message);
     }
   }
-  
-  // Also sync all rules/*.md and rules/*.mdc to .cursor/rules and .agents/rules
-  const rulesSrcDir = path.join(rootDir, 'rules');
-  const cursorRulesDir = path.join(rootDir, '.cursor', 'rules');
-  const agentsRuleDir = path.join(rootDir, '.agents', 'rules');
-  fs.mkdirSync(cursorRulesDir, { recursive: true });
-  fs.mkdirSync(agentsRuleDir, { recursive: true });
+}
 
-  if (fs.existsSync(rulesSrcDir)) {
-    const ruleFiles = fs.readdirSync(rulesSrcDir);
-    for (const file of ruleFiles) {
-      const srcFile = path.join(rulesSrcDir, file);
-      if (fs.statSync(srcFile).isFile()) {
-        fs.copyFileSync(srcFile, path.join(agentsRuleDir, file));
-        const cursorDest = file.endsWith('.md') ? `${file}c` : file;
-        fs.copyFileSync(srcFile, path.join(cursorRulesDir, cursorDest));
-      }
+// Also sync all rules/*.md and rules/*.mdc to .cursor/rules and .agents/rules
+const rulesSrcDir = path.join(rootDir, 'rules');
+const cursorRulesDir = path.join(rootDir, '.cursor', 'rules');
+const agentsRuleDir = path.join(rootDir, '.agents', 'rules');
+fs.mkdirSync(cursorRulesDir, { recursive: true });
+fs.mkdirSync(agentsRuleDir, { recursive: true });
+
+if (fs.existsSync(rulesSrcDir)) {
+  const ruleFiles = fs.readdirSync(rulesSrcDir);
+  for (const file of ruleFiles) {
+    const srcFile = path.join(rulesSrcDir, file);
+    if (fs.statSync(srcFile).isFile()) {
+      fs.copyFileSync(srcFile, path.join(agentsRuleDir, file));
+      const cursorDest = file.endsWith('.md') ? `${file}c` : file;
+      fs.copyFileSync(srcFile, path.join(cursorRulesDir, cursorDest));
     }
-    console.log(`✅ Successfully synced ${ruleFiles.length} rules to: .cursor/rules/ and .agents/rules/`);
   }
-} else {
-  console.log(`⚠️  Source rule file not found at ${sourceRuleFile}`);
+  console.log(`✅ Successfully synced ${ruleFiles.length} rules to: .cursor/rules/ and .agents/rules/`);
 }
 
 // ----------------------------------------------------------------------
