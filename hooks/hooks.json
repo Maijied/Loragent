@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "description": "Loragent Claude Code & Multi-Agent Lifecycle Hooks Registry",
+  "hooks": {
+    "pre-commit": {
+      "agent": "loragent-sqa",
+      "action": "npm run lint && npm test",
+      "description": "Lint and type-check before committing changes"
+    },
+    "post-task": {
+      "agent": "loragent-watchman",
+      "action": "node -e \"import('loragent').then(m => m.saveCheckpoint({ status: 'completed' }))\"",
+      "description": "Persist execution state and checkpoint"
+    },
+    "pre-deploy": {
+      "agent": "loragent-devops",
+      "action": "npm run build && node .agents/hooks/check-done.js",
+      "description": "Build verification and full workspace test pass"
+    },
+    "check-done": {
+      "agent": "loragent-chorki",
+      "action": "node .agents/hooks/check-done.js",
+      "description": "Chorki autonomous verification hook"
+    }
+  }
+}
