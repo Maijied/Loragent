@@ -109,8 +109,8 @@ const PACKAGE_ECOSYSTEMS = [
   {
     id: 'go',
     name: 'Go (Golang Module)',
-    command: 'go install github.com/Maijied/Loragent/cmd/loragent@latest',
-    url: 'https://pkg.go.dev/github.com/Maijied/Loragent',
+    command: 'go install github.com/Maijied/Loragent/v2/cmd/loragent@latest',
+    url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2',
     badge: 'Go Binaries',
     color: '#00F3FF',
     icon: Cpu
