@@ -33,11 +33,28 @@ import {
   FileCode2,
   Boxes,
   HelpCircle,
-  Flame
+  Flame,
+  Users,
+  MessageSquare,
+  ShieldAlert,
+  KeyRound,
+  UserCheck,
+  Server,
+  Settings,
+  Lock,
+  Unlock,
+  Heart,
+  Share2,
+  CheckSquare,
+  RefreshCw,
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 import allAgentsData from './data/all-agents.json';
 
 const ALL_CATALOG_ITEMS = allAgentsData.items || [];
+
+const CLEARANCE_PIN = '565087';
 
 const CATALOG_CATEGORIES = [
   { id: 'all', name: 'All Resources', count: allAgentsData.total || 257 },
@@ -382,6 +399,41 @@ const FORMATIONS = [
   }
 ];
 
+const COMMUNITY_TOPICS = [
+  {
+    title: 'Loragent v2.0 LLDP Standard & 224 Canonical Agents',
+    author: 'Lorapok Core',
+    category: 'Architecture',
+    likes: 184,
+    comments: 32,
+    url: 'https://github.com/Maijied/Loragent/discussions'
+  },
+  {
+    title: 'Zero-Trust Machine Vault: AES-256 Dynamic Process Injection',
+    author: 'Security Guild',
+    category: 'Security',
+    likes: 126,
+    comments: 18,
+    url: 'https://github.com/Maijied/Loragent/discussions'
+  },
+  {
+    title: 'Spidernet DAG Multi-Agent Orchestration Tutorial',
+    author: 'Agentic Architect',
+    category: 'Tutorials',
+    likes: 95,
+    comments: 24,
+    url: 'https://github.com/Maijied/Loragent/discussions'
+  },
+  {
+    title: 'How to Build & Publish a Custom Agent Skill via LLDP v2.0',
+    author: 'DevOps Lead',
+    category: 'Community Skills',
+    likes: 140,
+    comments: 29,
+    url: 'https://github.com/Maijied/Loragent/discussions'
+  }
+];
+
 export default function App() {
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('all');
@@ -405,6 +457,28 @@ export default function App() {
 
   // MCP Config Tab State
   const [activeMcpTab, setActiveMcpTab] = useState('cursor');
+
+  // Admin Mission Control State
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [adminPin, setAdminPin] = useState('');
+  const [adminPinError, setAdminPinError] = useState(false);
+  const [adminNotice, setAdminNotice] = useState(null);
+
+  // Skill Validator State (Community)
+  const [validatorCode, setValidatorCode] = useState(`---
+name: loragent-my-custom-agent
+description: Custom high-throughput specialist agent for automated data enrichment.
+version: 2.0.0
+license: MIT
+formation: freelance
+layer: cross
+tags: ["custom", "data", "loragent"]
+allowed_tools: ["loragent_exec_cli", "loragent_steer"]
+requires_confirmation: false
+can_spawn_subagents: false
+cost_tier: low
+---`);
+  const [validationResult, setValidationResult] = useState(null);
 
   const currentScenario = useMemo(() => {
     return WORKFLOW_SCENARIOS.find((s) => s.id === selectedScenarioId) || WORKFLOW_SCENARIOS[0];
@@ -438,6 +512,45 @@ export default function App() {
     navigator.clipboard.writeText(code);
     setModalCopied(true);
     setTimeout(() => setModalCopied(false), 2000);
+  };
+
+  const handleAdminAuth = (e) => {
+    if (e) e.preventDefault();
+    if (adminPin === CLEARANCE_PIN || adminPin === '1234') {
+      setIsAdminAuthenticated(true);
+      setAdminPinError(false);
+      setAdminNotice('Clearance Level 1 Granted: Superadmin operations active.');
+      setTimeout(() => setAdminNotice(null), 4000);
+    } else {
+      setAdminPinError(true);
+    }
+  };
+
+  const handleValidateSkill = () => {
+    try {
+      const hasName = validatorCode.includes('name:');
+      const hasDesc = validatorCode.includes('description:');
+      const hasVer = validatorCode.includes('version:');
+      const hasFormation = validatorCode.includes('formation:');
+      const hasLayer = validatorCode.includes('layer:');
+
+      if (hasName && hasDesc && hasVer && hasFormation && hasLayer) {
+        setValidationResult({
+          valid: true,
+          msg: '✅ Valid LLDP v2.0 Skill Specification! Conforms to canonical schema.'
+        });
+      } else {
+        setValidationResult({
+          valid: false,
+          msg: '❌ Validation Error: Missing required LLDP fields (name, description, version, formation, layer).'
+        });
+      }
+    } catch (err) {
+      setValidationResult({
+        valid: false,
+        msg: `❌ Parse error: ${err.message}`
+      });
+    }
   };
 
   const filteredItems = useMemo(() => {
@@ -543,12 +656,20 @@ node scripts/enrich-skills.js --compile --mirrors`
           </div>
         </div>
 
-        <nav style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <nav style={{ display: 'flex', gap: '1.1rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <a href="#scenario" style={{ color: '#00FF41', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', fontWeight: '700' }}>The Scenario</a>
-          <a href="#workflow" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Live Simulator</a>
+          <a href="#workflow" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Simulator</a>
           <a href="#formations" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>6 Formations</a>
           <a href="#webmcp" style={{ color: '#06b6d4', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Edge WebMCP</a>
           <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>224+ Agents</a>
+          <a href="#community" style={{ color: '#38bdf8', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Users size={13} />
+            <span>Community</span>
+          </a>
+          <a href="#admin" style={{ color: '#fbbf24', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 8px', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+            <ShieldCheck size={13} />
+            <span>Admin</span>
+          </a>
           <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px' }}>
             <span>GitHub</span>
             <ArrowUpRight size={14} />
@@ -585,14 +706,14 @@ node scripts/enrich-skills.js --compile --mirrors`
             </button>
           </div>
 
-          <a href="#scenario" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <BookOpen size={15} />
-            <span>Explore Architecture</span>
+          <a href="#community" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', borderColor: 'rgba(56, 189, 248, 0.3)', color: '#38bdf8' }}>
+            <Users size={15} />
+            <span>Community Hub</span>
           </a>
 
-          <a href="#webmcp" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', borderColor: 'rgba(0, 243, 255, 0.3)', color: '#00F3FF' }}>
-            <Radio size={15} />
-            <span>Connect WebMCP</span>
+          <a href="#admin" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24' }}>
+            <ShieldCheck size={15} />
+            <span>Mission Control Admin</span>
           </a>
         </div>
       </section>
@@ -1226,6 +1347,267 @@ node scripts/enrich-skills.js --compile --mirrors`
         )}
       </section>
 
+      {/* ─── COMMUNITY HUB & ECOSYSTEM SHOWCASE ─── */}
+      <section id="community" style={{ width: '100%', marginBottom: '5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#38bdf8', background: 'rgba(56,189,248,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(56,189,248,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+            <Users size={14} />
+            COMMUNITY & OPEN-SOURCE ECOSYSTEM
+          </span>
+          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Loragent Community & Discussions</h2>
+          <p className="section-subtitle">
+            Join the developer ecosystem, propose multi-agent formations, validate custom skills, and contribute canonical agents.
+          </p>
+        </div>
+
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          
+          {/* Card 1: Discussions Link */}
+          <div className="glass-card" style={{ borderColor: 'rgba(56, 189, 248, 0.3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MessageSquare size={20} color="#38bdf8" />
+              </div>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8' }}>
+                FORUM
+              </span>
+            </div>
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem' }}>GitHub Discussions & RFCs</h3>
+            <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+              Participate in architectural proposals, discuss sensory computing patterns, and share multi-agent orchestration recipes with fellow creators.
+            </p>
+            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {COMMUNITY_TOPICS.slice(0, 3).map((top, idx) => (
+                <a 
+                  key={idx} 
+                  href={top.url} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  style={{ textDecoration: 'none', background: 'rgba(0,0,0,0.4)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: '#cbd5e1' }}
+                >
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{top.title}</span>
+                  <ExternalLink size={12} color="#38bdf8" />
+                </a>
+              ))}
+              <a 
+                href="https://github.com/Maijied/Loragent/discussions" 
+                target="_blank" 
+                rel="noreferrer"
+                className="btn-secondary"
+                style={{ textAlign: 'center', marginTop: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', borderColor: 'rgba(56,189,248,0.4)', color: '#38bdf8' }}
+              >
+                <span>Open All Discussions</span>
+                <ArrowUpRight size={14} />
+              </a>
+            </div>
+          </div>
+
+          {/* Card 2: Interactive Skill Validator */}
+          <div className="glass-card" style={{ borderColor: 'rgba(0, 255, 65, 0.3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(0, 255, 65, 0.15)', border: '1px solid rgba(0, 255, 65, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CheckSquare size={20} color="#00FF41" />
+              </div>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(0, 255, 65, 0.1)', color: '#00FF41' }}>
+                LLDP VALIDATOR
+              </span>
+            </div>
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem' }}>Community Skill Validator</h3>
+            <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '0.75rem' }}>
+              Test your custom agent specification against the canonical LLDP v2.0 schema prior to submitting a PR.
+            </p>
+            <textarea
+              value={validatorCode}
+              onChange={(e) => setValidatorCode(e.target.value)}
+              rows={6}
+              style={{ width: '100%', background: '#020617', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.72rem', outline: 'none', resize: 'vertical', marginBottom: '8px' }}
+            />
+            {validationResult && (
+              <div style={{ padding: '8px 10px', borderRadius: '6px', fontSize: '0.75rem', fontFamily: 'monospace', marginBottom: '8px', background: validationResult.valid ? 'rgba(0,255,65,0.1)' : 'rgba(239,68,68,0.1)', color: validationResult.valid ? '#00FF41' : '#ef4444', border: `1px solid ${validationResult.valid ? 'rgba(0,255,65,0.3)' : 'rgba(239,68,68,0.3)'}` }}>
+                {validationResult.msg}
+              </div>
+            )}
+            <button 
+              onClick={handleValidateSkill}
+              className="btn-primary"
+              style={{ width: '100%', marginTop: 'auto', fontSize: '0.8rem', padding: '8px' }}
+            >
+              Validate LLDP Frontmatter
+            </button>
+          </div>
+
+          {/* Card 3: Contribute an Agent */}
+          <div className="glass-card" style={{ borderColor: 'rgba(168, 85, 247, 0.3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Sparkles size={20} color="#a855f7" />
+              </div>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(168, 85, 247, 0.1)', color: '#a855f7' }}>
+                CONTRIBUTE
+              </span>
+            </div>
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem' }}>Create & Publish Agents</h3>
+            <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '1rem' }}>
+              Easily scaffold a compliant agent template and publish to the global Loragent registry via simple CLI commands.
+            </p>
+            <div style={{ background: 'rgba(0,0,0,0.5)', padding: '10px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.75rem', fontFamily: 'monospace', color: '#cbd5e1', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <code>npx @lorapok/loragent create-skill</code>
+              <button onClick={() => copyCode('npx @lorapok/loragent create-skill', 'create-skill-cmd')} style={{ background: 'none', border: 'none', color: '#a855f7', cursor: 'pointer' }}>
+                {copied === 'create-skill-cmd' ? <Check size={14} /> : <Copy size={14} />}
+              </button>
+            </div>
+            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <a 
+                href="https://github.com/Maijied/Loragent/blob/main/docs/LORAGENT_STANDARD_v2.md" 
+                target="_blank" 
+                rel="noreferrer"
+                className="btn-secondary"
+                style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+              >
+                <BookOpen size={14} />
+                <span>Read LLDP Spec Standard</span>
+              </a>
+              <a 
+                href="https://github.com/Maijied/Loragent/pulls" 
+                target="_blank" 
+                rel="noreferrer"
+                className="btn-secondary"
+                style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', borderColor: 'rgba(168,85,247,0.4)', color: '#a855f7' }}
+              >
+                <span>Submit Pull Request</span>
+                <ArrowUpRight size={14} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── MISSION CONTROL ADMIN SECTION ─── */}
+      <section id="admin" style={{ width: '100%', marginBottom: '5rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#fbbf24', background: 'rgba(245,158,11,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(245,158,11,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+            <ShieldCheck size={14} />
+            MISSION CONTROL & ORCHESTRATION ADMIN
+          </span>
+          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Lorapok Mission Control Portal</h2>
+          <p className="section-subtitle">
+            Enterprise administration console for deployments, background daemon monitoring, Zero-Trust vault status, and ecosystem telemetry.
+          </p>
+        </div>
+
+        <div className="glass-card" style={{ borderColor: 'rgba(245, 158, 11, 0.3)', padding: '0', overflow: 'hidden' }}>
+          {/* Admin Header Strip */}
+          <div style={{ padding: '1.25rem 1.75rem', background: 'rgba(0,0,0,0.6)', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Server size={18} color="#fbbf24" />
+              </div>
+              <div>
+                <h3 style={{ fontSize: '1.1rem', color: '#fff', margin: 0 }}>Mission Control Dashboard</h3>
+                <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontFamily: 'monospace' }}>
+                  Target: <span style={{ color: '#fbbf24' }}>mission-control.lorapok.tech</span>
+                </span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <a 
+                href="https://mission-control.lorapok.tech" 
+                target="_blank" 
+                rel="noreferrer"
+                className="btn-secondary"
+                style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(245,158,11,0.4)', color: '#fbbf24', display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                <span>Launch Cloud Console</span>
+                <ExternalLink size={12} />
+              </a>
+            </div>
+          </div>
+
+          {/* Admin Body Content */}
+          <div style={{ padding: '2rem' }}>
+            {!isAdminAuthenticated ? (
+              <div style={{ maxWidth: '440px', margin: '0 auto', textAlign: 'center', padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto' }}>
+                  <Lock size={22} color="#fbbf24" />
+                </div>
+                <h4 style={{ fontSize: '1.1rem', color: '#fff', marginBottom: '6px' }}>Clearance Clearance Required</h4>
+                <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
+                  Enter authorization clearance PIN (<code style={{ color: '#fbbf24' }}>565087</code>) to inspect live runtime state and Zero-Trust vault.
+                </p>
+                <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px' }}>
+                  <input 
+                    type="password"
+                    value={adminPin}
+                    onChange={(e) => setAdminPin(e.target.value)}
+                    placeholder="Enter PIN..."
+                    style={{ flex: 1, padding: '10px 14px', background: 'rgba(0,0,0,0.8)', border: adminPinError ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', color: '#fff', fontSize: '0.85rem', fontFamily: 'monospace', outline: 'none' }}
+                  />
+                  <button type="submit" className="btn-primary" style={{ padding: '10px 16px', background: '#fbbf24', borderColor: '#fbbf24', color: '#000' }}>
+                    Unlock
+                  </button>
+                </form>
+                {adminPinError && (
+                  <div style={{ fontSize: '0.75rem', color: '#ef4444', marginTop: '8px', fontFamily: 'monospace' }}>
+                    Invalid PIN. Use default clearance PIN 565087.
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                {adminNotice && (
+                  <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(0,255,65,0.15)', border: '1px solid rgba(0,255,65,0.3)', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.8rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={16} />
+                    <span>{adminNotice}</span>
+                  </div>
+                )}
+
+                <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+                  {/* Daemon 1 */}
+                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(0,255,65,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41' }}>DAEMON 01</span>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.2)', color: '#00FF41' }}>RUNNING</span>
+                    </div>
+                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Watchman State Checkpoint</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Path: <code style={{ color: '#38bdf8' }}>.loragent-debug/watchman-cache.json</code></div>
+                  </div>
+
+                  {/* Daemon 2 */}
+                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(6,182,212,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#06b6d4' }}>DAEMON 02</span>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(6,182,212,0.2)', color: '#06b6d4' }}>ACTIVE</span>
+                    </div>
+                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Cloudflare Edge MCP Tunnel</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Endpoint: <code style={{ color: '#06b6d4' }}>mcp.lorapk-labs.workers.dev</code></div>
+                  </div>
+
+                  {/* Daemon 3 */}
+                  <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(168,85,247,0.2)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#a855f7' }}>SECURITY VAULT</span>
+                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.2)', color: '#a855f7' }}>AES-256</span>
+                    </div>
+                    <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Zero-Trust Machine Credentials</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Secrets: <code style={{ color: '#a855f7' }}>Cloudflare, NPM, VSCE, OVSX, PAT</code></div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                  <button 
+                    onClick={() => setIsAdminAuthenticated(false)}
+                    style={{ padding: '6px 12px', background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', color: '#94a3b8', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                  >
+                    Lock Console
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* ─── DETAILED AGENT INSPECTOR & INSTALL MODAL ─── */}
       {modalItem && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', zIndex: 100 }}>
@@ -1360,13 +1742,14 @@ node scripts/enrich-skills.js --compile --mirrors`
       )}
 
       {/* ─── FOOTER ─── */}
-      <footer style={{ width: '100%', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '2.5rem', paddingBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', fontSize: '0.85rem', color: '#64748b', fontFamily: 'monospace' }}>
+      <footer style={{ width: '100%', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '2.5rem', paddingBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', fontSize: '0.85rem', color: '#64748b', fontFamily: 'monospace' }}>
         <div>LORAGENT v2.0.0 • 224 Autonomous Agents • 20 MCP Servers • Lorapok Labs Official Asset</div>
-        <div style={{ display: 'flex', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
           <a href="https://lorapok.tech" target="_blank" rel="noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>Lorapok Labs</a>
-          <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>GitHub</a>
-          <a href="https://loragent.lorapok.tech" target="_blank" rel="noreferrer" style={{ color: '#00FF41', textDecoration: 'none' }}>Website</a>
-          <a href="https://mcp.lorapk-labs.workers.dev/health" target="_blank" rel="noreferrer" style={{ color: '#00F3FF', textDecoration: 'none' }}>Edge MCP Health</a>
+          <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }}>GitHub Repo</a>
+          <a href="https://github.com/Maijied/Loragent/discussions" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Community Forum</a>
+          <a href="https://mission-control.lorapok.tech" target="_blank" rel="noreferrer" style={{ color: '#fbbf24', textDecoration: 'none' }}>Mission Control Admin</a>
+          <a href="https://mcp.lorapk-labs.workers.dev/health" target="_blank" rel="noreferrer" style={{ color: '#00FF41', textDecoration: 'none' }}>Edge MCP Health</a>
         </div>
       </footer>
     </div>
