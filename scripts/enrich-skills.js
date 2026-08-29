@@ -31,16 +31,16 @@ export const CONFIG = {
       agentsDirs: ['agents', 'skills', '.agents/skills'],
       outputMirrorRoot: true,   // emit .kiro/steering + .cursor/rules at repo root
     },
-    {
+    ...(fs.existsSync('/mnt/NewVolume/Personal_Projects/lorapok_player') ? [{
       root: '/mnt/NewVolume/Personal_Projects/lorapok_player',
       agentsDirs: ['.agents/skills'],
       outputMirrorRoot: true,
-    },
-    {
+    }] : []),
+    ...(fs.existsSync('/mnt/NewVolume/Personal_Projects/loragent-officers') ? [{
       root: '/mnt/NewVolume/Personal_Projects/loragent-officers',
       agentsDirs: ['agents'],
       outputMirrorRoot: true,
-    },
+    }] : []),
   ],
   templateDir:   path.join(defaultRoot, 'templates'),
   reportDir:     path.join(defaultRoot, 'reports'),
@@ -282,16 +282,28 @@ export function compile({ dryRun, mirrors } = {}) {
       continue;
     }
 
+    // Resolve target path safely relative to defaultRoot
+    let destFile = e.file;
+    let destRepo = e.repo;
+    if (e.repoRelativePath) {
+      destFile = path.resolve(defaultRoot, e.repoRelativePath);
+      destRepo = defaultRoot;
+    } else if (path.isAbsolute(destFile) && !fs.existsSync(path.dirname(destFile))) {
+      const sub = destFile.includes('/loragent/') ? destFile.split('/loragent/')[1] : path.basename(destFile);
+      destFile = path.resolve(defaultRoot, sub);
+      destRepo = defaultRoot;
+    }
+
     // Backup + write SKILL.md
-    if (process.argv.includes('--backup') && fs.existsSync(e.file)) fs.copyFileSync(e.file, `${e.file}.bak`);
-    fs.mkdirSync(path.dirname(e.file), { recursive: true });
-    fs.writeFileSync(e.file, skillRendered, 'utf8');
+    if (process.argv.includes('--backup') && fs.existsSync(destFile)) fs.copyFileSync(destFile, `${destFile}.bak`);
+    fs.mkdirSync(path.dirname(destFile), { recursive: true });
+    fs.writeFileSync(destFile, skillRendered, 'utf8');
     written++;
 
     // Mirrors
     if (mirrors) {
-      const kiroDir   = path.join(e.repo, '.kiro', 'steering');
-      const cursorDir = path.join(e.repo, '.cursor', 'rules');
+      const kiroDir   = path.join(destRepo || defaultRoot, '.kiro', 'steering');
+      const cursorDir = path.join(destRepo || defaultRoot, '.cursor', 'rules');
       fs.mkdirSync(kiroDir,   { recursive: true });
       fs.mkdirSync(cursorDir, { recursive: true });
       if (kiroTpl) fs.writeFileSync(path.join(kiroDir,   `${e.slug}.md`),  fill(kiroTpl),   'utf8');
