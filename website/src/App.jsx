@@ -49,13 +49,215 @@ import {
   RefreshCw,
   CheckCircle2,
   AlertTriangle,
-  Cloud
+  Cloud,
+  Mail,
+  Send,
+  Inbox,
+  Palette,
+  Package,
+  GitBranch
 } from 'lucide-react';
 import allAgentsData from './data/all-agents.json';
 
 const ALL_CATALOG_ITEMS = allAgentsData.items || [];
 
 const CLEARANCE_PIN = '565087';
+
+const THEMES = [
+  { id: 'matrix', name: 'Neural Matrix', color: '#00FF41', icon: Terminal, desc: 'Loragent Core Biological UI' },
+  { id: 'aurora', name: 'Aurora Cyber', color: '#00F3FF', icon: Globe, desc: 'Community Hub & Collaboration' },
+  { id: 'obsidian', name: 'Obsidian Gold', color: '#f59e0b', icon: ShieldCheck, desc: 'Mission Control Admin Enclave' }
+];
+
+const PACKAGE_ECOSYSTEMS = [
+  {
+    id: 'npx',
+    name: 'NPX (Instant Runner)',
+    command: 'npx -y @lorapok/loragent@latest',
+    url: 'https://www.npmjs.com/package/@lorapok/loragent',
+    badge: 'Zero-Install CLI',
+    color: '#00FF41',
+    icon: Terminal
+  },
+  {
+    id: 'npm',
+    name: 'NPM (Node.js)',
+    command: 'npm install @lorapok/loragent',
+    url: 'https://www.npmjs.com/package/@lorapok/loragent',
+    badge: 'NPM Registry',
+    color: '#ef4444',
+    icon: Boxes
+  },
+  {
+    id: 'pip',
+    name: 'PyPI / PIP (Python)',
+    command: 'pip install loragent',
+    url: 'https://pypi.org/project/loragent/',
+    badge: 'Python Wheels',
+    color: '#38bdf8',
+    icon: Code2
+  },
+  {
+    id: 'packagist',
+    name: 'Packagist (PHP Composer)',
+    command: 'composer require lorapok/loragent',
+    url: 'https://packagist.org/packages/lorapok/loragent',
+    badge: 'PHP Ecosystem',
+    color: '#f59e0b',
+    icon: Database
+  },
+  {
+    id: 'go',
+    name: 'Go (Golang Module)',
+    command: 'go install github.com/Maijied/Loragent/cmd/loragent@latest',
+    url: 'https://pkg.go.dev/github.com/Maijied/Loragent',
+    badge: 'Go Binaries',
+    color: '#00F3FF',
+    icon: Cpu
+  },
+  {
+    id: 'vscode',
+    name: 'VS Code Marketplace',
+    command: 'ext install LorapokLabs.loragent',
+    url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent',
+    badge: 'IDE Extension',
+    color: '#3b82f6',
+    icon: Sparkles
+  },
+  {
+    id: 'openvsx',
+    name: 'Open VSX Registry',
+    command: 'ovsx install LorapokLabs.loragent',
+    url: 'https://open-vsx.org/extension/LorapokLabs/loragent',
+    badge: 'VSCodium / Eclipse',
+    color: '#a855f7',
+    icon: Globe
+  },
+  {
+    id: 'firefox',
+    name: 'Firefox AMO Add-on',
+    command: 'web-ext run / AMO Add-on',
+    url: 'https://addons.mozilla.org/firefox/addon/loragent-assistant',
+    badge: 'Browser Add-on',
+    color: '#f97316',
+    icon: Radio
+  }
+];
+
+const LORAGENT_EMAILS = [
+  {
+    address: 'boss@lorapok.tech',
+    role: 'Autonomous Orchestrator Dispatch',
+    description: 'Direct webhook & email trigger pipeline for loragent-boss orchestration engine.',
+    badge: 'ORCHESTRATOR',
+    status: 'ACTIVE (CF Routing)',
+    color: '#00FF41'
+  },
+  {
+    address: 'agents@lorapok.tech',
+    role: 'Agent-to-Agent Mesh Telemetry',
+    description: 'Inter-agent telemetry receiver, distributed state checkpoints, and async handoffs.',
+    badge: 'TELEMETRY MESH',
+    status: 'ACTIVE (CF Routing)',
+    color: '#00F3FF'
+  },
+  {
+    address: 'security@lorapok.tech',
+    role: 'Zero-Trust Security & Vault Disclosure',
+    description: 'Responsible disclosure channel for LLE 5-seal encryption, vault CVEs, and compliance.',
+    badge: 'SECURITY VAULT',
+    status: 'ACTIVE (CF Routing)',
+    color: '#ef4444'
+  },
+  {
+    address: 'support@lorapok.tech',
+    role: 'Enterprise & Developer Support',
+    description: 'Technical troubleshooting, skill authoring assistance, and IDE configuration support.',
+    badge: 'SUPPORT',
+    status: 'ACTIVE (CF Routing)',
+    color: '#38bdf8'
+  },
+  {
+    address: 'billing@lorapok.tech',
+    role: 'Cloud Billing & Token Quotas',
+    description: 'Enterprise subscriptions, dedicated Cloudflare edge capacity, and credit allocation.',
+    badge: 'BILLING',
+    status: 'ACTIVE (CF Routing)',
+    color: '#f59e0b'
+  },
+  {
+    address: 'press@lorapok.tech',
+    role: 'Lorapok Labs Media & PR Inquiries',
+    description: 'Media inquiries, research publications, keynote presentations, and partnership announcements.',
+    badge: 'PR & MEDIA',
+    status: 'ACTIVE (CF Routing)',
+    color: '#a855f7'
+  },
+  {
+    address: 'careers@lorapok.tech',
+    role: 'AI Research & Systems Recruitment',
+    description: 'Full-stack multi-agent systems engineering and sensory computing research hiring.',
+    badge: 'CAREERS',
+    status: 'ACTIVE (CF Routing)',
+    color: '#ec4899'
+  },
+  {
+    address: 'contact@lorapok.tech',
+    role: 'General Strategic Inquiries',
+    description: 'Corporate partnerships, academic research licensing, and enterprise deployments.',
+    badge: 'GENERAL',
+    status: 'ACTIVE (CF Routing)',
+    color: '#94a3b8'
+  }
+];
+
+const CI_CD_PIPELINE_STAGES = [
+  {
+    step: 1,
+    name: '🛡️ Security & Zero-Trust Secret Scan',
+    duration: '9s',
+    status: 'SUCCESS',
+    details: 'LLE 5-seal AST scanner checks for plaintext secrets. Validates LLDP v2.0 catalog schema across all 224 agent skills & 20 MCP servers.',
+    badge: 'PASSED',
+    color: '#00FF41'
+  },
+  {
+    step: 2,
+    name: '🧪 Automated Multi-Layer Test Suites (44 Suites)',
+    duration: '10s',
+    status: 'SUCCESS',
+    details: 'Executes 44 comprehensive suites across all 6 architecture layers: Face (CLI), Pulse (Telemetry), Lore (Auth & Vault), Port (MCP), Loom (Coordination), and Cross (System).',
+    badge: '44/44 PASSED',
+    color: '#00F3FF'
+  },
+  {
+    step: 3,
+    name: '📦 Frontend & SSR Asset Compilation',
+    duration: '45s',
+    status: 'SUCCESS',
+    details: 'Compiles Vite SPA marketing platform, builds Next.js SSR application, verifies Edge MCP bundles, and generates multi-IDE catalog mirrors.',
+    badge: 'OPTIMIZED',
+    color: '#a855f7'
+  },
+  {
+    step: 4,
+    name: '☁️ Cloudflare Edge MCP Worker Deployment',
+    duration: '12s',
+    status: 'SUCCESS',
+    details: 'Deploys Edge MCP runtime to https://mcp.lorapk-labs.workers.dev with streaming SSE (/sse) and JSON-RPC 2.0 endpoints.',
+    badge: 'EDGE LIVE',
+    color: '#f59e0b'
+  },
+  {
+    step: 5,
+    name: '🚀 Atomic Release to GitHub Pages (loragent.lorapok.tech)',
+    duration: '8s',
+    status: 'SUCCESS',
+    details: 'Zero-downtime atomic static deployment to custom apex domain loragent.lorapok.tech with automated SSL and CNAME preservation.',
+    badge: 'RELEASED',
+    color: '#00FF41'
+  }
+];
 
 const CATALOG_CATEGORIES = [
   { id: 'all', name: 'All Resources', count: allAgentsData.total || 257 },
@@ -442,6 +644,16 @@ export default function App() {
   const [selectedFormationFilter, setSelectedFormationFilter] = useState('all');
   const [selectedLayerFilter, setSelectedLayerFilter] = useState('all');
   
+  // Theme State
+  const [activeTheme, setActiveTheme] = useState('matrix');
+  const [activePackageTab, setActivePackageTab] = useState('npx');
+  const [adminActiveTab, setAdminActiveTab] = useState('vault');
+
+  // Sync theme class to body
+  useEffect(() => {
+    document.body.className = `theme-${activeTheme}`;
+  }, [activeTheme]);
+
   // Pagination & Modal State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(24);
@@ -657,25 +869,63 @@ node scripts/enrich-skills.js --compile --mirrors`
           </div>
         </div>
 
-        <nav style={{ display: 'flex', gap: '1.1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <a href="#scenario" style={{ color: '#00FF41', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', fontWeight: '700' }}>The Scenario</a>
-          <a href="#workflow" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Simulator</a>
-          <a href="#formations" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>6 Formations</a>
-          <a href="#webmcp" style={{ color: '#06b6d4', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Edge WebMCP</a>
-          <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>224+ Agents</a>
-          <a href="#community" style={{ color: '#38bdf8', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Users size={13} />
-            <span>Community</span>
-          </a>
-          <a href="#admin" style={{ color: '#fbbf24', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 8px', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
-            <ShieldCheck size={13} />
-            <span>Admin</span>
-          </a>
-          <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px' }}>
-            <span>GitHub</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </nav>
+        {/* Theme Switcher & Navigation */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+          {/* 3 Themes Switcher */}
+          <div style={{ display: 'flex', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '3px', gap: '2px' }}>
+            {THEMES.map((t) => {
+              const Icon = t.icon;
+              const isActive = activeTheme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setActiveTheme(t.id)}
+                  title={t.desc}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '4px 10px',
+                    borderRadius: '7px',
+                    border: 'none',
+                    background: isActive ? `${t.color}25` : 'transparent',
+                    color: isActive ? t.color : '#94a3b8',
+                    fontFamily: 'monospace',
+                    fontSize: '0.72rem',
+                    fontWeight: isActive ? '700' : '400',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: isActive ? `0 0 10px ${t.color}30` : 'none'
+                  }}
+                >
+                  <Icon size={12} color={isActive ? t.color : '#94a3b8'} />
+                  <span>{t.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <nav style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <a href="#packages" style={{ color: '#00FF41', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', fontWeight: '700' }}>Packages</a>
+            <a href="#scenario" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Architecture</a>
+            <a href="#workflow" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Simulator</a>
+            <a href="#formations" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Formations</a>
+            <a href="#webmcp" style={{ color: '#06b6d4', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>Edge WebMCP</a>
+            <a href="#marketplace" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace' }}>224+ Agents</a>
+            <a href="#community" style={{ color: '#38bdf8', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Users size={13} />
+              <span>Community & Emails</span>
+            </a>
+            <a href="#admin" style={{ color: '#fbbf24', textDecoration: 'none', fontSize: '0.82rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 8px', borderRadius: '6px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+              <ShieldCheck size={13} />
+              <span>Admin Enclave</span>
+            </a>
+            <a href="https://github.com/Maijied/Loragent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px' }}>
+              <span>GitHub</span>
+              <ArrowUpRight size={14} />
+            </a>
+          </nav>
+        </div>
       </header>
 
       {/* ─── HERO SECTION ─── */}
@@ -694,22 +944,82 @@ node scripts/enrich-skills.js --compile --mirrors`
           Hub-and-Spoke topology with central Boss routing, 3-layer token-sniper memory hierarchy, Zero-Trust AES-256 machine encryption, and native Cloudflare Edge MCP streaming for Cursor, Claude Code, Antigravity, Windsurf, and Chrome WebMCP.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(0,0,0,0.85)', border: '1px solid rgba(0,255,65,0.4)', padding: '10px 18px', borderRadius: '12px', fontFamily: 'monospace', fontSize: '0.85rem', color: '#00FF41', boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-            <TerminalSquare size={16} />
-            <span>npx -y @lorapok/loragent@latest</span>
-            <button 
-              onClick={() => copyCode('npx -y @lorapok/loragent@latest', 'hero-npx')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', marginLeft: '6px', color: '#94a3b8' }}
-              title="Copy Command"
-            >
-              {copied === 'hero-npx' ? <Check size={14} color="#00FF41" /> : <Copy size={14} />}
-            </button>
+        {/* ─── MULTI-ECOSYSTEM PACKAGE REGISTRY STRIP ─── */}
+        <div id="packages" style={{ width: '100%', maxWidth: '960px', margin: '0 auto 2.5rem auto' }}>
+          {/* Package tabs */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '10px' }}>
+            {PACKAGE_ECOSYSTEMS.map((pkg) => {
+              const Icon = pkg.icon;
+              const isSelected = activePackageTab === pkg.id;
+              return (
+                <button
+                  key={pkg.id}
+                  onClick={() => setActivePackageTab(pkg.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 12px',
+                    borderRadius: '8px',
+                    border: isSelected ? `1px solid ${pkg.color}` : '1px solid rgba(255,255,255,0.08)',
+                    background: isSelected ? `${pkg.color}20` : 'rgba(0,0,0,0.5)',
+                    color: isSelected ? pkg.color : '#94a3b8',
+                    fontFamily: 'monospace',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                    fontWeight: isSelected ? '700' : '400',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <Icon size={14} color={isSelected ? pkg.color : '#94a3b8'} />
+                  <span>{pkg.id.toUpperCase()}</span>
+                </button>
+              );
+            })}
           </div>
 
+          {/* Active Package Card */}
+          {(() => {
+            const currentPkg = PACKAGE_ECOSYSTEMS.find(p => p.id === activePackageTab) || PACKAGE_ECOSYSTEMS[0];
+            return (
+              <div style={{ background: 'rgba(0,0,0,0.7)', border: `1px solid ${currentPkg.color}40`, borderRadius: '12px', padding: '14px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', boxShadow: `0 0 20px ${currentPkg.color}15` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1', minWidth: '260px' }}>
+                  <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '4px', background: `${currentPkg.color}20`, color: currentPkg.color, border: `1px solid ${currentPkg.color}40` }}>
+                    {currentPkg.badge}
+                  </span>
+                  <code style={{ fontSize: '0.85rem', color: '#fff', fontFamily: 'monospace' }}>
+                    {currentPkg.command}
+                  </code>
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button 
+                    onClick={() => copyCode(currentPkg.command, `pkg-${currentPkg.id}`)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '6px', color: '#fff', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                  >
+                    {copied === `pkg-${currentPkg.id}` ? <Check size={14} color="#00FF41" /> : <Copy size={14} />}
+                    <span>{copied === `pkg-${currentPkg.id}` ? 'Copied!' : 'Copy'}</span>
+                  </button>
+
+                  <a 
+                    href={currentPkg.url}
+                    target="_blank" 
+                    rel="noreferrer"
+                    style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '6px 12px', background: `${currentPkg.color}15`, border: `1px solid ${currentPkg.color}40`, borderRadius: '6px', color: currentPkg.color, fontSize: '0.75rem', fontFamily: 'monospace', textDecoration: 'none' }}
+                  >
+                    <span>Official Registry</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <a href="#community" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', borderColor: 'rgba(56, 189, 248, 0.3)', color: '#38bdf8' }}>
             <Users size={15} />
-            <span>Community Hub</span>
+            <span>Community & Inboxes</span>
           </a>
 
           <a href="#admin" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', borderColor: 'rgba(245, 158, 11, 0.4)', color: '#fbbf24' }}>
@@ -1351,26 +1661,75 @@ node scripts/enrich-skills.js --compile --mirrors`
       {/* ─── COMMUNITY HUB & ECOSYSTEM SHOWCASE ─── */}
       <section id="community" style={{ width: '100%', marginBottom: '5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#38bdf8', background: 'rgba(56,189,248,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(56,189,248,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00F3FF', background: 'rgba(0,243,255,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(0,243,255,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
             <Users size={14} />
-            COMMUNITY & OPEN-SOURCE ECOSYSTEM
+            COMMUNITY, INBOXES & OPEN-SOURCE ECOSYSTEM
           </span>
-          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Loragent Community & Discussions</h2>
+          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Loragent Community & Official Inboxes</h2>
           <p className="section-subtitle">
-            Join the developer ecosystem, propose multi-agent formations, validate custom skills, and contribute canonical agents.
+            Join the developer ecosystem, propose multi-agent formations, route automated agent telemetry via official email inboxes, and validate custom LLDP skills.
           </p>
         </div>
 
+        {/* ─── OFFICIAL LORAGENT EMAIL INBOXES STRIP ─── */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Mail size={18} color="#00F3FF" />
+              <h3 style={{ fontSize: '1.15rem', color: '#fff', margin: 0, fontFamily: 'monospace' }}>Official Cloudflare Email Inboxes (@lorapok.tech)</h3>
+            </div>
+            <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0,255,65,0.1)', padding: '3px 8px', borderRadius: '6px', border: '1px solid rgba(0,255,65,0.3)' }}>
+              8 ACTIVE ROUTING RULES
+            </span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+            {LORAGENT_EMAILS.map((em) => (
+              <div 
+                key={em.address}
+                style={{ background: 'rgba(10, 17, 32, 0.7)', border: `1px solid ${em.color}30`, borderRadius: '12px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', transition: 'all 0.2s ease' }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: `${em.color}15`, color: em.color, border: `1px solid ${em.color}30` }}>
+                    {em.badge}
+                  </span>
+                  <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', color: '#00FF41' }}>
+                    {em.status}
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
+                  <a href={`mailto:${em.address}`} style={{ fontSize: '0.9rem', fontWeight: '700', fontFamily: 'monospace', color: '#fff', textDecoration: 'none' }}>
+                    {em.address}
+                  </a>
+                  <button 
+                    onClick={() => copyCode(em.address, `email-${em.address}`)}
+                    style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: '2px' }}
+                    title="Copy address"
+                  >
+                    {copied === `email-${em.address}` ? <Check size={14} color="#00FF41" /> : <Copy size={14} />}
+                  </button>
+                </div>
+
+                <div style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: '1.5' }}>
+                  {em.description}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Community 3-Column Grid */}
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
           
           {/* Card 1: Discussions Link */}
-          <div className="glass-card" style={{ borderColor: 'rgba(56, 189, 248, 0.3)' }}>
+          <div className="glass-card" style={{ borderColor: 'rgba(0, 243, 255, 0.3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <MessageSquare size={20} color="#38bdf8" />
+              <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(0, 243, 255, 0.15)', border: '1px solid rgba(0, 243, 255, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MessageSquare size={20} color="#00F3FF" />
               </div>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8' }}>
-                FORUM
+              <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '3px 8px', borderRadius: '6px', background: 'rgba(0, 243, 255, 0.1)', color: '#00F3FF' }}>
+                FORUM & RFCS
               </span>
             </div>
             <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem' }}>GitHub Discussions & RFCs</h3>
@@ -1387,7 +1746,7 @@ node scripts/enrich-skills.js --compile --mirrors`
                   style={{ textDecoration: 'none', background: 'rgba(0,0,0,0.4)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: '#cbd5e1' }}
                 >
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{top.title}</span>
-                  <ExternalLink size={12} color="#38bdf8" />
+                  <ExternalLink size={12} color="#00F3FF" />
                 </a>
               ))}
               <a 
@@ -1395,7 +1754,7 @@ node scripts/enrich-skills.js --compile --mirrors`
                 target="_blank" 
                 rel="noreferrer"
                 className="btn-secondary"
-                style={{ textAlign: 'center', marginTop: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', borderColor: 'rgba(56,189,248,0.4)', color: '#38bdf8' }}
+                style={{ textAlign: 'center', marginTop: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', borderColor: 'rgba(0,243,255,0.4)', color: '#00F3FF' }}
               >
                 <span>Open All Discussions</span>
                 <ArrowUpRight size={14} />
@@ -1417,7 +1776,7 @@ node scripts/enrich-skills.js --compile --mirrors`
             <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '0.75rem' }}>
               Test your custom agent specification against the canonical LLDP v2.0 schema prior to submitting a PR.
             </p>
-            <textarea
+            <textarea 
               value={validatorCode}
               onChange={(e) => setValidatorCode(e.target.value)}
               rows={6}
@@ -1486,13 +1845,13 @@ node scripts/enrich-skills.js --compile --mirrors`
       {/* ─── MISSION CONTROL ADMIN SECTION ─── */}
       <section id="admin" style={{ width: '100%', marginBottom: '5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#fbbf24', background: 'rgba(245,158,11,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(245,158,11,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#f59e0b', background: 'rgba(245,158,11,0.1)', padding: '4px 12px', borderRadius: '9999px', border: '1px solid rgba(245,158,11,0.3)', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
             <ShieldCheck size={14} />
-            MISSION CONTROL & ORCHESTRATION ADMIN
+            MISSION CONTROL & ORCHESTRATION ADMIN ENCLAVE
           </span>
-          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Lorapok Mission Control Portal</h2>
+          <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Lorapok Mission Control Enclave</h2>
           <p className="section-subtitle">
-            Enterprise administration console for deployments, background daemon monitoring, Zero-Trust vault status, and ecosystem telemetry.
+            Enterprise administration console for deployments, background daemon telemetry, Zero-Trust TiTi Vault management, and Cloudflare Email Routing.
           </p>
         </div>
 
@@ -1501,12 +1860,12 @@ node scripts/enrich-skills.js --compile --mirrors`
           <div style={{ padding: '1.25rem 1.75rem', background: 'rgba(0,0,0,0.6)', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Server size={18} color="#fbbf24" />
+                <Server size={18} color="#f59e0b" />
               </div>
               <div>
                 <h3 style={{ fontSize: '1.1rem', color: '#fff', margin: 0 }}>Mission Control Dashboard</h3>
                 <span style={{ fontSize: '0.7rem', color: '#94a3b8', fontFamily: 'monospace' }}>
-                  Target: <span style={{ color: '#fbbf24' }}>mission-control.lorapok.tech</span>
+                  Target: <span style={{ color: '#f59e0b' }}>mission-control.lorapok.tech</span>
                 </span>
               </div>
             </div>
@@ -1517,7 +1876,7 @@ node scripts/enrich-skills.js --compile --mirrors`
                 target="_blank" 
                 rel="noreferrer"
                 className="btn-secondary"
-                style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(245,158,11,0.4)', color: '#fbbf24', display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ padding: '6px 12px', fontSize: '0.75rem', borderColor: 'rgba(245,158,11,0.4)', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '6px' }}
               >
                 <span>Launch Cloud Console</span>
                 <ExternalLink size={12} />
@@ -1530,42 +1889,33 @@ node scripts/enrich-skills.js --compile --mirrors`
             {!isAdminAuthenticated ? (
               <div style={{ maxWidth: '480px', margin: '0 auto', textAlign: 'center', padding: '2rem', background: 'rgba(0,0,0,0.6)', borderRadius: '16px', border: '1px solid rgba(245, 158, 11, 0.25)', boxShadow: '0 16px 40px rgba(0,0,0,0.6)' }}>
                 <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem auto' }}>
-                  <Lock size={24} color="#fbbf24" />
+                  <Lock size={24} color="#f59e0b" />
                 </div>
                 <h4 style={{ fontSize: '1.25rem', color: '#fff', marginBottom: '8px', fontWeight: '700' }}>TiTi Vault Clearance Required</h4>
                 <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-                  Loragent Admin operations are protected by the <strong>TiTi Vault LLE 5-Seal Engine</strong>. Enter master clearance PIN (<code style={{ color: '#fbbf24' }}>565087</code>) to decrypt runtime enclave in memory.
+                  Loragent Admin operations are protected by the <strong>TiTi Vault LLE 5-Seal Machine Enclave</strong>. Enter your master clearance authorization key to decrypt runtime credentials in memory.
                 </p>
-                <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px', marginBottom: '1rem' }}>
+                <form onSubmit={handleAdminAuth} style={{ display: 'flex', gap: '8px', marginBottom: '0.5rem' }}>
                   <input 
                     type="password"
                     value={adminPin}
                     onChange={(e) => setAdminPin(e.target.value)}
-                    placeholder="Enter Master PIN (565087)..."
+                    placeholder="Enter Master Authorization Key..."
                     style={{ flex: 1, padding: '12px 16px', background: 'rgba(0,0,0,0.85)', border: adminPinError ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)', borderRadius: '10px', color: '#fff', fontSize: '0.9rem', fontFamily: 'monospace', outline: 'none' }}
                   />
-                  <button type="submit" className="btn-primary" style={{ padding: '12px 20px', background: '#fbbf24', borderColor: '#fbbf24', color: '#000', fontWeight: 'bold' }}>
+                  <button type="submit" className="btn-primary" style={{ padding: '12px 20px', background: '#f59e0b', borderColor: '#f59e0b', color: '#000', fontWeight: 'bold' }}>
                     Unlock Enclave
                   </button>
                 </form>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
-                  <button
-                    type="button"
-                    onClick={() => { setAdminPin('565087'); }}
-                    style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.75rem', fontFamily: 'monospace', cursor: 'pointer', textDecoration: 'underline' }}
-                  >
-                    Use Clearance PIN: 565087
-                  </button>
-                </div>
                 {adminPinError && (
                   <div style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '10px', fontFamily: 'monospace', background: 'rgba(239,68,68,0.1)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(239,68,68,0.3)' }}>
-                    Invalid PIN. Clearance rejected by TiTi Vault. Use PIN 565087.
+                    Invalid authorization key. Clearance rejected by TiTi Vault.
                   </div>
                 )}
               </div>
             ) : (
               <div>
-                {/* Unlocked banner */}
+                {/* Unlocked status banner */}
                 <div style={{ padding: '12px 16px', borderRadius: '10px', background: 'rgba(0,255,65,0.1)', border: '1px solid rgba(0,255,65,0.3)', color: '#00FF41', fontFamily: 'monospace', fontSize: '0.82rem', marginBottom: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <CheckCircle2 size={18} />
@@ -1576,128 +1926,229 @@ node scripts/enrich-skills.js --compile --mirrors`
                   </span>
                 </div>
 
-                {/* Categories of credentials & Daemons Grid */}
-                <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-                  
-                  {/* Category 1: Cloudflare & Edge */}
-                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(0,243,255,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Cloud size={18} color="#00F3FF" />
-                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Cloudflare Edge Secrets</span>
-                      </div>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,243,255,0.15)', color: '#00F3FF' }}>
-                        CATEGORY: cloudflare
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
-                      Managed keys in <code style={{ color: '#00F3FF' }}>credentials.json.gpg</code>:
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_API_KEY</span>
-                        <span style={{ color: '#00FF41' }}>•••••••••••••••• (Set)</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_ACCOUNT_ID</span>
-                        <span style={{ color: '#00FF41' }}>26b9a1161cddac39•••• (Set)</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_EMAIL</span>
-                        <span style={{ color: '#00FF41' }}>mdshuvo40@gmail.com (Set)</span>
-                      </div>
-                    </div>
-                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
-                      <button 
-                        onClick={() => copyCode('eval "$(cred env cloudflare)"', 'cred-env-cf')} 
-                        style={{ flex: 1, padding: '6px', background: 'rgba(0,243,255,0.1)', border: '1px solid rgba(0,243,255,0.3)', borderRadius: '6px', color: '#00F3FF', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                {/* Admin Navigation Tabs */}
+                <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px', marginBottom: '1.75rem', overflowX: 'auto' }}>
+                  {[
+                    { id: 'vault', label: 'TiTi Vault Secrets', icon: Key },
+                    { id: 'emails', label: 'Cloudflare Email Routing', icon: Mail },
+                    { id: 'cicd', label: 'CI/CD Pipeline Telemetry', icon: GitBranch },
+                    { id: 'daemons', label: 'Active Daemons', icon: Activity }
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = adminActiveTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setAdminActiveTab(tab.id)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '8px 14px',
+                          borderRadius: '8px',
+                          border: isActive ? '1px solid #f59e0b' : '1px solid transparent',
+                          background: isActive ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
+                          color: isActive ? '#f59e0b' : '#94a3b8',
+                          fontFamily: 'monospace',
+                          fontSize: '0.78rem',
+                          fontWeight: isActive ? '700' : '400',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap'
+                        }}
                       >
-                        {copied === 'cred-env-cf' ? 'Copied Shell Script!' : 'Copy cred env cloudflare'}
+                        <Icon size={14} color={isActive ? '#f59e0b' : '#94a3b8'} />
+                        <span>{tab.label}</span>
                       </button>
-                    </div>
-                  </div>
-
-                  {/* Category 2: Package Ecosystem (NPM, VSCE, Packagist) */}
-                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(168,85,247,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Boxes size={18} color="#a855f7" />
-                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Package Registries</span>
-                      </div>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.15)', color: '#a855f7' }}>
-                        CATEGORIES: npm, vsce, packagist
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
-                      Automated publishing tokens:
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>NPM_TOKEN (@lorapok)</span>
-                        <span style={{ color: '#00FF41' }}>npm_live•••••••• (Set)</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>VSCE_PAT / OVSX_PAT</span>
-                        <span style={{ color: '#00FF41' }}>Active (LorapokLabs)</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>PACKAGIST_TOKEN</span>
-                        <span style={{ color: '#00FF41' }}>Active (maijied)</span>
-                      </div>
-                    </div>
-                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
-                      <button 
-                        onClick={() => copyCode('node /mnt/NewVolume/Personal_Projects/cred/sync-all.mjs', 'cred-sync-all')} 
-                        style={{ flex: 1, padding: '6px', background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.3)', borderRadius: '6px', color: '#a855f7', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
-                      >
-                        {copied === 'cred-sync-all' ? 'Copied Sync Command!' : 'Copy Multi-Vault Sync Script'}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Category 3: Orchestration Daemons */}
-                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(0,255,65,0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Activity size={18} color="#00FF41" />
-                        <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Active Orchestration Daemons</span>
-                      </div>
-                      <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.15)', color: '#00FF41' }}>
-                        4 DAEMONS
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
-                      Background self-healing & telemetry loops:
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>Watchman State Sentinel</span>
-                        <span style={{ color: '#00FF41' }}>AUTO-SAVED</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>Cloudflare MCP Edge SSE</span>
-                        <span style={{ color: '#00FF41' }}>LIVE (100% Green)</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
-                        <span style={{ color: '#cbd5e1' }}>AST Token Sniper (&lt;40k)</span>
-                        <span style={{ color: '#00FF41' }}>ENABLED</span>
-                      </div>
-                    </div>
-                    <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
-                      <button 
-                        onClick={() => copyCode('node scripts/enrich-skills.js --compile --mirrors', 'enrich-mirrors-cmd')} 
-                        style={{ flex: 1, padding: '6px', background: 'rgba(0,255,65,0.1)', border: '1px solid rgba(0,255,65,0.3)', borderRadius: '6px', color: '#00FF41', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
-                      >
-                        {copied === 'enrich-mirrors-cmd' ? 'Copied Compile Command!' : 'Sync Multi-IDE Mirrors'}
-                      </button>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
+
+                {/* TAB 1: TiTi Vault Enclave Secrets */}
+                {adminActiveTab === 'vault' && (
+                  <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+                    {/* Cloudflare Edge Secrets */}
+                    <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(0,243,255,0.2)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Cloud size={18} color="#00F3FF" />
+                          <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Cloudflare Edge Secrets</span>
+                        </div>
+                        <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,243,255,0.15)', color: '#00F3FF' }}>
+                          cloudflare
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
+                        Managed in <code style={{ color: '#00F3FF' }}>credentials.json.gpg</code>:
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_API_KEY</span>
+                          <span style={{ color: '#00FF41' }}>•••••••••••••••• (Set)</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_ACCOUNT_ID</span>
+                          <span style={{ color: '#00FF41' }}>26b9a1161cddac39•••• (Set)</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>CLOUDFLARE_EMAIL</span>
+                          <span style={{ color: '#00FF41' }}>mdshuvo40@gmail.com (Set)</span>
+                        </div>
+                      </div>
+                      <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
+                        <button 
+                          onClick={() => copyCode('eval "$(cred env cloudflare)"', 'cred-env-cf')} 
+                          style={{ flex: 1, padding: '6px', background: 'rgba(0,243,255,0.1)', border: '1px solid rgba(0,243,255,0.3)', borderRadius: '6px', color: '#00F3FF', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                        >
+                          {copied === 'cred-env-cf' ? 'Copied Shell Script!' : 'Copy cred env cloudflare'}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Package Registries */}
+                    <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', border: '1px solid rgba(168,85,247,0.2)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <Boxes size={18} color="#a855f7" />
+                          <span style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>Package Registries</span>
+                        </div>
+                        <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.15)', color: '#a855f7' }}>
+                          npm, vsce, packagist
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '12px' }}>
+                        Automated publishing tokens:
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontFamily: 'monospace', fontSize: '0.75rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>NPM_TOKEN (@lorapok)</span>
+                          <span style={{ color: '#00FF41' }}>npm_live•••••••• (Set)</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>VSCE_PAT / OVSX_PAT</span>
+                          <span style={{ color: '#00FF41' }}>Active (LorapokLabs)</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', padding: '6px 10px', borderRadius: '6px' }}>
+                          <span style={{ color: '#cbd5e1' }}>PACKAGIST_TOKEN</span>
+                          <span style={{ color: '#00FF41' }}>Active (maijied)</span>
+                        </div>
+                      </div>
+                      <div style={{ marginTop: '12px', display: 'flex', gap: '6px' }}>
+                        <button 
+                          onClick={() => copyCode('node /mnt/NewVolume/Personal_Projects/cred/sync-all.mjs', 'cred-sync-all')} 
+                          style={{ flex: 1, padding: '6px', background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.3)', borderRadius: '6px', color: '#a855f7', fontSize: '0.72rem', fontFamily: 'monospace', cursor: 'pointer' }}
+                        >
+                          {copied === 'cred-sync-all' ? 'Copied Sync Command!' : 'Copy Multi-Vault Sync Script'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 2: Cloudflare Email Routing & System Mailbox Manager */}
+                {adminActiveTab === 'emails' && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <div style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '1.5rem', marginBottom: '1.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '8px' }}>
+                        <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0, fontFamily: 'monospace' }}>Cloudflare Email Routing Rules Controller</h4>
+                        <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#38bdf8' }}>
+                          Domain: <code style={{ color: '#00FF41' }}>lorapok.tech</code>
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontFamily: 'monospace', fontSize: '0.78rem' }}>
+                        {LORAGENT_EMAILS.map((em) => (
+                          <div key={em.address} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)', flexWrap: 'wrap', gap: '6px' }}>
+                            <span style={{ color: '#fff', fontWeight: 'bold' }}>{em.address}</span>
+                            <span style={{ color: '#94a3b8' }}>{em.role}</span>
+                            <span style={{ color: '#00FF41', background: 'rgba(0,255,65,0.1)', padding: '2px 6px', borderRadius: '4px' }}>ROUTED</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ marginTop: '1.25rem', background: '#020617', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(0,243,255,0.3)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'monospace', fontSize: '0.78rem', color: '#00F3FF' }}>
+                        <code>loragent-email create &lt;address&gt; [destination]</code>
+                        <button onClick={() => copyCode('loragent-email create support@lorapok.tech', 'email-cmd')} style={{ background: 'none', border: 'none', color: '#00F3FF', cursor: 'pointer' }}>
+                          {copied === 'email-cmd' ? <Check size={14} /> : <Copy size={14} />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 3: CI/CD Pipeline Telemetry & Live Release Matrix */}
+                {adminActiveTab === 'cicd' && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '8px' }}>
+                      <h4 style={{ fontSize: '1rem', color: '#fff', margin: 0, fontFamily: 'monospace' }}>5-Stage Unified Enterprise CI/CD Pipeline</h4>
+                      <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#00FF41', background: 'rgba(0,255,65,0.15)', padding: '3px 8px', borderRadius: '6px', border: '1px solid rgba(0,255,65,0.3)' }}>
+                        RUN: 33258205742 (100% SUCCESS)
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {CI_CD_PIPELINE_STAGES.map((stage) => (
+                        <div 
+                          key={stage.step}
+                          style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', width: '24px', height: '24px', borderRadius: '50%', background: `${stage.color}20`, color: stage.color, border: `1px solid ${stage.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                              {stage.step}
+                            </span>
+                            <div>
+                              <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.88rem' }}>{stage.name}</div>
+                              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '2px' }}>{stage.details}</div>
+                            </div>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: '#64748b' }}>{stage.duration}</span>
+                            <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', padding: '2px 8px', borderRadius: '4px', background: `${stage.color}20`, color: stage.color, border: `1px solid ${stage.color}40` }}>
+                              {stage.badge}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 4: Background Daemons & Self-Healing Sentinel */}
+                {adminActiveTab === 'daemons' && (
+                  <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
+                    {/* Daemon 1 */}
+                    <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(0,255,65,0.2)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#00FF41' }}>DAEMON 01</span>
+                        <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,255,65,0.2)', color: '#00FF41' }}>RUNNING</span>
+                      </div>
+                      <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Watchman State Sentinel</div>
+                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Path: <code style={{ color: '#38bdf8' }}>.loragent-debug/watchman-cache.json</code></div>
+                    </div>
+
+                    {/* Daemon 2 */}
+                    <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(6,182,212,0.2)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#06b6d4' }}>DAEMON 02</span>
+                        <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(6,182,212,0.2)', color: '#06b6d4' }}>ACTIVE</span>
+                      </div>
+                      <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Cloudflare Edge MCP SSE Stream</div>
+                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Endpoint: <code style={{ color: '#06b6d4' }}>mcp.lorapk-labs.workers.dev</code></div>
+                    </div>
+
+                    {/* Daemon 3 */}
+                    <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: '10px', border: '1px solid rgba(168,85,247,0.2)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#a855f7' }}>AST TOKEN SNIPER</span>
+                        <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', padding: '2px 6px', borderRadius: '4px', background: 'rgba(168,85,247,0.2)', color: '#a855f7' }}>&lt;40K BUDGET</span>
+                      </div>
+                      <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.9rem', marginBottom: '4px' }}>Context Pruner & Cache Sentinel</div>
+                      <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Protocol: <code style={{ color: '#a855f7' }}>loragent-cache-collector</code></div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Lock Console Control */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                   <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#64748b' }}>
-                    TiTi Master Vault File: <code style={{ color: '#fbbf24' }}>/mnt/NewVolume/Personal_Projects/cred/credentials.json.gpg</code>
+                    Zero-Trust Vault Protocol: <code style={{ color: '#f59e0b' }}>LLE 5-Seal Machine Enclave</code>
                   </span>
                   <button 
                     onClick={() => { setIsAdminAuthenticated(false); setAdminPin(''); }}

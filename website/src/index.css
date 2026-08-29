@@ -42,11 +42,34 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 255, 65, 0.08), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(0, 243, 255, 0.05), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 10% 60%, rgba(168, 85, 247, 0.05), transparent 70%);
   background-attachment: fixed;
+}
+
+body.theme-matrix {
+  --accent-primary: #00FF41;
+  --glow-primary: rgba(0, 255, 65, 0.25);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 255, 65, 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(0, 243, 255, 0.06), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 60%, rgba(0, 255, 65, 0.04), transparent 70%);
+}
+
+body.theme-aurora {
+  --accent-primary: #00F3FF;
+  --glow-primary: rgba(0, 243, 255, 0.25);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 243, 255, 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(168, 85, 247, 0.1), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 60%, rgba(56, 189, 248, 0.08), transparent 70%);
+}
+
+body.theme-obsidian {
+  --accent-primary: #f59e0b;
+  --glow-primary: rgba(245, 158, 11, 0.25);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 158, 11, 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(239, 68, 68, 0.08), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 60%, rgba(245, 158, 11, 0.05), transparent 70%);
 }
 
 /* Custom Scrollbar */
