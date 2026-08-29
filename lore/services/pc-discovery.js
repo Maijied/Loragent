@@ -1,13 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import SkillDeduplicator from './skill-deduplicator.js';
 
 /**
- * Universal PC Discovery Service
- * ==============================
+ * Universal PC Discovery Service v2 (Deduplication, Filtering & Auto-Enrichment)
+ * ==============================================================================
  * Scans the machine across all known AI IDE configurations, global roots,
  * and project workspaces to build a live inventory of:
- * - SKILL.md agent & skill definitions
+ * - SKILL.md agent & skill definitions (deduplicated & quality scored)
  * - MCP server configurations (.mcp.json, mcp_config.json, claude_desktop_config.json, etc.)
  * - Workspace Rules (.mdc, .cursorrules, .clinerules, .windsurfrules, AGENTS.md)
  * - Custom Modes & Subagents (.roomodes, .agents/subagents)
@@ -18,33 +19,25 @@ class PCDiscovery {
   }
 
   /**
-   * Primary discovery scanner
+   * Primary discovery scanner with intelligent deduplication and filtering
    * @param {Object} options
    * @returns {Object} Full inventory of discovered assets
    */
   discover(options = {}) {
     const customPaths = options.customPaths || [];
     const save = options.save !== false;
+    const filter = options.filter || '';
+    const category = options.category || '';
+    const minQuality = options.minQuality ? parseInt(options.minQuality, 10) : 0;
+    const uniqueOnly = options.unique !== false;
+    const enrichCanonical = options.enrich === true;
 
-    const inventory = {
-      timestamp: new Date().toISOString(),
-      platform: process.platform,
-      arch: process.arch,
-      home: this.home,
-      summary: {
-        totalSkills: 0,
-        totalAgents: 0,
-        totalMcpServers: 0,
-        totalRules: 0,
-        totalModes: 0,
-      },
-      locationsScanned: [],
-      skills: [],
-      agents: [],
-      mcpServers: [],
-      rules: [],
-      modes: [],
-    };
+    const rawSkills = [];
+    const rawAgents = [];
+    const rawMcpServers = [];
+    const rawRules = [];
+    const rawModes = [];
+    const locationsScanned = [];
 
     const targetRoots = [
       // IDE Global configs
@@ -68,23 +61,42 @@ class PCDiscovery {
 
     for (const root of targetRoots) {
       if (fs.existsSync(root)) {
-        inventory.locationsScanned.push(root);
-        this._scanLocation(root, inventory, 0, 4);
+        locationsScanned.push(root);
+        this._scanLocation(root, { rawSkills, rawAgents, rawMcpServers, rawRules, rawModes }, 0, 4);
       }
     }
 
-    // Deduplicate lists by path or name
-    inventory.skills = this._dedupe(inventory.skills, 'path');
-    inventory.agents = this._dedupe(inventory.agents, 'path');
-    inventory.mcpServers = this._dedupe(inventory.mcpServers, 'name');
-    inventory.rules = this._dedupe(inventory.rules, 'path');
-    inventory.modes = this._dedupe(inventory.modes, 'name');
+    // Run Deduplication and Quality Engine
+    const dedupedResult = SkillDeduplicator.deduplicateAndEnrich(rawSkills, {
+      filter,
+      category,
+      minQuality,
+      enrichCanonical,
+    });
 
-    inventory.summary.totalSkills = inventory.skills.length;
-    inventory.summary.totalAgents = inventory.agents.length;
-    inventory.summary.totalMcpServers = inventory.mcpServers.length;
-    inventory.summary.totalRules = inventory.rules.length;
-    inventory.summary.totalModes = inventory.modes.length;
+    const mcpServers = this._dedupe(rawMcpServers, 'name');
+    const rules = this._dedupe(rawRules, 'path');
+    const modes = this._dedupe(rawModes, 'name');
+
+    const inventory = {
+      timestamp: new Date().toISOString(),
+      platform: process.platform,
+      arch: process.arch,
+      home: this.home,
+      summary: {
+        totalRawSkillsScanned: dedupedResult.totalRaw,
+        totalUniqueSkills: dedupedResult.totalUnique,
+        totalDuplicatesFiltered: dedupedResult.totalDuplicatesFiltered,
+        totalMcpServers: mcpServers.length,
+        totalRules: rules.length,
+        totalModes: modes.length,
+      },
+      locationsScanned,
+      skills: uniqueOnly ? dedupedResult.skills : rawSkills,
+      mcpServers,
+      rules,
+      modes,
+    };
 
     if (save) {
       this._saveInventory(inventory);
@@ -93,7 +105,7 @@ class PCDiscovery {
     return inventory;
   }
 
-  _scanLocation(dirPath, inv, currentDepth, maxDepth) {
+  _scanLocation(dirPath, sink, currentDepth, maxDepth) {
     if (currentDepth > maxDepth) return;
 
     let entries = [];
@@ -115,15 +127,8 @@ class PCDiscovery {
         // Check for SKILL.md inside directory
         const skillFile = path.join(fullPath, 'SKILL.md');
         if (fs.existsSync(skillFile)) {
-          const meta = this._parseSkillFrontmatter(skillFile);
-          inv.skills.push({
-            name: meta.name || entry.name,
-            path: skillFile,
-            description: meta.description || '',
-            formation: meta.formation || 'auto',
-            layer: meta.layer || 'cross',
-            version: meta.version || '2.0.0',
-          });
+          const parsed = this._parseSkillFull(skillFile, entry.name);
+          sink.rawSkills.push(parsed);
         }
 
         // Check for agent.json inside directory
@@ -131,7 +136,7 @@ class PCDiscovery {
         if (fs.existsSync(agentFile)) {
           try {
             const agentData = JSON.parse(fs.readFileSync(agentFile, 'utf8'));
-            inv.agents.push({
+            sink.rawAgents.push({
               name: agentData.name || entry.name,
               path: agentFile,
               role: agentData.role || '',
@@ -140,16 +145,16 @@ class PCDiscovery {
           } catch {}
         }
 
-        this._scanLocation(fullPath, inv, currentDepth + 1, maxDepth);
+        this._scanLocation(fullPath, sink, currentDepth + 1, maxDepth);
       } else if (entry.isFile()) {
         // MCP configs
         if (['mcp.json', '.mcp.json', 'mcp_config.json', 'claude_desktop_config.json', 'cline_mcp_settings.json'].includes(entry.name)) {
-          this._extractMcpServers(fullPath, inv);
+          this._extractMcpServers(fullPath, sink.rawMcpServers);
         }
 
         // Rules
         if (entry.name.endsWith('.mdc') || ['AGENTS.md', '.cursorrules', '.clinerules', '.windsurfrules'].includes(entry.name)) {
-          inv.rules.push({
+          sink.rawRules.push({
             name: entry.name,
             path: fullPath,
             sizeBytes: entry.size || fs.statSync(fullPath).size,
@@ -161,7 +166,7 @@ class PCDiscovery {
           try {
             const roomodes = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
             for (const mode of roomodes.customModes || []) {
-              inv.modes.push({
+              sink.rawModes.push({
                 name: mode.name || mode.slug,
                 slug: mode.slug,
                 roleDefinition: mode.roleDefinition || '',
@@ -174,12 +179,12 @@ class PCDiscovery {
     }
   }
 
-  _extractMcpServers(filePath, inv) {
+  _extractMcpServers(filePath, out) {
     try {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
       const servers = data.mcpServers || {};
       for (const [key, cfg] of Object.entries(servers)) {
-        inv.mcpServers.push({
+        out.push({
           name: key,
           command: cfg.command || '',
           args: cfg.args || [],
@@ -190,22 +195,47 @@ class PCDiscovery {
     } catch {}
   }
 
-  _parseSkillFrontmatter(filePath) {
+  _parseSkillFull(filePath, dirName) {
     try {
       const raw = fs.readFileSync(filePath, 'utf8');
-      const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-      if (!match) return {};
-      const fmBlock = match[1];
-      const fm = {};
-      for (const line of fmBlock.split('\n')) {
-        const kv = line.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
-        if (kv) {
-          fm[kv[1]] = kv[2].trim().replace(/^['"]|['"]$/g, '');
+      const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+      let fm = {};
+      let body = raw.trim();
+
+      if (m) {
+        const [, fmBlock, b] = m;
+        body = b.trim();
+        for (const line of fmBlock.split('\n')) {
+          const kv = line.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
+          if (kv) {
+            const key = kv[1];
+            const val = kv[2].trim().replace(/^['"]|['"]$/g, '');
+            if (val.startsWith('[') && val.endsWith(']')) {
+              fm[key] = val.slice(1, -1).split(',').map(s => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+            } else {
+              fm[key] = val;
+            }
+          }
         }
       }
-      return fm;
+
+      const name = fm.name || dirName;
+      return {
+        name,
+        path: filePath,
+        description: fm.description || '',
+        formation: fm.formation || 'auto',
+        layer: fm.layer || 'cross',
+        version: fm.version || '2.0.0',
+        tags: Array.isArray(fm.tags) ? fm.tags : [],
+        allowed_tools: Array.isArray(fm.allowed_tools) ? fm.allowed_tools : [],
+        connectors: Array.isArray(fm.connectors) ? fm.connectors : [],
+        fm,
+        body,
+        raw,
+      };
     } catch {
-      return {};
+      return { name: dirName, path: filePath, fm: {}, body: '', raw: '' };
     }
   }
 

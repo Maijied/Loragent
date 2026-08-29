@@ -10,6 +10,20 @@ const rootDir = path.resolve(__dirname, '..');
 const home = os.homedir();
 const platform = os.platform();
 
+// Parse CLI flags
+const ARGS = process.argv.slice(2);
+let FILTER_QUERY = '';
+let CATEGORY_FILTER = '';
+
+for (let i = 0; i < ARGS.length; i++) {
+  if ((ARGS[i] === '-f' || ARGS[i] === '--filter') && ARGS[i + 1]) {
+    FILTER_QUERY = ARGS[i + 1].toLowerCase();
+  }
+  if ((ARGS[i] === '-c' || ARGS[i] === '--category') && ARGS[i + 1]) {
+    CATEGORY_FILTER = ARGS[i + 1].toLowerCase();
+  }
+}
+
 // Resolving global app data paths across OS
 const getAppDataPath = () => {
   if (platform === 'win32') return process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
@@ -64,8 +78,8 @@ for (const mcpFile of mcpPaths) {
   try {
     let config = { mcpServers: {} };
     if (fs.existsSync(mcpFile)) {
-      const raw = fs.readFileSync(mcpFile, 'utf8');
-      if (raw.trim()) {
+      const raw = fs.readFileSync(mcpFile, 'utf8').trim();
+      if (raw) {
         try {
           config = JSON.parse(raw);
         } catch(e) {
@@ -129,12 +143,14 @@ for (const mcpFile of mcpPaths) {
 const agentsSourceDir = path.join(rootDir, 'agents');
 const masterRosterSkillsDir = path.join(home, '.loragent', 'master-roster', 'skills');
 
-console.log('\n🔄 Syncing 174 Agents to Global Master Roster...');
+console.log('\n🔄 Syncing Agents to Global Master Roster (Filtered & Unique)...');
 if (fs.existsSync(agentsSourceDir)) {
   fs.mkdirSync(masterRosterSkillsDir, { recursive: true });
   const agentDirs = fs.readdirSync(agentsSourceDir);
   let count = 0;
   for (const agent of agentDirs) {
+    if (FILTER_QUERY && !agent.toLowerCase().includes(FILTER_QUERY)) continue;
+
     const srcAgentDir = path.join(agentsSourceDir, agent);
     if (fs.statSync(srcAgentDir).isDirectory()) {
       const destAgentDir = path.join(masterRosterSkillsDir, agent);
@@ -142,7 +158,7 @@ if (fs.existsSync(agentsSourceDir)) {
       count++;
     }
   }
-  console.log(`✅ Synced ${count} agents into master roster: ${masterRosterSkillsDir}`);
+  console.log(`✅ Synced ${count} canonical agents into master roster: ${masterRosterSkillsDir}`);
 }
 
 // ----------------------------------------------------------------------
@@ -156,10 +172,14 @@ const globalSkillDirs = [
   path.join(home, '.claude', 'skills')           // Claude Code
 ];
 
-console.log('\n🔄 Syncing Skills to global IDE directories...');
+console.log('\n🔄 Syncing Skills to global IDE directories (Canonical & Deduplicated)...');
 if (fs.existsSync(skillsSourceDir)) {
-  const skills = fs.readdirSync(skillsSourceDir);
+  let skills = fs.readdirSync(skillsSourceDir);
   
+  if (FILTER_QUERY) {
+    skills = skills.filter(s => s.toLowerCase().includes(FILTER_QUERY));
+  }
+
   for (const targetDir of globalSkillDirs) {
     try {
       fs.mkdirSync(targetDir, { recursive: true });
@@ -170,7 +190,7 @@ if (fs.existsSync(skillsSourceDir)) {
           fs.cpSync(srcPath, destPath, { recursive: true, force: true });
         }
       }
-      console.log(`✅ Synced ${skills.length} skills to: ${targetDir}`);
+      console.log(`✅ Synced ${skills.length} filtered unique skills to: ${targetDir}`);
     } catch(err) {
       console.error(`❌ Failed syncing skills to ${targetDir}:`, err.message);
     }
@@ -230,73 +250,72 @@ for (const { target, source, fallback } of ruleMappings) {
     try {
       fs.writeFileSync(targetPath, content, 'utf8');
       console.log(`✅ Synced rule to: ${target}`);
-    } catch (err) {
-      console.error(`❌ Failed to sync rule to ${targetPath}:`, err.message);
+    } catch(err) {
+      console.error(`❌ Failed syncing rule to ${target}:`, err.message);
     }
   }
 }
 
-// Also sync all rules/*.md and rules/*.mdc to .cursor/rules and .agents/rules
+// Global Cursor/Claude Rules (.cursor/rules/*.mdc)
 const rulesSrcDir = path.join(rootDir, 'rules');
-const cursorRulesDir = path.join(rootDir, '.cursor', 'rules');
-const agentsRuleDir = path.join(rootDir, '.agents', 'rules');
-fs.mkdirSync(cursorRulesDir, { recursive: true });
-fs.mkdirSync(agentsRuleDir, { recursive: true });
+const cursorRulesDestDir = path.join(rootDir, '.cursor', 'rules');
+const agentsRulesDestDir = path.join(rootDir, '.agents', 'rules');
 
-if (fs.existsSync(rulesSrcDir)) {
-  const ruleFiles = fs.readdirSync(rulesSrcDir);
-  for (const file of ruleFiles) {
-    const srcFile = path.join(rulesSrcDir, file);
-    if (fs.statSync(srcFile).isFile()) {
-      fs.copyFileSync(srcFile, path.join(agentsRuleDir, file));
-      const cursorDest = file.endsWith('.md') ? `${file}c` : file;
-      fs.copyFileSync(srcFile, path.join(cursorRulesDir, cursorDest));
+[cursorRulesDestDir, agentsRulesDestDir].forEach(destDir => {
+  fs.mkdirSync(destDir, { recursive: true });
+  if (fs.existsSync(rulesSrcDir)) {
+    const ruleFiles = fs.readdirSync(rulesSrcDir).filter(f => f.endsWith('.md') || f.endsWith('.mdc'));
+    for (const file of ruleFiles) {
+      const srcFile = path.join(rulesSrcDir, file);
+      const destFileName = file.endsWith('.mdc') ? file : file.replace(/\.md$/, '.mdc');
+      const destFile = path.join(destDir, destFileName);
+      fs.copyFileSync(srcFile, destFile);
     }
+    console.log(`✅ Successfully synced ${ruleFiles.length} rules to: ${path.relative(rootDir, destDir)}/`);
   }
-  console.log(`✅ Successfully synced ${ruleFiles.length} rules to: .cursor/rules/ and .agents/rules/`);
-}
+});
 
 // ----------------------------------------------------------------------
-// 6. Roo Code / Cline Custom Modes (.roomodes)
+// 6. Roo Code (.roomodes) Mode Generation
 // ----------------------------------------------------------------------
 const roomodesPath = path.join(rootDir, '.roomodes');
 const rooModesConfig = {
   customModes: [
     {
       slug: "loragent-boss",
-      name: "🤖 Loragent Boss — Orchestrator",
-      roleDefinition: "You are loragent-boss, the central intelligent routing hub of the 108-agent Loragent ecosystem. You NEVER implement anything yourself. Your sole function is to: (1) clarify requirements via loragent-teacher if needed, (2) select the correct formation, (3) summon agents via loragent_summon_agent MCP, (4) route handoffs via loragent_steer, (5) monitor execution via loragent-watchman. You speak in command language, not implementation language.",
-      customInstructions: "Analyze task complexity first. For simple single-specialist tasks, summon directly. For compound tasks, select a formation and spin up the full squad. Always confirm destructive actions through workspace-guard. Save state via watchman after every major routing decision.",
+      name: "👑 Loragent Boss — Chief Orchestrator",
+      roleDefinition: "You are loragent-boss, the central routing orchestrator of Loragent. You analyze user tasks, select the optimal squad formation (Auto-Team, Enterprise-Office, Chela-Debugging, Freelance-Isolation, Recovery-Observer, or Spidernet-DAG), summon specialist agents via MCP, and ensure end-to-end task completion.",
+      customInstructions: "Always consult .loragent-debug/orchestration-graph.json before routing. Summon specialists via loragent_summon_agent, log handoffs with loragent_steer, and dismiss specialists with loragent_dismiss_agent after task completion.",
       groups: ["read", "edit", "browser", "command", "mcp"],
       source: "project"
     },
     {
-      slug: "loragent-auto-team",
-      name: "🛠️ Auto Team — Engineering Formation",
-      roleDefinition: "Engineering squad: Tech Director (architecture) → Backend SE (APIs/DB) → Frontend SE (UI) → SQA (testing) → DevOps (deployment). You collectively implement a full software feature end-to-end. Each role hands off sequentially via loragent_steer.",
-      customInstructions: "Tech Director goes first: define architecture, select stack, create task breakdown. Backend SE implements API + data layer. Frontend SE implements UI against the API spec. SQA writes tests and validates. DevOps handles CI/CD and deployment. Each agent saves state after their step.",
+      slug: "loragent-chorki",
+      name: "🌀 Chorki — Continuous Autopilot",
+      roleDefinition: "Autonomous relentless execution engine. You loop through tasks, execute code changes, trigger check-done hooks, apply self-healing fixes, and never stop until tasks are verifiably complete.",
+      customInstructions: "Execute in a loop: Plan -> Implement -> Run check-done hook -> Self-heal on failure -> Verify 100% completion. Report status with clear progress badges.",
       groups: ["read", "edit", "command", "mcp"],
       source: "project"
     },
     {
-      slug: "loragent-chela",
-      name: "🥷 Chela — Debugging Formation",
-      roleDefinition: "Debug squad: Bug Hunter (locate the bug) → Shift Engineer (fix it) → Debugger (verify fix) → Inspector (RCA report). Triggered for mission-critical bugs, production incidents, and test failures. MANDATORY: read .loragent-debug/orchestration-graph.json before any action.",
-      customInstructions: "Bug Hunter reads the orchestration graph first, then traces the error to exact file+line. Shift Engineer applies the minimal fix. Debugger runs the test suite to verify. Inspector writes a Root Cause Analysis. All steps logged to watchman cache.",
-      groups: ["read", "edit", "command", "mcp"],
+      slug: "loragent-tech-director",
+      name: "🏛️ Tech Director — Lead Architect",
+      roleDefinition: "Chief software architect for the Auto-Team. Defines technical architecture, database schemas, API specs, and component hierarchy before code is written. Enforces LLDP standards.",
+      customInstructions: "Always produce clean architecture diagrams in mermaid. Validate dependency compatibility before approving packages. Delegate implementation to backend-se and frontend-se.",
+      groups: ["read", "edit", "mcp"],
       source: "project"
     },
     {
-      slug: "loragent-office",
-      name: "🏢 Office — Business Formation",
-      roleDefinition: "Business squad: Project Coordinator (plan) → Marketing Strategy Manager (campaigns) → Publisher (content/publishing) → PR Specialist (outreach). Activated for product launches, marketing campaigns, and business operations.",
-      customInstructions: "Coordinator creates the project plan and timeline. Marketing Manager defines strategy and assets needed. Publisher creates and schedules content. PR Specialist handles outreach and notifications (Slack/email via MCP).",
-      groups: ["read", "edit", "browser", "mcp"],
+      slug: "loragent-bug-hunter",
+      name: "🎯 Bug Hunter — Chela Debugger",
+      roleDefinition: "Lead troubleshooting specialist. Expert at parsing logs, finding stack-trace origins, diagnosing race conditions, and executing Root Cause Analysis (RCA).",
+      customInstructions: "Never guess file locations — parse .loragent-debug/orchestration-graph.json first. Write minimal reproducible tests for any bug before fixing.",
+      groups: ["read", "edit", "command", "mcp"],
       source: "project"
     },
     {
       slug: "loragent-creative",
-      "name": "🎨 Creative — Design & Media",
+      name: "🎨 Creative Studio — Visuals & UI",
       roleDefinition: "Creative squad: UI/UX Professional + 3D Designer + Animator + Logo Designer + Image Generator. Produces all visual assets: images (Fal.ai MCP), GIFs (FFmpeg MCP), UI mockups, logos, animations. Uses Biological UI standards: dark-space, violet glow, glassmorphic.",
       customInstructions: "Always check connector availability before generating: FAL_API_KEY for images, ffmpeg for GIFs. Store all generated asset URLs in watchman cache. For Slack GIFs: max 2MB, 480px wide, 10s, fps=10. For web images: Flux Pro for quality, Flux Dev for speed.",
       groups: ["read", "edit", "browser", "mcp"],

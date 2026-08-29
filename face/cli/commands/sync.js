@@ -9,12 +9,19 @@ const ROOT = path.resolve(__dirname, '../../..');
 
 export default function(program) {
   const syncCmd = new Command('sync')
-    .description('Sync Loragent MCPs, skills, rules, and modes into all IDE global directories')
-    .action(() => {
-      console.log('🔄 [FACE] Starting Universal Loragent IDE Sync...');
+    .description('Sync canonical Loragent MCPs, skills, rules, and modes into IDE global directories with deduplication and filtering')
+    .option('-f, --filter <query>', 'Filter skills by keyword (e.g. react, deploy, security)')
+    .option('-c, --category <category>', 'Filter by functional category (engineering|devops|security|creative|data|business|ai)')
+    .action((opts) => {
+      console.log('🔄 [FACE] Starting Filtered & Deduplicated Loragent IDE Sync...');
       const scriptPath = path.join(ROOT, 'scripts', 'universal-sync.js');
+      
+      const args = [];
+      if (opts.filter) args.push(`--filter "${opts.filter}"`);
+      if (opts.category) args.push(`--category "${opts.category}"`);
+
       try {
-        execSync(`node ${scriptPath}`, { stdio: 'inherit', cwd: ROOT });
+        execSync(`node ${scriptPath} ${args.join(' ')}`, { stdio: 'inherit', cwd: ROOT });
       } catch (err) {
         console.error('❌ [FACE] Sync failed:', err.message);
       }
