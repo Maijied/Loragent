@@ -9,6 +9,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 
 let _runtimePin = null;
 
@@ -27,21 +30,35 @@ export function getPinSync() {
     return envPin.trim();
   }
 
-  // Check user local secure keyring if present
+  // Check user local secure keyring / shared vault passphrase files
   const candidatePaths = [
     path.join(os.homedir(), '.cred', 'pin'),
     path.join(os.homedir(), '.titi', 'pin'),
-    '/mnt/NewVolume/Personal_Projects/cred/.pin'
+    '/mnt/NewVolume/Personal_Projects/cred/.pin',
+    '/mnt/NewVolume/Personal_Projects/cred/.cred-vault-passphrase',
+    '/mnt/NewVolume/Personal_Projects/cursor-usage-monitor/.cred-vault-passphrase',
+    '/mnt/NewVolume/Personal_Projects/cursor-usage-monitor/website/admin/.cred-vault-passphrase',
+    path.resolve(ROOT_DIR, '.cred-vault-passphrase'),
   ];
 
   for (const p of candidatePaths) {
-    if (fs.existsSync(p)) {
-      try {
-        const val = fs.readFileSync(p, 'utf8').trim();
-        if (val) return val;
-      } catch {
-        // ignore unreadable keyring file
-      }
+    if (!fs.existsSync(p)) continue;
+    try {
+      const raw = fs.readFileSync(p, 'utf8').trim();
+      if (!raw) continue;
+      const labeled = raw.match(/^Passphrase:\s*(.+)$/m);
+      if (labeled?.[1]) return labeled[1].trim();
+      const firstLine = raw.split(/\r?\n/).map((l) => l.trim()).find(
+        (line) =>
+          line &&
+          !/^one-time/i.test(line) &&
+          !/^vault:/i.test(line) &&
+          !/^created:/i.test(line) &&
+          !/^passphrase:?$/i.test(line)
+      );
+      if (firstLine) return firstLine.replace(/^passphrase:\s*/i, '').trim();
+    } catch {
+      // ignore unreadable keyring file
     }
   }
 

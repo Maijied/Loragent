@@ -1,77 +1,68 @@
 #!/bin/bash
-# Sync Cloudflare and GitHub Secrets from Local Credential Vault to GitHub Repository
-# This script reads from the local GPG vault and pushes secrets via `gh secret set`.
+# Sync secrets from canonical GPG vault to GitHub (loragent / cursor-monitor repos).
+# Uses scoped API tokens — never Cloudflare Global API keys.
 
-set -e
+set -euo pipefail
 
-echo "🔒 Syncing secrets from local vault to GitHub via 'gh' CLI..."
+echo "🔒 Syncing secrets from canonical vault to GitHub..."
 
-# Check dependencies
-if ! command -v gh &> /dev/null; then
-    echo "❌ GitHub CLI (gh) could not be found. Please install it."
-    exit 1
-fi
-if ! command -v jq &> /dev/null; then
-    echo "❌ jq could not be found. Please install it."
-    exit 1
-fi
-if ! command -v gpg &> /dev/null; then
-    echo "❌ gpg could not be found. Please install it."
-    exit 1
-fi
+for cmd in gh jq gpg; do
+  command -v "$cmd" >/dev/null 2>&1 || { echo "❌ missing: $cmd"; exit 1; }
+done
 
-VAULT_PATH="${CRED_VAULT_PATH:-$HOME/.cred/credentials.json.gpg}"
+VAULT_PATH="${CRED_STORE_FILE:-/mnt/NewVolume/Personal_Projects/cred/credentials.json.gpg}"
+PASS="${CRED_VAULT_PASSPHRASE:-${CRED_PASSPHRASE:-}}"
 
 if [ ! -f "$VAULT_PATH" ]; then
-    echo "❌ Vault not found at $VAULT_PATH"
-    exit 1
+  echo "❌ Vault not found at $VAULT_PATH"
+  exit 1
 fi
 
-# Decrypt the vault to a temporary file in memory/tmp
-TEMP_JSON=$(mktemp)
-echo "🔑 Please enter your vault passphrase when prompted by GPG."
-gpg -q -d --batch --pinentry-mode loopback "$VAULT_PATH" > "$TEMP_JSON"
-
-echo "✅ Vault decrypted successfully."
-
-# Extract values using jq
-CF_ZONE=$(jq -r '.cursor.cloudflare_zone_lorapok_tech // empty' "$TEMP_JSON")
-CF_KEY=$(jq -r '.cursor.cloudflare_global_api_key_ROTATE_ME // empty' "$TEMP_JSON")
-CF_EMAIL=$(jq -r '.cursor.cloudflare_account_email // empty' "$TEMP_JSON")
-CF_FORWARD_TO=$(jq -r '.cursor.mail_forward_to // empty' "$TEMP_JSON")
-GH_TOKEN=$(jq -r '.cursor.github_token // empty' "$TEMP_JSON")
-OVSX_PAT=$(jq -r '.cursor.ovsx_pat // empty' "$TEMP_JSON")
-VSCE_PAT=$(jq -r '.cursor.vsce_pat // empty' "$TEMP_JSON")
-
-# Securely remove the temporary file
-rm -f "$TEMP_JSON"
-
-# Push to GitHub Secrets
-echo "🚀 Pushing secrets to GitHub..."
-
-if [ -n "$CF_ZONE" ] && [ "$CF_ZONE" != "null" ]; then
-    echo "$CF_ZONE" | gh secret set CLOUDFLARE_ZONE_ID
-    echo "  -> CLOUDFLARE_ZONE_ID set"
-fi
-if [ -n "$CF_KEY" ] && [ "$CF_KEY" != "null" ]; then
-    echo "$CF_KEY" | gh secret set CLOUDFLARE_API_KEY
-    echo "  -> CLOUDFLARE_API_KEY set"
-fi
-if [ -n "$CF_EMAIL" ] && [ "$CF_EMAIL" != "null" ]; then
-    echo "$CF_EMAIL" | gh secret set CLOUDFLARE_API_EMAIL
-    echo "  -> CLOUDFLARE_API_EMAIL set"
-fi
-if [ -n "$CF_FORWARD_TO" ] && [ "$CF_FORWARD_TO" != "null" ]; then
-    echo "$CF_FORWARD_TO" | gh secret set CLOUDFLARE_FORWARD_TO
-    echo "  -> CLOUDFLARE_FORWARD_TO set"
-fi
-if [ -n "$OVSX_PAT" ] && [ "$OVSX_PAT" != "null" ]; then
-    echo "$OVSX_PAT" | gh secret set OVSX_PAT
-    echo "  -> OVSX_PAT set"
-fi
-if [ -n "$VSCE_PAT" ] && [ "$VSCE_PAT" != "null" ]; then
-    echo "$VSCE_PAT" | gh secret set VSCE_PAT
-    echo "  -> VSCE_PAT set"
+if [ -z "$PASS" ]; then
+  for f in \
+    "/mnt/NewVolume/Personal_Projects/cursor-usage-monitor/.cred-vault-passphrase" \
+    "/mnt/NewVolume/Personal_Projects/loragent/.cred-vault-passphrase" \
+    "/mnt/NewVolume/Personal_Projects/cred/.cred-vault-passphrase" \
+    "$HOME/.cred/pin"; do
+    if [ -f "$f" ]; then
+      PASS="$(grep -vE '^(one-time|vault:|created:|Passphrase:)' "$f" | head -1 | sed 's/^passphrase:[[:space:]]*//i')"
+      [ -n "$PASS" ] && break
+    fi
+  done
 fi
 
-echo "🎉 All secrets synchronized to GitHub!"
+if [ -z "$PASS" ]; then
+  echo "❌ Set CRED_VAULT_PASSPHRASE or add .cred-vault-passphrase"
+  exit 1
+fi
+
+TEMP_JSON="$(mktemp)"
+trap 'rm -f "$TEMP_JSON"' EXIT
+
+printf '%s' "$PASS" | gpg -q --batch --pinentry-mode loopback --passphrase-fd 0 -d "$VAULT_PATH" > "$TEMP_JSON"
+
+CF_ACCOUNT="$(jq -r '.cursor.cloudflare_account_id // .cloudflare.account_id // empty' "$TEMP_JSON")"
+CF_API="$(jq -r '.cursor.cloudflare_api_token // .cloudflare.api_token // empty' "$TEMP_JSON")"
+CF_EMAIL_API="$(jq -r '.cursor.cloudflare_email_api_token // .cloudflare.email_api_token // empty' "$TEMP_JSON")"
+CF_ZONE="$(jq -r '.cursor.cloudflare_zone_lorapok_tech // empty' "$TEMP_JSON")"
+CF_FORWARD="$(jq -r '.cursor.mail_forward_to // empty' "$TEMP_JSON")"
+OVSX_PAT="$(jq -r '.cursor.ovsx_pat // empty' "$TEMP_JSON")"
+VSCE_PAT="$(jq -r '.cursor.vsce_pat // empty' "$TEMP_JSON")"
+
+set_secret() {
+  local name="$1" value="$2"
+  [ -n "$value" ] && [ "$value" != "null" ] || return 0
+  printf '%s' "$value" | gh secret set "$name"
+  echo "  -> $name"
+}
+
+echo "🚀 Pushing secrets..."
+set_secret CLOUDFLARE_ACCOUNT_ID "$CF_ACCOUNT"
+set_secret CLOUDFLARE_API_TOKEN "$CF_API"
+set_secret CLOUDFLARE_EMAIL_API_TOKEN "$CF_EMAIL_API"
+set_secret CLOUDFLARE_ZONE_ID "$CF_ZONE"
+set_secret CLOUDFLARE_FORWARD_TO "$CF_FORWARD"
+set_secret OVSX_PAT "$OVSX_PAT"
+set_secret VSCE_PAT "$VSCE_PAT"
+
+echo "🎉 GitHub secrets synchronized."

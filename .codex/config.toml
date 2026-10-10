@@ -1,0 +1,152 @@
+[mcp_servers.browser-automation]
+command = "npx"
+args = [
+    "-y",
+    "@playwright/mcp@latest",
+]
+
+[mcp_servers.deploy-docker]
+command = "npx"
+args = [
+    "-y",
+    "docker-mcp",
+]
+env_vars = [
+    "DOCKER_HOST",
+    "DOCKER_REGISTRY",
+    "DOCKER_REGISTRY_USER",
+    "DOCKER_REGISTRY_PASSWORD",
+]
+
+[mcp_servers.deploy-railway]
+command = "npx"
+args = [
+    "-y",
+    "railway-mcp",
+]
+env_vars = ["RAILWAY_TOKEN"]
+
+[mcp_servers.deploy-vercel]
+command = "npx"
+args = [
+    "-y",
+    "@vercel/mcp-adapter",
+]
+env_vars = [
+    "VERCEL_TOKEN",
+    "VERCEL_TEAM_ID",
+]
+
+[mcp_servers.email-send]
+command = "npx"
+args = [
+    "-y",
+    "resend-mcp",
+]
+env_vars = ["RESEND_API_KEY"]
+
+[mcp_servers.filesystem]
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-filesystem",
+    "/mnt/NewVolume/Personal_Projects/loragent",
+]
+
+[mcp_servers.firebase-admin]
+command = "npx"
+args = [
+    "-y",
+    "firebase-mcp",
+]
+env_vars = [
+    "FIREBASE_PROJECT_ID",
+    "FIREBASE_CLIENT_EMAIL",
+    "FIREBASE_PRIVATE_KEY",
+]
+
+[mcp_servers.gif-create]
+command = "npx"
+args = [
+    "-y",
+    "ffmpeg-mcp",
+]
+
+[mcp_servers.git-ops]
+command = "npx"
+args = [
+    "-y",
+    "git-mcp",
+]
+env_vars = [
+    "GIT_AUTHOR_NAME",
+    "GIT_AUTHOR_EMAIL",
+]
+
+[mcp_servers.image-generate-replicate]
+command = "npx"
+args = [
+    "-y",
+    "replicate-mcp",
+]
+env_vars = ["REPLICATE_API_TOKEN"]
+
+[mcp_servers.loragent-cloud]
+url = "https://mcp.lorapk-labs.workers.dev/mcp"
+
+[mcp_servers.openapi-caller]
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-openapi-client",
+]
+
+[mcp_servers.skills-loader]
+command = "npx"
+args = [
+    "-y",
+    "skills-mcp",
+    "-s",
+    "./skills",
+]
+
+[mcp_servers.slack-notify]
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-slack",
+]
+env_vars = [
+    "SLACK_BOT_TOKEN",
+    "SLACK_TEAM_ID",
+]
+
+[mcp_servers.web-search]
+command = "npx"
+args = [
+    "-y",
+    "@modelcontextprotocol/server-brave-search",
+]
+env_vars = ["BRAVE_API_KEY"]
+
+[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-bindings]
+url = "https://bindings.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-builds]
+url = "https://builds.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-docs]
+url = "https://docs.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-observability]
+url = "https://observability.mcp.cloudflare.com/mcp"
+
+[mcp_servers.loragent]
+command = "node"
+args = ["/mnt/NewVolume/Personal_Projects/loragent/port/mcp/server.js"]
+
+[mcp_servers.loragent.env]
+LORAGENT_WORKSPACE = "/mnt/NewVolume/Personal_Projects/loragent"
