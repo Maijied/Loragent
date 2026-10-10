@@ -624,13 +624,13 @@ export default function App() {
   }, [filteredItems, currentPage, itemsPerPage]);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-300 pb-20">
+    <div className="min-h-screen text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-300 pb-20">
       
       {/* ─── HEADER / NAVIGATION ─── */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#030712]/85 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(0,255,65,0.4)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(0,255,65,0.4)]">
               <div className="w-full h-full bg-[#030712] rounded-[10px] flex items-center justify-center">
                 <Workflow className="w-5 h-5 text-emerald-400" />
               </div>
@@ -640,19 +640,19 @@ export default function App() {
                 <span className="text-lg font-bold tracking-tight text-white font-mono">LOR<span className="text-emerald-400">AGENT</span></span>
                 <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">v2.0</span>
               </div>
-              <p className="text-[10px] font-mono text-slate-400 hidden sm:block">Universal Multi-Agent Orchestration · Lorapok Labs</p>
+              <p className="text-[10px] font-mono text-slate-400 hidden sm:block lg:hidden 2xl:block whitespace-nowrap">Universal Multi-Agent Orchestration · Lorapok Labs</p>
             </div>
           </div>
 
           {/* Nav Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
+          <nav className="hidden lg:flex min-w-0 items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
             {[
-              { id: 'workflow', label: 'Animated Process', icon: Workflow, badge: 'LIVE' },
-              { id: 'catalog', label: '224 Agent Marketplace', icon: ShoppingBag, count: '250' },
-              { id: 'formations', label: '6 Squads', icon: Layers, count: '6' },
-              { id: 'terminal', label: 'Terminal Simulator', icon: Terminal },
-              { id: 'vault', label: 'Zero-Trust Vault', icon: Lock },
-              { id: 'ide', label: 'Multi-IDE Setup', icon: Laptop }
+              { id: 'workflow', label: 'Live Flow', icon: Workflow, badge: 'LIVE' },
+              { id: 'catalog', label: 'Marketplace', icon: ShoppingBag, count: '250' },
+              { id: 'formations', label: 'Squads', icon: Layers, count: '6' },
+              { id: 'terminal', label: 'Terminal', icon: Terminal },
+              { id: 'vault', label: 'Vault', icon: Lock },
+              { id: 'ide', label: 'IDE Setup', icon: Laptop }
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -664,7 +664,7 @@ export default function App() {
                     const el = document.getElementById(tab.id);
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  className={`flex items-center gap-1.5 xl:gap-2 px-2 xl:px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                     isActive 
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_15px_rgba(0,255,65,0.15)]' 
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -673,12 +673,12 @@ export default function App() {
                   <Icon className="w-3.5 h-3.5" />
                   <span>{tab.label}</span>
                   {tab.count && (
-                    <span className="text-[10px] px-1.5 py-0.2 bg-white/10 text-slate-300 rounded-full font-mono">
+                    <span className="hidden xl:inline text-[10px] px-1.5 py-0.5 bg-white/10 text-slate-300 rounded-full font-mono">
                       {tab.count}
                     </span>
                   )}
                   {tab.badge && (
-                    <span className="text-[9px] px-1.5 py-0.2 bg-emerald-500 text-black font-mono font-bold rounded-full animate-pulse">
+                    <span className="hidden xl:inline text-[9px] px-1.5 py-0.5 bg-emerald-500 text-black font-mono font-bold rounded-full animate-pulse">
                       {tab.badge}
                     </span>
                   )}
@@ -688,7 +688,7 @@ export default function App() {
           </nav>
 
           {/* Theme & GitHub Links */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="flex bg-white/5 p-1 rounded-lg border border-white/10">
               {THEMES.map((theme) => {
                 const isCur = activeTheme === theme.id;
@@ -1466,19 +1466,20 @@ export default function App() {
 
             {/* Terminal Input Row */}
             <div className="flex gap-2 mb-6">
-              <div className="flex-1 bg-[#04070a] border border-white/15 rounded-xl px-4 py-2.5 flex items-center gap-2">
+              <div className="flex-1 min-w-0 bg-[#04070a] border border-white/15 rounded-xl px-4 py-2.5 flex items-center gap-2">
                 <span className="text-emerald-400 font-bold">$</span>
                 <input
                   type="text"
                   value={simCommand}
                   onChange={(e) => setSimCommand(e.target.value)}
-                  className="flex-1 bg-transparent text-sm text-white focus:outline-none font-mono"
+                  aria-label="Terminal command"
+                  className="flex-1 min-w-0 bg-transparent text-sm text-white focus:outline-none font-mono"
                 />
               </div>
               <button
                 disabled={simRunning}
                 onClick={handleRunSim}
-                className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,65,0.3)] disabled:opacity-50"
+                className="shrink-0 whitespace-nowrap px-3 sm:px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,65,0.3)] disabled:opacity-50"
               >
                 {simRunning ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 <span>{simRunning ? 'Executing...' : 'Run Directive'}</span>
