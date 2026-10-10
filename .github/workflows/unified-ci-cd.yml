@@ -176,11 +176,14 @@ jobs:
         run: python -m build --sdist --wheel --outdir py_dist/ .
 
       - name: Upload to PyPI Registry
-        if: secrets.PYPI_TOKEN != '' || secrets.PYPI_API_TOKEN != ''
-        run: twine upload --skip-existing py_dist/*
+        if: env.PYPI_TOKEN != '' || env.PYPI_API_TOKEN != ''
+        run: |
+          export TWINE_PASSWORD="${PYPI_TOKEN:-$PYPI_API_TOKEN}"
+          twine upload --skip-existing py_dist/*
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
   # ─────────────────────────────────────────────────────────────
   # STAGE 5: 🐹 Go Module
@@ -221,10 +224,13 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to NPM Registry
-        if: secrets.NPM_TOKEN != ''
-        run: npm publish --access public || true
+        if: env.NPM_TOKEN != '' || env.NPM_MAIN_TOKEN != ''
+        run: |
+          export NODE_AUTH_TOKEN="${NPM_TOKEN:-$NPM_MAIN_TOKEN}"
+          npm publish --access public || true
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_MAIN_TOKEN: ${{ secrets.NPM_MAIN_TOKEN }}
 
   # ─────────────────────────────────────────────────────────────
   # STAGE 7: ✨ IDE Extension
