@@ -628,7 +628,7 @@ export default function App() {
       
       {/* ─── HEADER / NAVIGATION ─── */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#030712]/85 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-3">
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 p-[1.5px] shadow-[0_0_20px_rgba(0,255,65,0.4)]">
               <div className="w-full h-full bg-[#030712] rounded-[10px] flex items-center justify-center">
@@ -640,12 +640,13 @@ export default function App() {
                 <span className="text-lg font-bold tracking-tight text-white font-mono">LOR<span className="text-emerald-400">AGENT</span></span>
                 <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded">v2.0</span>
               </div>
-              <p className="text-[10px] font-mono text-slate-400 hidden sm:block lg:hidden 2xl:block whitespace-nowrap">Universal Multi-Agent Orchestration · Lorapok Labs</p>
+              <p className="text-[10px] font-mono text-slate-400 hidden sm:block lg:hidden whitespace-nowrap">Universal Multi-Agent Orchestration · Lorapok Labs</p>
             </div>
           </div>
 
           {/* Nav Tabs */}
-          <nav className="hidden lg:flex min-w-0 items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
+          <nav className="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-1 bg-transparent">
+            <div className="flex max-w-full items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-xl">
             {[
               { id: 'workflow', label: 'Live Flow', icon: Workflow, badge: 'LIVE' },
               { id: 'catalog', label: 'Marketplace', icon: ShoppingBag, count: '250' },
@@ -685,10 +686,11 @@ export default function App() {
                 </button>
               );
             })}
+            </div>
           </nav>
 
           {/* Theme & GitHub Links */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 ml-auto">
             <div className="flex bg-white/5 p-1 rounded-lg border border-white/10">
               {THEMES.map((theme) => {
                 const isCur = activeTheme === theme.id;
