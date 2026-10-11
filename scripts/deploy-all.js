@@ -89,11 +89,11 @@ const goProxyOk = run('GOPROXY=https://proxy.golang.org go list -m github.com/Ma
 results.push({ stage: '5. 🐹 Go Module (pkg.go.dev/github.com/Maijied/Loragent/v2)', ok: goProxyOk });
 
 // ─── STAGE 6: 📦 NPM & NPX ───
-console.log('\n📦 STAGE 6: NPM & NPX (@lorapok/loragent)...');
+console.log('\n📦 STAGE 6: NPM & NPX (loragent)...');
 const npmToken = getVaultSecret('npm', 'main_token') || process.env.NPM_TOKEN;
 if (npmToken) {
   const npmOk = run(`NODE_AUTH_TOKEN="${npmToken}" npm publish --access public || true`);
-  results.push({ stage: '6. 📦 NPM & NPX (@lorapok/loragent)', ok: npmOk });
+  results.push({ stage: '6. 📦 NPM & NPX (loragent)', ok: npmOk });
 } else {
   console.log('ℹ️  NPM token not configured in vault; NPM package verified locally.');
   results.push({ stage: '6. 📦 NPM & NPX Package Build', ok: true });

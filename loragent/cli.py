@@ -12,7 +12,7 @@ def main():
         prog="loragent",
         description="Loragent — Universal Multi-Agent Ecosystem for Lorapok Labs (Python CLI)"
     )
-    parser.add_argument("--version", "-v", action="version", version="loragent 2.0.0")
+    parser.add_argument("--version", "-v", action="version", version="loragent 2.0.1")
 
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
 

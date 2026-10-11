@@ -37,8 +37,8 @@ const THEMES = [
 
 // Universal Package Ecosystems
 const PACKAGE_ECOSYSTEMS = [
-  { id: 'npx', name: 'NPX (Instant Runner)', command: 'npx -y @lorapok/loragent@latest', url: 'https://www.npmjs.com/package/@lorapok/loragent', badge: 'Zero-Install CLI', color: '#00FF41', icon: Terminal },
-  { id: 'npm', name: 'NPM (Node.js SDK)', command: 'npm install @lorapok/loragent', url: 'https://www.npmjs.com/package/@lorapok/loragent', badge: 'NPM Registry', color: '#ef4444', icon: Boxes },
+  { id: 'npx', name: 'NPX (Instant Runner)', command: 'npx -y loragent@latest', url: 'https://www.npmjs.com/package/loragent', badge: 'Zero-Install CLI', color: '#00FF41', icon: Terminal },
+  { id: 'npm', name: 'NPM (Node.js SDK)', command: 'npm install loragent', url: 'https://www.npmjs.com/package/loragent', badge: 'NPM Registry', color: '#ef4444', icon: Boxes },
   { id: 'pip', name: 'PyPI (Python)', command: 'pip install loragent', url: 'https://pypi.org/project/loragent/', badge: 'Python 3.11+', color: '#38bdf8', icon: Code2 },
   { id: 'go', name: 'Go Proxy (/v2)', command: 'go get github.com/Maijied/Loragent/v2', url: 'https://pkg.go.dev/github.com/Maijied/Loragent/v2', badge: 'PKG.GO.DEV', color: '#00F3FF', icon: Cpu },
   { id: 'vscode', name: 'VS Code Marketplace', command: 'code --install-extension LorapokLabs.loragent', url: 'https://marketplace.visualstudio.com/items?itemName=LorapokLabs.loragent', badge: 'IDE Extension', color: '#3b82f6', icon: Sparkles },
@@ -1713,7 +1713,7 @@ export default function App() {
                 Close
               </button>
               <button
-                onClick={() => handleModalCopy(`npx -y @lorapok/loragent@latest install ${modalItem.slug} ${installScope === 'global' ? '--global' : ''}`)}
+                onClick={() => handleModalCopy(`npx -y loragent@latest install ${modalItem.slug} ${installScope === 'global' ? '--global' : ''}`)}
                 className="px-4 py-2 rounded-xl text-xs font-mono font-bold text-black bg-emerald-400 hover:bg-emerald-300 flex items-center gap-1.5"
               >
                 {modalCopied ? <Check size={14} /> : <DownloadCloud size={14} />}
@@ -1867,7 +1867,7 @@ export default function App() {
                           { step: 3, title: 'Web Platform', desc: 'Vite + Next.js SSR', status: 'PASS' },
                           { step: 4, title: 'Python PyPI', desc: 'pip install loragent', status: 'PASS' },
                           { step: 5, title: 'Go Module', desc: 'pkg.go.dev/v2', status: 'PASS' },
-                          { step: 6, title: 'NPM / NPX', desc: '@lorapok/loragent', status: 'PASS' },
+                          { step: 6, title: 'NPM / NPX', desc: 'loragent', status: 'PASS' },
                           { step: 7, title: 'IDE Extensions', desc: 'VS Code & Open VSX', status: 'PASS' },
                           { step: 8, title: 'Edge MCP', desc: 'Cloudflare Worker', status: 'PASS' }
                         ].map((st) => (

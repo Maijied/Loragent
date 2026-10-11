@@ -22,7 +22,7 @@ export function activate(context) {
 
     const terminal = vscode.window.createTerminal({ name: 'Loragent Boss' });
     terminal.show();
-    terminal.sendText(`npx -y @lorapok/loragent@latest boss "${task}"`);
+    terminal.sendText(`npx -y loragent@latest boss "${task}"`);
   });
 
   // Command: Quick Formation Selector
@@ -49,7 +49,7 @@ export function activate(context) {
   const syncCmd = vscode.commands.registerCommand('loragent.sync', () => {
     const terminal = vscode.window.createTerminal({ name: 'Loragent Sync' });
     terminal.show();
-    terminal.sendText(`npx -y @lorapok/loragent@latest sync`);
+    terminal.sendText('npx -y loragent@latest sync');
   });
 
   // Command: Check TiTi Vault Status
@@ -59,7 +59,7 @@ export function activate(context) {
 
   // Status Bar Item
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-  statusBar.text = '$(hubot) Loragent (v2.0.0)';
+  statusBar.text = '$(hubot) Loragent (v2.0.1)';
   statusBar.tooltip = 'Loragent Universal Multi-Agent Ecosystem — Click to Summon Boss';
   statusBar.command = 'loragent.boss';
   statusBar.show();

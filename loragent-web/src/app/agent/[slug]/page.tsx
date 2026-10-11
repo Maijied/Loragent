@@ -138,7 +138,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                 <span>CLI Install Directive</span>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 font-mono text-[11px] text-neutral-300 break-all select-all">
-                <code>{agent.installCmd || `npx -y @lorapok/loragent@latest install ${agent.slug}`}</code>
+                <code>{agent.installCmd || `npx -y loragent@latest install ${agent.slug}`}</code>
               </div>
             </div>
           </div>

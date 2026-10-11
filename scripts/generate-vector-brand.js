@@ -411,7 +411,7 @@ const ogSocialCardSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12
     <g transform="translate(0, 380)">
       <rect x="0" y="0" width="480" height="42" rx="10" fill="#030712" stroke="rgba(0, 255, 65, 0.3)"/>
       <text x="16" y="26" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#00FF41">
-        $ npx -y @lorapok/loragent@latest
+        $ npx -y loragent@latest
       </text>
     </g>
   </g>

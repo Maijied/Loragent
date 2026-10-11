@@ -15,10 +15,12 @@ const root = path.resolve(__dirname, '..');
 const manifestPath = path.join(root, 'reports', 'agents.manifest.json');
 const formationsPath = path.join(root, 'formations', 'formations.json');
 const mcpConfigPath = path.join(root, '.mcp.json');
+const packagePath = path.join(root, 'package.json');
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const formationsData = JSON.parse(fs.readFileSync(formationsPath, 'utf8'));
 const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'));
+const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
 
 function categorizeAgent(slug, layer, formation, description, tags = []) {
   const s = slug.toLowerCase();
@@ -84,7 +86,7 @@ const agents = manifest.map((a) => {
     canSpawnSubagents: a.canSpawnSubagents !== undefined ? a.canSpawnSubagents : (isResident || a.formation === 'auto'),
     costTier: a.costTier || (isResident ? 'low' : 'medium'),
     slashCommand: `/loragent:${a.slug.replace(/^loragent-/, '')}`,
-    installCmd: `npx -y @lorapok/loragent@latest install ${a.slug}`,
+    installCmd: `npx -y loragent@latest install ${a.slug}`,
     summonCmd: `/loragent:${a.slug.replace(/^loragent-/, '')}`,
     destinationProject: `.agents/skills/${a.slug}/SKILL.md`,
     destinationGlobal: `~/.loragent/skills/${a.slug}/SKILL.md`,
@@ -116,7 +118,7 @@ const mcpServers = Object.entries(mcpConfig.mcpServers || {}).map(([key, cfg]) =
     canSpawnSubagents: false,
     costTier: 'low',
     slashCommand: `/loragent:mcp ${key}`,
-    installCmd: `npx -y @lorapok/loragent@latest add-mcp ${key}`,
+    installCmd: `npx -y loragent@latest add-mcp ${key}`,
     summonCmd: `mcp:${key}`,
     destinationProject: '.mcp.json',
     destinationGlobal: '~/.claude/mcp.json',
@@ -145,7 +147,7 @@ const formations = formationsData.formations.map((f) => {
     canSpawnSubagents: true,
     costTier: 'medium',
     slashCommand: `/loragent:boss ${f.id}`,
-    installCmd: `npx -y @lorapok/loragent@latest formation ${f.id}`,
+    installCmd: `npx -y loragent@latest formation ${f.id}`,
     summonCmd: `/loragent:boss ${f.id}`,
     destinationProject: `.loragent/formations/${f.id}.json`,
     destinationGlobal: `~/.loragent/formations/${f.id}.json`,
@@ -158,7 +160,7 @@ const allItems = [...agents, ...mcpServers, ...formations];
 
 const fullData = {
   $schema: 'https://loragent.lorapok.tech/schemas/marketplace.schema.json',
-  version: '2.0.0',
+  version: packageData.version,
   generatedAt: new Date().toISOString(),
   total: allItems.length,
   totalItems: allItems.length,

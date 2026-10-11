@@ -6,7 +6,7 @@
 
 *Transform single-agent IDEs (Cursor, Claude Code, Windsurf, Antigravity, Roo Code, Cline, Zed, Codex) into a deterministic 224+ specialist software firm.*
 
-[![Version](https://img.shields.io/badge/version-2.0.0-emerald.svg)](https://loragent.lorapok.tech)
+[![Version](https://img.shields.io/badge/version-2.0.1-emerald.svg)](https://loragent.lorapok.tech)
 [![Compatibility](https://img.shields.io/badge/compatibility-28%2B%20AI%20IDEs-cyan.svg)]()
 [![Roster](https://img.shields.io/badge/catalog-250%20Resources-purple.svg)](registry/marketplace.json)
 [![Security](https://img.shields.io/badge/vault-Zero--Trust%20AES--256-amber.svg)]()

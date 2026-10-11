@@ -1,7 +1,7 @@
 {
   "name": "loragent",
   "displayName": "Loragent — Universal Multi-Agent Ecosystem",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "224-agent virtual software firm for Lorapok Labs — Hub-and-Spoke topology, 6 squad formations, TiTi Vault zero-trust enclave, MCP lazy-loading, and autonomous multi-agent orchestration.",
   "publisher": "LorapokLabs",
   "license": "MIT",
@@ -11,6 +11,9 @@
     "url": "https://lorapok.github.io"
   },
   "homepage": "https://loragent.lorapok.tech",
+  "bugs": {
+    "url": "https://github.com/Maijied/Loragent/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Maijied/Loragent"
@@ -24,6 +27,10 @@
     "Programming Languages",
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#030712",
+    "theme": "dark"
+  },
   "keywords": [
     "lorapok",
     "loragent",

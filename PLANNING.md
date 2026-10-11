@@ -16,10 +16,10 @@
 ### Goal: Ubiquity Across Agent Platforms
 Loragent is designed to be framework-agnostic. We will publish it to multiple registries:
 
-1. **NPM Registry**: Publish the core engine and MCP server as `@lorapok/loragent`. This enables `npx -y @lorapok/loragent` to boot the daemon instantly.
+1. **NPM Registry**: Publish the core engine and MCP server as `loragent`. This enables `npx -y loragent` to boot the daemon instantly.
 2. **PIP (PyPI)**: Expose the core tools via Python bindings for data-science workflows.
 3. **Homebrew**: `brew tap lorapok/loragent && brew install loragent` for system-wide native CLI availability.
 
 ### Ecosystem Integration
-- **Cursor / Claude Code**: Direct support as an MCP extension. The user can simply add `npx @lorapok/loragent-mcp` to their cursor config.
+- **Cursor / Claude Code**: Direct support as an MCP extension. The user can simply add `npx loragent-mcp` to their cursor config.
 - **Lorapok Atlas**: All 108 agent configurations and SKILL.md specs will be synced to the Atlas API Directory for automatic discovery.

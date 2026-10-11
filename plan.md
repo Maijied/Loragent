@@ -28,7 +28,7 @@
 - **Action Buttons:**
   - Primary CTA: `"Install via NPM"` (`bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 shadow-lg shadow-violet-500/25`).
   - Secondary CTA: `"Read Documentation"` (`bg-white/5 border border-white/10 hover:bg-white/10`).
-- **Interactive Quick-Run Pill:** Inline terminal preview: `npm install -g @lorapok/loragent-cli` with copy button.
+- **Interactive Quick-Run Pill:** Inline terminal preview: `npm install -g loragent-cli` with copy button.
 
 ---
 
@@ -71,7 +71,7 @@ Zig-zag layout displaying the cost reduction engine:
 Vertical or 3-column chronological workflow:
 - **Step 01:** Install Globally
   ```bash
-  npm install -g @lorapok/loragent-cli
+  npm install -g loragent-cli
   ```
 - **Step 02:** Summon the Boss & Form Team
   ```bash

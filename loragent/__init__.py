@@ -3,7 +3,7 @@ Loragent Python SDK — Universal Multi-Agent Ecosystem for Lorapok Labs.
 Hub-and-Spoke topology with MCP lazy-loading, formations, and crash recovery.
 """
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 __author__ = "Lorapok Labs"
 
 from .client import LoragentClient

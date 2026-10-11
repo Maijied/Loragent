@@ -383,7 +383,7 @@ const IDE_CONFIGS: Record<string, { name: string; file: string; snippet: string;
   claude: {
     name: 'Claude Code',
     file: 'CLAUDE.md + ~/.claude/mcp.json',
-    snippet: `{\n  "mcpServers": {\n    "loragent-core": {\n      "command": "npx",\n      "args": ["-y", "@lorapok/loragent", "mcp-server"]\n    }\n  }\n}`,
+    snippet: `{\n  "mcpServers": {\n    "loragent-core": {\n      "command": "npx",\n      "args": ["-y", "loragent", "mcp-server"]\n    }\n  }\n}`,
     description: 'Claude Code 3-Layer persistent memory and auto memory note pipeline integration.'
   },
   windsurf: {
@@ -749,9 +749,9 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
             <div className="flex items-center gap-2 bg-black/80 border border-emerald-500/40 px-4 py-2.5 rounded-xl font-mono text-xs text-emerald-300 shadow-[0_0_20px_rgba(0,255,65,0.15)]">
               <Terminal className="w-4 h-4 text-emerald-400" />
-              <span>npx -y @lorapok/loragent@latest</span>
+              <span>npx -y loragent@latest</span>
               <button
-                onClick={() => handleCopy('npx -y @lorapok/loragent@latest', 'hero-npx')}
+                onClick={() => handleCopy('npx -y loragent@latest', 'hero-npx')}
                 className="ml-2 p-1 hover:bg-white/10 rounded transition-colors text-neutral-400 hover:text-white"
                 title="Copy Command"
               >

@@ -1,5 +1,9 @@
 .git/**
 .github/**
+.env
+.env.*
+.cred-protect.json
+.local_plain_backup/**
 .agents/**
 .cursor/**
 .gemini/**
@@ -7,8 +11,8 @@
 .next/**
 .turbo/**
 .cache/**
-.local_plain_backup/**
 node_modules/**
+**/node_modules/**
 website/**
 loragent-web/**
 py_dist/**
@@ -29,3 +33,6 @@ pkg/**
 bin/**
 docs/**
 reports/**
+registry/pc-inventory.json
+.loragent/**
+.loragent-debug/**

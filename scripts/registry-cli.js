@@ -167,7 +167,7 @@ ${item.objective || item.description || 'Executes autonomous domain workflows.'}
         mcpServers: {
           [cleanSlug]: {
             command: 'npx',
-            args: ['-y', '@lorapok/loragent@latest', 'serve', cleanSlug],
+            args: ['-y', 'loragent@latest', 'serve', cleanSlug],
             env: {}
           }
         }

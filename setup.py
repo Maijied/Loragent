@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='loragent',
-    version='2.0.0',
+    version='2.0.1',
     description='Universal Multi-Agent Ecosystem for Lorapok Labs — 224 Autonomous Agents, 20 MCP Servers, and 6 Formations',
     long_description=open('README.md', encoding='utf-8').read() if open('README.md', encoding='utf-8') else '',
     long_description_content_type='text/markdown',
