@@ -24,6 +24,7 @@ jobs:
           python3 - <<'PY'
           import json
           import os
+          import urllib.error
           import urllib.parse
           import urllib.request
 
@@ -33,7 +34,7 @@ jobs:
               raise SystemExit("Packagist credentials are not configured")
 
           query = urllib.parse.urlencode({"username": username, "apiToken": token})
-          request = urllib.request.Request(
+          update_request = urllib.request.Request(
               f"https://packagist.org/api/update-package?{query}",
               data=json.dumps({
                   "repository": {"url": "https://github.com/Maijied/Loragent"}
@@ -41,6 +42,23 @@ jobs:
               headers={"Content-Type": "application/json"},
               method="POST",
           )
-          with urllib.request.urlopen(request) as response:
-              print(f"Packagist update accepted ({response.status})")
+          try:
+              with urllib.request.urlopen(update_request) as response:
+                  print(f"Packagist update accepted ({response.status})")
+          except urllib.error.HTTPError as error:
+              if error.code != 404:
+                  raise
+              create_request = urllib.request.Request(
+                  "https://packagist.org/api/create-package",
+                  data=json.dumps({
+                      "repository": "https://github.com/Maijied/Loragent"
+                  }).encode(),
+                  headers={
+                      "Authorization": f"Bearer {username}:{token}",
+                      "Content-Type": "application/json",
+                  },
+                  method="POST",
+              )
+              with urllib.request.urlopen(create_request) as response:
+                  print(f"Packagist package created ({response.status})")
           PY
