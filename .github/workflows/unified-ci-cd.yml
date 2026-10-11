@@ -180,9 +180,10 @@ jobs:
           export TWINE_TOKEN="${PYPI_TOKEN:-$PYPI_API_TOKEN}"
           if [ -n "$TWINE_TOKEN" ]; then
             echo "Uploading package to PyPI..."
-            TWINE_PASSWORD="$TWINE_TOKEN" twine upload --skip-existing py_dist/* || true
+            TWINE_PASSWORD="$TWINE_TOKEN" twine upload --skip-existing py_dist/*
           else
-            echo "Notice: PyPI credentials not configured; built package verified."
+            echo "::error::PYPI_TOKEN or PYPI_API_TOKEN is not configured."
+            exit 1
           fi
         env:
           TWINE_USERNAME: __token__
@@ -232,9 +233,10 @@ jobs:
           export NPM_AUTH="${NPM_TOKEN:-$NPM_MAIN_TOKEN}"
           if [ -n "$NPM_AUTH" ]; then
             echo "Publishing package to NPM..."
-            NODE_AUTH_TOKEN="$NPM_AUTH" npm publish --access public || true
+            NODE_AUTH_TOKEN="$NPM_AUTH" npm publish --access public
           else
-            echo "Notice: NPM credentials not configured; build verified."
+            echo "::error::NPM_TOKEN or NPM_MAIN_TOKEN is not configured."
+            exit 1
           fi
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

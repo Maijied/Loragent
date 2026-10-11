@@ -1,6 +1,7 @@
 name: Publish to Packagist (Composer)
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*.*.*'
@@ -15,9 +16,31 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Trigger Packagist
-        uses: indiesdev/packagist-update@v1.0.0
-        with:
-          username: ${{ secrets.PACKAGIST_USERNAME }}
-          api_token: ${{ secrets.PACKAGIST_TOKEN }}
-          package: "loragent/loragent"
+      - name: Trigger Packagist Update
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.parse
+          import urllib.request
+
+          username = os.environ.get("PACKAGIST_USERNAME")
+          token = os.environ.get("PACKAGIST_TOKEN")
+          if not username or not token:
+              raise SystemExit("Packagist credentials are not configured")
+
+          query = urllib.parse.urlencode({"username": username, "apiToken": token})
+          request = urllib.request.Request(
+              f"https://packagist.org/api/update-package?{query}",
+              data=json.dumps({
+                  "repository": {"url": "https://github.com/Maijied/Loragent"}
+              }).encode(),
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+          with urllib.request.urlopen(request) as response:
+              print(f"Packagist update accepted ({response.status})")
+          PY
