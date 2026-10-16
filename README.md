@@ -499,6 +499,12 @@ node scripts/enrich-skills.js --validate
 npm test
 ```
 
+### 4. Custom Domain & DNS Verification
+```bash
+npm run verify:dns
+```
+For Cloudflare DNS configuration and GitHub domain ownership verification, refer to [DNS_VERIFICATION.md](./DNS_VERIFICATION.md).
+
 ---
 
 <div align="center">

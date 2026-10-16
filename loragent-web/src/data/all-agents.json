@@ -1,14 +1,14 @@
 {
   "$schema": "https://loragent.lorapok.tech/schemas/marketplace.schema.json",
   "version": "2.0.1",
-  "generatedAt": "2026-10-10T23:57:25.608Z",
-  "total": 257,
-  "totalItems": 257,
-  "totalAgents": 231,
+  "generatedAt": "2026-10-16T05:34:56.834Z",
+  "total": 268,
+  "totalItems": 268,
+  "totalAgents": 242,
   "totalMcp": 20,
   "totalFormations": 6,
   "breakdown": {
-    "agentsAndSkills": 231,
+    "agentsAndSkills": 242,
     "mcpServers": 20,
     "formations": 6
   },
@@ -16,12 +16,12 @@
     {
       "id": "all",
       "name": "All Resources",
-      "count": 257
+      "count": 268
     },
     {
       "id": "agents",
       "name": "224 Autonomous Agents",
-      "count": 231
+      "count": 242
     },
     {
       "id": "mcp",
@@ -36,12 +36,12 @@
     {
       "id": "engineering",
       "name": "Software Engineering",
-      "count": 133
+      "count": 136
     },
     {
       "id": "security",
       "name": "QA & Security",
-      "count": 14
+      "count": 13
     },
     {
       "id": "devops",
@@ -61,17 +61,17 @@
     {
       "id": "business",
       "name": "Business Operations",
-      "count": 12
+      "count": 13
     },
     {
       "id": "debugging",
       "name": "Chela Debugging",
-      "count": 6
+      "count": 7
     },
     {
       "id": "observer",
       "name": "Observer & Sentinel",
-      "count": 10
+      "count": 17
     }
   ],
   "items": [
@@ -98,7 +98,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:3d-designer",
       "installCmd": "npx -y loragent@latest install loragent-3d-designer",
@@ -130,7 +130,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:accessibility-audit",
       "installCmd": "npx -y loragent@latest install loragent-accessibility-audit",
@@ -162,7 +162,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:accounts-specialist",
       "installCmd": "npx -y loragent@latest install loragent-accounts-specialist",
@@ -194,7 +194,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:addon-maker",
       "installCmd": "npx -y loragent@latest install loragent-addon-maker",
@@ -226,7 +226,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:admin-reliability",
       "installCmd": "npx -y loragent@latest install loragent-admin-reliability",
@@ -258,7 +258,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:ads-manager",
       "installCmd": "npx -y loragent@latest install loragent-ads-manager",
@@ -290,7 +290,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:ai-communicator",
       "installCmd": "npx -y loragent@latest install loragent-ai-communicator",
@@ -322,7 +322,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:algorithm-implementer",
       "installCmd": "npx -y loragent@latest install loragent-algorithm-implementer",
@@ -354,7 +354,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:angular-specialist",
       "installCmd": "npx -y loragent@latest install loragent-angular-specialist",
@@ -386,7 +386,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:animator",
       "installCmd": "npx -y loragent@latest install loragent-animator",
@@ -418,7 +418,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:api-chef",
       "installCmd": "npx -y loragent@latest install loragent-api-chef",
@@ -450,7 +450,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:apple-ecosystem-expert",
       "installCmd": "npx -y loragent@latest install loragent-apple-ecosystem-expert",
@@ -482,7 +482,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:architect-designer",
       "installCmd": "npx -y loragent@latest install loragent-architect-designer",
@@ -514,7 +514,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:auditor",
       "installCmd": "npx -y loragent@latest install loragent-auditor",
@@ -546,7 +546,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:authentication-engineer",
       "installCmd": "npx -y loragent@latest install loragent-authentication-engineer",
@@ -578,7 +578,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:aws-specialist",
       "installCmd": "npx -y loragent@latest install loragent-aws-specialist",
@@ -610,7 +610,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:azure-cloud-specialist",
       "installCmd": "npx -y loragent@latest install loragent-azure-cloud-specialist",
@@ -642,7 +642,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:azure-specialist",
       "installCmd": "npx -y loragent@latest install loragent-azure-specialist",
@@ -674,7 +674,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:backend-se",
       "installCmd": "npx -y loragent@latest install loragent-backend-se",
@@ -744,7 +744,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:browser-automation-expert",
       "installCmd": "npx -y loragent@latest install loragent-browser-automation-expert",
@@ -776,7 +776,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:browser-specialist",
       "installCmd": "npx -y loragent@latest install loragent-browser-specialist",
@@ -808,7 +808,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:bug-hunter",
       "installCmd": "npx -y loragent@latest install loragent-bug-hunter",
@@ -826,8 +826,8 @@
       "formation": "auto",
       "layer": "CROSS",
       "version": "2.0.0",
-      "description": "The Business Expert. Analyzes requirements for SEO, market fit, and product logic.",
-      "objective": "You are the Business Expert (Domain/SEO/Market Analyst) in the Loragent Virtual Office system. You ensure the product makes sense in the real world and reaches its target audience effectively.",
+      "description": "Manages Lorapok Labs monetization, subscription logic, marketing campaigns, and upsells.",
+      "objective": "You are the Business Expert and Sales Orchestrator for Lorapok Labs.",
       "isResident": false,
       "tags": [
         "lorapok",
@@ -840,7 +840,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:business-expert",
       "installCmd": "npx -y loragent@latest install loragent-business-expert",
@@ -872,7 +872,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cache-collector",
       "installCmd": "npx -y loragent@latest install loragent-cache-collector",
@@ -904,7 +904,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:chorki",
       "installCmd": "npx -y loragent@latest install loragent-chorki",
@@ -936,7 +936,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cicd-automation-expert",
       "installCmd": "npx -y loragent@latest install loragent-cicd-automation-expert",
@@ -968,7 +968,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cicd-specialist",
       "installCmd": "npx -y loragent@latest install loragent-cicd-specialist",
@@ -1000,7 +1000,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cli-automation-maker",
       "installCmd": "npx -y loragent@latest install loragent-cli-automation-maker",
@@ -1032,7 +1032,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cli-utilities-specialist",
       "installCmd": "npx -y loragent@latest install loragent-cli-utilities-specialist",
@@ -1064,7 +1064,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:client",
       "installCmd": "npx -y loragent@latest install loragent-client",
@@ -1096,7 +1096,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cloud-specialist",
       "installCmd": "npx -y loragent@latest install loragent-cloud-specialist",
@@ -1128,7 +1128,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:code-auditor",
       "installCmd": "npx -y loragent@latest install loragent-code-auditor",
@@ -1160,7 +1160,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:code-optimizer",
       "installCmd": "npx -y loragent@latest install loragent-code-optimizer",
@@ -1192,7 +1192,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:command-executor",
       "installCmd": "npx -y loragent@latest install loragent-command-executor",
@@ -1224,7 +1224,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:content-writer",
       "installCmd": "npx -y loragent@latest install loragent-content-writer",
@@ -1256,7 +1256,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cpp-expert",
       "installCmd": "npx -y loragent@latest install loragent-cpp-expert",
@@ -1288,7 +1288,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:cv-maker",
       "installCmd": "npx -y loragent@latest install loragent-cv-maker",
@@ -1320,7 +1320,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:database-designer",
       "installCmd": "npx -y loragent@latest install loragent-database-designer",
@@ -1352,7 +1352,7 @@
         "filesystem_read"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:database-updater",
       "installCmd": "npx -y loragent@latest install loragent-database-updater",
@@ -1384,7 +1384,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:debugger",
       "installCmd": "npx -y loragent@latest install loragent-debugger",
@@ -1416,7 +1416,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:delivery-boy",
       "installCmd": "npx -y loragent@latest install loragent-delivery-boy",
@@ -1465,7 +1465,7 @@
         "slack_notify"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:deploy",
       "installCmd": "npx -y loragent@latest install loragent-deploy",
@@ -1497,7 +1497,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:devops",
       "installCmd": "npx -y loragent@latest install loragent-devops",
@@ -1529,7 +1529,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:django-specialist",
       "installCmd": "npx -y loragent@latest install loragent-django-specialist",
@@ -1561,7 +1561,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:doc-brain-updater",
       "installCmd": "npx -y loragent@latest install loragent-doc-brain-updater",
@@ -1593,7 +1593,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:docker-specialist",
       "installCmd": "npx -y loragent@latest install loragent-docker-specialist",
@@ -1625,7 +1625,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:docman",
       "installCmd": "npx -y loragent@latest install loragent-docman",
@@ -1657,7 +1657,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:env-maker",
       "installCmd": "npx -y loragent@latest install loragent-env-maker",
@@ -1689,7 +1689,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:fastapi",
       "installCmd": "npx -y loragent@latest install loragent-fastapi",
@@ -1721,7 +1721,7 @@
         "filesystem_read"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:firebase-specialist",
       "installCmd": "npx -y loragent@latest install loragent-firebase-specialist",
@@ -1753,7 +1753,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-admin-panel",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-admin-panel",
@@ -1785,7 +1785,7 @@
         "filesystem_read"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-data-collection",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-data-collection",
@@ -1817,7 +1817,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-deployment",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-deployment",
@@ -1849,7 +1849,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-frontend-dev",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-frontend-dev",
@@ -1881,7 +1881,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-model-training",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-model-training",
@@ -1913,7 +1913,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-source-management",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-source-management",
@@ -1945,7 +1945,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:freqghost-verification",
       "installCmd": "npx -y loragent@latest install loragent-freqghost-verification",
@@ -1977,7 +1977,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:frontend-se",
       "installCmd": "npx -y loragent@latest install loragent-frontend-se",
@@ -2009,7 +2009,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:fund-collector",
       "installCmd": "npx -y loragent@latest install loragent-fund-collector",
@@ -2041,7 +2041,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:garbage-collector",
       "installCmd": "npx -y loragent@latest install loragent-garbage-collector",
@@ -2073,7 +2073,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gcp-specialist",
       "installCmd": "npx -y loragent@latest install loragent-gcp-specialist",
@@ -2105,7 +2105,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gh-cli-specialist",
       "installCmd": "npx -y loragent@latest install loragent-gh-cli-specialist",
@@ -2147,7 +2147,7 @@
         "loragent_watchman_save"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gif-create",
       "installCmd": "npx -y loragent@latest install loragent-gif-create",
@@ -2179,7 +2179,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:git-release-manager",
       "installCmd": "npx -y loragent@latest install loragent-git-release-manager",
@@ -2211,7 +2211,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:git-specialist",
       "installCmd": "npx -y loragent@latest install loragent-git-specialist",
@@ -2243,7 +2243,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:go-expert",
       "installCmd": "npx -y loragent@latest install loragent-go-expert",
@@ -2275,7 +2275,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gold-collector",
       "installCmd": "npx -y loragent@latest install loragent-gold-collector",
@@ -2307,7 +2307,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:google-products-specialist",
       "installCmd": "npx -y loragent@latest install loragent-google-products-specialist",
@@ -2339,7 +2339,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:governance-guard",
       "installCmd": "npx -y loragent@latest install loragent-governance-guard",
@@ -2371,7 +2371,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:hr",
       "installCmd": "npx -y loragent@latest install loragent-hr",
@@ -2415,7 +2415,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:image-generate",
       "installCmd": "npx -y loragent@latest install loragent-image-generate",
@@ -2447,7 +2447,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:inspector",
       "installCmd": "npx -y loragent@latest install loragent-inspector",
@@ -2479,7 +2479,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:isp-man",
       "installCmd": "npx -y loragent@latest install loragent-isp-man",
@@ -2511,7 +2511,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:javascript-expert",
       "installCmd": "npx -y loragent@latest install loragent-javascript-expert",
@@ -2543,7 +2543,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:jokki-bhai",
       "installCmd": "npx -y loragent@latest install loragent-jokki-bhai",
@@ -2575,7 +2575,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:k8-expert",
       "installCmd": "npx -y loragent@latest install loragent-k8-expert",
@@ -2607,7 +2607,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:laravel-specialist",
       "installCmd": "npx -y loragent@latest install loragent-laravel-specialist",
@@ -2639,7 +2639,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:legacy-system-analyser",
       "installCmd": "npx -y loragent@latest install loragent-legacy-system-analyser",
@@ -2671,7 +2671,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:localization-expert",
       "installCmd": "npx -y loragent@latest install loragent-localization-expert",
@@ -2703,7 +2703,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:logo-designer",
       "installCmd": "npx -y loragent@latest install loragent-logo-designer",
@@ -2735,7 +2735,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-amo-mcp",
       "installCmd": "npx -y loragent@latest install loragent-loragent-amo-mcp",
@@ -2767,7 +2767,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-amo-publish",
       "installCmd": "npx -y loragent@latest install loragent-loragent-amo-publish",
@@ -2799,7 +2799,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-cloudflare-mail-master",
       "installCmd": "npx -y loragent@latest install loragent-loragent-cloudflare-mail-master",
@@ -2831,7 +2831,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-dynamic-versioning",
       "installCmd": "npx -y loragent@latest install loragent-loragent-dynamic-versioning",
@@ -2839,6 +2839,38 @@
       "destinationProject": ".agents/skills/loragent-loragent-dynamic-versioning/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-loragent-dynamic-versioning/SKILL.md",
       "filePath": "agents/loragent-dynamic-versioning/SKILL.md"
+    },
+    {
+      "id": "loragent-loragent-github-domain-verifier",
+      "slug": "loragent-loragent-github-domain-verifier",
+      "name": "Loragent Github Domain Verifier",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "objective": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:loragent-github-domain-verifier",
+      "installCmd": "npx -y loragent@latest install loragent-loragent-github-domain-verifier",
+      "summonCmd": "/loragent:loragent-github-domain-verifier",
+      "destinationProject": ".agents/skills/loragent-loragent-github-domain-verifier/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-loragent-github-domain-verifier/SKILL.md",
+      "filePath": "agents/loragent-github-domain-verifier/SKILL.md"
     },
     {
       "id": "loragent-loragent-marketplace-crosslink",
@@ -2863,7 +2895,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-marketplace-crosslink",
       "installCmd": "npx -y loragent@latest install loragent-loragent-marketplace-crosslink",
@@ -2895,7 +2927,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-mission-control",
       "installCmd": "npx -y loragent@latest install loragent-loragent-mission-control",
@@ -2927,7 +2959,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-openvsx-publish",
       "installCmd": "npx -y loragent@latest install loragent-loragent-openvsx-publish",
@@ -2959,7 +2991,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-unified-deployment",
       "installCmd": "npx -y loragent@latest install loragent-loragent-unified-deployment",
@@ -2991,7 +3023,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-vscode-publish",
       "installCmd": "npx -y loragent@latest install loragent-loragent-vscode-publish",
@@ -3023,7 +3055,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:loragent-website-design",
       "installCmd": "npx -y loragent@latest install loragent-loragent-website-design",
@@ -3055,7 +3087,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-brain-documentation",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-brain-documentation",
@@ -3087,7 +3119,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-cli-testing",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-cli-testing",
@@ -3119,7 +3151,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-deployment-specialist",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-deployment-specialist",
@@ -3151,7 +3183,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-express-server",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-express-server",
@@ -3183,7 +3215,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-frontend",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-frontend",
@@ -3215,7 +3247,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-git-workflow",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-git-workflow",
@@ -3247,7 +3279,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-mcp-integration",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-mcp-integration",
@@ -3279,7 +3311,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-model-provider",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-model-provider",
@@ -3311,7 +3343,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-token-efficiency",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-token-efficiency",
@@ -3343,7 +3375,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-website-build",
       "installCmd": "npx -y loragent@latest install loragent-lorapok-website-build",
@@ -3375,7 +3407,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:marketing-gen",
       "installCmd": "npx -y loragent@latest install loragent-marketing-gen",
@@ -3407,7 +3439,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:marketing-strategy-manager",
       "installCmd": "npx -y loragent@latest install loragent-marketing-strategy-manager",
@@ -3439,7 +3471,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:mathematician",
       "installCmd": "npx -y loragent@latest install loragent-mathematician",
@@ -3471,7 +3503,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:mermaid-architecture-specialist",
       "installCmd": "npx -y loragent@latest install loragent-mermaid-architecture-specialist",
@@ -3503,7 +3535,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:model-auditor",
       "installCmd": "npx -y loragent@latest install loragent-model-auditor",
@@ -3535,7 +3567,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:node-specialist",
       "installCmd": "npx -y loragent@latest install loragent-node-specialist",
@@ -3567,7 +3599,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:notion-expert",
       "installCmd": "npx -y loragent@latest install loragent-notion-expert",
@@ -3599,7 +3631,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:office-assistant",
       "installCmd": "npx -y loragent@latest install loragent-office-assistant",
@@ -3631,7 +3663,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:operations",
       "installCmd": "npx -y loragent@latest install loragent-operations",
@@ -3663,7 +3695,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:os-specialist",
       "installCmd": "npx -y loragent@latest install loragent-os-specialist",
@@ -3695,7 +3727,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:package-expert",
       "installCmd": "npx -y loragent@latest install loragent-package-expert",
@@ -3727,7 +3759,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:package-maker",
       "installCmd": "npx -y loragent@latest install loragent-package-maker",
@@ -3759,7 +3791,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:paymentguy",
       "installCmd": "npx -y loragent@latest install loragent-paymentguy",
@@ -3791,7 +3823,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:performance-analyser",
       "installCmd": "npx -y loragent@latest install loragent-performance-analyser",
@@ -3823,7 +3855,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:pion",
       "installCmd": "npx -y loragent@latest install loragent-pion",
@@ -3855,7 +3887,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:pipeline-checker",
       "installCmd": "npx -y loragent@latest install loragent-pipeline-checker",
@@ -3887,7 +3919,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:portfolio-designer",
       "installCmd": "npx -y loragent@latest install loragent-portfolio-designer",
@@ -3919,7 +3951,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:pr-specialist",
       "installCmd": "npx -y loragent@latest install loragent-pr-specialist",
@@ -3951,7 +3983,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:professional-document-creator",
       "installCmd": "npx -y loragent@latest install loragent-professional-document-creator",
@@ -3983,7 +4015,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:professional-readme-creator",
       "installCmd": "npx -y loragent@latest install loragent-professional-readme-creator",
@@ -4015,7 +4047,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:professional-research-docx-writer",
       "installCmd": "npx -y loragent@latest install loragent-professional-research-docx-writer",
@@ -4047,7 +4079,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:professor",
       "installCmd": "npx -y loragent@latest install loragent-professor",
@@ -4079,7 +4111,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:project-architect",
       "installCmd": "npx -y loragent@latest install loragent-project-architect",
@@ -4111,7 +4143,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:project-coordinator",
       "installCmd": "npx -y loragent@latest install loragent-project-coordinator",
@@ -4143,7 +4175,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:project-manager",
       "installCmd": "npx -y loragent@latest install loragent-project-manager",
@@ -4175,7 +4207,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:project-overviewer",
       "installCmd": "npx -y loragent@latest install loragent-project-overviewer",
@@ -4207,7 +4239,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:project-theme-expert",
       "installCmd": "npx -y loragent@latest install loragent-project-theme-expert",
@@ -4239,7 +4271,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:prototype-designer",
       "installCmd": "npx -y loragent@latest install loragent-prototype-designer",
@@ -4271,7 +4303,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:publisher",
       "installCmd": "npx -y loragent@latest install loragent-publisher",
@@ -4303,7 +4335,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:python-expert",
       "installCmd": "npx -y loragent@latest install loragent-python-expert",
@@ -4335,7 +4367,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:railway-expert",
       "installCmd": "npx -y loragent@latest install loragent-railway-expert",
@@ -4367,7 +4399,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:react-best-practices",
       "installCmd": "npx -y loragent@latest install loragent-react-best-practices",
@@ -4399,7 +4431,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:react-specialist",
       "installCmd": "npx -y loragent@latest install loragent-react-specialist",
@@ -4431,7 +4463,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:readme-generator-specialist",
       "installCmd": "npx -y loragent@latest install loragent-readme-generator-specialist",
@@ -4439,6 +4471,46 @@
       "destinationProject": ".agents/skills/loragent-readme-generator-specialist/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-readme-generator-specialist/SKILL.md",
       "filePath": "agents/readme-generator-specialist/SKILL.md"
+    },
+    {
+      "id": "loragent-register",
+      "slug": "loragent-register",
+      "name": "Register",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "objective": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "registrar",
+        "catalog",
+        "dynamic-compiler"
+      ],
+      "connectors": [
+        "loragent-student",
+        "loragent-boss",
+        "loragent-skill-creator",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:register",
+      "installCmd": "npx -y loragent@latest install loragent-register",
+      "summonCmd": "/loragent:register",
+      "destinationProject": ".agents/skills/loragent-register/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-register/SKILL.md",
+      "filePath": "agents/register/SKILL.md"
     },
     {
       "id": "loragent-release-integrity",
@@ -4463,7 +4535,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:release-integrity",
       "installCmd": "npx -y loragent@latest install loragent-release-integrity",
@@ -4495,7 +4567,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:repo-repair",
       "installCmd": "npx -y loragent@latest install loragent-repo-repair",
@@ -4527,7 +4599,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:research-paper-writer",
       "installCmd": "npx -y loragent@latest install loragent-research-paper-writer",
@@ -4559,7 +4631,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:responsive-system-designer",
       "installCmd": "npx -y loragent@latest install loragent-responsive-system-designer",
@@ -4591,7 +4663,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:rust-expert",
       "installCmd": "npx -y loragent@latest install loragent-rust-expert",
@@ -4623,7 +4695,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:sales-executive",
       "installCmd": "npx -y loragent@latest install loragent-sales-executive",
@@ -4655,7 +4727,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:scaffold",
       "installCmd": "npx -y loragent@latest install loragent-scaffold",
@@ -4687,7 +4759,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:se-model-specialist",
       "installCmd": "npx -y loragent@latest install loragent-se-model-specialist",
@@ -4719,7 +4791,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:seo",
       "installCmd": "npx -y loragent@latest install loragent-seo",
@@ -4751,7 +4823,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:seo-specialist",
       "installCmd": "npx -y loragent@latest install loragent-seo-specialist",
@@ -4783,7 +4855,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:shift-engineer",
       "installCmd": "npx -y loragent@latest install loragent-shift-engineer",
@@ -4815,7 +4887,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:skill-creator",
       "installCmd": "npx -y loragent@latest install loragent-skill-creator",
@@ -4847,7 +4919,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:software-business-analyst",
       "installCmd": "npx -y loragent@latest install loragent-software-business-analyst",
@@ -4879,7 +4951,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:specialized-developer",
       "installCmd": "npx -y loragent@latest install loragent-specialized-developer",
@@ -4911,7 +4983,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:spidernet",
       "installCmd": "npx -y loragent@latest install loragent-spidernet",
@@ -4943,7 +5015,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:sqa",
       "installCmd": "npx -y loragent@latest install loragent-sqa",
@@ -4975,7 +5047,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:sqa-lead",
       "installCmd": "npx -y loragent@latest install loragent-sqa-lead",
@@ -5007,7 +5079,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:srs-analyzer",
       "installCmd": "npx -y loragent@latest install loragent-srs-analyzer",
@@ -5039,7 +5111,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:store-specialist",
       "installCmd": "npx -y loragent@latest install loragent-store-specialist",
@@ -5071,7 +5143,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:streamvar-theme-architect",
       "installCmd": "npx -y loragent@latest install loragent-streamvar-theme-architect",
@@ -5079,6 +5151,45 @@
       "destinationProject": ".agents/skills/loragent-streamvar-theme-architect/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-streamvar-theme-architect/SKILL.md",
       "filePath": "agents/streamvar-theme-architect/SKILL.md"
+    },
+    {
+      "id": "loragent-student",
+      "slug": "loragent-student",
+      "name": "Student",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "objective": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "learning",
+        "dynamic-evolution",
+        "hivemind"
+      ],
+      "connectors": [
+        "loragent-register",
+        "loragent-boss",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_summon_agent"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:student",
+      "installCmd": "npx -y loragent@latest install loragent-student",
+      "summonCmd": "/loragent:student",
+      "destinationProject": ".agents/skills/loragent-student/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-student/SKILL.md",
+      "filePath": "agents/student/SKILL.md"
     },
     {
       "id": "loragent-teacher",
@@ -5103,7 +5214,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:teacher",
       "installCmd": "npx -y loragent@latest install loragent-teacher",
@@ -5135,7 +5246,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:team-lead",
       "installCmd": "npx -y loragent@latest install loragent-team-lead",
@@ -5167,7 +5278,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tech-director",
       "installCmd": "npx -y loragent@latest install loragent-tech-director",
@@ -5199,7 +5310,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:test-sentinel",
       "installCmd": "npx -y loragent@latest install loragent-test-sentinel",
@@ -5231,7 +5342,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:themeguy",
       "installCmd": "npx -y loragent@latest install loragent-themeguy",
@@ -5263,7 +5374,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:thewikiboy",
       "installCmd": "npx -y loragent@latest install loragent-thewikiboy",
@@ -5295,7 +5406,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:token-auditor",
       "installCmd": "npx -y loragent@latest install loragent-token-auditor",
@@ -5327,7 +5438,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:token-sniper",
       "installCmd": "npx -y loragent@latest install loragent-token-sniper",
@@ -5371,7 +5482,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tools-install",
       "installCmd": "npx -y loragent@latest install loragent-tools-install",
@@ -5403,7 +5514,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tools-specialist",
       "installCmd": "npx -y loragent@latest install loragent-tools-specialist",
@@ -5435,7 +5546,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:ui-ux-professional",
       "installCmd": "npx -y loragent@latest install loragent-ui-ux-professional",
@@ -5467,7 +5578,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:validator",
       "installCmd": "npx -y loragent@latest install loragent-validator",
@@ -5499,7 +5610,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:vercel-expert",
       "installCmd": "npx -y loragent@latest install loragent-vercel-expert",
@@ -5531,7 +5642,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:version-bumper",
       "installCmd": "npx -y loragent@latest install loragent-version-bumper",
@@ -5563,7 +5674,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:vidman",
       "installCmd": "npx -y loragent@latest install loragent-vidman",
@@ -5595,7 +5706,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:vue-specialist",
       "installCmd": "npx -y loragent@latest install loragent-vue-specialist",
@@ -5668,7 +5779,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:web-design-guidelines",
       "installCmd": "npx -y loragent@latest install loragent-web-design-guidelines",
@@ -5700,7 +5811,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:workflow-automation-specialist",
       "installCmd": "npx -y loragent@latest install loragent-workflow-automation-specialist",
@@ -5732,7 +5843,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:workflow-manager",
       "installCmd": "npx -y loragent@latest install loragent-workflow-manager",
@@ -5764,7 +5875,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:workspace-guard",
       "installCmd": "npx -y loragent@latest install loragent-workspace-guard",
@@ -5796,7 +5907,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:wrangler-specialist",
       "installCmd": "npx -y loragent@latest install loragent-wrangler-specialist",
@@ -5836,7 +5947,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:admin-reliability",
       "installCmd": "npx -y loragent@latest install loragent-admin-reliability",
@@ -5868,7 +5979,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:amo-mcp",
       "installCmd": "npx -y loragent@latest install loragent-amo-mcp",
@@ -5900,7 +6011,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:amo-publish",
       "installCmd": "npx -y loragent@latest install loragent-amo-publish",
@@ -5949,7 +6060,7 @@
         "slack_notify"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:deploy",
       "installCmd": "npx -y loragent@latest install loragent-deploy",
@@ -5991,7 +6102,7 @@
         "loragent_watchman_save"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gif-create",
       "installCmd": "npx -y loragent@latest install loragent-gif-create",
@@ -5999,6 +6110,38 @@
       "destinationProject": ".agents/skills/loragent-gif-create/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-gif-create/SKILL.md",
       "filePath": "skills/loragent-gif-create/SKILL.md"
+    },
+    {
+      "id": "loragent-github-domain-verifier",
+      "slug": "loragent-github-domain-verifier",
+      "name": "Github Domain Verifier",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "objective": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:github-domain-verifier",
+      "installCmd": "npx -y loragent@latest install loragent-github-domain-verifier",
+      "summonCmd": "/loragent:github-domain-verifier",
+      "destinationProject": ".agents/skills/loragent-github-domain-verifier/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-github-domain-verifier/SKILL.md",
+      "filePath": "skills/loragent-github-domain-verifier/SKILL.md"
     },
     {
       "id": "loragent-governance-guard",
@@ -6031,7 +6174,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:governance-guard",
       "installCmd": "npx -y loragent@latest install loragent-governance-guard",
@@ -6075,7 +6218,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:image-generate",
       "installCmd": "npx -y loragent@latest install loragent-image-generate",
@@ -6083,6 +6226,39 @@
       "destinationProject": ".agents/skills/loragent-image-generate/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-image-generate/SKILL.md",
       "filePath": "skills/loragent-image-generate/SKILL.md"
+    },
+    {
+      "id": "loragent-labs-context",
+      "slug": "loragent-labs-context",
+      "name": "Labs Context",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "1.0.0",
+      "description": "Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and product planning. Use for Labs-wide messaging, portfolio audits, cross-project planning, or public company copy.",
+      "objective": "Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and product planning. Use for Labs-wide messaging, portfolio audits, cross-project planning, or public company copy.",
+      "isResident": false,
+      "tags": [
+        "lorapok-labs",
+        "brand",
+        "portfolio"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": false,
+      "canSpawnSubagents": false,
+      "costTier": "low",
+      "slashCommand": "/loragent:labs-context",
+      "installCmd": "npx -y loragent@latest install loragent-labs-context",
+      "summonCmd": "/loragent:labs-context",
+      "destinationProject": ".agents/skills/loragent-labs-context/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-labs-context/SKILL.md",
+      "filePath": "skills/loragent-labs-context/SKILL.md"
     },
     {
       "id": "loragent-marketplace-crosslink",
@@ -6107,7 +6283,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:marketplace-crosslink",
       "installCmd": "npx -y loragent@latest install loragent-marketplace-crosslink",
@@ -6139,7 +6315,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:mission-control",
       "installCmd": "npx -y loragent@latest install loragent-mission-control",
@@ -6171,7 +6347,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:openvsx-publish",
       "installCmd": "npx -y loragent@latest install loragent-openvsx-publish",
@@ -6179,6 +6355,46 @@
       "destinationProject": ".agents/skills/loragent-openvsx-publish/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-openvsx-publish/SKILL.md",
       "filePath": "skills/loragent-openvsx-publish/SKILL.md"
+    },
+    {
+      "id": "loragent-register",
+      "slug": "loragent-register",
+      "name": "Register",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "objective": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "registrar",
+        "catalog",
+        "dynamic-compiler"
+      ],
+      "connectors": [
+        "loragent-student",
+        "loragent-boss",
+        "loragent-skill-creator",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:register",
+      "installCmd": "npx -y loragent@latest install loragent-register",
+      "summonCmd": "/loragent:register",
+      "destinationProject": ".agents/skills/loragent-register/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-register/SKILL.md",
+      "filePath": "skills/loragent-register/SKILL.md"
     },
     {
       "id": "loragent-release-integrity",
@@ -6211,7 +6427,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:release-integrity",
       "installCmd": "npx -y loragent@latest install loragent-release-integrity",
@@ -6219,6 +6435,45 @@
       "destinationProject": ".agents/skills/loragent-release-integrity/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-release-integrity/SKILL.md",
       "filePath": "skills/loragent-release-integrity/SKILL.md"
+    },
+    {
+      "id": "loragent-student",
+      "slug": "loragent-student",
+      "name": "Student",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "objective": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "learning",
+        "dynamic-evolution",
+        "hivemind"
+      ],
+      "connectors": [
+        "loragent-register",
+        "loragent-boss",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_summon_agent"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:student",
+      "installCmd": "npx -y loragent@latest install loragent-student",
+      "summonCmd": "/loragent:student",
+      "destinationProject": ".agents/skills/loragent-student/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-student/SKILL.md",
+      "filePath": "skills/loragent-student/SKILL.md"
     },
     {
       "id": "loragent-tools-install",
@@ -6255,7 +6510,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tools-install",
       "installCmd": "npx -y loragent@latest install loragent-tools-install",
@@ -6287,7 +6542,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:unified-deployment",
       "installCmd": "npx -y loragent@latest install loragent-unified-deployment",
@@ -6319,7 +6574,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:vscode-publish",
       "installCmd": "npx -y loragent@latest install loragent-vscode-publish",
@@ -6392,7 +6647,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:website-design",
       "installCmd": "npx -y loragent@latest install loragent-website-design",
@@ -6400,6 +6655,78 @@
       "destinationProject": ".agents/skills/loragent-website-design/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-website-design/SKILL.md",
       "filePath": "skills/loragent-website-design/SKILL.md"
+    },
+    {
+      "id": "loragent-boss",
+      "slug": "loragent-boss",
+      "name": "Boss",
+      "type": "AGENT",
+      "category": "ORCHESTRATION",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.",
+      "objective": "You are the Boss. You parse user intents, delegate tasks to specialized agents, and receive their outputs. The entire Mega-Agency revolves around your orchestration.",
+      "isResident": true,
+      "tags": [
+        "lorapok",
+        "loragent"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:boss",
+      "installCmd": "npx -y loragent@latest install loragent-boss",
+      "summonCmd": "/loragent:boss",
+      "destinationProject": ".agents/skills/loragent-boss/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-boss/SKILL.md",
+      "filePath": ".agents/skills/boss/SKILL.md"
+    },
+    {
+      "id": "loragent-admin-reliability",
+      "slug": "loragent-admin-reliability",
+      "name": "Admin Reliability",
+      "type": "SKILL",
+      "category": "DEBUGGING",
+      "formation": "chela",
+      "layer": "FACE",
+      "version": "2.0.0",
+      "description": "Debugs, verifies, and optimizes the admin React SPA, Vitest test suites, API middleware, Firebase Auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issues, or deployment defects.",
+      "objective": "Debugs, verifies, and optimizes the admin React SPA, Vitest test suites, API middleware, Firebase Auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issues, or deployment defects.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "admin",
+        "reliability",
+        "vitest",
+        "firebase-auth",
+        "cloudflare-pages"
+      ],
+      "connectors": [
+        "loragent-core",
+        "skills-loader"
+      ],
+      "allowedTools": [
+        "loragent_exec_cli",
+        "loragent_steer",
+        "loragent_trigger_hook"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:admin-reliability",
+      "installCmd": "npx -y loragent@latest install loragent-admin-reliability",
+      "summonCmd": "/loragent:admin-reliability",
+      "destinationProject": ".agents/skills/loragent-admin-reliability/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-admin-reliability/SKILL.md",
+      "filePath": ".agents/skills/loragent-admin-reliability/SKILL.md"
     },
     {
       "id": "loragent-amo-mcp",
@@ -6424,7 +6751,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:amo-mcp",
       "installCmd": "npx -y loragent@latest install loragent-amo-mcp",
@@ -6456,7 +6783,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:amo-publish",
       "installCmd": "npx -y loragent@latest install loragent-amo-publish",
@@ -6488,7 +6815,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:backend-se",
       "installCmd": "npx -y loragent@latest install loragent-backend-se",
@@ -6558,7 +6885,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:bug-hunter",
       "installCmd": "npx -y loragent@latest install loragent-bug-hunter",
@@ -6607,7 +6934,7 @@
         "slack_notify"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:deploy",
       "installCmd": "npx -y loragent@latest install loragent-deploy",
@@ -6639,7 +6966,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:frontend-se",
       "installCmd": "npx -y loragent@latest install loragent-frontend-se",
@@ -6681,7 +7008,7 @@
         "loragent_watchman_save"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:gif-create",
       "installCmd": "npx -y loragent@latest install loragent-gif-create",
@@ -6689,6 +7016,46 @@
       "destinationProject": ".agents/skills/loragent-gif-create/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-gif-create/SKILL.md",
       "filePath": ".agents/skills/loragent-gif-create/SKILL.md"
+    },
+    {
+      "id": "loragent-governance-guard",
+      "slug": "loragent-governance-guard",
+      "name": "Governance Guard",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Audits AGENTS.md, Cursor rules, project skills, lifecycle hooks, MCP configurations, Husky hooks, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, rules, hooks, or CI controls mutate.",
+      "objective": "Audits AGENTS.md, Cursor rules, project skills, lifecycle hooks, MCP configurations, Husky hooks, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, rules, hooks, or CI controls mutate.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "governance",
+        "audit",
+        "mcp-guard",
+        "ci-cd",
+        "husky"
+      ],
+      "connectors": [
+        "loragent-core",
+        "skills-loader"
+      ],
+      "allowedTools": [
+        "loragent_exec_cli",
+        "loragent_steer",
+        "loragent_trigger_hook"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:governance-guard",
+      "installCmd": "npx -y loragent@latest install loragent-governance-guard",
+      "summonCmd": "/loragent:governance-guard",
+      "destinationProject": ".agents/skills/loragent-governance-guard/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-governance-guard/SKILL.md",
+      "filePath": ".agents/skills/loragent-governance-guard/SKILL.md"
     },
     {
       "id": "loragent-image-generate",
@@ -6725,7 +7092,7 @@
         "filesystem_write"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "medium",
       "slashCommand": "/loragent:image-generate",
       "installCmd": "npx -y loragent@latest install loragent-image-generate",
@@ -6757,7 +7124,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:marketplace-crosslink",
       "installCmd": "npx -y loragent@latest install loragent-marketplace-crosslink",
@@ -6789,7 +7156,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:mission-control",
       "installCmd": "npx -y loragent@latest install loragent-mission-control",
@@ -6821,7 +7188,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:openvsx-publish",
       "installCmd": "npx -y loragent@latest install loragent-openvsx-publish",
@@ -6829,6 +7196,86 @@
       "destinationProject": ".agents/skills/loragent-openvsx-publish/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-openvsx-publish/SKILL.md",
       "filePath": ".agents/skills/loragent-openvsx-publish/SKILL.md"
+    },
+    {
+      "id": "loragent-register",
+      "slug": "loragent-register",
+      "name": "Register",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "objective": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "registrar",
+        "catalog",
+        "dynamic-compiler"
+      ],
+      "connectors": [
+        "loragent-student",
+        "loragent-boss",
+        "loragent-skill-creator",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:register",
+      "installCmd": "npx -y loragent@latest install loragent-register",
+      "summonCmd": "/loragent:register",
+      "destinationProject": ".agents/skills/loragent-register/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-register/SKILL.md",
+      "filePath": ".agents/skills/loragent-register/SKILL.md"
+    },
+    {
+      "id": "loragent-release-integrity",
+      "slug": "loragent-release-integrity",
+      "name": "Release Integrity",
+      "type": "AGENT",
+      "category": "BUSINESS",
+      "formation": "office",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Audits package versions, GitHub release tags, VSIX artifacts, marketplace observations, SEO JSON-LD structured data, and publishing workflows. Use proactively before major releases, marketplace updates, or release drift investigations.",
+      "objective": "Audits package versions, GitHub release tags, VSIX artifacts, marketplace observations, SEO JSON-LD structured data, and publishing workflows. Use proactively before major releases, marketplace updates, or release drift investigations.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "release",
+        "vsix",
+        "marketplace",
+        "versioning",
+        "github-release"
+      ],
+      "connectors": [
+        "loragent-core",
+        "skills-loader"
+      ],
+      "allowedTools": [
+        "loragent_exec_cli",
+        "loragent_steer",
+        "loragent_trigger_hook"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:release-integrity",
+      "installCmd": "npx -y loragent@latest install loragent-release-integrity",
+      "summonCmd": "/loragent:release-integrity",
+      "destinationProject": ".agents/skills/loragent-release-integrity/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-release-integrity/SKILL.md",
+      "filePath": ".agents/skills/loragent-release-integrity/SKILL.md"
     },
     {
       "id": "loragent-skill-factory",
@@ -6860,7 +7307,7 @@
         "loragent_watchman_save"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": false,
+      "canSpawnSubagents": "false",
       "costTier": "low",
       "slashCommand": "/loragent:skill-factory",
       "installCmd": "npx -y loragent@latest install loragent-skill-factory",
@@ -6892,7 +7339,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:spidernet",
       "installCmd": "npx -y loragent@latest install loragent-spidernet",
@@ -6924,7 +7371,7 @@
         "loragent_workspace_guard"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:sqa",
       "installCmd": "npx -y loragent@latest install loragent-sqa",
@@ -6932,6 +7379,45 @@
       "destinationProject": ".agents/skills/loragent-sqa/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-sqa/SKILL.md",
       "filePath": ".agents/skills/loragent-sqa/SKILL.md"
+    },
+    {
+      "id": "loragent-student",
+      "slug": "loragent-student",
+      "name": "Student",
+      "type": "AGENT",
+      "category": "OBSERVER",
+      "formation": "observer",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "objective": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "learning",
+        "dynamic-evolution",
+        "hivemind"
+      ],
+      "connectors": [
+        "loragent-register",
+        "loragent-boss",
+        "loragent-database-updater"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_summon_agent"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:student",
+      "installCmd": "npx -y loragent@latest install loragent-student",
+      "summonCmd": "/loragent:student",
+      "destinationProject": ".agents/skills/loragent-student/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-student/SKILL.md",
+      "filePath": ".agents/skills/loragent-student/SKILL.md"
     },
     {
       "id": "loragent-system-knowledge",
@@ -6956,7 +7442,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:system-knowledge",
       "installCmd": "npx -y loragent@latest install loragent-system-knowledge",
@@ -6988,7 +7474,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:teacher",
       "installCmd": "npx -y loragent@latest install loragent-teacher",
@@ -7020,7 +7506,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tech-director",
       "installCmd": "npx -y loragent@latest install loragent-tech-director",
@@ -7064,7 +7550,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:tools-install",
       "installCmd": "npx -y loragent@latest install loragent-tools-install",
@@ -7096,7 +7582,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:unified-deployment",
       "installCmd": "npx -y loragent@latest install loragent-unified-deployment",
@@ -7128,7 +7614,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:vscode-publish",
       "installCmd": "npx -y loragent@latest install loragent-vscode-publish",
@@ -7213,7 +7699,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": false,
+      "canSpawnSubagents": "false",
       "costTier": "medium",
       "slashCommand": "/loragent:web-ingest",
       "installCmd": "npx -y loragent@latest install loragent-web-ingest",
@@ -7245,7 +7731,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:website-design",
       "installCmd": "npx -y loragent@latest install loragent-website-design",
@@ -7277,7 +7763,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:workspace-guard",
       "installCmd": "npx -y loragent@latest install loragent-workspace-guard",
@@ -7309,7 +7795,7 @@
         "loragent_trigger_hook"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:wrangler-specialist",
       "installCmd": "npx -y loragent@latest install loragent-wrangler-specialist",
@@ -7317,102 +7803,6 @@
       "destinationProject": ".agents/skills/loragent-wrangler-specialist/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-wrangler-specialist/SKILL.md",
       "filePath": ".agents/skills/loragent-wrangler-specialist/SKILL.md"
-    },
-    {
-      "id": "secure-cred-vault",
-      "slug": "secure-cred-vault",
-      "name": "Secure Cred Vault",
-      "type": "AGENT",
-      "category": "SECURITY",
-      "formation": "auto",
-      "layer": "CROSS",
-      "version": "2.0.0",
-      "description": "Canonical credential vault for ALL projects on this machine. Use this skill whenever ANY agent (Cursor, Claude Code, Cowork) or the user deals with API keys, tokens, secrets, passwords, connection strings, .env values, Cloudflare auth, GitHub PATs, OpenAI keys, or “save/store credentials” — even if they never say vault/encrypt. Store/retrieve via passphrase-encrypted category JSON at /mnt/NewVolume/Personal_Projects/cred/ using `cred` (scripts/cred-store.sh). Never paste secrets into chat or plaintext files; user types values at hidden prompts; agents reference secrets by name only. Read AGENTS.md + README.md.",
-      "objective": "Canonical credential vault for ALL projects on this machine. Use this skill whenever ANY agent (Cursor, Claude Code, Cowork) or the user deals with API keys, tokens, secrets, passwords, connection strings, .env values, Cloudflare auth, GitHub PATs, OpenAI keys, or “save/store credentials” — even if they never say vault/encrypt. Store/retrieve via passphrase-encrypted category JSON at /mnt/NewVolume/Personal_Projects/cred/ using `cred` (scripts/cred-store.sh). Never paste secrets into chat or plaintext files; user types values at hidden prompts; agents reference secrets by name only. Read AGENTS.md + README.md.",
-      "isResident": false,
-      "tags": [
-        "lorapok",
-        "loragent"
-      ],
-      "connectors": [],
-      "allowedTools": [
-        "filesystem_read",
-        "ast_grep",
-        "loragent_workspace_guard"
-      ],
-      "requiresConfirmation": false,
-      "canSpawnSubagents": false,
-      "costTier": "low",
-      "slashCommand": "/loragent:secure-cred-vault",
-      "installCmd": "npx -y loragent@latest install secure-cred-vault",
-      "summonCmd": "/loragent:secure-cred-vault",
-      "destinationProject": ".agents/skills/secure-cred-vault/SKILL.md",
-      "destinationGlobal": "~/.loragent/skills/secure-cred-vault/SKILL.md",
-      "filePath": ".agents/skills/secure-cred-vault/SKILL.md"
-    },
-    {
-      "id": "ui-ux-specialist",
-      "slug": "ui-ux-specialist",
-      "name": "Ui Ux Specialist",
-      "type": "AGENT",
-      "category": "ENGINEERING",
-      "formation": "auto",
-      "layer": "CROSS",
-      "version": "2.0.0",
-      "description": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
-      "objective": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
-      "isResident": false,
-      "tags": [
-        "lorapok",
-        "loragent"
-      ],
-      "connectors": [],
-      "allowedTools": [
-        "filesystem_read",
-        "filesystem_write",
-        "loragent_steer"
-      ],
-      "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
-      "costTier": "low",
-      "slashCommand": "/loragent:ui-ux-specialist",
-      "installCmd": "npx -y loragent@latest install ui-ux-specialist",
-      "summonCmd": "/loragent:ui-ux-specialist",
-      "destinationProject": ".agents/skills/ui-ux-specialist/SKILL.md",
-      "destinationGlobal": "~/.loragent/skills/ui-ux-specialist/SKILL.md",
-      "filePath": ".agents/skills/ui-ux-specialist/SKILL.md"
-    },
-    {
-      "id": "loragent-boss",
-      "slug": "loragent-boss",
-      "name": "Boss",
-      "type": "AGENT",
-      "category": "ORCHESTRATION",
-      "formation": "auto",
-      "layer": "CROSS",
-      "version": "2.0.0",
-      "description": "The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.",
-      "objective": "You are the Boss. You parse user intents, delegate tasks to specialized agents, and receive their outputs. The entire Mega-Agency revolves around your orchestration.",
-      "isResident": true,
-      "tags": [
-        "lorapok",
-        "loragent"
-      ],
-      "connectors": [],
-      "allowedTools": [
-        "filesystem_read",
-        "filesystem_write",
-        "loragent_steer"
-      ],
-      "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
-      "costTier": "low",
-      "slashCommand": "/loragent:boss",
-      "installCmd": "npx -y loragent@latest install loragent-boss",
-      "summonCmd": "/loragent:boss",
-      "destinationProject": ".agents/skills/loragent-boss/SKILL.md",
-      "destinationGlobal": "~/.loragent/skills/loragent-boss/SKILL.md",
-      "filePath": ".agents/skills/boss/SKILL.md"
     },
     {
       "id": "lorapok-marketing-gen",
@@ -7437,7 +7827,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:lorapok-marketing-gen",
       "installCmd": "npx -y loragent@latest install lorapok-marketing-gen",
@@ -7469,7 +7859,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:package-expert",
       "installCmd": "npx -y loragent@latest install loragent-package-expert",
@@ -7533,7 +7923,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:spidernet",
       "installCmd": "npx -y loragent@latest install loragent-spidernet",
@@ -7565,7 +7955,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:streamvar-theme-architect",
       "installCmd": "npx -y loragent@latest install loragent-streamvar-theme-architect",
@@ -7597,7 +7987,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:teacher",
       "installCmd": "npx -y loragent@latest install loragent-teacher",
@@ -7605,6 +7995,38 @@
       "destinationProject": ".agents/skills/loragent-teacher/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-teacher/SKILL.md",
       "filePath": ".agents/skills/teacher/SKILL.md"
+    },
+    {
+      "id": "ui-ux-specialist",
+      "slug": "ui-ux-specialist",
+      "name": "Ui Ux Specialist",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
+      "objective": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:ui-ux-specialist",
+      "installCmd": "npx -y loragent@latest install ui-ux-specialist",
+      "summonCmd": "/loragent:ui-ux-specialist",
+      "destinationProject": ".agents/skills/ui-ux-specialist/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/ui-ux-specialist/SKILL.md",
+      "filePath": ".agents/skills/ui-ux-specialist/SKILL.md"
     },
     {
       "id": "loragent-watchman",
@@ -7629,7 +8051,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:watchman",
       "installCmd": "npx -y loragent@latest install loragent-watchman",
@@ -7661,7 +8083,7 @@
         "loragent_steer"
       ],
       "requiresConfirmation": true,
-      "canSpawnSubagents": "false",
+      "canSpawnSubagents": "true",
       "costTier": "low",
       "slashCommand": "/loragent:workspace-guard",
       "installCmd": "npx -y loragent@latest install loragent-workspace-guard",

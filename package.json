@@ -81,7 +81,8 @@
   "bin": {
     "install-officers": "./bin/install-officers.js",
     "loragent-mcp": "./port/mcp/server.js",
-    "loragent": "./face/cli/index.js"
+    "loragent": "./face/cli/index.js",
+    "loragent-domain-verify": "./bin/loragent-domain-verify.js"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -121,7 +122,8 @@
     "docs:preview": "vitepress preview docs",
     "deploy:all": "node scripts/deploy-all.js",
     "package:vsix": "vsce package --no-dependencies",
-    "test": "node --test"
+    "test": "node --test",
+    "verify:dns": "node scripts/check-dns-verification.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

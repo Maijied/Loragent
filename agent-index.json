@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-29T04:19:55.271Z",
-  "total": 224,
+  "generated": "2026-10-16T05:34:43.009Z",
+  "total": 242,
   "formations": {
     "auto": [
       {
@@ -138,7 +138,7 @@
       {
         "slug": "loragent-business-expert",
         "name": "Business Expert",
-        "description": "The Business Expert. Analyzes requirements for SEO, market fit, and product logic.",
+        "description": "Manages Lorapok Labs monetization, subscription logic, marketing campaigns, and upsells.",
         "layer": "cross"
       },
       {
@@ -306,13 +306,13 @@
       {
         "slug": "loragent-freqghost-admin-panel",
         "name": "Freqghost Admin Panel",
-        "description": "Build and modify the FreqGhost admin dashboard — Cognitum-aesthetic web UI with JWT auth, role-based ACL, source switching, data collection controls, and ML model management. Use when the user asks ",
+        "description": "Build and modify the FreqGhost admin dashboard — Cognitum-aesthetic web UI with JWT auth, role-based ACL, source switching, data collection controls, and ML model management. Use when the user asks",
         "layer": "cross"
       },
       {
         "slug": "loragent-freqghost-data-collection",
         "name": "Freqghost Data Collection",
-        "description": "Manage CSI/RSSI data collection sessions for ML training — recording, labeling, exporting datasets, and quality validation. Use when the user asks to collect data, record CSI, build datasets, label ",
+        "description": "Manage CSI/RSSI data collection sessions for ML training — recording, labeling, exporting datasets, and quality validation. Use when the user asks to collect data, record CSI, build datasets, label",
         "layer": "cross"
       },
       {
@@ -324,7 +324,7 @@
       {
         "slug": "loragent-freqghost-frontend-dev",
         "name": "Freqghost Frontend Dev",
-        "description": "Develop the FreqGhost Three.js 3D viewer and admin panel frontend — Cognitum aesthetic, CDN-only libraries, no build step. Use when modifying the 3D viewer, adding UI elements, changing styling, or ",
+        "description": "Develop the FreqGhost Three.js 3D viewer and admin panel frontend — Cognitum aesthetic, CDN-only libraries, no build step. Use when modifying the 3D viewer, adding UI elements, changing styling, or",
         "layer": "cross"
       },
       {
@@ -496,6 +496,12 @@
         "layer": "cross"
       },
       {
+        "slug": "loragent-loragent-github-domain-verifier",
+        "name": "Loragent Github Domain Verifier",
+        "description": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+        "layer": "cross"
+      },
+      {
         "slug": "loragent-loragent-marketplace-crosslink",
         "name": "Loragent Marketplace Crosslink",
         "description": "Add consistent",
@@ -558,7 +564,7 @@
       {
         "slug": "loragent-lorapok-frontend",
         "name": "Lorapok Frontend",
-        "description": ">-",
+        "description": "Lorapok Frontend specialist agent in the Loragent ecosystem.",
         "layer": "cross"
       },
       {
@@ -714,7 +720,7 @@
       {
         "slug": "loragent-professional-research-docx-writer",
         "name": "Professional Research Docx Writer",
-        "description": ">-",
+        "description": "Professional Research Docx Writer specialist agent in the Loragent ecosystem.",
         "layer": "cross"
       },
       {
@@ -750,7 +756,7 @@
       {
         "slug": "loragent-project-theme-expert",
         "name": "Project Theme Expert",
-        "description": "Curates the visual language, design system, and overarching aesthetic (like ",
+        "description": "Curates the visual language, design system, and overarching aesthetic (like",
         "layer": "cross"
       },
       {
@@ -846,7 +852,7 @@
       {
         "slug": "loragent-seo",
         "name": "Seo",
-        "description": ">-",
+        "description": "Seo specialist agent in the Loragent ecosystem.",
         "layer": "cross"
       },
       {
@@ -1054,6 +1060,18 @@
         "layer": "loom"
       },
       {
+        "slug": "loragent-github-domain-verifier",
+        "name": "Github Domain Verifier",
+        "description": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-labs-context",
+        "name": "Labs Context",
+        "description": "Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and product planning. Use for Labs-wide messaging, portfolio audits, cross-project planning, or public company copy.",
+        "layer": "cross"
+      },
+      {
         "slug": "loragent-marketplace-crosslink",
         "name": "Marketplace Crosslink",
         "description": "Add consistent \"Also available on\" platform links across IDE extensions, browser add-ons, AMO, VSCE, Open VSX, README, and marketing site.",
@@ -1087,6 +1105,12 @@
         "slug": "loragent-website-design",
         "name": "Website Design",
         "description": "Design and refresh Lorapok marketing sites — gallery images, platform ribbons, KPI stats, SEO, and Mission Control infra deploy.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-boss",
+        "name": "Boss",
+        "description": "The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.",
         "layer": "cross"
       },
       {
@@ -1204,18 +1228,6 @@
         "layer": "cross"
       },
       {
-        "slug": "ui-ux-specialist",
-        "name": "Ui Ux Specialist",
-        "description": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
-        "layer": "cross"
-      },
-      {
-        "slug": "loragent-boss",
-        "name": "Boss",
-        "description": "The Main Boss. Orchestrates the whole workflow, delegates to subagents, and compiles final outputs.",
-        "layer": "cross"
-      },
-      {
         "slug": "lorapok-marketing-gen",
         "name": "Lorapok Marketing Gen",
         "description": "Generates high-fidelity, sensory computing and biological UI marketing assets for the Lorapok Ecosystem.",
@@ -1225,6 +1237,12 @@
         "slug": "loragent-package-expert",
         "name": "Package Expert",
         "description": "Professional Package JSON Writer and strict metadata enforcer.",
+        "layer": "cross"
+      },
+      {
+        "slug": "secure-cred-vault",
+        "name": "Secure Cred Vault",
+        "description": "Canonical credential vault for ALL projects on this machine. Use this skill whenever ANY agent (Cursor, Claude Code, Cowork) or the user deals with API keys, tokens, secrets, passwords, connection strings, .env values, Cloudflare auth, GitHub PATs, OpenAI keys, or “save/store credentials” — even if they never say vault/encrypt. Store/retrieve via passphrase-encrypted category JSON at /mnt/NewVolume/Personal_Projects/cred/ using `cred` (scripts/cred-store.sh). Never paste secrets into chat or plaintext files; user types values at hidden prompts; agents reference secrets by name only. Read AGENTS.md + README.md.",
         "layer": "cross"
       },
       {
@@ -1243,6 +1261,12 @@
         "slug": "loragent-teacher",
         "name": "Teacher",
         "description": "The prompt clarifier. Asks the human user questions to ensure the Boss designs the plan perfectly.",
+        "layer": "cross"
+      },
+      {
+        "slug": "ui-ux-specialist",
+        "name": "Ui Ux Specialist",
+        "description": "Expert UI/UX Engineering skill for web development. Focuses on modern React, Tailwind CSS, advanced accessibility (a11y), responsive design, and integrating Figma-to-code or Frontend Design MCPs.",
         "layer": "cross"
       },
       {
@@ -1328,17 +1352,35 @@
         "layer": "face"
       },
       {
+        "slug": "loragent-skill-factory",
+        "name": "Skill Factory",
+        "description": "Generates any Loragent artifact (SKILL.md, agent, MCP connector, Kiro steering, Cursor rule, formation.json, or full bundle) from a JSON spec file, natural language description, or interactive prompt. The authoring tool for the Loragent ecosystem. Invoke when you want to create a new skill, agent, or MCP entry from scratch or from a spec. Do NOT invoke for URL-based ingestion — use loragent-web-ingest instead.",
+        "layer": "lore"
+      },
+      {
         "slug": "loragent-tools-install",
         "name": "Tools Install",
         "description": "Detects, installs, and verifies any tool, package, or binary required by other agents. Invoke when any agent reports a missing tool or dependency. Handles npm, pip/uv, composer, system packages, and binary tools. Includes rollback on failure. Do NOT invoke for application-level code dependencies (that is the backend-se's job).",
         "layer": "loom"
+      },
+      {
+        "slug": "loragent-web-ingest",
+        "name": "Web Ingest",
+        "description": "Reads any URL (documentation page, GitHub repo, API reference, npm package, MCP server listing) and automatically generates production-grade Loragent artifacts: SKILL.md, mcp-fragment.json, Kiro steering, and Cursor rules. Updates marketplace.json. Invoke when you provide a URL and want it converted into a usable Loragent skill or MCP connector. Do NOT invoke for local files, existing agents, or when you need to manually craft a skill.",
+        "layer": "lore"
       }
     ],
     "observer": [
       {
-        "slug": "loragent-watchman",
-        "name": "Watchman",
-        "description": "Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.",
+        "slug": "loragent-register",
+        "name": "Register",
+        "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-student",
+        "name": "Student",
+        "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
         "layer": "cross"
       },
       {
@@ -1348,9 +1390,79 @@
         "layer": "cross"
       },
       {
+        "slug": "loragent-governance-guard",
+        "name": "Governance Guard",
+        "description": "Audits AGENTS.md, Cursor rules, project skills, lifecycle hooks, MCP configurations, Husky hooks, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, rules, hooks, or CI controls mutate.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-register",
+        "name": "Register",
+        "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-student",
+        "name": "Student",
+        "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+        "layer": "cross"
+      },
+      {
         "slug": "loragent-watchman",
         "name": "Watchman",
         "description": "Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-governance-guard",
+        "name": "Governance Guard",
+        "description": "Audits AGENTS.md, Cursor rules, project skills, lifecycle hooks, MCP configurations, Husky hooks, and GitHub workflows for policy drift and unsafe automation. Use proactively when governance, rules, hooks, or CI controls mutate.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-register",
+        "name": "Register",
+        "description": "Dynamic Ecosystem Registrar & Catalog Synthesizer. Ingests discoveries from loragent-student, dynamically compiles new SKILL.md specs, updates marketplace.json, and synchronizes IDE mirrors.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-student",
+        "name": "Student",
+        "description": "Continuous Conversation Learner & Evolutionary Intelligence Agent. Listens to live developer pairing, discovers novel workflows/tools/fixes not yet in Loragent, reports to loragent-register for dynamic catalog expansion, and modernizes legacy agent skills.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-watchman",
+        "name": "Watchman",
+        "description": "Session state guardian and crash recovery agent. Invoke with /loragent-watchman continue to resume a crashed or token-limited session. Automatically activated by the post-task-watchman-save hook after every major agent task. Do NOT invoke manually mid-task — the hook handles automatic saves.",
+        "layer": "cross"
+      }
+    ],
+    "chela": [
+      {
+        "slug": "loragent-admin-reliability",
+        "name": "Admin Reliability",
+        "description": "Debugs, verifies, and optimizes the admin React SPA, Vitest test suites, API middleware, Firebase Auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issues, or deployment defects.",
+        "layer": "face"
+      },
+      {
+        "slug": "loragent-admin-reliability",
+        "name": "Admin Reliability",
+        "description": "Debugs, verifies, and optimizes the admin React SPA, Vitest test suites, API middleware, Firebase Auth, and Cloudflare Pages runtime. Use proactively for admin test failures, dashboard regressions, API errors, auth issues, or deployment defects.",
+        "layer": "face"
+      }
+    ],
+    "office": [
+      {
+        "slug": "loragent-release-integrity",
+        "name": "Release Integrity",
+        "description": "Audits package versions, GitHub release tags, VSIX artifacts, marketplace observations, SEO JSON-LD structured data, and publishing workflows. Use proactively before major releases, marketplace updates, or release drift investigations.",
+        "layer": "cross"
+      },
+      {
+        "slug": "loragent-release-integrity",
+        "name": "Release Integrity",
+        "description": "Audits package versions, GitHub release tags, VSIX artifacts, marketplace observations, SEO JSON-LD structured data, and publishing workflows. Use proactively before major releases, marketplace updates, or release drift investigations.",
         "layer": "cross"
       }
     ]
