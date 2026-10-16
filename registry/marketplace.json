@@ -1,14 +1,14 @@
 {
   "$schema": "https://loragent.lorapok.tech/schemas/marketplace.schema.json",
   "version": "2.0.1",
-  "generatedAt": "2026-10-16T15:56:25.933Z",
-  "total": 270,
-  "totalItems": 270,
-  "totalAgents": 244,
+  "generatedAt": "2026-10-16T16:06:45.632Z",
+  "total": 276,
+  "totalItems": 276,
+  "totalAgents": 250,
   "totalMcp": 20,
   "totalFormations": 6,
   "breakdown": {
-    "agentsAndSkills": 244,
+    "agentsAndSkills": 250,
     "mcpServers": 20,
     "formations": 6
   },
@@ -16,12 +16,12 @@
     {
       "id": "all",
       "name": "All Resources",
-      "count": 270
+      "count": 276
     },
     {
       "id": "agents",
       "name": "224 Autonomous Agents",
-      "count": 244
+      "count": 250
     },
     {
       "id": "mcp",
@@ -36,7 +36,7 @@
     {
       "id": "engineering",
       "name": "Software Engineering",
-      "count": 138
+      "count": 144
     },
     {
       "id": "security",
@@ -3012,6 +3012,52 @@
       "destinationProject": ".agents/skills/loragent-loragent-openvsx-publish/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-loragent-openvsx-publish/SKILL.md",
       "filePath": "agents/loragent-openvsx-publish/SKILL.md"
+    },
+    {
+      "id": "loragent-snapcraft-expert",
+      "slug": "loragent-snapcraft-expert",
+      "name": "Snapcraft Expert",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "objective": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "snapcraft",
+        "snap",
+        "canonical",
+        "ubuntu",
+        "packaging",
+        "ci-cd",
+        "store-release"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-linux-desktop-architect",
+        "loragent-accounts-specialist"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:snapcraft-expert",
+      "installCmd": "npx -y loragent@latest install loragent-snapcraft-expert",
+      "summonCmd": "/loragent:snapcraft-expert",
+      "destinationProject": ".agents/skills/loragent-snapcraft-expert/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-snapcraft-expert/SKILL.md",
+      "filePath": "agents/loragent-snapcraft-expert/SKILL.md"
     },
     {
       "id": "loragent-loragent-unified-deployment",
@@ -6527,6 +6573,52 @@
       "filePath": "skills/loragent-release-integrity/SKILL.md"
     },
     {
+      "id": "loragent-snapcraft-expert",
+      "slug": "loragent-snapcraft-expert",
+      "name": "Snapcraft Expert",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "objective": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "snapcraft",
+        "snap",
+        "canonical",
+        "ubuntu",
+        "packaging",
+        "ci-cd",
+        "store-release"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-linux-desktop-architect",
+        "loragent-accounts-specialist"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:snapcraft-expert",
+      "installCmd": "npx -y loragent@latest install loragent-snapcraft-expert",
+      "summonCmd": "/loragent:snapcraft-expert",
+      "destinationProject": ".agents/skills/loragent-snapcraft-expert/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-snapcraft-expert/SKILL.md",
+      "filePath": "skills/loragent-snapcraft-expert/SKILL.md"
+    },
+    {
       "id": "loragent-student",
       "slug": "loragent-student",
       "name": "Student",
@@ -7108,6 +7200,38 @@
       "filePath": ".agents/skills/loragent-gif-create/SKILL.md"
     },
     {
+      "id": "loragent-github-domain-verifier",
+      "slug": "loragent-github-domain-verifier",
+      "name": "Github Domain Verifier",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "objective": "Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation specialist with multi-resolver propagation checking.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "low",
+      "slashCommand": "/loragent:github-domain-verifier",
+      "installCmd": "npx -y loragent@latest install loragent-github-domain-verifier",
+      "summonCmd": "/loragent:github-domain-verifier",
+      "destinationProject": ".agents/skills/loragent-github-domain-verifier/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-github-domain-verifier/SKILL.md",
+      "filePath": ".agents/skills/loragent-github-domain-verifier/SKILL.md"
+    },
+    {
       "id": "loragent-governance-guard",
       "slug": "loragent-governance-guard",
       "name": "Governance Guard",
@@ -7190,6 +7314,84 @@
       "destinationProject": ".agents/skills/loragent-image-generate/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-image-generate/SKILL.md",
       "filePath": ".agents/skills/loragent-image-generate/SKILL.md"
+    },
+    {
+      "id": "loragent-labs-context",
+      "slug": "loragent-labs-context",
+      "name": "Labs Context",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "1.0.0",
+      "description": "Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and product planning. Use for Labs-wide messaging, portfolio audits, cross-project planning, or public company copy.",
+      "objective": "Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and product planning. Use for Labs-wide messaging, portfolio audits, cross-project planning, or public company copy.",
+      "isResident": false,
+      "tags": [
+        "lorapok-labs",
+        "brand",
+        "portfolio"
+      ],
+      "connectors": [],
+      "allowedTools": [
+        "filesystem_read",
+        "filesystem_write",
+        "loragent_steer"
+      ],
+      "requiresConfirmation": false,
+      "canSpawnSubagents": false,
+      "costTier": "low",
+      "slashCommand": "/loragent:labs-context",
+      "installCmd": "npx -y loragent@latest install loragent-labs-context",
+      "summonCmd": "/loragent:labs-context",
+      "destinationProject": ".agents/skills/loragent-labs-context/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-labs-context/SKILL.md",
+      "filePath": ".agents/skills/loragent-labs-context/SKILL.md"
+    },
+    {
+      "id": "loragent-linux-desktop-architect",
+      "slug": "loragent-linux-desktop-architect",
+      "name": "Linux Desktop Architect",
+      "type": "SKILL",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "FACE",
+      "version": "2.0.0",
+      "description": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "objective": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "linux",
+        "gtk3",
+        "webkit2gtk",
+        "glassmorphism",
+        "snapcraft",
+        "cloudflare-pages",
+        "desktop-architect"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-core"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:linux-desktop-architect",
+      "installCmd": "npx -y loragent@latest install loragent-linux-desktop-architect",
+      "summonCmd": "/loragent:linux-desktop-architect",
+      "destinationProject": ".agents/skills/loragent-linux-desktop-architect/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-linux-desktop-architect/SKILL.md",
+      "filePath": ".agents/skills/loragent-linux-desktop-architect/SKILL.md"
     },
     {
       "id": "loragent-marketplace-crosslink",
@@ -7405,6 +7607,52 @@
       "destinationProject": ".agents/skills/loragent-skill-factory/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-skill-factory/SKILL.md",
       "filePath": ".agents/skills/loragent-skill-factory/SKILL.md"
+    },
+    {
+      "id": "loragent-snapcraft-expert",
+      "slug": "loragent-snapcraft-expert",
+      "name": "Snapcraft Expert",
+      "type": "AGENT",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "CROSS",
+      "version": "2.0.0",
+      "description": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "objective": "Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-architecture compilation (amd64, arm64), classic/strict confinement orchestration, Macaroon credential management, and progressive channel lifecycle promotion. Use for generating snapcraft.yaml, debugging store review queues, automating snap store pushes, and managing release channels.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "snapcraft",
+        "snap",
+        "canonical",
+        "ubuntu",
+        "packaging",
+        "ci-cd",
+        "store-release"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-linux-desktop-architect",
+        "loragent-accounts-specialist"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:snapcraft-expert",
+      "installCmd": "npx -y loragent@latest install loragent-snapcraft-expert",
+      "summonCmd": "/loragent:snapcraft-expert",
+      "destinationProject": ".agents/skills/loragent-snapcraft-expert/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-snapcraft-expert/SKILL.md",
+      "filePath": ".agents/skills/loragent-snapcraft-expert/SKILL.md"
     },
     {
       "id": "loragent-spidernet",

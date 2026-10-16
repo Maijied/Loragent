@@ -2,9 +2,9 @@
 
 > Auto-generated. Re-run `node scripts/generate-marketplace.js` to update.
 
-**Total agents:** 244 | **MCP servers:** 20 | **Formations:** 6
+**Total agents:** 250 | **MCP servers:** 20 | **Formations:** 6
 
-## AUTO Formation (216)
+## AUTO Formation (222)
 
 - **`loragent-3d-designer`** `[CROSS]` `✅ standalone` — 3D modeling for apps, software, and web.
 - **`loragent-accessibility-audit`** `[CROSS]` `✅ standalone` — Whole site or product — a full web accessibility (a11y) audit against WCAG 2.2, following the WCAG-E
@@ -82,6 +82,7 @@
 - **`loragent-git-release-manager`** `[CROSS]` `✅ standalone` — Specialized subagent responsible for auditing git branches (`main`, `LLM-Support/GoogleAiStudio-Supp
 - **`loragent-git-specialist`** `[CROSS]` `✅ standalone` — Advanced version control, rebasing, and merge conflict resolution.
 - **`loragent-github-domain-verifier`** `[CROSS]` `✅ standalone` — Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation 
+- **`loragent-github-domain-verifier`** `[CROSS]` `✅ standalone` — Autonomous GitHub custom domain, organization verification (_gh-*-o), and Cloudflare DNS automation 
 - **`loragent-go-expert`** `[CROSS]` `✅ standalone` — Go programming language expert.
 - **`loragent-gold-collector`** `[CROSS]` `✅ standalone` — Global Telemetry Miner. Detects novel solutions and syncs them to the Firebase Hivemind.
 - **`loragent-google-products-specialist`** `[CROSS]` `✅ standalone` — Specialist for Google Console, Firebase, GCP.
@@ -93,8 +94,10 @@
 - **`loragent-jokki-bhai`** `[CROSS]` `✅ standalone` — The Entertainer. Roasts the team using roast-as-a-service.
 - **`loragent-k8-expert`** `[CROSS]` `✅ standalone` — Kubernetes, Helm charts, and cluster management.
 - **`loragent-labs-context`** `[CROSS]` `✅ standalone` — Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and prod
+- **`loragent-labs-context`** `[CROSS]` `✅ standalone` — Research Lorapok Labs repositories and public sources for evidence-backed brand, portfolio, and prod
 - **`loragent-laravel-specialist`** `[CROSS]` `✅ standalone` — Laravel PHP framework specialist.
 - **`loragent-legacy-system-analyser`** `[CROSS]` `✅ standalone` — Understands and optimizes legacy syntaxes.
+- **`loragent-linux-desktop-architect`** `[FACE]` `✅ standalone` — Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK,
 - **`loragent-linux-desktop-architect`** `[FACE]` `✅ standalone` — Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK,
 - **`loragent-linux-desktop-architect`** `[FACE]` `✅ standalone` — Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK,
 - **`loragent-localization-expert`** `[CROSS]` `✅ standalone` — i18n, l10n, and multi-language support mapping.
@@ -173,6 +176,9 @@
 - **`loragent-seo-specialist`** `[CROSS]` `✅ standalone` — Search Engine Optimization specialist.
 - **`loragent-shift-engineer`** `[CROSS]` `✅ standalone` — Handles short, isolated tasks.
 - **`loragent-skill-creator`** `[CROSS]` `✅ standalone` — Autonomously writes new agent skills and pushes to Firebase.
+- **`loragent-snapcraft-expert`** `[CROSS]` `✅ standalone` — Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-archi
+- **`loragent-snapcraft-expert`** `[CROSS]` `✅ standalone` — Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-archi
+- **`loragent-snapcraft-expert`** `[CROSS]` `✅ standalone` — Specialist in Ubuntu Snapcraft packaging, Canonical Snap Store automated CI/CD releases, multi-archi
 - **`loragent-software-business-analyst`** `[CROSS]` `✅ standalone` — Cost to market analysis, competitive pricing, plans and strategies.
 - **`loragent-specialized-developer`** `[CROSS]` `✅ standalone` — Specialized Developer performing high-tech global industry level coding. Use proactively to implemen
 - **`loragent-spidernet`** `[CROSS]` `✅ standalone` — The Spidernet multi-agent workflow coordinator.
