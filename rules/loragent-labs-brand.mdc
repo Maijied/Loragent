@@ -1,0 +1,25 @@
+---
+description: Evidence-backed Lorapok Labs brand and product language for public copy
+globs:
+  - "**/README.md"
+  - "**/index.html"
+  - "**/*.mdx"
+  - "**/src/data/**/*.ts"
+  - "**/src/pages/**/*.tsx"
+alwaysApply: false
+---
+
+# Lorapok Labs Public Copy
+
+- Verify a product’s current behavior, Labs relationship, license, release state, install path, and support link in its own repository before describing it as a current Labs product.
+- Treat the Labs portal catalog as a discovery list. Its 54 current records are not 54 verified products; some are product components, creator works, or entries whose current ownership and status still need review.
+- Do not guess at founding dates, product counts, downloads, performance, compatibility, privacy guarantees, or licensing. Link each public claim to its source and date it where values can change.
+- Preserve disagreements between sources as unresolved until confirmed. Do not silently choose the more impressive figure.
+- Separate shipped capabilities from roadmap goals, demos, mock data, concept art, and generated marketing copy.
+- Use the current line “Open-source products that feel alive” only where it accurately represents the individual product. State each product’s actual license; never imply one ecosystem-wide license.
+- Explain a product’s user value in plain language first. Use biological or sensory metaphors as a supporting visual or interaction idea when they clarify the experience.
+- Keep unrelated, personal, contributor, employment, and archival projects distinct from Labs products unless the source repository or owner confirms the relationship.
+
+## Source order
+
+Prefer the target repository’s current code, README, license, and release records; then current Labs portal data; then official product and marketplace pages; then founder or company profiles. Treat old storybooks, generated artwork, copied instructions, and stale snapshots as historical context only.
