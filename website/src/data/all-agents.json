@@ -1,14 +1,14 @@
 {
   "$schema": "https://loragent.lorapok.tech/schemas/marketplace.schema.json",
   "version": "2.0.1",
-  "generatedAt": "2026-10-16T05:34:56.834Z",
-  "total": 268,
-  "totalItems": 268,
-  "totalAgents": 242,
+  "generatedAt": "2026-10-16T15:56:25.933Z",
+  "total": 270,
+  "totalItems": 270,
+  "totalAgents": 244,
   "totalMcp": 20,
   "totalFormations": 6,
   "breakdown": {
-    "agentsAndSkills": 242,
+    "agentsAndSkills": 244,
     "mcpServers": 20,
     "formations": 6
   },
@@ -16,12 +16,12 @@
     {
       "id": "all",
       "name": "All Resources",
-      "count": 268
+      "count": 270
     },
     {
       "id": "agents",
       "name": "224 Autonomous Agents",
-      "count": 242
+      "count": 244
     },
     {
       "id": "mcp",
@@ -36,7 +36,7 @@
     {
       "id": "engineering",
       "name": "Software Engineering",
-      "count": 136
+      "count": 138
     },
     {
       "id": "security",
@@ -2871,6 +2871,51 @@
       "destinationProject": ".agents/skills/loragent-loragent-github-domain-verifier/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-loragent-github-domain-verifier/SKILL.md",
       "filePath": "agents/loragent-github-domain-verifier/SKILL.md"
+    },
+    {
+      "id": "loragent-linux-desktop-architect",
+      "slug": "loragent-linux-desktop-architect",
+      "name": "Linux Desktop Architect",
+      "type": "SKILL",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "FACE",
+      "version": "2.0.0",
+      "description": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "objective": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "linux",
+        "gtk3",
+        "webkit2gtk",
+        "glassmorphism",
+        "snapcraft",
+        "cloudflare-pages",
+        "desktop-architect"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-core"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:linux-desktop-architect",
+      "installCmd": "npx -y loragent@latest install loragent-linux-desktop-architect",
+      "summonCmd": "/loragent:linux-desktop-architect",
+      "destinationProject": ".agents/skills/loragent-linux-desktop-architect/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-linux-desktop-architect/SKILL.md",
+      "filePath": "agents/loragent-linux-desktop-architect/SKILL.md"
     },
     {
       "id": "loragent-loragent-marketplace-crosslink",
@@ -6259,6 +6304,51 @@
       "destinationProject": ".agents/skills/loragent-labs-context/SKILL.md",
       "destinationGlobal": "~/.loragent/skills/loragent-labs-context/SKILL.md",
       "filePath": "skills/loragent-labs-context/SKILL.md"
+    },
+    {
+      "id": "loragent-linux-desktop-architect",
+      "slug": "loragent-linux-desktop-architect",
+      "name": "Linux Desktop Architect",
+      "type": "SKILL",
+      "category": "ENGINEERING",
+      "formation": "auto",
+      "layer": "FACE",
+      "version": "2.0.0",
+      "description": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "objective": "Architects, builds, and optimizes hardware-accelerated Linux desktop applications (GTK3, WebKit2GTK, Cairo) with zero-Electron overhead, Apple-grade Glassmorphic interfaces (Vanilla CSS, 7-column grids), Ubuntu Snapcraft classic packaging, dual-pipeline Cloudflare Pages CI/CD, and autonomous SEO telemetry. Use whenever engineering native Linux GUI tools, desktop launchers, WebKit IPC bridges, or snap releases.",
+      "isResident": false,
+      "tags": [
+        "lorapok",
+        "loragent",
+        "linux",
+        "gtk3",
+        "webkit2gtk",
+        "glassmorphism",
+        "snapcraft",
+        "cloudflare-pages",
+        "desktop-architect"
+      ],
+      "connectors": [
+        "loragent-boss",
+        "loragent-deploy",
+        "loragent-sqa",
+        "loragent-core"
+      ],
+      "allowedTools": [
+        "loragent_steer",
+        "loragent_watchman_save",
+        "loragent_trigger_hook",
+        "loragent_exec_cli"
+      ],
+      "requiresConfirmation": true,
+      "canSpawnSubagents": "true",
+      "costTier": "medium",
+      "slashCommand": "/loragent:linux-desktop-architect",
+      "installCmd": "npx -y loragent@latest install loragent-linux-desktop-architect",
+      "summonCmd": "/loragent:linux-desktop-architect",
+      "destinationProject": ".agents/skills/loragent-linux-desktop-architect/SKILL.md",
+      "destinationGlobal": "~/.loragent/skills/loragent-linux-desktop-architect/SKILL.md",
+      "filePath": "skills/loragent-linux-desktop-architect/SKILL.md"
     },
     {
       "id": "loragent-marketplace-crosslink",
