@@ -4,7 +4,13 @@
 
 **The Universal, Enterprise-Grade Multi-Agent Orchestration Framework & 250-Resource AI Marketplace**
 
-*Transform single-agent IDEs (Cursor, Claude Code, Windsurf, Antigravity, Roo Code, Cline, Zed, Codex) into a deterministic 224+ specialist software firm.*
+*Transform single-agent IDEs (Cursor, Claude Code, Windsurf, Antigravity, Roo Code, Cline, Zed, Codex) into a deterministic 242+ specialist software firm.*
+
+<br/>
+
+<p align="center">
+  <img src="assets/branding/github-social-preview.png" alt="Loragent Universal Multi-Agent Ecosystem" width="100%" style="max-width: 800px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"/>
+</p>
 
 [![Version](https://img.shields.io/badge/version-2.0.1-emerald.svg)](https://loragent.lorapok.tech)
 [![Compatibility](https://img.shields.io/badge/compatibility-28%2B%20AI%20IDEs-cyan.svg)]()

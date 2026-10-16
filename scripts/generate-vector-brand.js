@@ -439,13 +439,16 @@ const ogSocialCardSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12
   </g>
 </svg>`;
 
+const githubSocialPreviewSvg = fs.readFileSync(path.join(rootDir, 'assets', 'branding', 'github-social-preview.svg'), 'utf8');
+
 // Write all SVGs
 const svgFiles = {
   'loragent-logo-mark.svg': logoMarkSvg,
   'loragent-lockup-dark.svg': lockupDarkSvg,
   'loragent-lockup-light.svg': lockupLightSvg,
   'loragent-zerotrust-vault.svg': zeroTrustShieldSvg,
-  'loragent-social-card.svg': ogSocialCardSvg
+  'loragent-social-card.svg': ogSocialCardSvg,
+  'github-social-preview.svg': githubSocialPreviewSvg
 };
 
 console.log('✨ Writing industry-grade SVGs...');
@@ -469,7 +472,8 @@ const pngConversions = [
   { svg: 'loragent-lockup-dark.svg', png: 'loragent-lockup-dark.png', w: 1560, h: 360 },
   { svg: 'loragent-lockup-light.svg', png: 'loragent-lockup-light.png', w: 1560, h: 360 },
   { svg: 'loragent-zerotrust-vault.svg', png: 'loragent-zerotrust-vault.png', w: 1024, h: 1024 },
-  { svg: 'loragent-social-card.svg', png: 'loragent-social-card.png', w: 1200, h: 630 }
+  { svg: 'loragent-social-card.svg', png: 'loragent-social-card.png', w: 1200, h: 630 },
+  { svg: 'github-social-preview.svg', png: 'github-social-preview.png', w: 1280, h: 640 }
 ];
 
 for (const { svg, png, w, h } of pngConversions) {
